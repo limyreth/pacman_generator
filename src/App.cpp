@@ -80,6 +80,7 @@ void App::InitSound() {
 
         snd = new Sounds();
         snd->init();
+        snd->toggleSounds();  // start muted
 
         logtxt.print("Sound initialized");
     }
