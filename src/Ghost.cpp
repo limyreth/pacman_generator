@@ -757,6 +757,7 @@ bool Ghost::LoadTextures(std::string path) {
 
             fmt=ghostEl[i]->format;
             SDL_SetColorKey(ghostEl[i].get(),SDL_SRCCOLORKEY|SDL_RLEACCEL,SDL_MapRGB(fmt,255,0,255));
+            scale_to_tile_size(ghostEl[i]);
         }
         logtxt.print(filename + " ghost textures loaded");
     }

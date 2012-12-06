@@ -15,8 +15,6 @@ extern App app;
 extern Game game;
 extern Settings settings;
 
-
-
 void BckgrObj::Draw(int ix, int iy, int obj, int type, int alp) {
     SDL_Rect pos;
 
@@ -203,8 +201,12 @@ bool BckgrObj::LoadTextures(std::string path) {
 
             //get pixel format from surface
             fmt=mapEl[i]->format;
+
             //set the transparent color key to RGB 255 0 255
             SDL_SetColorKey(mapEl[i].get(),SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(fmt,255,0,255));
+
+            // scale to tile size
+            scale_to_tile_size(mapEl[i]);
 
             for (int j=0;j<3;j++) {
                 mapElRot[i][j]=Rotate(mapEl[i],(j+1)*90);
@@ -217,8 +219,12 @@ bool BckgrObj::LoadTextures(std::string path) {
 
             //get pixel format from surface
             fmt=objEl[i]->format;
+
             //set the transparent color key to RGB 255 0 255
             SDL_SetColorKey(objEl[i].get(),SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(fmt,255,0,255));
+
+            // scale it to tile size
+            scale_to_tile_size(objEl[i]);
         }
 
         logtxt.print("Field textures loaded");

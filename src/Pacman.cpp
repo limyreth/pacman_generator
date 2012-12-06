@@ -225,6 +225,7 @@ bool Pacman::LoadTextures(std::string path) {
 
             fmt = pacEl[i]->format;
             SDL_SetColorKey(pacEl[i].get(),SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(fmt,255,0,255));
+            scale_to_tile_size(pacEl[i]);
 
             //cache rotated sprites
             for (j=0;j<3;j++) {

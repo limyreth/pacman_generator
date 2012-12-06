@@ -14,6 +14,7 @@
 
 #include "Main.h"
 #include "Object.h"
+#include "Draw.h"
 
 using boost::shared_ptr;
 

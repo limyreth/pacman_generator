@@ -34,6 +34,7 @@
 #include <ctime>
 #include <sstream>
 #include <iostream>
+#include <assert.h>
 
 #include "Settings.h"
 #include "Error.h"
