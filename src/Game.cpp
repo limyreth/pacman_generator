@@ -285,9 +285,6 @@ void Game::emptyMsgPump() {
                 processInput(RIGHT);
                 ((Pacman*)objects[1])->setNextDir( RIGHT );
                 break;
-            case SDLK_SPACE:
-                boost();
-                break;
             case SDLK_p:
                 if ( getState() == STATE_GAME )
                     pause();
@@ -618,13 +615,6 @@ void Game::logicGame() {
             ((BckgrObj*)objects[0])->setSpecialSpawned(false);
         }
 
-        // pac booster
-
-        if ( isboosted && time > boosttick ) {
-            isboosted = false;
-            ((Pacman*)objects[PAC])->setSpeedMult( 1 );
-        }
-
         ///////////////////////////////////////////
         // PACMAN LOCATION LOGIC
         ///////////////////////////////////////////
@@ -844,7 +834,6 @@ void Game::renderNormal() {
             objects[PAC]->Draw( 350+i*50, settings.fieldheight*settings.tilesize+5);
 
         if ( specialeaten ) objects[0]->Draw( settings.fieldwidth*settings.tilesize - 40 -10, settings.fieldheight*settings.tilesize +15 );
-        if ( boostavailable ) objects[0]->Draw( settings.fieldwidth*settings.tilesize - 60 -10, settings.fieldheight*settings.tilesize +15, 4 );
 
         ostr << "level: " << level << " score: " << score;
 
@@ -912,17 +901,6 @@ void Game::renderNormal() {
     }
 }
 
-void Game::boost() {
-    if ( boostavailable ) {
-
-        app.getSnd()->play( 12, 0 );
-
-        boosttick = SDL_GetTicks() + BOOSTTIME;
-        isboosted = true;
-        boostavailable = false;
-        ((Pacman*)objects[PAC])->setSpeedMult( 2 );
-    }
-}
 bool Game::pause() {
     int i;
 
@@ -945,7 +923,6 @@ bool Game::pause() {
 
         ghosttick += delta;
         fruittick += delta;
-        boosttick += delta;
 
         return ispaused;
     }
@@ -987,9 +964,7 @@ void Game::nextLvl() {
         specialhasbeenspawned = false;
         time = oldtime = SDL_GetTicks();
         ghosttick = 0;
-        isboosted = false;
         ((Pacman*)objects[PAC])->setSpeedMult( 1);
-        boostavailable = true;
         levelcleared = false;
 
         if (ispaused) pause();
@@ -1049,9 +1024,7 @@ void Game::gameInit(std::string level, std::string skin, bool editor) {
         specialhasbeenspawned = false;
         inputwaiting = false;
         gamestarted = false;
-        isboosted = false;
         time = oldtime = SDL_GetTicks();
-        boostavailable = true;
         levelcleared = false;
         setState( STATE_GAME);
         name = "AAA";
@@ -1241,7 +1214,6 @@ void Game::resetLvl() {	// vars and positions when pacman dies during level
     floatingscorecounter= 0;
     floatingscore= 0;
     ghosttick = 0;
-    isboosted = false;
     ((Pacman*)objects[PAC])->setSpeedMult( 1);
 
     if (ispaused) pause();
@@ -1456,7 +1428,6 @@ Game::Game()
     specialeaten(false),
     specialhasbeenspawned(false),
     ispaused(false),
-    isboosted(false),
     showfps(false),
     renderisbusy(false)
 

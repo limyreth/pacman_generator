@@ -55,7 +55,6 @@ public:
     void gameInit(std::string level="", std::string skin="", bool editor=false);
 
     bool pause();
-    void boost();
 
     int  getState() { return state; }
     void setState( int st);
@@ -127,8 +126,7 @@ private:
             oldtime,
             ghosttick,
             fruittick,
-            pausetick,
-            boosttick;
+            pausetick;
 
     bool
             inputwaiting,
@@ -138,8 +136,6 @@ private:
             specialeaten,
             specialhasbeenspawned,
             ispaused,
-            isboosted,
-            boostavailable,
             levelcleared,
             showfps,
             renderisbusy;
