@@ -712,14 +712,6 @@ void Game::logicGame() {
         //	OTHER
         ///////////////////////////////////
 
-        if ( (score >= 10000 && oldscore < 10000) ||
-             (score >=100000 && oldscore < 100000) ||
-             (score >=1000000 && oldscore < 1000000) ) {
-            lives++;
-
-            app.getSnd()->play(6, 0);
-        }
-
         if ( !specialhasbeenspawned && ((BckgrObj*)objects[0])->getObjCount() == specialspawntime) {
             specialspawned = true;
             ((BckgrObj*)objects[0])->setFruitAlpha(255);
