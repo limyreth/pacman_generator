@@ -158,8 +158,8 @@ void BckgrObj::Draw() {
     for (j=0;j<height;j++) {
         for (i=0; i<width; i++) {
 
-            pos.x=i*settings.tilesize+10; // +10 are needed for correct placement
-            pos.y=j*settings.tilesize+10;
+            pos.x=i*settings.tilesize; // +10 are needed for correct placement
+            pos.y=j*settings.tilesize;
             pos.h=20;
             pos.w=20;
 
