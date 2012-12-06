@@ -401,80 +401,6 @@ bool Ghost::tracePath() {
 
     else return 1;	//error
 }
-void Ghost::pathCalcVuln() {
-    bool flag = 0;
-    int newdir = -1;
-
-
-    //find path
-    if ( find() ) flag=tracePath();
-
-    // RANDOM PATH, one not in shortest direction to pacman is preferred (dirToTar)
-
-    //if within the starting square
-    if (gateopen) {
-        if ( dirToTar == 0) {
-            nextdx = 0;
-            nextdy = -1;
-        }
-        else if ( dirToTar == 1 ) {
-            nextdx = 1;
-            nextdy = 0;
-        }
-        else if ( dirToTar == 2 ) {
-            nextdx = 0;
-            nextdy = 1;
-        }
-        else if ( dirToTar == 3 ) {
-            nextdx = -1;
-            nextdy = 0;
-        }
-    }
-
-    //if dead end
-    else if ( !dirClear[1+dx][1+dy] && !dirClear[1+dy][1+dx] && !dirClear[1-dy][1-dx] && dx != dy ) {
-        nextdx = -dx;
-        nextdy = -dy;
-    }
-    //generate random dir != - current dir
-    else {
-        nextdx = -dx;
-        nextdy = -dy;
-        while ( nextdx == -dx && nextdy == -dy ) {
-
-            newdir = rand()%4;
-
-            //the following 2 lines make the baddies prefer directions other than shortest way to pacman
-
-            if (newdir == dirToTar ) newdir = rand()%4;
-            if (newdir == dirToTar ) newdir = rand()%4;
-
-            if ( newdir == 0 ) {
-                nextdx = 0;
-                nextdy = -1;
-            }
-            else if ( newdir == 1 ) {
-                nextdx = 1;
-                nextdy = 0;
-            }
-            else if ( newdir == 2 ) {
-                nextdx = 0;
-                nextdy = 1;
-            }
-            else if ( newdir == 3 ) {
-                nextdx = -1;
-                nextdy = 0;
-            }
-            if ( !dirClear[1+nextdx][1+nextdy] ) {
-                nextdx = -dx;
-                nextdy = -dy;
-            }
-        }
-    }
-
-    dx=nextdx;
-    dy=nextdy;
-}
 
 void Ghost::pathCalcDead() {
     bool
@@ -489,8 +415,6 @@ void Ghost::pathCalcDead() {
     else if (dx == -1) cur_opp_dir = 1;
     else if (dy == 1) cur_opp_dir = 0;
     else if (dy == -1) cur_opp_dir = 2;
-
-
 
     xtarget= baddie_start_point_x ;
     ytarget= baddie_start_point_y ;
@@ -521,96 +445,6 @@ void Ghost::pathCalcDead() {
     }
 
     // ELSE RANDOM PATH	-- only happens of trace not successful
-    else {
-
-        //if dead end
-        if ( !dirClear[1+dx][1+dy] && !dirClear[1+dy][1+dx] && !dirClear[1-dy][1-dx] && dx != dy ) {
-            nextdx = -dx;
-            nextdy = -dy;
-        }
-        //generate random dir != - current dir
-        else {
-            nextdx = -dx;
-            nextdy = -dy;
-            while ( nextdx == -dx && nextdy == -dy ) {
-
-                newdir = rand()%4;
-
-                if ( newdir == 0 ) {
-                    nextdx = 0;
-                    nextdy = -1;
-                }
-                else if ( newdir == 1 ) {
-                    nextdx = 1;
-                    nextdy = 0;
-                }
-                else if ( newdir == 2 ) {
-                    nextdx = 0;
-                    nextdy = 1;
-                }
-                else if ( newdir == 3 ) {
-                    nextdx = -1;
-                    nextdy = 0;
-                }
-                if ( !dirClear[1+nextdx][1+nextdy] ) {
-                    nextdx = -dx;
-                    nextdy = -dy;
-                }
-            }
-        }
-    }
-    dx=nextdx;
-    dy=nextdy;
-}
-
-void Ghost::pathCalcNormal() {
-    bool
-            flag = 0;
-    int
-            newdir = -1,
-            cur_opp_dir=-1;	// opposite of current direction
-
-    //translate dx + dy into dir -> 0 = up, 1 = right, 2 = down, 3 = left
-
-    if (dx == 1) cur_opp_dir = 3;
-    else if (dx == -1) cur_opp_dir = 1;
-    else if (dy == 1) cur_opp_dir = 0;
-    else if (dy == -1) cur_opp_dir = 2;
-
-
-    if ( gateopen && !collision(settings.gatex, settings.gatey) )
-        setTarget(settings.gatex, settings.gatey);
-
-    //find path
-    if ( find() ) flag=tracePath();
-
-    //if find and trace successful, random roll successful AND calculated direction != opposite of current dir
-    // chance based on Gstore[target square] = distance
-    // TRACE PATH
-
-    if (! flag &&		// pathfinding + trace successful
-        rand()%(( width+height) / 2 ) + baddie_iq > Gstore[ ytarget * width + xtarget ]  && // random roll successful
-        dirToTar != cur_opp_dir) {	//and pathfinding direction is not the opposite of current direction
-
-        if ( dirToTar == 0) {
-            nextdx = 0;
-            nextdy = -1;
-        }
-        else if ( dirToTar == 1 ) {
-            nextdx = 1;
-            nextdy = 0;
-        }
-        else if ( dirToTar == 2 ) {
-            nextdx = 0;
-            nextdy = 1;
-        }
-        else if ( dirToTar == 3 ) {
-            nextdx = -1;
-            nextdy = 0;
-        }
-    }
-
-    // ELSE RANDOM PATH
     else {
 
         //if dead end
@@ -811,9 +645,9 @@ void Ghost::Update( int time) {
         // if cont == 1, calc new direction
         // newdir cannot be the opposite of curdir UNLESS it is the only way.
 
-        if (cont == 1 && state == 0) pathCalcNormal();
-        else if (cont == 1 && ( state == 1 || state == 2) ) pathCalcVuln();
-        else if (cont == 1 && state == 3 ) pathCalcDead();
+        // TODO grab from path what next move should be
+        // dx = offset to move in x direction for this turn {1, 0, -1}
+        // dy = analog for y direction
 
         //store location
         xpix_at_last_dirchange = xpix;

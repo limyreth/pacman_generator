@@ -38,9 +38,7 @@ public:
     bool find();
     bool collision_ignore_gate(int xtmp, int ytmp);
     bool collision(int xtmp, int ytmp);
-    void pathCalcNormal();
     void pathCalcDead();
-    void pathCalcVuln();
     bool tracePath();
     int calcF(int ix, int iy) const;
     void reset(int ix, int iy);
