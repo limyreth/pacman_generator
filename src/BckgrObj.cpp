@@ -184,6 +184,8 @@ void BckgrObj::Draw() {
 
 }
 
+#define BACKGROUND_TEXTURE_ID 0
+
 bool BckgrObj::LoadTextures(std::string path) {
 
     int i;
@@ -206,7 +208,9 @@ bool BckgrObj::LoadTextures(std::string path) {
             SDL_SetColorKey(mapEl[i].get(),SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(fmt,255,0,255));
 
             // scale to tile size
-            scale_to_tile_size(mapEl[i]);
+            if (i != BACKGROUND_TEXTURE_ID) {
+                scale_to_tile_size(mapEl[i]);
+            }
 
             for (int j=0;j<3;j++) {
                 mapElRot[i][j]=Rotate(mapEl[i],(j+1)*90);
