@@ -20,6 +20,30 @@ extern Log logtxt;
 extern App app;
 extern Settings settings;
 
+/*
+ * Pacman rules: 
+ * TODO make this implementation consistent with it
+ *
+ * - 10 points for each dot
+ * - 50 points for each energizer (big dot)
+ * - 244 dots
+ * - 4 energizers
+ * - ghosts made vulnerable by energizer for 6 seconds
+ * - ghosts eaten: first 200 points, then 400, 800, 1600. Is reset back to 200 upon eating a new energizer.
+ * - 2 fruits appear at directly beneath monster pen after 70 and 170 dots. At level 1 they are worth 100 points. They remain for 10sec
+ * - monster pen leaving: red spawns outside the first time, pink leaves after 0 dots are eaten, blue leaves after 30 dots eaten, orange leaves after 90 dots total eaten. If no dots are eaten for 4 seconds, the next monster leaves the pen. (in level 3 all monsters leave immediately, always, might want to take that level as simplification)
+ * - speeds: see the table
+ * - pacman and ghosts are free to change direction any time. Ghosts and pacman take in a path as AI.
+ *
+ * In our case we'll start with 1 life. Later we'll add more lifes, but first let's solve the simpler problem
+ *
+ * The above rules only apply to level 1, I'm assuming pacman won't make it through the first level.
+ *
+ * See also:
+ * http://home.comcast.net/~jpittman2/pacman/pacmandossier.html#CH2_The_Basics
+ * http://home.comcast.net/~jpittman2/pacman/pacmandossier.html#LvlSpecs
+ */
+
 void Game::editorSave() {
     int i=-1, j=-1;
 
