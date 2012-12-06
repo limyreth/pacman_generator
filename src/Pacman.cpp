@@ -264,10 +264,7 @@ bool Pacman::collision(int xtmp, int ytmp) {
     //error check
     if (xtmp < 0 || xtmp >= width || ytmp < 0 || ytmp >= height ) return 1;
     //collision detection
-    if ( map[ ( ytmp ) * width + (xtmp) ] == 0 &&
-         map[ ( ytmp ) * width + (xtmp + 1) ] == 0 &&
-         map[ ( ytmp + 1 ) * width + (xtmp) ] == 0 &&
-         map[ ( ytmp + 1 ) * width + (xtmp + 1) ] == 0 )
+    if ( map[ ( ytmp ) * width + (xtmp) ] == 0 )
         return 0;
     return 1;
 }
