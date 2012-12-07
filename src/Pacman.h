@@ -36,7 +36,6 @@ public:
     void setSpeedMult( int s);
 
     void Update( int time );
-    void nextIntersection(int &ix, int &iy);
     void reset(int ix, int iy);
 
     int getXpix();

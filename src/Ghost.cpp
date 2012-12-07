@@ -30,10 +30,6 @@ int Ghost::getXpix() {
 int Ghost::getYpix() {
     return ypix;
 }
-void Ghost::setTarget(int ix, int iy) {
-    xtarget=ix;
-    ytarget=iy;
-}
 bool Ghost::collision(int xtmp, int ytmp) {
     //error check
     if (xtmp < 0 || xtmp >= width || ytmp < 0 || ytmp >= height ) return 1;

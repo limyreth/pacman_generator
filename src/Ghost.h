@@ -35,7 +35,6 @@ public:
 
     void setState(int st);
     int getState();
-    void setTarget(int ix, int iy);
     bool find();
     bool collision_ignore_gate(int xtmp, int ytmp);
     bool collision(int xtmp, int ytmp);

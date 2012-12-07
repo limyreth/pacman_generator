@@ -40,29 +40,6 @@ void Pacman::reset(int ix, int iy) {
     nextdy=0;
     paused=true;
 }
-void Pacman::nextIntersection(int &ix, int &iy) {
-    int
-            xtmp=x,
-            ytmp=y,
-            i=0;
-
-    while (i< ( height+width) / 2 ) {
-        if (xtmp == 0 && dx == -1) xtmp = width-2;
-        else if (xtmp == width-2 && dx == 1) xtmp = 0;
-        else if (ytmp == 0 && dy == -1) ytmp = height-2;
-        else if (ytmp == height-2 && dy == 1) ytmp = 0;
-
-        if ( ! collision(xtmp+dx, ytmp+dy) ) {
-            xtmp+= dx;
-            ytmp += dy;
-        }
-        if ( ! collision(xtmp + dy, ytmp + dx) || ! collision(xtmp - dy, ytmp - dx) ) break;
-        i++;
-    }
-
-    ix=xtmp;
-    iy=ytmp;
-}
 
 void Pacman::Update(int time) {
     bool dirclear=false;

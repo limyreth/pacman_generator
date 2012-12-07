@@ -562,23 +562,7 @@ void Game::logicGame() {
         //////////////////////////////////
 
         if ( delta < 100 )  {
-            //set ghost targets - 2 on pacman, 2 on next intersection
-
-            {
-                int tmpx(  pacXpix / settings.tilesize),
-                tmpy(  pacYpix / settings.tilesize);
-
-                ((Ghost*)objects[GHOST1])->setTarget( tmpx, tmpy);
-                ((Ghost*)objects[GHOST2])->setTarget( tmpx, tmpy);
-
-                ((Pacman*)objects[PAC])->nextIntersection ( tmpx, tmpy);
-
-                ((Ghost*)objects[GHOST3])->setTarget( tmpx, tmpy);
-                ((Ghost*)objects[GHOST4])->setTarget( tmpx, tmpy);
-            }
-
             //move objects
-
             for (i=0;i<NUMOFOBJECTS;i++)
                 objects[i]->Update( delta );
         }
