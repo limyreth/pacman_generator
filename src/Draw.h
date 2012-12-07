@@ -16,4 +16,4 @@
 
 using boost::shared_ptr;
 
-void scale_to_tile_size(shared_ptr<SDL_Surface>& surface);
+void scale_to_size(shared_ptr<SDL_Surface>& surface, double size);

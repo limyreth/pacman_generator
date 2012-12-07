@@ -10,18 +10,23 @@
 
 #include "Draw.h"
 
+/*
+ * Rendering notes: http://home.comcast.net/~jpittman2/pacman/pacmandossier.html#CH3_What_Tile_Am_I_In
+ *
+ * - Walls are 2 tiles wide.
+ * - Ghosts and pacman are logically in one tile (their center point is used).
+ *   Their body is drawn around that center and has a size of nearly 2 tiles.
+ */
+
 extern Log logtxt;
 extern App app;
 extern Game game;
 extern Settings settings;
 
-void scale_to_tile_size(shared_ptr<SDL_Surface>& surface) {
-    double zoomx = (double) settings.tilesize / surface->w;
-    double zoomy = (double) settings.tilesize / surface->h;
+void scale_to_size(shared_ptr<SDL_Surface>& surface, double size) {
+    double zoomx = (double) size / surface->w;
+    double zoomy = (double) size / surface->h;
     int dw, dh;
     zoomSurfaceSize(surface->w, surface->h, zoomx, zoomy, &dw, &dh);
-    assert(dw == settings.tilesize);
-    assert(dh == settings.tilesize);
-    assert(settings.tilesize==20);
     surface.reset(zoomSurface(surface.get(), zoomx, zoomy, 0), SDL_FreeSurface);
 }

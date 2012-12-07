@@ -209,7 +209,7 @@ bool BckgrObj::LoadTextures(std::string path) {
 
             // scale to tile size
             if (i != BACKGROUND_TEXTURE_ID) {
-                scale_to_tile_size(mapEl[i]);
+                scale_to_size(mapEl[i], settings.tilesize);
             }
 
             for (int j=0;j<3;j++) {
@@ -228,7 +228,7 @@ bool BckgrObj::LoadTextures(std::string path) {
             SDL_SetColorKey(objEl[i].get(),SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(fmt,255,0,255));
 
             // scale it to tile size
-            scale_to_tile_size(objEl[i]);
+            scale_to_size(objEl[i], settings.tilesize);
         }
 
         logtxt.print("Field textures loaded");

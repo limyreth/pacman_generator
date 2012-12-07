@@ -14,6 +14,7 @@
 
 extern Log logtxt;
 extern App app;
+extern Settings settings;
 
 void Pacman::setSpeedMult( int s) {
     spdmult = s;
@@ -225,7 +226,7 @@ bool Pacman::LoadTextures(std::string path) {
 
             fmt = pacEl[i]->format;
             SDL_SetColorKey(pacEl[i].get(),SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(fmt,255,0,255));
-            scale_to_tile_size(pacEl[i]);
+            scale_to_size(pacEl[i], PLAYER_SIZE);
 
             //cache rotated sprites
             for (j=0;j<3;j++) {

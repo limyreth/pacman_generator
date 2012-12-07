@@ -16,6 +16,8 @@
 
 using boost::shared_ptr;
 
+#define PLAYER_SIZE 2.0 * settings.tilesize * 0.8
+
 class Object
 {
 public:
