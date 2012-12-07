@@ -10,8 +10,6 @@
 
 #include "Pacman.h"
 
-#define PACSIZE 40
-
 extern Log logtxt;
 extern App app;
 extern Settings settings;
@@ -24,8 +22,6 @@ void Pacman::Draw(int ix, int iy, int obj, int type) {
 
     pos.x=ix;
     pos.y=iy;
-    pos.h=PACSIZE;
-    pos.w=PACSIZE;
 
     SDL_SetAlpha(pacEl[3].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
     SDL_BlitSurface(pacEl[3].get(),NULL,buf.get(),&pos);
@@ -175,10 +171,9 @@ void Pacman::Draw() {
     else if ( animcounter >= 30 && animcounter < 32 ) i=0;
     else i=0; //avoid compiler warning
 
-    pos.y=ypix;
-    pos.x=xpix;
-    pos.w=PACSIZE;
-    pos.h=PACSIZE;
+    // center the image on our current location
+    pos.x = xpix - PLAYER_SIZE/4;
+    pos.y = ypix - PLAYER_SIZE/4;
 
     if (dx == 1 && dy == 0) {	//right
         SDL_SetAlpha(pacEl[i].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);

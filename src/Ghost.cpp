@@ -10,8 +10,6 @@
 
 #include "Ghost.h"
 
-#define GHOSTSIZE 40
-
 extern Log logtxt;
 extern App app;
 extern Settings settings;
@@ -19,9 +17,8 @@ extern Settings settings;
 void Ghost::Draw(int ix, int iy, int obj, int type) {
     SDL_Rect pos;
 
-    pos.x=ix;
-    pos.y=iy;
-    pos.w=pos.h=GHOSTSIZE;
+    pos.x = ix;
+    pos.y = iy;
 
     SDL_SetAlpha(ghostEl[0].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
     SDL_BlitSurface(ghostEl[0].get(),NULL,buf.get(),&pos);
@@ -680,10 +677,9 @@ void Ghost::Draw() {
 
     SDL_Rect pos;
 
-    pos.x=xpix;
-    pos.y=ypix;
-    pos.h=GHOSTSIZE;
-    pos.w=GHOSTSIZE;
+    // center the image on our current location
+    pos.x=xpix - PLAYER_SIZE/4;
+    pos.y=ypix - PLAYER_SIZE/4;
 
     //normal state
 
