@@ -23,49 +23,6 @@ string Settings::getFile(string filename) {
     throw_exception("File not found: " + filename);
 }
 
-bool Settings::LoadSettings(std::string filename) {
-
-    filename = getFile(filename);
-
-    std::ifstream	file( filename.c_str() );
-    std::string		buffer,
-    tmpstr;
-    char			c=';' ;
-    int				pos;
-
-    if (!file) {
-        logtxt.print( "Could not open settings file" );
-        return false;
-    }
-
-    while (file)	{
-        do {
-            if ( file.eof() ) break;
-            c=file.get();
-        } while (c < 'A' || c > 'z');
-
-        pos= file.tellg();
-        pos--;
-
-        if (pos<0) pos=0;
-
-        file.seekg(pos);
-
-        getline(file, buffer, '=');
-        if (! file.eof() ) {
-            if (buffer == "WIDTH") file >> width;
-            else if (buffer == "HEIGHT") file >> height;
-        }
-    }
-
-    file.close();
-
-
-    logtxt.print(filename + " loaded");
-
-    return true;
-}
-
 Settings::Settings() 
 :   TICK_RATE(60),
     tilesize(20),
@@ -80,10 +37,10 @@ Settings::Settings()
     pacstarty(23),
     baddiestartx(13),
     baddiestarty(13),
-    full_speed(9.5 * tilesize / TICK_RATE)
+    full_speed(9.5 * tilesize / TICK_RATE),
+    width(fieldwidth * tilesize),
+    height(fieldheight * tilesize)
 {
-    width = 640;
-    height = 480;
 
     searchpaths.push_back(".");
     searchpaths.push_back(string(getenv("HOME")) + "/" HOME_CONF_PATH);

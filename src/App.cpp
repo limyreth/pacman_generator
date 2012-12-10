@@ -16,15 +16,6 @@ extern Settings settings;
 void App::InitWindow() {
     int bpp(32);
 
-    if ( !settings.fieldwidth || !settings.fieldheight || !settings.tilesize ) {
-        logtxt.print("fieldheight/fieldwidth/tilesize is not set, reverting to default window dimensions");
-        std::cerr << "fieldheight/fieldwidth/tilesize is not set, reverting to default window dimensions";
-    }
-    else {
-        settings.height=settings.fieldheight*settings.tilesize;
-        settings.width=settings.fieldwidth*settings.tilesize;
-    }
-
     screen.reset(SDL_SetVideoMode( settings.width,
                                settings.height+EXTRA_Y_SPACE,
                                bpp,         //bits per pixel; todo-make this dynamic

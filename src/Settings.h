@@ -21,8 +21,6 @@ class Settings {
 public:
     Settings();
 
-    bool LoadSettings(string filename);
-
     //searches for str in level/skinspaths; if successful, sets currently selected path.
     //returns 0 on success, 1 on failure
     int setPath(int mode, string str);
@@ -30,7 +28,7 @@ public:
     //////////////////////////////
     // VARIABLES	- APP
     //////////////////////////////
-    int
+    const int
             width,
             height;
 

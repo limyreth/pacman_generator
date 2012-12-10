@@ -195,12 +195,6 @@ void Game::gameInit() {
     isinit=false;
     app.getSnd()->stop();
 
-    //try to set level/skins path
-    tmpstr = std::string(settings.LEVEL_PATH) + CFGFILE;
-
-    if ( !settings.LoadSettings(tmpstr) )
-        throw_exception("Error loading level settings");
-
     //resetting variables
     gamestarted = false;
     setState(STATE_GAME);
