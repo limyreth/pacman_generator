@@ -61,7 +61,7 @@ inline int at(SDL_Point tile_pos) {
 /**
  * Create new game
  */
-GameState::GameState(const int* walls, int* foods) 
+GameState::GameState(const int* walls)
 :   food_count(244),
     score(0),
     lives(1),
@@ -69,7 +69,40 @@ GameState::GameState(const int* walls, int* foods)
     fruit_ticks_left(-1),
     vulnerable_ticks_left(-1),
     idler_ticks_left(-1),
-    pacman(PACMAN_SPAWN)
+    pacman(PACMAN_SPAWN),
+    foods {
+        Food::NONE, Food::NONE,      Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE,      Food::NONE,
+        Food::NONE, Food::DOT,       Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,       Food::NONE,
+        Food::NONE, Food::DOT,       Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,       Food::NONE,
+        Food::NONE, Food::ENERGIZER, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,       Food::NONE,
+        Food::NONE, Food::DOT,       Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,       Food::NONE,
+        Food::NONE, Food::DOT,       Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,       Food::NONE,
+        Food::NONE, Food::DOT,       Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,       Food::NONE,
+        Food::NONE, Food::DOT,       Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,       Food::NONE,
+        Food::NONE, Food::DOT,       Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,       Food::NONE,
+        Food::NONE, Food::NONE,      Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE,      Food::NONE,
+        Food::NONE, Food::NONE,      Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE,      Food::NONE,
+        Food::NONE, Food::NONE,      Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE,      Food::NONE,
+        Food::NONE, Food::NONE,      Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE,      Food::NONE,
+        Food::NONE, Food::NONE,      Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE,      Food::NONE,
+        Food::NONE, Food::NONE,      Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE,      Food::NONE,
+        Food::NONE, Food::NONE,      Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE,      Food::NONE,
+        Food::NONE, Food::NONE,      Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE,      Food::NONE,
+        Food::NONE, Food::NONE,      Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE,      Food::NONE,
+        Food::NONE, Food::NONE,      Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE,      Food::NONE,
+        Food::NONE, Food::NONE,      Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE,      Food::NONE,
+        Food::NONE, Food::DOT,       Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,       Food::NONE,
+        Food::NONE, Food::DOT,       Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,       Food::NONE,
+        Food::NONE, Food::DOT,       Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,       Food::NONE,
+        Food::NONE, Food::ENERGIZER, Food::DOT,  Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::DOT,  Food::ENERGIZER, Food::NONE,
+        Food::NONE, Food::NONE,      Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE,      Food::NONE,
+        Food::NONE, Food::NONE,      Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE,      Food::NONE,
+        Food::NONE, Food::DOT,       Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,       Food::NONE,
+        Food::NONE, Food::DOT,       Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,       Food::NONE,
+        Food::NONE, Food::DOT,       Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,       Food::NONE,
+        Food::NONE, Food::DOT,       Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,       Food::NONE,
+        Food::NONE, Food::NONE,      Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE,      Food::NONE
+    }
 {
     SDL_Point spawn = GHOST_SPAWN;
     ghosts[0] = GhostState(spawn);
@@ -86,45 +119,32 @@ GameState::GameState(const int* walls, int* foods)
     ghosts[3] = GhostState(spawn);
 
     // TODO once debug is over, comment the food check (but only the check!!)
-    this->foods = new bool[MAP_HEIGHT * MAP_WIDTH];
+
     int food_count_ = 0;
     for (int y=0; y<MAP_HEIGHT; ++y) {
         for (int x=0; x<MAP_WIDTH; ++x) {
             int food_index = y*MAP_WIDTH + x;
-            this->foods[food_index] = foods[food_index] == 1;
-            if (this->foods[food_index]) {
+            //this->foods[food_index] = foods[food_index] == 1;
+            if (this->foods[food_index] != Food::NONE) {
                 ++food_count_;
             }
         }
     }
-    assert(food_count_ == food_count);
+    // TODO we seem to have only 3 energizers, that's not right...
+    cout << food_count_ << endl;
+    assert(food_count_ == food_count); // TODO might want asserts to throw exceptions and have them add some interesting output to display too
 }
 
 /*
  * Create successor of state
  */
 GameState::GameState(const int* walls, const int* actions, const GameState* state, GameStateInfo& info)
-:   score(state->score),
-    lives(state->lives),
-    fruit_spawned(state->fruit_spawned),
-    fruit_ticks_left(state->fruit_ticks_left),
-    vulnerable_ticks_left(state->vulnerable_ticks_left),
-    idler_ticks_left(state->idler_ticks_left),
-    pacman(state->pacman)
+:   pacman(state->pacman)  // pacman has no default constructor, so it gets angry unless I use this one
 {
     // Note: order of everything in this function is important TODO split in functions to provide better overview of ordering
 
-    // Copy the rest too
-    foods = new bool[MAP_HEIGHT * MAP_WIDTH]; // TODO rather not have this on heap, hardcode the map size and we can do this. Then pool gamestate objs
-    for (int y=0; y<MAP_HEIGHT; ++y) {
-        for (int x=0; x<MAP_WIDTH; ++x) {
-            foods[y*MAP_WIDTH + x] = state->foods[y*MAP_WIDTH + x];
-        }
-    }
-
-    for (int i=0; i < GHOST_COUNT; ++i) {
-        ghosts[i] = state->ghosts[i];
-    }
+    // First copy everything
+    memcpy(this, state, sizeof(GameState));
 
     // Vulnerable timing
     if (vulnerable_ticks_left == VULNERABLE_TICKS) {
@@ -237,9 +257,9 @@ GameState::GameState(const int* walls, const int* actions, const GameState* stat
 
     // collide with food
     int food_index = at(pacman_tpos);
-    if (foods[food_index] == 1) {
+    if (foods[food_index] == Food::DOT) {
         // eat small dot
-        foods[food_index] = 0;
+        foods[food_index] = Food::NONE;
         --food_count;
         score += SMALL_DOTS_SCORE;
 
@@ -248,9 +268,8 @@ GameState::GameState(const int* walls, const int* actions, const GameState* stat
         assert(idler_ticks_left == -1);
         idler_ticks_left = 1;  // pacman can't move for 1 tick after eating a dot
     }
-    else if ( foods[food_index] == 2 ) {
-        // eat large dot
-        foods[food_index] = 0;
+    else if (foods[food_index] == Food::ENERGIZER) {
+        foods[food_index] = Food::NONE;
         --food_count;
         score += LARGE_DOTS_SCORE;
 
@@ -262,12 +281,12 @@ GameState::GameState(const int* walls, const int* actions, const GameState* stat
         assert(idler_ticks_left == -1);
         idler_ticks_left = 3;  // pacman can't move for 3 ticks after eating a dot
     }
-    else if (fruit_spawned && foods[food_index] == 3) {
+    /*else if (fruit_spawned && foods[food_index] == 3) { // TODO fix
         // eat fruit
         score += get_fruit_score();
         app.getSnd()->play(5, 0);
         fruit_spawned = false;
-    }
+    }*/
 
 
     ///////////////////////////////////
@@ -305,16 +324,9 @@ GameState::GameState(const int* walls, const int* actions, const GameState* stat
     }
 }
 
-GameState::~GameState()
-{
-    if (foods) {
-        delete[] foods;
-    }
-}
-
-GameStateInfo GameState::start_new_game(const int* walls, int* foods) {
+GameStateInfo GameState::start_new_game(const int* walls) {
     GameStateInfo info;
-    info.state.reset(new GameState(walls, foods));
+    info.state.reset(new GameState(walls));
     info.legal_actions;
     return info;
 }

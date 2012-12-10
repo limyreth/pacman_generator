@@ -17,6 +17,7 @@
 #include "PacmanState.h"
 #include "GhostState.h"
 #include "Directions.h"
+#include "Food.h"
 
 using boost::shared_ptr;
 
@@ -24,6 +25,7 @@ using boost::shared_ptr;
 #define PLAYER_COUNT GHOST_COUNT + 1
 
 class GameState;
+
 
 #define ACTION_COUNT 4
 struct GameStateInfo {
@@ -34,9 +36,7 @@ struct GameStateInfo {
 class GameState : public boost::noncopyable  // why copy a big thing when you can point!
 {
 public:
-    ~GameState();
-
-    static GameStateInfo start_new_game(const int* walls, int* foods);
+    static GameStateInfo start_new_game(const int* walls);
     GameStateInfo get_successor(const int* walls, const int* actions);  // game state after 1 tick/frame
 
     bool get_vulnerable_ghost_count() const;
@@ -70,12 +70,12 @@ public:
         return ghosts[ghost_index];
     }
 
-    inline bool* get_foods() const {
+    inline const Foods& get_foods() const {
         return foods;
     }
 
 private:
-    GameState(const int* walls, int* foods);
+    GameState(const int* walls);
     GameState(const int* walls, const int* actions, const GameState* state, GameStateInfo& info);
 
     void resetLvl();
@@ -92,7 +92,7 @@ private:
     PacmanState pacman;
     GhostState ghosts[GHOST_COUNT];
 
-    bool *foods; // shows where food lies on the map
+    Foods foods; // shows where food lies on the map
     int food_count;
     int score;
     int lives;

@@ -235,11 +235,7 @@ void Game::gameInit() {
     if ( !loadMap(tmpstr + MAPFILE, walls) )
         throw_exception("Failed to load map.txt");
 
-    int* food_map = new int[MAP_HEIGHT*MAP_WIDTH];
-    if ( !loadMap(tmpstr + OBJFILE, food_map) )
-        throw_exception("Failed to load objmap.txt");
-    game_state_info = GameState::start_new_game(walls, food_map);
-
+    game_state_info = GameState::start_new_game(walls);
 
     logtxt.print("Maps loaded");
 

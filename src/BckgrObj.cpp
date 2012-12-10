@@ -38,7 +38,7 @@ void BckgrObj::setFruitAlpha(int a) {
     fruitalpha = a;
 }
 
-void BckgrObj::Draw(const int* walls, bool* foods) {
+void BckgrObj::Draw(const int* walls, const Foods& foods) {
     int *map(NULL),
     *objmap(NULL),
     height,

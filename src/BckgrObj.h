@@ -15,6 +15,7 @@
 #include "Main.h"
 #include "Object.h"
 #include "Draw.h"
+#include "Food.h"
 
 using boost::shared_ptr;
 
@@ -26,7 +27,7 @@ class BckgrObj :
 public:
     BckgrObj(shared_ptr<SDL_Surface> buffer, int os);
 
-    void Draw(const int* walls, bool* foods);
+    void Draw(const int* walls, const Foods& foods);
     void Draw(int ix, int iy, int obj=3, int type=1);
     void Draw(int ix, int iy, int obj, int type, int alp);
 
