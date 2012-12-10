@@ -22,8 +22,8 @@
 
 extern App app;
 
-const SDL_Point GameState::PACMAN_SPAWN(13, 23);
-const SDL_Point GameState::GHOST_SPAWN(13, 13);
+const SDL_Point GameState::PACMAN_SPAWN(13.5 * TILE_SIZE, 23 * TILE_SIZE);
+const SDL_Point GameState::GHOST_SPAWN = SDL_Point(13, 13) * TILE_SIZE;
 
 using std::max;
 
