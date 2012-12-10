@@ -36,7 +36,7 @@
 #include <iostream>
 #include <assert.h>
 
-#include "Settings.h"
+#include "Constants.h"
 #include "Error.h"
 #include "App.h"
 #include "Log.h"
