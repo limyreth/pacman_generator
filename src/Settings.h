@@ -45,19 +45,15 @@ public:
     const int FRUIT_TICKS;  // the amount of ticks fruit stays on the map after spawning
     const int fieldwidth;  // TODO rename
     const int fieldheight;
+    const int pacstartx;
+    const int pacstarty;
+    const int baddiestartx;
+    const int baddiestarty;
+    const int full_speed;  // 100% speed expressed in px per tick.
 
     const string LEVEL_PATH;
     const string SKINS_PATH;
 
-    int
-            gatex,
-            gatey,
-            pacstartx,
-            pacstarty,
-            baddiestartx,
-            baddiestarty,
-
-            full_speed;  // 100% speed expressed in px per tick.
 
     std::vector<string>
             searchpaths;

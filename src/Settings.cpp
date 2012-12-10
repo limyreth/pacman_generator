@@ -52,29 +52,14 @@ bool Settings::LoadSettings(std::string filename) {
         file.seekg(pos);
 
         getline(file, buffer, '=');
-        int dontcare;
         if (! file.eof() ) {
             if (buffer == "WIDTH") file >> width;
             else if (buffer == "HEIGHT") file >> height;
-            else if (buffer == "FIELDWIDTH") file >> dontcare;
-            else if (buffer == "FIELDHEIGHT") file >> dontcare;
-            else if (buffer == "TILESIZE") file >> dontcare;
-            else if (buffer == "PACSTARTX") file >> pacstartx;
-            else if (buffer == "PACSTARTY") file >> pacstarty;
-            else if (buffer == "PACSPEED") file >> dontcare;
-            else if (buffer == "BADDIESTARTX") file >> baddiestartx;
-            else if (buffer == "BADDIESTARTY") file >> baddiestarty;
-            else if (buffer == "BADDIESPEED") file >> dontcare;
-            else if (buffer == "BADDIEIQ") file >> dontcare;
-            else if (buffer == "VULN_DURATION") file >> dontcare;
-            else if (buffer == "GATEX") file >> gatex;
-            else if (buffer == "GATEY") file >> gatey;
         }
     }
 
     file.close();
 
-    full_speed = 9.5 * tilesize / TICK_RATE;
 
     logtxt.print(filename + " loaded");
 
@@ -90,17 +75,15 @@ Settings::Settings()
     LEVEL_PATH("./levels/0/"),
     SKINS_PATH("./skins/0/"),
     fieldwidth(28),
-    fieldheight(31)
+    fieldheight(31),
+    pacstartx(13),
+    pacstarty(23),
+    baddiestartx(13),
+    baddiestarty(13),
+    full_speed(9.5 * tilesize / TICK_RATE)
 {
     width = 640;
     height = 480;
-
-    gatex = 0;
-    gatey = 0;
-    pacstartx = 0;
-    pacstarty = 0;
-    baddiestartx = 0;
-    baddiestarty = 0;
 
     searchpaths.push_back(".");
     searchpaths.push_back(string(getenv("HOME")) + "/" HOME_CONF_PATH);
