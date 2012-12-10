@@ -118,8 +118,7 @@ GameState::GameState(const int* walls)
     spawn.y -= 2;
     ghosts[3] = GhostState(spawn);
 
-    // TODO once debug is over, comment the food check (but only the check!!)
-
+    // TODO once debug is over, comment this check
     int food_count_ = 0;
     for (int y=0; y<MAP_HEIGHT; ++y) {
         for (int x=0; x<MAP_WIDTH; ++x) {
@@ -131,7 +130,6 @@ GameState::GameState(const int* walls)
         }
     }
     // TODO we seem to have only 3 energizers, that's not right...
-    cout << food_count_ << endl;
     assert(food_count_ == food_count); // TODO might want asserts to throw exceptions and have them add some interesting output to display too
 }
 
