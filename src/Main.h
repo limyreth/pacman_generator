@@ -51,9 +51,6 @@
 #define STATE_GAME	0
 #define STATE_STOPPED 4
 
-#define MODE_LEVELS 2
-#define MODE_SKINS 1
-
 #define UP	0
 #define RIGHT   1
 #define DOWN    2
@@ -65,14 +62,10 @@
 #define EXTRA_Y_SPACE 50
 
 #define SETTINGSFILE "settings.conf"
-#define CFGFILE "level.conf"
 #define OBJFILE "objmap"
 #define MAPFILE "map"
 
 #define APP_PATH "/usr/share/pacman_sdl"
-#define HOME_CONF_PATH ".config/pacman_sdl"
-
-#define MAXENTRIES 8
 
 using std::cout;
 using std::cerr;
