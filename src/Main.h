@@ -73,3 +73,7 @@
 #define HOME_CONF_PATH ".config/pacman_sdl"
 
 #define MAXENTRIES 8
+
+using std::cout;
+using std::cerr;
+using std::endl;

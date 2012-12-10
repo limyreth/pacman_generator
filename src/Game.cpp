@@ -244,12 +244,13 @@ void Game::gameInit(std::string level, std::string skin, bool editor) {
     }
 
     // INIT MAPS
+    tmpstr = settings.LEVEL_PATH;
+
     walls = new int[settings.fieldheight*settings.fieldwidth];
     if ( !loadMap(tmpstr + MAPFILE, walls) )
         throw_exception("Failed to load map.txt");
 
     int* food_map = new int[settings.fieldheight*settings.fieldwidth];
-    tmpstr = settings.LEVEL_PATH;
     if ( !loadMap(tmpstr + OBJFILE, food_map) )
         throw_exception("Failed to load objmap.txt");
     game_state_info = GameState::start_new_game(walls, food_map);
