@@ -39,7 +39,7 @@ string Settings::getFile(string filename) {
             return path;
         }
     }
-    throw new Error("File not found: " + filename);
+    throw_exception("File not found: " + filename);
 }
 
 bool Settings::LoadSettings(std::string filename) {

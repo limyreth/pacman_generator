@@ -95,7 +95,7 @@ void Ghost::LoadTextures(std::string path) {
     for (int i = 0; i<5; i++) {
         ghostEl[i].reset(IMG_Load(files[i].c_str()), SDL_FreeSurface);
         if ( !ghostEl[i] )
-            throw Error("Failed to load ghost texture: " + files[i]);
+            throw_exception("Failed to load ghost texture: " + files[i]);
 
         fmt=ghostEl[i]->format;
         SDL_SetColorKey(ghostEl[i].get(),SDL_SRCCOLORKEY|SDL_RLEACCEL,SDL_MapRGB(fmt,255,0,255));

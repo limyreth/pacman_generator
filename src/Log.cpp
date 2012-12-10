@@ -16,7 +16,7 @@ void Log::print(std::string txt) {
     std::ofstream file(filename.c_str(), std::ios::app);
 
     if ( !file)
-        throw Error("Unable to open logfile");
+        throw_exception("Unable to open logfile");
 
     file << txt << std::endl;
 
@@ -29,7 +29,7 @@ void Log::setFilename(std::string fn) {
     std::ofstream file(filename.c_str());
 
     if ( !file)
-        throw Error("Unable to open logfile");
+        throw_exception("Unable to open logfile");
 
     file << WNDTITLE << std::endl;
 

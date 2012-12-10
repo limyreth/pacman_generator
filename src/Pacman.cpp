@@ -102,7 +102,7 @@ void Pacman::LoadTextures(std::string path) {
         pacEl[i].reset(IMG_Load((path + "pac" + num[i] + ".png").c_str()), SDL_FreeSurface);
 
         if ( !pacEl[i] )
-            throw Error("Failed to load pacman texture: " + num[i]);
+            throw_exception("Failed to load pacman texture: " + num[i]);
 
         fmt = pacEl[i]->format;
         SDL_SetColorKey(pacEl[i].get(),SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(fmt,255,0,255));

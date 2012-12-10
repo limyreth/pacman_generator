@@ -11,8 +11,6 @@
 #include "Main.h"
 #include "Game.h"
 
-using std::exception;
-
 //////////////////////////////////////////////////////
 //	GLOBAL VARS
 //////////////////////////////////////////////////////
@@ -95,12 +93,8 @@ int main( int argc, char** argv ) {
         //shutdown
         logtxt.print( "Shutdown" );
     }
-    catch (exception& e) {
+    catch (const std::exception& e) {
         app.log_exception(e);
-        return 1;
-    }
-    catch (exception* e) {
-        app.log_exception(*e);
         return 1;
     }
 

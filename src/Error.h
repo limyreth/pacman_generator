@@ -9,20 +9,10 @@
 
 
 #pragma once
+
 #include "Main.h"
-#include <exception>
+#include <boost/exception/all.hpp>
+#include <boost/throw_exception.hpp>
+#include <stdexcept>
 
-class Error : public std::exception
-{
-public:
-    Error(std::string str);
-    Error(const char* str);
-
-    virtual const char* what() const throw()
-    { 
-        return desc; 
-    }
-
-private:
-    const char* desc;
-};
+#define throw_exception(msg) BOOST_THROW_EXCEPTION(std::runtime_error(msg))

@@ -155,7 +155,7 @@ void Game::renderNormal() {
     ostr << "level: " << get_state()->get_level() << " score: " << get_state()->get_score();
 
     txt.reset(TTF_RenderText_Solid(font,ostr.str().c_str(),col), SDL_FreeSurface);
-    if (!txt) throw Error("DrawText failed");
+    if (!txt) throw_exception("DrawText failed");
 
     SDL_BlitSurface(txt.get(),NULL,app.getScreen().get(),&scorebox);
 
@@ -168,7 +168,7 @@ void Game::renderNormal() {
         pauserect.h = 50;
 
         txt.reset(TTF_RenderText_Solid(font,"PAUSED",col), SDL_FreeSurface);
-        if (!txt) throw Error("DrawText failed");
+        if (!txt) throw_exception("DrawText failed");
 
         SDL_BlitSurface(txt.get(),NULL,app.getScreen().get(),&pauserect);
     }
@@ -208,7 +208,7 @@ void Game::gameInit(std::string level, std::string skin, bool editor) {
     tmpstr = std::string(settings.LEVEL_PATH) + CFGFILE;
 
     if ( !settings.LoadSettings(tmpstr) )
-        throw Error("Error loading level settings");
+        throw_exception("Error loading level settings");
 
     //resetting variables
     gamestarted = false;
@@ -246,12 +246,12 @@ void Game::gameInit(std::string level, std::string skin, bool editor) {
     // INIT MAPS
     walls = new int[settings.fieldheight*settings.fieldwidth];
     if ( !loadMap(tmpstr + MAPFILE, walls) )
-        throw Error("Failed to load map.txt");
+        throw_exception("Failed to load map.txt");
 
     int* food_map = new int[settings.fieldheight*settings.fieldwidth];
     tmpstr = settings.LEVEL_PATH;
     if ( !loadMap(tmpstr + OBJFILE, food_map) )
-        throw Error("Failed to load objmap.txt");
+        throw_exception("Failed to load objmap.txt");
     game_state_info = GameState::start_new_game(walls, food_map);
 
 
@@ -396,7 +396,7 @@ void Game::render() {
 
         if ( showfps ) {
             txt.reset(TTF_RenderText_Solid(font,fps.c_str(),col), SDL_FreeSurface);
-            if (!txt) throw Error("DrawText failed");
+            if (!txt) throw_exception("DrawText failed");
 
             SDL_BlitSurface(txt.get(),NULL,buf.get(),&fpsbox);
         }
@@ -411,7 +411,7 @@ void Game::render() {
 void Game::loadFont() {
     font = TTF_OpenFont(APP_PATH "/" "arial.ttf",24);
     if (!font)
-        throw Error("Failed to create font object ");
+        throw_exception("Failed to create font object ");
 
     logtxt.print("Font loaded");
 }

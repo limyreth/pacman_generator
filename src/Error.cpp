@@ -9,13 +9,3 @@
 
 
 #include "Error.h"
-
-Error::Error(std::string str) 
-:   desc(str.c_str())
-{
-}
-
-Error::Error(const char* str)
-:   desc(str)
-{
-}

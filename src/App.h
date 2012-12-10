@@ -44,7 +44,7 @@ public:
         SDL_Delay(ms);
     }
 
-    void log_exception(std::exception& e);
+    void log_exception(const std::exception& e);
 
 private:
 

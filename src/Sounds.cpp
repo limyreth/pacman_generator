@@ -57,34 +57,30 @@ bool Sounds::init() {
     if ( isinit)
         return true;
 
-    try {
-        //initialize SDL mixer
-        int audio_rate = 44100;
-        Uint16 audio_format = AUDIO_S16SYS;
-        int audio_channels = 2;
-        int audio_buffers = 512;
+    //initialize SDL mixer
+    int audio_rate = 44100;
+    Uint16 audio_format = AUDIO_S16SYS;
+    int audio_channels = 2;
+    int audio_buffers = 512;
 
-        if (Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers) != 0)
-            throw Error("Error while initializing SDL");
+    if (Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers) != 0)
+        throw_exception("Error while initializing SDL");
 
-        Mix_AllocateChannels(NUMOFSOUNDS);
+    Mix_AllocateChannels(NUMOFSOUNDS);
 
-        //load wav files
-        int i;
-        for (i=0;i<NUMOFSOUNDS;i++) {
-            string path = APP_PATH "/" + sndPaths[i];
-            snd[i].reset(Mix_LoadWAV(path.c_str()), Mix_FreeChunk);
-            if ( snd[i] == NULL )
-                throw Error(Mix_GetError());
-        }
-
-        isinit = true;
-        logtxt.print("Sounds loaded successfully");
+    //load wav files
+    int i;
+    for (i=0;i<NUMOFSOUNDS;i++) {
+        string path = APP_PATH "/" + sndPaths[i];
+        snd[i].reset(Mix_LoadWAV(path.c_str()), Mix_FreeChunk);
+        if ( snd[i] == NULL )
+            throw_exception(Mix_GetError());
     }
-    catch (Error& err) {
-        app.log_exception(err);
-    }
-    return true;
+
+    isinit = true;
+    logtxt.print("Sounds loaded successfully");
+
+    return true; // TODO might want to allow continuing without sound upon failed init
 }
 
 Sounds::Sounds() :

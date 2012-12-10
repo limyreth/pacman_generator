@@ -196,7 +196,7 @@ void BckgrObj::LoadTextures(std::string path) {
     for (i=0;i<NUMOFMAPTEX;i++) {
         mapEl[i].reset(IMG_Load((path + "m" + num[i] + ".png").c_str()), SDL_FreeSurface);
         if ( mapEl[i] == NULL )
-            throw Error(num[i] + "Failed to load map texture");
+            throw_exception(num[i] + "Failed to load map texture");
 
         //get pixel format from surface
         fmt=mapEl[i]->format;
@@ -216,7 +216,7 @@ void BckgrObj::LoadTextures(std::string path) {
     for (i=1;i<5;i++) {
         objEl[i].reset(IMG_Load((path + "o" + num[i] + ".png").c_str()), SDL_FreeSurface);
         if ( objEl[i] == NULL )
-            throw Error(num[i] + "Failed to load object texture");
+            throw_exception(num[i] + "Failed to load object texture");
 
         //get pixel format from surface
         fmt=objEl[i]->format;
