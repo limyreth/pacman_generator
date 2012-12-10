@@ -12,25 +12,6 @@
 
 extern Log logtxt;
 
-int Settings::setPath(int mode,std::string str) {
-    int i;
-
-    switch (mode) {
-    case MODE_SKINS:
-        for (i=0;i<skinspathcount;i++) {
-            if (skinspath[i]=="./skins/" + str + "/") {
-                skinspathcurrent=i;
-                return 0;
-            }
-        }
-        break;
-    default:
-        break;
-    }
-
-    return 1;
-}
-
 string Settings::getFile(string filename) {
     struct stat fileInfo;
     for(int i = 0; i < searchpaths.size(); i++) {
@@ -88,15 +69,6 @@ bool Settings::LoadSettings(std::string filename) {
             else if (buffer == "VULN_DURATION") file >> dontcare;
             else if (buffer == "GATEX") file >> gatex;
             else if (buffer == "GATEY") file >> gatey;
-            else if (buffer == "LEVEL_PATH") {
-                getline(file, tmpstr, ';');
-                // ignore
-            }
-            else if (buffer == "SKINS_PATH") {
-                getline(file, tmpstr, ';');
-                skinspath.push_back("./skins/" + tmpstr + "/");
-                skinspathcount++;
-            }
         }
     }
 
@@ -116,14 +88,12 @@ Settings::Settings()
     VULNERABLE_TICKS(6 * TICK_RATE),
     FRUIT_TICKS(10 * TICK_RATE),
     LEVEL_PATH("./levels/0/"),
+    SKINS_PATH("./skins/0/"),
     fieldwidth(28),
     fieldheight(31)
 {
     width = 640;
     height = 480;
-
-    skinspathcount = 0;
-    skinspathcurrent = 0;
 
     gatex = 0;
     gatey = 0;

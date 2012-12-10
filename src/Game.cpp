@@ -18,7 +18,7 @@ extern Settings settings;
 
 void Game::changeSkin() {
     int i;
-    for (i=0;i<NUMOFOBJECTS;i++) objects[i]->LoadTextures( APP_PATH "/" + settings.skinspath[settings.skinspathcurrent] );
+    for (i=0;i<NUMOFOBJECTS;i++) objects[i]->LoadTextures( APP_PATH "/" + settings.SKINS_PATH );
 }
 
 void Game::emptyMsgPump() {
@@ -52,12 +52,6 @@ void Game::emptyMsgPump() {
             case SDLK_p:
                 if ( getState() == STATE_GAME )
                     pause();
-                break;
-            case SDLK_s:
-                settings.skinspathcurrent++;
-                if ( settings.skinspathcurrent >= settings.skinspathcount)
-                    settings.skinspathcurrent=0;
-                changeSkin();
                 break;
             case SDLK_f:
                 toggleFps();
@@ -194,7 +188,7 @@ bool Game::pause() {
     }
 }
 
-void Game::gameInit(std::string level, std::string skin, bool editor) {
+void Game::gameInit() {
     int i;
     std::string tmpstr;
 
@@ -202,9 +196,6 @@ void Game::gameInit(std::string level, std::string skin, bool editor) {
     app.getSnd()->stop();
 
     //try to set level/skins path
-    settings.setPath(MODE_LEVELS,level);
-    settings.setPath(MODE_SKINS,skin);
-
     tmpstr = std::string(settings.LEVEL_PATH) + CFGFILE;
 
     if ( !settings.LoadSettings(tmpstr) )
@@ -267,7 +258,7 @@ void Game::gameInit(std::string level, std::string skin, bool editor) {
     //loading level graphics
 
     objects[0] = new BckgrObj( app.getScreen(), 10 );
-    objects[0]->LoadTextures(APP_PATH "/" + settings.skinspath[settings.skinspathcurrent]);
+    objects[0]->LoadTextures(APP_PATH "/" + settings.SKINS_PATH);
 
     logtxt.print("Level background loaded");
 
@@ -280,19 +271,19 @@ void Game::gameInit(std::string level, std::string skin, bool editor) {
     //create pacman + ghosts
 
     objects[1] = new Pacman(app.getScreen(), 20);
-    objects[1]->LoadTextures(APP_PATH "/" + settings.skinspath[settings.skinspathcurrent]);
+    objects[1]->LoadTextures(APP_PATH "/" + settings.SKINS_PATH);
 
     objects[2] = new Ghost(app.getScreen(), 20, "1");
-    objects[2]->LoadTextures(APP_PATH "/" + settings.skinspath[settings.skinspathcurrent]);
+    objects[2]->LoadTextures(APP_PATH "/" + settings.SKINS_PATH);
 
     objects[3] = new Ghost(app.getScreen(), 20, "2");
-    objects[3]->LoadTextures(APP_PATH "/" + settings.skinspath[settings.skinspathcurrent]);
+    objects[3]->LoadTextures(APP_PATH "/" + settings.SKINS_PATH);
 
     objects[4] = new Ghost(app.getScreen(), 20, "3");
-    objects[4]->LoadTextures(APP_PATH "/" + settings.skinspath[settings.skinspathcurrent]);
+    objects[4]->LoadTextures(APP_PATH "/" + settings.SKINS_PATH);
 
     objects[5] = new Ghost(app.getScreen(), 20, "4");
-    objects[5]->LoadTextures(APP_PATH "/" + settings.skinspath[settings.skinspathcurrent]);
+    objects[5]->LoadTextures(APP_PATH "/" + settings.SKINS_PATH);
 
     logtxt.print("Objects loaded");
 

@@ -25,7 +25,7 @@ Settings settings;
 //////////////////////////////////////////////////////
 
 int main( int argc, char** argv ) {
-    std::string str="",level="",skin="",editfile="";
+    std::string str="";
 
     for (int i = 1;i<argc;i++) {
         str=argv[i];
@@ -33,23 +33,9 @@ int main( int argc, char** argv ) {
             std::cout << "pacman usage:\n\ncommandline arguments\n--help:\t\tshow this message\n"
                     << "--skin <skin>:\tstart with selected skin\n"
                     << "ingame\nesc/q:\tquit\narrows:\tmovement\n"
-                    << "p:\ttoggle pause\nn:\tnew game\ns:\tswitch skin\n"
+                    << "p:\ttoggle pause\nn:\tnew game\n"
                     << "f:\ttoggle fps display\n";
             return 0;
-        }
-        else  if (str=="--skin")
-            if (++i<argc) {
-            str=argv[i];
-            if (str[0]=='-') {
-                std::cerr << "no skin name given. exiting...\n";
-                return 1;
-            }
-            else
-                skin=str;
-        }
-        else {
-            std::cerr << "no skin name given. exiting...\n";
-            return 1;
         }
         else
             std::cerr << "unrecognized commandline option\n";
@@ -76,7 +62,7 @@ int main( int argc, char** argv ) {
 
         //init game class
         Game game;
-        if ( !app.getQuit() ) game.gameInit(level,skin);
+        if ( !app.getQuit() ) game.gameInit();
 
         //main loop
         while ( ! app.getQuit() ) {

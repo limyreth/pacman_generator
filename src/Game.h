@@ -44,7 +44,7 @@ public:
 
     void resetLvl();
     void nextLvl();
-    void gameInit(std::string level="", std::string skin="", bool editor=false);
+    void gameInit();
 
     bool pause();
 

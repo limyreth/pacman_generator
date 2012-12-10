@@ -46,7 +46,9 @@ public:
     const int fieldwidth;  // TODO rename
     const int fieldheight;
 
-    const char* LEVEL_PATH;
+    const string LEVEL_PATH;
+    const string SKINS_PATH;
+
     int
             gatex,
             gatey,
@@ -55,12 +57,9 @@ public:
             baddiestartx,
             baddiestarty,
 
-            skinspathcount,
-            skinspathcurrent,
             full_speed;  // 100% speed expressed in px per tick.
 
     std::vector<string>
-            skinspath,
             searchpaths;
 
     /* look for file in search paths and return first instance */
