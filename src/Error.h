@@ -13,6 +13,5 @@
 #include "Main.h"
 #include <boost/exception/all.hpp>
 #include <boost/throw_exception.hpp>
-#include <stdexcept>
 
 #define throw_exception(msg) BOOST_THROW_EXCEPTION(std::runtime_error(msg))
