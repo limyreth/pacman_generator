@@ -44,6 +44,7 @@ public:
     const int VULNERABLE_TICKS;  // the amount of ticks ghosts are vulnerable
     const int FRUIT_TICKS;  // the amount of ticks fruit stays on the map after spawning
 
+    const char* LEVEL_PATH;
     int
             fieldwidth,
             fieldheight,
@@ -54,14 +55,11 @@ public:
             baddiestartx,
             baddiestarty,
 
-            lvlpathcount,
-            lvlpathcurrent,
             skinspathcount,
             skinspathcurrent,
             full_speed;  // 100% speed expressed in px per tick.
 
     std::vector<string>
-            lvlpath,
             skinspath,
             searchpaths;
 

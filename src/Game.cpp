@@ -205,7 +205,7 @@ void Game::gameInit(std::string level, std::string skin, bool editor) {
     settings.setPath(MODE_LEVELS,level);
     settings.setPath(MODE_SKINS,skin);
 
-    tmpstr = settings.lvlpath[settings.lvlpathcurrent] + CFGFILE;
+    tmpstr = std::string(settings.LEVEL_PATH) + CFGFILE;
 
     if ( !settings.LoadSettings(tmpstr) )
         throw Error("Error loading level settings");
@@ -249,7 +249,7 @@ void Game::gameInit(std::string level, std::string skin, bool editor) {
         throw Error("Failed to load map.txt");
 
     int* food_map = new int[settings.fieldheight*settings.fieldwidth];
-    tmpstr = settings.lvlpath[settings.lvlpathcurrent];
+    tmpstr = settings.LEVEL_PATH;
     if ( !loadMap(tmpstr + OBJFILE, food_map) )
         throw Error("Failed to load objmap.txt");
     game_state_info = GameState::start_new_game(walls, food_map);

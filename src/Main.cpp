@@ -65,7 +65,7 @@ int main( int argc, char** argv ) {
 
         //init settings
         if ( !app.getQuit() ) settings.LoadSettings(SETTINGSFILE); // TODO rm catch all + set/getQuit, just let them bubble up to here, or further
-        if ( !app.getQuit() ) settings.LoadSettings( (settings.lvlpath[settings.lvlpathcurrent] + CFGFILE) );
+        if ( !app.getQuit() ) settings.LoadSettings(std::string(settings.LEVEL_PATH) + CFGFILE);
 
         //init SDL
         if ( !app.getQuit() ) app.InitApp();
