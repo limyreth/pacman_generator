@@ -30,7 +30,7 @@ static const int MAP_HEIGHT = 31;
 static const string LEVEL_PATH = "./levels/0/";
 
 // path to skin images
-static const string SKINS_PATH = "./skins/0/";
+static const string SKINS_PATH = "./skins/minimal/";
 
 // window size
 static const int SCREEN_WIDTH = MAP_WIDTH * TILE_SIZE;
