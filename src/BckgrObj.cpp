@@ -39,12 +39,10 @@ void BckgrObj::setFruitAlpha(int a) {
 }
 
 void BckgrObj::Draw(const int* walls, const Foods& foods) {
-    int *map(NULL),
-    *objmap(NULL),
-    height,
-    width,
-    i,
-    j;
+    int height,
+        width,
+        i,
+        j;
     SDL_Rect pos;
 
     height = MAP_HEIGHT;
@@ -63,87 +61,87 @@ void BckgrObj::Draw(const int* walls, const Foods& foods) {
             pos.h=20;
             pos.w=20;
 
-            if (map[j*width+i]==1	&&	// horizontal line
-                ( map[j*width+i+1] != 0 || i == width-1 ) &&
-                ( map[j*width+i-1] != 0 || i == 0 ) ) {
+            if (walls[j*width+i]==1	&&	// horizontal line
+                ( walls[j*width+i+1] != 0 || i == width-1 ) &&
+                ( walls[j*width+i-1] != 0 || i == 0 ) ) {
                 SDL_SetAlpha(mapEl[1].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
                 SDL_BlitSurface(mapEl[1].get(), NULL, buf.get(), &pos );
             }
 
-            else if (map[j*width+i]==1)	{	// vertical line
+            else if (walls[j*width+i]==1)	{	// vertical line
                 SDL_SetAlpha(mapElRot[1][0].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
                 SDL_BlitSurface(mapElRot[1][0].get(), NULL, buf.get(), &pos);
             }
 
-            else if (map[j*width+i]==2 &&		//ghost door
-                     map[j*width+i + 1] != 0 &&
-                     map[j*width+i - 1] != 0) {
+            else if (walls[j*width+i]==2 &&		//ghost door
+                     walls[j*width+i + 1] != 0 &&
+                     walls[j*width+i - 1] != 0) {
                 SDL_SetAlpha(mapEl[2].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
                 SDL_BlitSurface(mapEl[2].get(), NULL, buf.get(), &pos);
             }
-            else if (map[j*width+i]==2)	{	// vertical ghost door
+            else if (walls[j*width+i]==2)	{	// vertical ghost door
                 SDL_SetAlpha(mapElRot[2][0].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
                 SDL_BlitSurface(mapElRot[2][0].get(), NULL, buf.get(), &pos);
             }
 
-            else if (map[j*width+i]==3) {		//upper left corner
+            else if (walls[j*width+i]==3) {		//upper left corner
                 SDL_SetAlpha(mapEl[3].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
                 SDL_BlitSurface(mapEl[3].get(), NULL, buf.get(), &pos);
             }
-            else if (map[j*width+i]==4) {		// upper right corner
+            else if (walls[j*width+i]==4) {		// upper right corner
                 SDL_SetAlpha(mapEl[4].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
                 SDL_BlitSurface(mapEl[4].get(), NULL, buf.get(), &pos);
             }
-            else if (map[j*width+i]==5) {		// lower  right corner
+            else if (walls[j*width+i]==5) {		// lower  right corner
                 SDL_SetAlpha(mapEl[5].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
                 SDL_BlitSurface(mapEl[5].get(), NULL, buf.get(), &pos);
             }
-            else if (map[j*width+i]==6) {		// lower left corner
+            else if (walls[j*width+i]==6) {		// lower left corner
                 SDL_SetAlpha(mapEl[6].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
                 SDL_BlitSurface(mapEl[6].get(), NULL, buf.get(), &pos);
             }
 
-            else if (map[j*width+i]==7 && 		// left T
-                     ( map[j*width+i-1]==0 || i == 0 ) ) {
+            else if (walls[j*width+i]==7 && 		// left T
+                     ( walls[j*width+i-1]==0 || i == 0 ) ) {
                 SDL_SetAlpha(mapEl[7].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
                 SDL_BlitSurface(mapEl[7].get(), NULL, buf.get(), &pos);
             }
-            else if (map[j*width+i]==7)	{	// upside down T
+            else if (walls[j*width+i]==7)	{	// upside down T
                 SDL_SetAlpha(mapElRot[7][0].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
                 SDL_BlitSurface(mapElRot[7][0].get(), NULL, buf.get(), &pos);
             }
-            else if (map[j*width+i]==8 &&		// right T
-                     ( map[j*width+i+1]==0 || i == width-1 ) ) {
+            else if (walls[j*width+i]==8 &&		// right T
+                     ( walls[j*width+i+1]==0 || i == width-1 ) ) {
                 SDL_SetAlpha(mapEl[8].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
                 SDL_BlitSurface(mapEl[8].get(), NULL, buf.get(), &pos);
             }
-            else if (map[j*width+i]==8)	{	// upright T
+            else if (walls[j*width+i]==8)	{	// upright T
                 SDL_SetAlpha(mapElRot[8][0].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
                 SDL_BlitSurface(mapElRot[8][0].get(), NULL, buf.get(), &pos);
             }
 
-            else if (map[j*width+i]==9 &&
-                     map[j*width+i-1] != 0 &&
-                     map[j*width+i-1] != 2 &&
+            else if (walls[j*width+i]==9 &&
+                     walls[j*width+i-1] != 0 &&
+                     walls[j*width+i-1] != 2 &&
                      i > 0 )	 {//right stub
                 SDL_SetAlpha(mapEl[9].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
                 SDL_BlitSurface(mapEl[9].get(), NULL, buf.get(), &pos);
             }
-            else if (map[j*width+i]==9 &&
-                     map[j*width+i+1] != 0 &&
-                     map[j*width+i+1] != 2 &&
+            else if (walls[j*width+i]==9 &&
+                     walls[j*width+i+1] != 0 &&
+                     walls[j*width+i+1] != 2 &&
                      i < width-1) {	// left stub
                 SDL_SetAlpha(mapElRot[9][1].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
                 SDL_BlitSurface(mapElRot[9][1].get(), NULL, buf.get(), &pos);
             }
-            else if (map[j*width+i]==9 &&
-                     map[(j+1)*width+i] != 0 &&
-                     map[(j+1)*width+i] != 2 &&
+            else if (walls[j*width+i]==9 &&
+                     walls[(j+1)*width+i] != 0 &&
+                     walls[(j+1)*width+i] != 2 &&
                      j < height -1) {	// upper stub
                 SDL_SetAlpha(mapElRot[9][0].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
                 SDL_BlitSurface(mapElRot[9][0].get(), NULL, buf.get(), &pos);
             }
-            else if (map[j*width+i]==9)	{// lower stub
+            else if (walls[j*width+i]==9)	{// lower stub
                 SDL_SetAlpha(mapElRot[9][2].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
                 SDL_BlitSurface(mapElRot[9][2].get(), NULL, buf.get(), &pos);
             }
@@ -160,21 +158,21 @@ void BckgrObj::Draw(const int* walls, const Foods& foods) {
             pos.h=20;
             pos.w=20;
 
-            if (objmap[j*width+i]==1) {
+            if (foods[j*width+i]==Food::DOT) {
                 SDL_SetAlpha(objEl[1].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
                 SDL_BlitSurface(objEl[1].get(), NULL, buf.get(), &pos);
                 objcounter++;
             }
-            if (objmap[j*width+i]==2) {	// BIG DOTS!
+            else if (foods[j*width+i]==Food::ENERGIZER) {
                 SDL_SetAlpha(objEl[2].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
                 SDL_BlitSurface(objEl[2].get(), NULL, buf.get(), &pos);
                 objcounter++;
             }
-            if (objmap[j*width+i]==3 && specialspawned && !specialeaten) {	// fruit
+            /*else if (foods[j*width+i]==3 && specialspawned && !specialeaten) {	// fruit TODO
                 SDL_SetAlpha(objEl[3].get(),SDL_SRCALPHA,fruitalpha);
                 SDL_BlitSurface(objEl[3].get(), NULL, buf.get(), &pos);
                 objcounter++;
-            }
+            }*/
         }
     }
 
