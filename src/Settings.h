@@ -21,10 +21,6 @@ class Settings {
 public:
     Settings();
 
-    //searches for str in level/skinspaths; if successful, sets currently selected path.
-    //returns 0 on success, 1 on failure
-    int setPath(int mode, string str);
-
     //////////////////////////////
     // VARIABLES	- APP
     //////////////////////////////
