@@ -75,8 +75,8 @@ bool Settings::LoadSettings(std::string filename) {
         if (! file.eof() ) {
             if (buffer == "WIDTH") file >> width;
             else if (buffer == "HEIGHT") file >> height;
-            else if (buffer == "FIELDWIDTH") file >> fieldwidth;
-            else if (buffer == "FIELDHEIGHT") file >> fieldheight;
+            else if (buffer == "FIELDWIDTH") file >> dontcare;
+            else if (buffer == "FIELDHEIGHT") file >> dontcare;
             else if (buffer == "TILESIZE") file >> dontcare;
             else if (buffer == "PACSTARTX") file >> pacstartx;
             else if (buffer == "PACSTARTY") file >> pacstarty;
@@ -115,7 +115,9 @@ Settings::Settings()
     PLAYER_SIZE(2.0 * tilesize * 0.8),
     VULNERABLE_TICKS(6 * TICK_RATE),
     FRUIT_TICKS(10 * TICK_RATE),
-    LEVEL_PATH("./levels/0/")
+    LEVEL_PATH("./levels/0/"),
+    fieldwidth(28),
+    fieldheight(31)
 {
     width = 640;
     height = 480;
@@ -125,8 +127,6 @@ Settings::Settings()
 
     gatex = 0;
     gatey = 0;
-    fieldwidth = 0;
-    fieldheight = 0;
     pacstartx = 0;
     pacstarty = 0;
     baddiestartx = 0;

@@ -43,11 +43,11 @@ public:
     const int tilesize;  // TODO rename TILE_SIZE
     const int VULNERABLE_TICKS;  // the amount of ticks ghosts are vulnerable
     const int FRUIT_TICKS;  // the amount of ticks fruit stays on the map after spawning
+    const int fieldwidth;  // TODO rename
+    const int fieldheight;
 
     const char* LEVEL_PATH;
     int
-            fieldwidth,
-            fieldheight,
             gatex,
             gatey,
             pacstartx,
