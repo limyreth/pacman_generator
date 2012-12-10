@@ -20,7 +20,6 @@ using std::string;
 class Settings {
 public:
     Settings();
-    ~Settings();
 
     bool LoadSettings(string filename);
 

@@ -146,5 +146,3 @@ Settings::Settings()
     searchpaths.push_back(string(getenv("HOME")) + "/" HOME_CONF_PATH);
     searchpaths.push_back(APP_PATH);
 }
-
-Settings::~Settings() {}
