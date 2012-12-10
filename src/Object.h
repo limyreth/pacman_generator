@@ -58,6 +58,9 @@ public:
         return rotatedSurface;
     }
 protected:
+    // drawing size of ghost/pacman
+    static const int PLAYER_SIZE = 2.0 * Settings::TILE_SIZE * 0.8;
+
     shared_ptr<SDL_Surface>
             buf;
 

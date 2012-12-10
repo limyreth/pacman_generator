@@ -17,41 +17,23 @@
 
 using std::string;
 
-class Settings {
-public:
-    Settings();
+namespace Settings { // TODO just rm this namespace and free them into the global space of things, then rename this file to Constants and rm the cpp
+    // ticks per second
+    static const int TICK_RATE = 60;
 
-    //////////////////////////////
-    // VARIABLES	- APP
-    //////////////////////////////
-    const int
-            width,
-            height;
+    static const int TILE_SIZE = 20;
 
-    //////////////////////////////
-    // VARIABLES	- GAME
-    //////////////////////////////
+    // map sizes in tiles
+    static const int MAP_WIDTH = 28;
+    static const int MAP_HEIGHT = 31;
 
-    const int TICK_RATE;  // ticks per second
-    const int PLAYER_SIZE;  // drawing size of ghost/pacman
-    const int tilesize;  // TODO rename TILE_SIZE
-    const int VULNERABLE_TICKS;  // the amount of ticks ghosts are vulnerable
-    const int FRUIT_TICKS;  // the amount of ticks fruit stays on the map after spawning
-    const int fieldwidth;  // TODO rename
-    const int fieldheight;
-    const int pacstartx;
-    const int pacstarty;
-    const int baddiestartx;
-    const int baddiestarty;
-    const int full_speed;  // 100% speed expressed in px per tick.
+    // path to level files
+    static const string LEVEL_PATH = "./levels/0/";
 
-    const string LEVEL_PATH;
-    const string SKINS_PATH;
+    // path to skin images
+    static const string SKINS_PATH = "./skins/0/";
 
-
-    std::vector<string>
-            searchpaths;
-
-    /* look for file in search paths and return first instance */
-    string getFile(string filename);
-};
+    // window size
+    static const int SCREEN_WIDTH = MAP_WIDTH * TILE_SIZE;
+    static const int SCREEN_HEIGHT = MAP_HEIGHT * TILE_SIZE;
+}

@@ -20,7 +20,9 @@
 #define GHOST_CLYDE 3
 
 extern App app;
-extern Settings settings;
+
+const SDL_Point GameState::PACMAN_SPAWN(13, 23);
+const SDL_Point GameState::GHOST_SPAWN(13, 13);
 
 using std::max;
 
@@ -52,7 +54,7 @@ using std::max;
 extern Directions DIRECTIONS;
 
 inline int at(SDL_Point tile_pos) {
-    return tile_pos.y * settings.fieldwidth + tile_pos.x ;
+    return tile_pos.y * Settings::MAP_WIDTH + tile_pos.x ;
 }
 
 /**
@@ -66,19 +68,28 @@ GameState::GameState(const int* walls, int* foods)
     fruit_ticks_left(-1),
     vulnerable_ticks_left(-1),
     idler_ticks_left(-1),
-    pacman(SDL_Point(settings.pacstartx, settings.pacstarty))
+    pacman(PACMAN_SPAWN)
 {
-    ghosts[0] = GhostState(SDL_Point(settings.baddiestartx, settings.baddiestarty));
-    ghosts[1] = GhostState(SDL_Point(settings.baddiestartx + 2, settings.baddiestarty));
-    ghosts[2] = GhostState(SDL_Point(settings.baddiestartx - 2, settings.baddiestarty));
-    ghosts[3] = GhostState(SDL_Point(settings.baddiestartx, settings.baddiestarty - 2));
+    SDL_Point spawn = GHOST_SPAWN;
+    ghosts[0] = GhostState(spawn);
+
+    spawn.x += 2;
+    ghosts[1] = GhostState(spawn);
+
+    spawn = GHOST_SPAWN;
+    spawn.x -= 2;
+    ghosts[2] = GhostState(spawn);
+
+    spawn = GHOST_SPAWN;
+    spawn.y -= 2;
+    ghosts[3] = GhostState(spawn);
 
     // TODO once debug is over, comment the food check (but only the check!!)
-    this->foods = new bool[settings.fieldheight * settings.fieldwidth];
+    this->foods = new bool[Settings::MAP_HEIGHT * Settings::MAP_WIDTH];
     int food_count_ = 0;
-    for (int y=0; y<settings.fieldheight; ++y) {
-        for (int x=0; x<settings.fieldwidth; ++x) {
-            int food_index = y*settings.fieldwidth + x;
+    for (int y=0; y<Settings::MAP_HEIGHT; ++y) {
+        for (int x=0; x<Settings::MAP_WIDTH; ++x) {
+            int food_index = y*Settings::MAP_WIDTH + x;
             this->foods[food_index] = foods[food_index] == 1;
             if (this->foods[food_index]) {
                 ++food_count_;
@@ -103,10 +114,10 @@ GameState::GameState(const int* walls, const int* actions, const GameState* stat
     // Note: order of everything in this function is important TODO split in functions to provide better overview of ordering
 
     // Copy the rest too
-    foods = new bool[settings.fieldheight * settings.fieldwidth]; // TODO rather not have this on heap, hardcode the map size and we can do this. Then pool gamestate objs
-    for (int y=0; y<settings.fieldheight; ++y) {
-        for (int x=0; x<settings.fieldwidth; ++x) {
-            foods[y*settings.fieldwidth + x] = state->foods[y*settings.fieldwidth + x];
+    foods = new bool[Settings::MAP_HEIGHT * Settings::MAP_WIDTH]; // TODO rather not have this on heap, hardcode the map size and we can do this. Then pool gamestate objs
+    for (int y=0; y<Settings::MAP_HEIGHT; ++y) {
+        for (int x=0; x<Settings::MAP_WIDTH; ++x) {
+            foods[y*Settings::MAP_WIDTH + x] = state->foods[y*Settings::MAP_WIDTH + x];
         }
     }
 
@@ -115,7 +126,7 @@ GameState::GameState(const int* walls, const int* actions, const GameState* stat
     }
 
     // Vulnerable timing
-    if (vulnerable_ticks_left == settings.VULNERABLE_TICKS) {
+    if (vulnerable_ticks_left == VULNERABLE_TICKS) {
         // Ghosts become vulnerable in this tick
         for (auto& ghost : ghosts) {
             if (ghost.state == GhostState::NORMAL) {
@@ -145,7 +156,7 @@ GameState::GameState(const int* walls, const int* actions, const GameState* stat
         // spawn a fruit
         assert(!fruit_spawned);  // It is impossible for another fruit to spawn while a previous is still spawned (eating 100 dots should take long enough for this never to happen)
         fruit_spawned = true;
-        fruit_ticks_left = settings.FRUIT_TICKS;
+        fruit_ticks_left = FRUIT_TICKS;
     }
     fruit_ticks_left = max(fruit_ticks_left - 1, -1);
 
@@ -163,7 +174,7 @@ GameState::GameState(const int* walls, const int* actions, const GameState* stat
                 speed_modifier = 0.8;
             }
 
-            pacman.move(actions[0], speed_modifier);
+            pacman.move(actions[0], FULL_SPEED * speed_modifier);
         }
         idler_ticks_left = max(idler_ticks_left - 1, -1);
 
@@ -184,7 +195,7 @@ GameState::GameState(const int* walls, const int* actions, const GameState* stat
             else {
                 speed_modifier = 0.75;
             }
-            ghosts[i].move(actions[1+i], speed_modifier);
+            ghosts[i].move(actions[1+i], FULL_SPEED * speed_modifier);
         }
     }
 
@@ -245,7 +256,7 @@ GameState::GameState(const int* walls, const int* actions, const GameState* stat
         app.getSnd()->play(3, 0);
         app.getSnd()->play(7, 1);
 
-        vulnerable_ticks_left = settings.VULNERABLE_TICKS;
+        vulnerable_ticks_left = VULNERABLE_TICKS;
 
         assert(idler_ticks_left == -1);
         idler_ticks_left = 3;  // pacman can't move for 3 ticks after eating a dot
@@ -287,7 +298,7 @@ GameState::GameState(const int* walls, const int* actions, const GameState* stat
             // Any nonobstructed path is fine
             for (int j=0; j<ACTION_COUNT; ++j) {
                 auto new_tpos = tpos + DIRECTIONS[j];
-                info.legal_actions[i][j] = walls[at(new_tpos)] == 0 || new_tpos.x < 0 || new_tpos.x == settings.fieldwidth;
+                info.legal_actions[i][j] = walls[at(new_tpos)] == 0 || new_tpos.x < 0 || new_tpos.x == Settings::MAP_WIDTH;
             }
         }
     }
@@ -343,18 +354,18 @@ void GameState::nextLvl() {
     app.getSnd()->stop();
     app.getSnd()->play(9);
 
-    settings.vuln_duration -= settings.vuln_duration/10;
+    Settings::vuln_duration -= Settings::vuln_duration/10;
 
     ((Ghost*)objects[ rand()%4 +2])->changeDifficulty( rand()%15, rand()%5 );
     ((Ghost*)objects[ rand()%4 +2])->changeDifficulty( rand()%10, rand()%3 );
 
-    objects[PAC]->reset(settings.pacstartx, settings.pacstarty);
-    objects[GHOST1]->reset(settings.baddiestartx, settings.baddiestarty);
-    objects[GHOST2]->reset(settings.baddiestartx+2, settings.baddiestarty);
-    objects[GHOST3]->reset(settings.baddiestartx-2, settings.baddiestarty);
-    objects[GHOST4]->reset(settings.baddiestartx, settings.baddiestarty-2);
+    objects[PAC]->reset(Settings::pacstartx, Settings::pacstarty);
+    objects[GHOST1]->reset(Settings::baddiestartx, Settings::baddiestarty);
+    objects[GHOST2]->reset(Settings::baddiestartx+2, Settings::baddiestarty);
+    objects[GHOST3]->reset(Settings::baddiestartx-2, Settings::baddiestarty);
+    objects[GHOST4]->reset(Settings::baddiestartx, Settings::baddiestarty-2);
 
-    tmpstr = settings.lvlpath[settings.lvlpathcurrent] + OBJFILE;
+    tmpstr = Settings::lvlpath[Settings::lvlpathcurrent] + OBJFILE;
     if ( ! loadMap(tmpstr, objmap) )
         throw Error("Error loading objmap.txt during Game::nextLvl()");
 
@@ -407,11 +418,11 @@ void GameState::resetLvl() {	// vars and positions when pacman dies during level
 
     if (ispaused) pause();
 
-    objects[PAC]->reset(settings.pacstartx, settings.pacstarty);
-    objects[GHOST1]->reset(settings.baddiestartx, settings.baddiestarty);
-    objects[GHOST2]->reset(settings.baddiestartx+2, settings.baddiestarty);
-    objects[GHOST3]->reset(settings.baddiestartx-2, settings.baddiestarty);
-    objects[GHOST4]->reset(settings.baddiestartx, settings.baddiestarty-2);
+    objects[PAC]->reset(Settings::pacstartx, Settings::pacstarty);
+    objects[GHOST1]->reset(Settings::baddiestartx, Settings::baddiestarty);
+    objects[GHOST2]->reset(Settings::baddiestartx+2, Settings::baddiestarty);
+    objects[GHOST3]->reset(Settings::baddiestartx-2, Settings::baddiestarty);
+    objects[GHOST4]->reset(Settings::baddiestartx, Settings::baddiestarty-2);
 
     render();
 

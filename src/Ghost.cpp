@@ -12,7 +12,6 @@
 
 extern Log logtxt;
 extern App app;
-extern Settings settings;
 
 void Ghost::Draw(int ix, int iy, int obj, int type) {
     SDL_Rect pos;
@@ -33,8 +32,8 @@ void Ghost::Draw(const GhostState current) {
 
     // center the image on our current location
     SDL_Point real_pos = current.get_pixel_pos();
-    pos.x = real_pos.x - settings.PLAYER_SIZE/4;
-    pos.y = real_pos.y - settings.PLAYER_SIZE/4;
+    pos.x = real_pos.x - Object::PLAYER_SIZE/4;
+    pos.y = real_pos.y - Object::PLAYER_SIZE/4;
 
     if (current.state == GhostState::NORMAL) {
         SDL_SetAlpha(ghostEl[0].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
@@ -99,7 +98,7 @@ void Ghost::LoadTextures(std::string path) {
 
         fmt=ghostEl[i]->format;
         SDL_SetColorKey(ghostEl[i].get(),SDL_SRCCOLORKEY|SDL_RLEACCEL,SDL_MapRGB(fmt,255,0,255));
-        scale_to_size(ghostEl[i], settings.PLAYER_SIZE);
+        scale_to_size(ghostEl[i], Object::PLAYER_SIZE);
     }
     logtxt.print(filename + " ghost textures loaded");
 }

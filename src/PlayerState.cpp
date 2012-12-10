@@ -10,7 +10,6 @@
 
 #include "PlayerState.h"
 
-extern Settings settings;
 extern Directions DIRECTIONS;
 
 PlayerState::PlayerState(SDL_Point pos) 
@@ -23,22 +22,22 @@ PlayerState::PlayerState(SDL_Point pos)
  *
  * Player will move at FULL_SPEED * speed_modifier.
  */
-void PlayerState::move(int action, double speed_modifier) {
+void PlayerState::move(int action, double speed) {
 
-    pos += DIRECTIONS[action] * (settings.full_speed * speed_modifier);
+    pos += DIRECTIONS[action] * speed;
 
     // wrap screen when hitting left/right edge of tunnel
     auto tpos = get_tile_pos();
     if (tpos.x < 0) {
-        pos.x = settings.fieldwidth * settings.tilesize - pos.x;
-        assert(get_tile_pos().x < settings.fieldwidth); // TODO rm after testing
+        pos.x = Settings::MAP_WIDTH * Settings::TILE_SIZE - pos.x;
+        assert(get_tile_pos().x < Settings::MAP_WIDTH); // TODO rm after testing
     }
-    else if (tpos.x >= settings.fieldwidth) {
-        pos.x -= settings.fieldwidth * settings.tilesize;
+    else if (tpos.x >= Settings::MAP_WIDTH) {
+        pos.x -= Settings::MAP_WIDTH * Settings::TILE_SIZE;
         assert(get_tile_pos().x > 0); // TODO rm after testing
     }
 }
 
 SDL_Point PlayerState::get_tile_pos() const {
-    return pos / settings.tilesize;
+    return pos / Settings::TILE_SIZE;
 }

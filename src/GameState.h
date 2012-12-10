@@ -102,4 +102,11 @@ private:
     int vulnerable_ticks_left;  // how many more ticks ghosts will be vulnerable
     int fruit_ticks_left;  // amount of ticks left til fruit disappears
     int idler_ticks_left;  // ticks left til pacman gets off his lazy ass and starts moving again (pacman rests after eating dot or energizer)
+
+    static const int VULNERABLE_TICKS = 6 * Settings::TICK_RATE;  // the amount of ticks ghosts are vulnerable
+    static const int FRUIT_TICKS = 10 * Settings::TICK_RATE;  // the amount of ticks fruit stays on the map after spawning
+    static const int FULL_SPEED = 9.5 * Settings::TILE_SIZE / Settings::TICK_RATE;  // 100% speed expressed in px per tick.
+
+    static const SDL_Point PACMAN_SPAWN;
+    static const SDL_Point GHOST_SPAWN;
 };

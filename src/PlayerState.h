@@ -18,7 +18,7 @@ class PlayerState
 {
 public:
     PlayerState(SDL_Point pos);
-    void move(int action, double speed_modifier);
+    void move(int action, double speed);
     SDL_Point get_tile_pos() const;
 
     inline SDL_Point get_pixel_pos() const {

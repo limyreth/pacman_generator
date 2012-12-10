@@ -12,7 +12,6 @@
 
 extern Log logtxt;
 extern App app;
-extern Settings settings;
 
 void BckgrObj::Draw(int ix, int iy, int obj, int type, int alp) {
     SDL_Rect pos;
@@ -48,8 +47,8 @@ void BckgrObj::Draw(const int* walls, bool* foods) {
     j;
     SDL_Rect pos;
 
-    height = settings.fieldheight;
-    width = settings.fieldwidth;
+    height = Settings::MAP_HEIGHT;
+    width = Settings::MAP_WIDTH;
 
     objcounter = 0;
 
@@ -59,8 +58,8 @@ void BckgrObj::Draw(const int* walls, bool* foods) {
     for (j=0;j<height;j++) {
         for (i=0; i<width; i++) {
 
-            pos.x=i*settings.tilesize;
-            pos.y=j*settings.tilesize;
+            pos.x=i*Settings::TILE_SIZE;
+            pos.y=j*Settings::TILE_SIZE;
             pos.h=20;
             pos.w=20;
 
@@ -156,8 +155,8 @@ void BckgrObj::Draw(const int* walls, bool* foods) {
     for (j=0;j<height;j++) {
         for (i=0; i<width; i++) {
 
-            pos.x=i*settings.tilesize; // +10 are needed for correct placement
-            pos.y=j*settings.tilesize;
+            pos.x=i*Settings::TILE_SIZE; // +10 are needed for correct placement
+            pos.y=j*Settings::TILE_SIZE;
             pos.h=20;
             pos.w=20;
 
@@ -206,7 +205,7 @@ void BckgrObj::LoadTextures(std::string path) {
 
         // scale to tile size
         if (i != BACKGROUND_TEXTURE_ID) {
-            scale_to_size(mapEl[i], settings.tilesize);
+            scale_to_size(mapEl[i], Settings::TILE_SIZE);
         }
 
         for (int j=0;j<3;j++) {
@@ -225,7 +224,7 @@ void BckgrObj::LoadTextures(std::string path) {
         SDL_SetColorKey(objEl[i].get(),SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(fmt,255,0,255));
 
         // scale it to tile size
-        scale_to_size(objEl[i], settings.tilesize);
+        scale_to_size(objEl[i], Settings::TILE_SIZE);
     }
 
     logtxt.print("Field textures loaded");
