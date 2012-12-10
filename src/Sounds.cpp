@@ -81,13 +81,8 @@ bool Sounds::init() {
         isinit = true;
         logtxt.print("Sounds loaded successfully");
     }
-    catch ( Error& err ) {
-            std::cerr << (err.getDesc() );
-            logtxt.print( err.getDesc() );
-    }
-    catch ( ... ) {
-        std::cerr << "Unexpected exception";
-        logtxt.print( "Unexpected exception in App::App()" );
+    catch (Error& err) {
+        app.log_exception(err);
     }
     return true;
 }

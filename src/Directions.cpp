@@ -7,40 +7,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "Directions.h"
 
-#pragma once
-
-#include <string>
-#include <fstream>
-#include <iomanip>
-
-#define MAXENTRIES 8
-
-
-class hScore
-{
-private:
-    std::string
-            name[MAXENTRIES];
-    unsigned long
-            score[MAXENTRIES];
-    char
-            filename[20];
-public:
-    hScore();
-    ~hScore();
-
-    void add(std::string, unsigned int);
-
-    std::string getName(int);
-
-    int getScore(int);
-
-    int save();
-    int load();
-    void clear();
-
-    bool onlist(unsigned int) const;
-
-    void setfilename(std::string fn);
+Directions DIRECTIONS = {
+    SDL_Point(0, -1), // North; y-axis points towards the bottom of the screen
+    SDL_Point(1, 0), // East
+    SDL_Point(0, 1), // South
+    SDL_Point(-1, 0) // West
 };

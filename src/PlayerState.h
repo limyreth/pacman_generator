@@ -8,38 +8,23 @@
  ***************************************************************************/
 
 
-#include "Log.h"
+#pragma once
 
-extern App app;
+#include "Main.h"
+#include "Point.h"
+#include "Directions.h"
 
-void Log::print(std::string txt) {
-    std::ofstream file(filename.c_str(), std::ios::app);
-
-    if ( !file)
-        throw Error("Unable to open logfile");
-
-    file << txt << std::endl;
-
-    file.close();
-}
-
-void Log::setFilename(std::string fn) {
-    filename = std::string(getenv("HOME")) + "/" + fn;
-
-    std::ofstream file(filename.c_str());
-
-    if ( !file)
-        throw Error("Unable to open logfile");
-
-    file << WNDTITLE << std::endl;
-
-    file.close();
-}
-
-Log::Log()
+class PlayerState
 {
-}
+public:
+    PlayerState(SDL_Point pos);
+    void move(int action, double speed_modifier);
+    SDL_Point get_tile_pos() const;
 
-Log::~Log()
-{
-}
+    inline SDL_Point get_pixel_pos() const {
+        return pos;
+    }
+
+private:
+    SDL_Point pos;  // current position in pixels
+};

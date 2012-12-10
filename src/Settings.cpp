@@ -79,20 +79,21 @@ bool Settings::LoadSettings(std::string filename) {
         file.seekg(pos);
 
         getline(file, buffer, '=');
+        int dontcare;
         if (! file.eof() ) {
             if (buffer == "WIDTH") file >> width;
             else if (buffer == "HEIGHT") file >> height;
             else if (buffer == "FIELDWIDTH") file >> fieldwidth;
             else if (buffer == "FIELDHEIGHT") file >> fieldheight;
-            else if (buffer == "TILESIZE") file >> tilesize;
+            else if (buffer == "TILESIZE") file >> dontcare;
             else if (buffer == "PACSTARTX") file >> pacstartx;
             else if (buffer == "PACSTARTY") file >> pacstarty;
-            else if (buffer == "PACSPEED") file >> pacspeed;
+            else if (buffer == "PACSPEED") file >> dontcare;
             else if (buffer == "BADDIESTARTX") file >> baddiestartx;
             else if (buffer == "BADDIESTARTY") file >> baddiestarty;
-            else if (buffer == "BADDIESPEED") file >> baddiespeed;
-            else if (buffer == "BADDIEIQ") file >> baddieiq;
-            else if (buffer == "VULN_DURATION") file >> vuln_duration;
+            else if (buffer == "BADDIESPEED") file >> dontcare;
+            else if (buffer == "BADDIEIQ") file >> dontcare;
+            else if (buffer == "VULN_DURATION") file >> dontcare;
             else if (buffer == "GATEX") file >> gatex;
             else if (buffer == "GATEY") file >> gatey;
             else if (buffer == "LEVEL_PATH") {
@@ -110,12 +111,20 @@ bool Settings::LoadSettings(std::string filename) {
 
     file.close();
 
+    full_speed = 9.5 * tilesize / TICK_RATE;
+
     logtxt.print(filename + " loaded");
 
     return true;
 }
 
-Settings::Settings() {
+Settings::Settings() 
+:   TICK_RATE(60),
+    tilesize(20),
+    PLAYER_SIZE(2.0 * tilesize * 0.8),
+    VULNERABLE_TICKS(6 * TICK_RATE),
+    FRUIT_TICKS(10 * TICK_RATE)
+{
     width = 640;
     height = 480;
 
@@ -128,15 +137,10 @@ Settings::Settings() {
     gatey = 0;
     fieldwidth = 0;
     fieldheight = 0;
-    tilesize = 0;
     pacstartx = 0;
     pacstarty = 0;
-    pacspeed = 0;
     baddiestartx = 0;
     baddiestarty = 0;
-    baddiespeed = 0;
-    baddieiq = 0;
-    vuln_duration = 0;
 
     searchpaths.push_back(".");
     searchpaths.push_back(string(getenv("HOME")) + "/" HOME_CONF_PATH);

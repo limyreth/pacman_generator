@@ -15,61 +15,27 @@
 #include "Main.h"
 #include "Object.h"
 #include "Draw.h"
+#include "PacmanState.h"
 
 using boost::shared_ptr;
 
 #define NUMPACANIM 8
 
+// renderer/view of the pacman model/state
 class Pacman :
-	public Object
+	public Object  // render object
 {
 public:
-    Pacman(shared_ptr <SDL_Surface> buf, int os, int ix, int iy, int ispdmod, int itilesize, int iheight, int iwidth, int *imap);
+    Pacman(shared_ptr <SDL_Surface> buf, int os);
 
-    void Draw();
+    void Draw(PacmanState state);
     void Draw(int ix, int iy, int obj=3, int type=1);
-    bool LoadTextures(std::string path);
-
-    void setNextDir(int next);
-    bool collision(int xtmp, int ytmp);
-
-    void setSpeedMult( int s);
-
-    void Update( int time );
-    void reset(int ix, int iy);
-
-    int getXpix();
-    int getYpix();
+    void LoadTextures(std::string path);
+    void reset();
 
 private:
-    int
-            x,	//current position in tiles (all positions refer to upper left corner)
-            y,
-
-            dx,	//current direction in x and y
-            dy,
-
-            nextdx,	//queued direction
-            nextdy,
-
-            xpix,	//current position in pixels
-            ypix,
-
-            spdmod,	// speed modifier	- default 100?
-            spdmult,
-
-            tilesize,
-            height,
-            width,
-
-            *map;
-
     unsigned int
             animcounter;
-
-    float
-            xfloat,	//current position as floating point based on pixel pos - allows for infinite speed
-            yfloat;	// variations because xfloat can be reduced to xpix
 
     shared_ptr<SDL_Surface>
             pacEl[NUMPACANIM],

@@ -12,7 +12,6 @@
 
 extern Log logtxt;
 extern App app;
-extern Game game;
 extern Settings settings;
 
 void BckgrObj::Draw(int ix, int iy, int obj, int type, int alp) {
@@ -40,7 +39,7 @@ void BckgrObj::setFruitAlpha(int a) {
     fruitalpha = a;
 }
 
-void BckgrObj::Draw() {
+void BckgrObj::Draw(const int* walls, bool* foods) {
     int *map(NULL),
     *objmap(NULL),
     height,
@@ -51,7 +50,6 @@ void BckgrObj::Draw() {
 
     height = settings.fieldheight;
     width = settings.fieldwidth;
-    game.getMaps(&map, &objmap);
 
     objcounter = 0;
 
@@ -186,7 +184,7 @@ void BckgrObj::Draw() {
 
 #define BACKGROUND_TEXTURE_ID 0
 
-bool BckgrObj::LoadTextures(std::string path) {
+void BckgrObj::LoadTextures(std::string path) {
 
     int i;
     std::string num[NUMOFMAPTEX];
@@ -195,57 +193,42 @@ bool BckgrObj::LoadTextures(std::string path) {
     for (i=0;i<NUMOFMAPTEX;i++)
         num[i]='0'+i;
 
-    try {
-        for (i=0;i<NUMOFMAPTEX;i++) {
-            mapEl[i].reset(IMG_Load((path + "m" + num[i] + ".png").c_str()), SDL_FreeSurface);
-            if ( mapEl[i] == NULL )
-                throw Error(num[i] + "Failed to load map texture");
+    for (i=0;i<NUMOFMAPTEX;i++) {
+        mapEl[i].reset(IMG_Load((path + "m" + num[i] + ".png").c_str()), SDL_FreeSurface);
+        if ( mapEl[i] == NULL )
+            throw Error(num[i] + "Failed to load map texture");
 
-            //get pixel format from surface
-            fmt=mapEl[i]->format;
+        //get pixel format from surface
+        fmt=mapEl[i]->format;
 
-            //set the transparent color key to RGB 255 0 255
-            SDL_SetColorKey(mapEl[i].get(),SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(fmt,255,0,255));
+        //set the transparent color key to RGB 255 0 255
+        SDL_SetColorKey(mapEl[i].get(),SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(fmt,255,0,255));
 
-            // scale to tile size
-            if (i != BACKGROUND_TEXTURE_ID) {
-                scale_to_size(mapEl[i], settings.tilesize);
-            }
-
-            for (int j=0;j<3;j++) {
-                mapElRot[i][j]=Rotate(mapEl[i],(j+1)*90);
-            }
-        }
-        for (i=1;i<5;i++) {
-            objEl[i].reset(IMG_Load((path + "o" + num[i] + ".png").c_str()), SDL_FreeSurface);
-            if ( objEl[i] == NULL )
-                throw Error(num[i] + "Failed to load object texture");
-
-            //get pixel format from surface
-            fmt=objEl[i]->format;
-
-            //set the transparent color key to RGB 255 0 255
-            SDL_SetColorKey(objEl[i].get(),SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(fmt,255,0,255));
-
-            // scale it to tile size
-            scale_to_size(objEl[i], settings.tilesize);
+        // scale to tile size
+        if (i != BACKGROUND_TEXTURE_ID) {
+            scale_to_size(mapEl[i], settings.tilesize);
         }
 
-        logtxt.print("Field textures loaded");
+        for (int j=0;j<3;j++) {
+            mapElRot[i][j]=Rotate(mapEl[i],(j+1)*90);
+        }
     }
-    catch ( Error &err) {
-        std::cerr << err.getDesc().c_str();
-        app.setQuit(true);
-        logtxt.print( err.getDesc() );
-        return false;
+    for (i=1;i<5;i++) {
+        objEl[i].reset(IMG_Load((path + "o" + num[i] + ".png").c_str()), SDL_FreeSurface);
+        if ( objEl[i] == NULL )
+            throw Error(num[i] + "Failed to load object texture");
+
+        //get pixel format from surface
+        fmt=objEl[i]->format;
+
+        //set the transparent color key to RGB 255 0 255
+        SDL_SetColorKey(objEl[i].get(),SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(fmt,255,0,255));
+
+        // scale it to tile size
+        scale_to_size(objEl[i], settings.tilesize);
     }
-    catch ( ... ) {
-        std::cerr << "Unexpected exception in BckgrObj::LoadTextures";
-        app.setQuit(true);
-        logtxt.print( "Unexpected error during Game()" );
-        return false;
-    }
-    return true;
+
+    logtxt.print("Field textures loaded");
 }
 
 BckgrObj::BckgrObj( shared_ptr<SDL_Surface> buffer, int os)

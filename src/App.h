@@ -10,6 +10,7 @@
 
 #pragma once
 #include "Main.h"
+#include "Sounds.h"
 #include <boost/shared_ptr.hpp>
 
 using boost::shared_ptr;
@@ -36,6 +37,14 @@ public:
     shared_ptr<SDL_Surface> getScreen() const { return screen; }
     shared_ptr<SDL_Surface> getBuf() const { return buf; }
     Sounds* getSnd() { return snd; }
+    void dot_eaten();
+
+    inline void delay(Uint32 ms) {
+        return; // TODO use bool no_gui or inheritance or something to switch whether or not to delay
+        SDL_Delay(ms);
+    }
+
+    void log_exception(std::exception& e);
 
 private:
 

@@ -8,38 +8,14 @@
  ***************************************************************************/
 
 
-#include "Log.h"
+#pragma once
 
-extern App app;
+#include "Main.h"
+#include "PlayerState.h"
+#include "Point.h"
 
-void Log::print(std::string txt) {
-    std::ofstream file(filename.c_str(), std::ios::app);
-
-    if ( !file)
-        throw Error("Unable to open logfile");
-
-    file << txt << std::endl;
-
-    file.close();
-}
-
-void Log::setFilename(std::string fn) {
-    filename = std::string(getenv("HOME")) + "/" + fn;
-
-    std::ofstream file(filename.c_str());
-
-    if ( !file)
-        throw Error("Unable to open logfile");
-
-    file << WNDTITLE << std::endl;
-
-    file.close();
-}
-
-Log::Log()
+class PacmanState : public PlayerState
 {
-}
-
-Log::~Log()
-{
-}
+public:
+    PacmanState(SDL_Point spawn_pos);
+};

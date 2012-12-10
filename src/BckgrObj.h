@@ -26,14 +26,14 @@ class BckgrObj :
 public:
     BckgrObj(shared_ptr<SDL_Surface> buffer, int os);
 
-    void Draw();
+    void Draw(const int* walls, bool* foods);
     void Draw(int ix, int iy, int obj=3, int type=1);
     void Draw(int ix, int iy, int obj, int type, int alp);
 
     virtual void reset( int ix, int iy) { ix = iy; };   /* avoid compiler warnings */
     virtual void Update(int time) { time = 0; };        /* avoid compiler warnings */
 
-    bool LoadTextures(std::string path);
+    void LoadTextures(std::string path);
 
     void setSpecialSpawned(bool b) {specialspawned = b;	}
     void setSpecialEaten(bool b) {specialeaten = b;	}

@@ -17,9 +17,9 @@ public:
     Log();
     ~Log();
 
-    bool setFilename(std::string fn);
+    void setFilename(std::string fn);
+    void print(std::string txt);
 
-    bool print(std::string txt);
 private:
     std::string
             filename;

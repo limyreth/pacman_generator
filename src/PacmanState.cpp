@@ -8,38 +8,9 @@
  ***************************************************************************/
 
 
-#include "Log.h"
+#include "PacmanState.h"
 
-extern App app;
-
-void Log::print(std::string txt) {
-    std::ofstream file(filename.c_str(), std::ios::app);
-
-    if ( !file)
-        throw Error("Unable to open logfile");
-
-    file << txt << std::endl;
-
-    file.close();
-}
-
-void Log::setFilename(std::string fn) {
-    filename = std::string(getenv("HOME")) + "/" + fn;
-
-    std::ofstream file(filename.c_str());
-
-    if ( !file)
-        throw Error("Unable to open logfile");
-
-    file << WNDTITLE << std::endl;
-
-    file.close();
-}
-
-Log::Log()
-{
-}
-
-Log::~Log()
+PacmanState::PacmanState(SDL_Point spawn_pos)
+:   PlayerState(spawn_pos)
 {
 }

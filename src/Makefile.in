@@ -22,12 +22,12 @@ INSTALL = install
 CP = cp
 CHMOD = chmod
 
-SOURCES=Sounds.cpp Settings.cpp Pacman.cpp Main.cpp Log.cpp hScore.cpp Ghost.cpp Game.cpp Error.cpp BckgrObj.cpp BHeap.cpp App.cpp Draw.cpp
-OBJECTS=Sounds.o Settings.o Pacman.o Main.o Log.o hScore.o Ghost.o Game.o Error.o BckgrObj.o BHeap.o App.o Draw.o
+SOURCES=Sounds.cpp Settings.cpp Pacman.cpp Main.cpp Log.cpp Ghost.cpp Game.cpp Error.cpp BckgrObj.cpp BHeap.cpp App.cpp Draw.cpp GameState.cpp PacmanState.cpp GhostState.cpp PlayerState.cpp Directions.cpp
+OBJECTS=Sounds.o Settings.o Pacman.o Main.o Log.o  Ghost.o Game.o Error.o BckgrObj.o BHeap.o App.o Draw.o GameState.o PacmanState.o GhostState.o PlayerState.o Directions.o
 EXECUTABLE=pacman_sdl
 
 all: 
-	$(CXX) -c `sdl-config --cflags` $(SOURCES) 
+	$(CXX) -std=c++11 -c `sdl-config --cflags` $(SOURCES) 
 	$(CXX) `sdl-config --libs` $(LIBS)  $(OBJECTS) -o $(EXECUTABLE)
 
 clean:

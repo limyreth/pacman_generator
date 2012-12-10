@@ -10,10 +10,12 @@
 
 #include "Error.h"
 
-Error::Error(std::string str) : desc(str)
+Error::Error(std::string str) 
+:   desc(str.c_str())
 {
 }
 
-Error::~Error(void)
+Error::Error(const char* str)
+:   desc(str)
 {
 }

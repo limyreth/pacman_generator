@@ -10,15 +10,19 @@
 
 #pragma once
 #include "Main.h"
+#include <exception>
 
-class Error
+class Error : public std::exception
 {
 public:
     Error(std::string str);
-    ~Error();
+    Error(const char* str);
 
-    std::string getDesc() { return desc; }
+    virtual const char* what() const throw()
+    { 
+        return desc; 
+    }
+
 private:
-    std::string
-            desc;
+    const char* desc;
 };

@@ -12,20 +12,16 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include "Sounds.h"
 #include "Main.h"
 #include "BckgrObj.h"
 #include "Object.h"
 #include "Pacman.h"
 #include "Ghost.h"
-#include "hScore.h"
+#include "GameState.h"
 
 using boost::shared_ptr;
 
 #define NUMOFOBJECTS 6
-
-class Sounds;
-
 
 class Game
 {
@@ -33,22 +29,18 @@ public:
     Game();
     ~Game();
 
-    bool loadFont();
+    void loadFont();
     bool loadSprites();
     bool loadMap(std::string file, int* memmap);
 
-    void getMaps( int **m, int **o);
     void render();
     void renderNormal();
-    void renderEnterHscore();
-    void renderViewHscore();
 
     std::string getFPS();
 
     void processInput(int k, int ix = -1, int iy = -1);
     void processLogic();
     void logicGame();
-    void logicEnterHscore();
 
     void resetLvl();
     void nextLvl();
@@ -61,21 +53,18 @@ public:
 
     void toggleFps() { showfps = !showfps; }
 
-    void clearHscore();
-
     bool isinit;
 
     void toggleSound();
     void emptyMsgPump();
     void changeSkin();
 
-    void initEditor();
-    void renderEditor();
-    void logicEditor();
-    void editorSave();
-    void setEditorPath(std::string path) {editorpath=path;}
-
     void PrepareShutdown();
+
+private:
+    inline shared_ptr<GameState> get_state() {
+        return game_state_info.state;
+    }
 
 private:
     int
@@ -87,8 +76,7 @@ private:
 
     SDL_Rect
             fpsbox,
-            scorebox,
-            floatingscorebox;
+            scorebox;
 
     unsigned int
             ticks;
@@ -102,63 +90,20 @@ private:
     ///////////////////////
     // GAME OBJECTS
     //////////////////////
+    
+    GameStateInfo game_state_info;
 
     int
-            *map,
-            *objmap,
-            key,
-            score,
-            deadghostcount,	//used to multiplay score for eating ghosts
-            lives,
-            objscore,
-            floatingX,
-            floatingY,
-            floatingscore,
-            floatingscorecounter,
-            specialspawntime,
-            level,
-            namecol[3],
-            hscoreselection;
-
-    unsigned int
-            soundcounter,
-            time,
-            oldtime,
-            ghosttick,
-            fruittick,
-            pausetick;
+            *walls,
+            key;
 
     bool
-            inputwaiting,
             gamestarted,
-            vulnflag,
-            specialspawned,
-            specialeaten,
-            specialhasbeenspawned,
             ispaused,
-            levelcleared,
             showfps,
             renderisbusy;
-    std::string
-            num[10],
-            name;
-
-    hScore
-            hscore;
-
-    Sounds
-            *sounds;
-
-    //////////////////////////////////
-    // EDITOR OBJECTS
-    //////////////////////////////////
-
-    int
-            activetool,
-            mouseX,
-            mouseY;
 
     std::string
-            editorpath;
+            num[10];
 
 };

@@ -39,25 +39,27 @@ public:
     // VARIABLES	- GAME
     //////////////////////////////
 
+    const int TICK_RATE;  // ticks per second
+    const int PLAYER_SIZE;  // drawing size of ghost/pacman
+    const int tilesize;  // TODO rename TILE_SIZE
+    const int VULNERABLE_TICKS;  // the amount of ticks ghosts are vulnerable
+    const int FRUIT_TICKS;  // the amount of ticks fruit stays on the map after spawning
+
     int
             fieldwidth,
             fieldheight,
-            tilesize,
             gatex,
             gatey,
             pacstartx,
             pacstarty,
-            pacspeed,
             baddiestartx,
             baddiestarty,
-            baddiespeed,
-            baddieiq,
-            vuln_duration,
 
             lvlpathcount,
             lvlpathcurrent,
             skinspathcount,
-            skinspathcurrent;
+            skinspathcurrent,
+            full_speed;  // 100% speed expressed in px per tick.
 
     std::vector<string>
             lvlpath,

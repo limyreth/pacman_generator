@@ -18,11 +18,6 @@
  *   Their body is drawn around that center and has a size of nearly 2 tiles.
  */
 
-extern Log logtxt;
-extern App app;
-extern Game game;
-extern Settings settings;
-
 void scale_to_size(shared_ptr<SDL_Surface>& surface, double size) {
     double zoomx = (double) size / surface->w;
     double zoomy = (double) size / surface->h;
