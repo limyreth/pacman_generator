@@ -10,12 +10,12 @@
 
 #pragma once
 #include "Main.h"
-#include "Sounds.h"
 #include <boost/shared_ptr.hpp>
 
 using boost::shared_ptr;
 
 class Sounds;
+class SDL_Surface;
 
 class App
 {
@@ -38,12 +38,7 @@ public:
     shared_ptr<SDL_Surface> getBuf() const { return buf; }
     Sounds* getSnd() { return snd; }
     void dot_eaten();
-
-    inline void delay(Uint32 ms) {
-        return; // TODO use bool no_gui or inheritance or something to switch whether or not to delay
-        SDL_Delay(ms);
-    }
-
+    void delay(unsigned int ms);
     void log_exception(const std::exception& e);
 
 private:

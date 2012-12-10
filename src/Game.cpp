@@ -9,6 +9,7 @@
 
 
 #include "Game.h"
+#include "Sounds.h"
 
 extern Log logtxt;
 extern App app;

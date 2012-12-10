@@ -13,6 +13,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include "Main.h"
+#include "SDL.h"
 
 using boost::shared_ptr;
 

@@ -11,10 +11,11 @@
 #pragma once
 
 #include <boost/shared_ptr.hpp>
+using boost::shared_ptr;
 
 #include "Main.h"
 
-using boost::shared_ptr;
+class Mix_Chunk;
 
 #define NUMOFSOUNDS 13
 

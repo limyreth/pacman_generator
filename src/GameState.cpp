@@ -9,6 +9,7 @@
 
 
 #include "GameState.h"
+#include "Sounds.h"
 
 
 #define SMALL_DOTS_SCORE 10

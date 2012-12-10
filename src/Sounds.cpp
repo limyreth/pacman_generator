@@ -9,6 +9,7 @@
 
 
 #include "Sounds.h"
+#include "SDL.h"
 
 extern App app;
 extern Log logtxt;

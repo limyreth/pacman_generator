@@ -9,6 +9,9 @@
 
 
 #include "App.h"
+#include "Sounds.h"
+#include "SDL.h"
+#include <boost/exception/all.hpp>
 
 extern Log logtxt;
 
@@ -73,7 +76,6 @@ void App::PrepareShutdown() {
     SDL_Quit();
 }
 
-#include <boost/exception/all.hpp>
 void App::log_exception(const std::exception& e) {
     auto* file_name = boost::get_error_info<boost::throw_file>(e);
     auto* function_name = boost::get_error_info<boost::throw_function>(e);
@@ -88,5 +90,10 @@ void App::log_exception(const std::exception& e) {
 
     std::cerr << out.str() << std::endl;
     logtxt.print(out.str());
+}
+
+void App::delay(unsigned int ms) {
+    return; // TODO use bool no_gui or inheritance or something to switch whether or not to delay
+    SDL_Delay(ms);
 }
 
