@@ -54,7 +54,7 @@ using std::max;
 extern Directions DIRECTIONS;
 
 inline int at(SDL_Point tile_pos) {
-    return tile_pos.y * Settings::MAP_WIDTH + tile_pos.x ;
+    return tile_pos.y * MAP_WIDTH + tile_pos.x ;
 }
 
 /**
@@ -85,11 +85,11 @@ GameState::GameState(const int* walls, int* foods)
     ghosts[3] = GhostState(spawn);
 
     // TODO once debug is over, comment the food check (but only the check!!)
-    this->foods = new bool[Settings::MAP_HEIGHT * Settings::MAP_WIDTH];
+    this->foods = new bool[MAP_HEIGHT * MAP_WIDTH];
     int food_count_ = 0;
-    for (int y=0; y<Settings::MAP_HEIGHT; ++y) {
-        for (int x=0; x<Settings::MAP_WIDTH; ++x) {
-            int food_index = y*Settings::MAP_WIDTH + x;
+    for (int y=0; y<MAP_HEIGHT; ++y) {
+        for (int x=0; x<MAP_WIDTH; ++x) {
+            int food_index = y*MAP_WIDTH + x;
             this->foods[food_index] = foods[food_index] == 1;
             if (this->foods[food_index]) {
                 ++food_count_;
@@ -114,10 +114,10 @@ GameState::GameState(const int* walls, const int* actions, const GameState* stat
     // Note: order of everything in this function is important TODO split in functions to provide better overview of ordering
 
     // Copy the rest too
-    foods = new bool[Settings::MAP_HEIGHT * Settings::MAP_WIDTH]; // TODO rather not have this on heap, hardcode the map size and we can do this. Then pool gamestate objs
-    for (int y=0; y<Settings::MAP_HEIGHT; ++y) {
-        for (int x=0; x<Settings::MAP_WIDTH; ++x) {
-            foods[y*Settings::MAP_WIDTH + x] = state->foods[y*Settings::MAP_WIDTH + x];
+    foods = new bool[MAP_HEIGHT * MAP_WIDTH]; // TODO rather not have this on heap, hardcode the map size and we can do this. Then pool gamestate objs
+    for (int y=0; y<MAP_HEIGHT; ++y) {
+        for (int x=0; x<MAP_WIDTH; ++x) {
+            foods[y*MAP_WIDTH + x] = state->foods[y*MAP_WIDTH + x];
         }
     }
 
@@ -298,7 +298,7 @@ GameState::GameState(const int* walls, const int* actions, const GameState* stat
             // Any nonobstructed path is fine
             for (int j=0; j<ACTION_COUNT; ++j) {
                 auto new_tpos = tpos + DIRECTIONS[j];
-                info.legal_actions[i][j] = walls[at(new_tpos)] == 0 || new_tpos.x < 0 || new_tpos.x == Settings::MAP_WIDTH;
+                info.legal_actions[i][j] = walls[at(new_tpos)] == 0 || new_tpos.x < 0 || new_tpos.x == MAP_WIDTH;
             }
         }
     }
@@ -354,18 +354,18 @@ void GameState::nextLvl() {
     app.getSnd()->stop();
     app.getSnd()->play(9);
 
-    Settings::vuln_duration -= Settings::vuln_duration/10;
+    vuln_duration -= vuln_duration/10;
 
     ((Ghost*)objects[ rand()%4 +2])->changeDifficulty( rand()%15, rand()%5 );
     ((Ghost*)objects[ rand()%4 +2])->changeDifficulty( rand()%10, rand()%3 );
 
-    objects[PAC]->reset(Settings::pacstartx, Settings::pacstarty);
-    objects[GHOST1]->reset(Settings::baddiestartx, Settings::baddiestarty);
-    objects[GHOST2]->reset(Settings::baddiestartx+2, Settings::baddiestarty);
-    objects[GHOST3]->reset(Settings::baddiestartx-2, Settings::baddiestarty);
-    objects[GHOST4]->reset(Settings::baddiestartx, Settings::baddiestarty-2);
+    objects[PAC]->reset(pacstartx, pacstarty);
+    objects[GHOST1]->reset(baddiestartx, baddiestarty);
+    objects[GHOST2]->reset(baddiestartx+2, baddiestarty);
+    objects[GHOST3]->reset(baddiestartx-2, baddiestarty);
+    objects[GHOST4]->reset(baddiestartx, baddiestarty-2);
 
-    tmpstr = Settings::lvlpath[Settings::lvlpathcurrent] + OBJFILE;
+    tmpstr = lvlpath[lvlpathcurrent] + OBJFILE;
     if ( ! loadMap(tmpstr, objmap) )
         throw Error("Error loading objmap.txt during Game::nextLvl()");
 
@@ -418,11 +418,11 @@ void GameState::resetLvl() {	// vars and positions when pacman dies during level
 
     if (ispaused) pause();
 
-    objects[PAC]->reset(Settings::pacstartx, Settings::pacstarty);
-    objects[GHOST1]->reset(Settings::baddiestartx, Settings::baddiestarty);
-    objects[GHOST2]->reset(Settings::baddiestartx+2, Settings::baddiestarty);
-    objects[GHOST3]->reset(Settings::baddiestartx-2, Settings::baddiestarty);
-    objects[GHOST4]->reset(Settings::baddiestartx, Settings::baddiestarty-2);
+    objects[PAC]->reset(pacstartx, pacstarty);
+    objects[GHOST1]->reset(baddiestartx, baddiestarty);
+    objects[GHOST2]->reset(baddiestartx+2, baddiestarty);
+    objects[GHOST3]->reset(baddiestartx-2, baddiestarty);
+    objects[GHOST4]->reset(baddiestartx, baddiestarty-2);
 
     render();
 

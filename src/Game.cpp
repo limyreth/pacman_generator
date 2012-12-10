@@ -17,7 +17,7 @@ extern App app;
 
 void Game::changeSkin() {
     int i;
-    for (i=0;i<NUMOFOBJECTS;i++) objects[i]->LoadTextures( APP_PATH "/" + Settings::SKINS_PATH );
+    for (i=0;i<NUMOFOBJECTS;i++) objects[i]->LoadTextures( APP_PATH "/" + SKINS_PATH );
 }
 
 void Game::emptyMsgPump() {
@@ -140,10 +140,10 @@ void Game::renderNormal() {
 
     // DRAW SCORE + INFO
     for (i=1; i < get_state()->get_lives(); i++)
-        objects[PAC]->Draw( 350+i*50, Settings::MAP_HEIGHT*Settings::TILE_SIZE+5);
+        objects[PAC]->Draw( 350+i*50, MAP_HEIGHT*TILE_SIZE+5);
 
     // display eaten fruit
-    // objects[0]->Draw( Settings::MAP_WIDTH*Settings::TILE_SIZE - 40 -10, Settings::MAP_HEIGHT*Settings::TILE_SIZE +15 );
+    // objects[0]->Draw( MAP_WIDTH*TILE_SIZE - 40 -10, MAP_HEIGHT*TILE_SIZE +15 );
 
     ostr << "level: " << get_state()->get_level() << " score: " << get_state()->get_score();
 
@@ -155,9 +155,9 @@ void Game::renderNormal() {
     // PAUSE
     if ( ispaused ) {
         SDL_Rect pauserect;
-        pauserect.y = Settings::MAP_WIDTH*Settings::TILE_SIZE / 2 - 100;
+        pauserect.y = MAP_WIDTH*TILE_SIZE / 2 - 100;
         pauserect.w = 200;
-        pauserect.x = Settings::MAP_HEIGHT*Settings::TILE_SIZE / 2 - 10;
+        pauserect.x = MAP_HEIGHT*TILE_SIZE / 2 - 10;
         pauserect.h = 50;
 
         txt.reset(TTF_RenderText_Solid(font,"PAUSED",col), SDL_FreeSurface);
@@ -203,7 +203,7 @@ void Game::gameInit() {
 
     scorebox.x= 20;
     scorebox.w = 500;
-    scorebox.y = Settings::MAP_HEIGHT * Settings::TILE_SIZE ;
+    scorebox.y = MAP_HEIGHT * TILE_SIZE ;
     scorebox.h = 50;
 
     //DYNAMIC OBJECTS INIT
@@ -221,20 +221,20 @@ void Game::gameInit() {
     logtxt.print("Unloading complete");
 
     //if level has different field size than currently selected, setup new window with proper size
-    if (Settings::MAP_WIDTH*Settings::TILE_SIZE != app.getScreen()->w
-        || Settings::MAP_HEIGHT*Settings::TILE_SIZE+EXTRA_Y_SPACE != app.getScreen()->h) {
+    if (MAP_WIDTH*TILE_SIZE != app.getScreen()->w
+        || MAP_HEIGHT*TILE_SIZE+EXTRA_Y_SPACE != app.getScreen()->h) {
         app.InitWindow();
         logtxt.print("window resized...");
     }
 
     // INIT MAPS
-    tmpstr = Settings::LEVEL_PATH;
+    tmpstr = LEVEL_PATH;
 
-    walls = new int[Settings::MAP_HEIGHT*Settings::MAP_WIDTH];
+    walls = new int[MAP_HEIGHT*MAP_WIDTH];
     if ( !loadMap(tmpstr + MAPFILE, walls) )
         throw_exception("Failed to load map.txt");
 
-    int* food_map = new int[Settings::MAP_HEIGHT*Settings::MAP_WIDTH];
+    int* food_map = new int[MAP_HEIGHT*MAP_WIDTH];
     if ( !loadMap(tmpstr + OBJFILE, food_map) )
         throw_exception("Failed to load objmap.txt");
     game_state_info = GameState::start_new_game(walls, food_map);
@@ -251,7 +251,7 @@ void Game::gameInit() {
     //loading level graphics
 
     objects[0] = new BckgrObj( app.getScreen(), 10 );
-    objects[0]->LoadTextures(APP_PATH "/" + Settings::SKINS_PATH);
+    objects[0]->LoadTextures(APP_PATH "/" + SKINS_PATH);
 
     logtxt.print("Level background loaded");
 
@@ -264,19 +264,19 @@ void Game::gameInit() {
     //create pacman + ghosts
 
     objects[1] = new Pacman(app.getScreen(), 20);
-    objects[1]->LoadTextures(APP_PATH "/" + Settings::SKINS_PATH);
+    objects[1]->LoadTextures(APP_PATH "/" + SKINS_PATH);
 
     objects[2] = new Ghost(app.getScreen(), 20, "1");
-    objects[2]->LoadTextures(APP_PATH "/" + Settings::SKINS_PATH);
+    objects[2]->LoadTextures(APP_PATH "/" + SKINS_PATH);
 
     objects[3] = new Ghost(app.getScreen(), 20, "2");
-    objects[3]->LoadTextures(APP_PATH "/" + Settings::SKINS_PATH);
+    objects[3]->LoadTextures(APP_PATH "/" + SKINS_PATH);
 
     objects[4] = new Ghost(app.getScreen(), 20, "3");
-    objects[4]->LoadTextures(APP_PATH "/" + Settings::SKINS_PATH);
+    objects[4]->LoadTextures(APP_PATH "/" + SKINS_PATH);
 
     objects[5] = new Ghost(app.getScreen(), 20, "4");
-    objects[5]->LoadTextures(APP_PATH "/" + Settings::SKINS_PATH);
+    objects[5]->LoadTextures(APP_PATH "/" + SKINS_PATH);
 
     logtxt.print("Objects loaded");
 
@@ -302,7 +302,7 @@ void Game::processLogic() {
 }
 
 bool Game::loadMap(std::string file, int* memmap) {
-    int i, count=0, size = Settings::MAP_HEIGHT * Settings::MAP_WIDTH;
+    int i, count=0, size = MAP_HEIGHT * MAP_WIDTH;
     std::string tmp;
     char c('i');
     std::ifstream mp;

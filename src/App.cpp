@@ -15,8 +15,8 @@ extern Log logtxt;
 void App::InitWindow() {
     int bpp(32);
 
-    screen.reset(SDL_SetVideoMode( Settings::SCREEN_WIDTH,
-                               Settings::SCREEN_HEIGHT+EXTRA_Y_SPACE,
+    screen.reset(SDL_SetVideoMode( SCREEN_WIDTH,
+                               SCREEN_HEIGHT+EXTRA_Y_SPACE,
                                bpp,         //bits per pixel; todo-make this dynamic
                                SDL_NOFRAME | SDL_DOUBLEBUF | SDL_HWSURFACE | SDL_ANYFORMAT ), SDL_FreeSurface);
 

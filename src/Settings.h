@@ -17,23 +17,21 @@
 
 using std::string;
 
-namespace Settings { // TODO just rm this namespace and free them into the global space of things, then rename this file to Constants and rm the cpp
-    // ticks per second
-    static const int TICK_RATE = 60;
+// ticks per second
+static const int TICK_RATE = 60;
 
-    static const int TILE_SIZE = 20;
+static const int TILE_SIZE = 20;
 
-    // map sizes in tiles
-    static const int MAP_WIDTH = 28;
-    static const int MAP_HEIGHT = 31;
+// map sizes in tiles
+static const int MAP_WIDTH = 28;
+static const int MAP_HEIGHT = 31;
 
-    // path to level files
-    static const string LEVEL_PATH = "./levels/0/";
+// path to level files
+static const string LEVEL_PATH = "./levels/0/";
 
-    // path to skin images
-    static const string SKINS_PATH = "./skins/0/";
+// path to skin images
+static const string SKINS_PATH = "./skins/0/";
 
-    // window size
-    static const int SCREEN_WIDTH = MAP_WIDTH * TILE_SIZE;
-    static const int SCREEN_HEIGHT = MAP_HEIGHT * TILE_SIZE;
-}
+// window size
+static const int SCREEN_WIDTH = MAP_WIDTH * TILE_SIZE;
+static const int SCREEN_HEIGHT = MAP_HEIGHT * TILE_SIZE;

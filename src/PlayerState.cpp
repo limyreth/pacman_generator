@@ -29,15 +29,15 @@ void PlayerState::move(int action, double speed) {
     // wrap screen when hitting left/right edge of tunnel
     auto tpos = get_tile_pos();
     if (tpos.x < 0) {
-        pos.x = Settings::MAP_WIDTH * Settings::TILE_SIZE - pos.x;
-        assert(get_tile_pos().x < Settings::MAP_WIDTH); // TODO rm after testing
+        pos.x = MAP_WIDTH * TILE_SIZE - pos.x;
+        assert(get_tile_pos().x < MAP_WIDTH); // TODO rm after testing
     }
-    else if (tpos.x >= Settings::MAP_WIDTH) {
-        pos.x -= Settings::MAP_WIDTH * Settings::TILE_SIZE;
+    else if (tpos.x >= MAP_WIDTH) {
+        pos.x -= MAP_WIDTH * TILE_SIZE;
         assert(get_tile_pos().x > 0); // TODO rm after testing
     }
 }
 
 SDL_Point PlayerState::get_tile_pos() const {
-    return pos / Settings::TILE_SIZE;
+    return pos / TILE_SIZE;
 }
