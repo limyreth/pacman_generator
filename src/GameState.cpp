@@ -50,8 +50,8 @@ using std::endl;
 
 extern App app;
 
-static const SDL_Point PACMAN_SPAWN(14 * TILE_SIZE, 23.5 * TILE_SIZE);
-static const SDL_Point GHOST_SPAWN = SDL_Point(14, 14) * TILE_SIZE;
+static const IPoint PACMAN_SPAWN(14 * TILE_SIZE, 23.5 * TILE_SIZE);
+static const IPoint GHOST_SPAWN = IPoint(14, 14) * TILE_SIZE;
 
 using std::max;
 
@@ -103,7 +103,7 @@ GameState::GameState(const int* walls, GameStateInfo& info)
         Food::NONE, Food::NONE,      Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE,      Food::NONE
     }
 {
-    SDL_Point spawn = GHOST_SPAWN;
+    IPoint spawn = GHOST_SPAWN;
     ghosts[0] = GhostState(spawn);
 
     spawn.x += 2 * TILE_SIZE;

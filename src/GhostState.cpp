@@ -18,11 +18,11 @@ extern Directions DIRECTIONS;
 
 // TODO size enums to 1 byte
 GhostState::GhostState()  // the infamous random garble 'initializer'
-: GhostState(SDL_Point()) 
+: GhostState(IPoint()) 
 {
 }
 
-GhostState::GhostState(SDL_Point spawn_pos)
+GhostState::GhostState(IPoint spawn_pos)
 :   PlayerState(spawn_pos), state(NORMAL)
 {
 }
@@ -32,20 +32,20 @@ bool GhostState::is_in_tunnel() {
 }
 
 // Note: this has little meaning other than that when it changes, a new action may be chosen (which is by crossing any grid line with offset half a tile)
-SDL_Point GhostState::get_action_pos() const {
-    return (pos + SDL_Point(TILE_SIZE, TILE_SIZE)/2) / TILE_SIZE;
+IPoint GhostState::get_action_pos() const {
+    return (pos + IPoint(TILE_SIZE, TILE_SIZE)/2) / TILE_SIZE;
 }
 
 void GhostState::get_legal_actions(const int* walls, Action action, Actions legal_actions, const PlayerState* old) {
-    SDL_Point apos = get_action_pos();
+    IPoint apos = get_action_pos();
 
-    SDL_Point old_apos;
+    IPoint old_apos;
     if (old) {
         old_apos = ((GhostState*)old)->get_action_pos();
     }
     else {
         // set previous pos to an invalid pos
-        old_apos = SDL_Point(-1, -1);
+        old_apos = IPoint(-1, -1);
     }
 
     if (apos == old_apos) {
@@ -56,7 +56,7 @@ void GhostState::get_legal_actions(const int* walls, Action action, Actions lega
         }
     }
     else {
-        SDL_Point tpos = get_tile_pos();
+        IPoint tpos = get_tile_pos();
         // Any nonobstructed path is fine
         for (int i=0; i<ACTION_COUNT; ++i) {
             auto new_tpos = tpos + DIRECTIONS[i];

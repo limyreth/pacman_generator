@@ -12,4 +12,7 @@
 
 #include "Point.h"
 
-typedef SDL_Point Directions[4];
+typedef FPoint Directions[4];
+
+// TODO bool is_opposite_direction(FPoint)
+// TODO bool are_perpendicular(FPoint, FPoint)

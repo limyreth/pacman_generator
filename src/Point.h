@@ -10,56 +10,62 @@
 
 #pragma once
 
-// TODO rename to Point
-class SDL_Point
+template <typename T>
+class Point
 {
 public:
-    SDL_Point() {}
+    Point() {}
 
-    SDL_Point(int x, int y) 
+    Point(int x, int y) 
     :   x(x),
         y(y)
     {
     }
 
-    bool operator == (const SDL_Point& p) const {
+    template <typename U>
+    bool operator == (const Point<U>& p) const {
         return this->x == p.x && this->y == p.y;
     }
 
-    SDL_Point& operator += (const SDL_Point& p) {
+    template <typename U>
+    Point& operator += (const Point<U>& p) {
         this->x += p.x;
         this->y += p.y;
         return *this;
     }
 
-    SDL_Point operator + (const SDL_Point& p) const {
-        SDL_Point p2(*this);
+    template <typename U>
+    Point operator + (const Point<U>& p) const {
+        Point p2(*this);
         return p2 += p;
     }
 
-    SDL_Point& operator *= (int a) {
+    Point& operator *= (double a) {
         this->x *= a;
         this->y *= a;
         return *this;
     }
 
-    SDL_Point operator * (int a) const {
-        SDL_Point p2(*this);
+    Point operator * (double a) const {
+        Point p2(*this);
         return p2 *= a;
     }
 
-    SDL_Point& operator /= (int a) {
+    Point& operator /= (double a) {
         this->x /= a;
         this->y /= a;
         return *this;
     }
 
-    SDL_Point operator / (int a) const {
-        SDL_Point p2(*this);
+    Point operator / (double a) const {
+        Point p2(*this);
         return p2 /= a;
     }
 
 public:
-    int x;
-    int y;
+    T x;
+    T y;
 };
+
+typedef Point<int> IPoint;
+typedef Point<double> FPoint;

@@ -16,16 +16,16 @@
 class PlayerState
 {
 public:
-    PlayerState(SDL_Point pos);
+    PlayerState(IPoint pos);
     void move(int action, double speed);
-    SDL_Point get_tile_pos() const;
+    IPoint get_tile_pos() const;
 
-    inline SDL_Point get_pixel_pos() const {
+    inline IPoint get_pixel_pos() const {
         return pos;
     }
 
     virtual void get_legal_actions(const int* walls, Action action, Actions legal_actions, const PlayerState* old) = 0;
 
 protected:
-    SDL_Point pos;  // current position in pixels
+    IPoint pos;  // current position in pixels
 };

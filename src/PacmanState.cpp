@@ -14,21 +14,21 @@
 
 extern Directions DIRECTIONS;
 
-PacmanState::PacmanState(SDL_Point spawn_pos)
+PacmanState::PacmanState(IPoint spawn_pos)
 :   PlayerState(spawn_pos)
 {
 }
 
 void PacmanState::get_legal_actions(const int* walls, Action action, Actions legal_actions, const PlayerState* old) {
-    SDL_Point tpos = get_tile_pos();
+    IPoint tpos = get_tile_pos();
 
-    SDL_Point old_tpos;
+    IPoint old_tpos;
     if (old) {
         old_tpos = old->get_tile_pos();
     }
     else {
         // set previous pos to an invalid pos
-        old_tpos = SDL_Point(-1, -1);
+        old_tpos = IPoint(-1, -1);
     }
 
     // TODO add a pacman.cornering bool that's set to true when pacman is changing direction

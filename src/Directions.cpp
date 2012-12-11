@@ -10,8 +10,8 @@
 #include "Directions.h"
 
 Directions DIRECTIONS = {
-    SDL_Point(0, -1), // North; y-axis points towards the bottom of the screen
-    SDL_Point(1, 0), // East
-    SDL_Point(0, 1), // South
-    SDL_Point(-1, 0) // West
+    FPoint(0, -1), // North; y-axis points towards the bottom of the screen
+    FPoint(1, 0), // East
+    FPoint(0, 1), // South
+    FPoint(-1, 0) // West
 };

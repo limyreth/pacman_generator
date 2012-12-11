@@ -15,7 +15,7 @@
 
 extern Directions DIRECTIONS;
 
-PlayerState::PlayerState(SDL_Point pos) 
+PlayerState::PlayerState(IPoint pos) 
 :   pos(pos)
 {
 }
@@ -43,7 +43,7 @@ void PlayerState::move(int action, double speed) {
     }
 }
 
-SDL_Point PlayerState::get_tile_pos() const {
+IPoint PlayerState::get_tile_pos() const {
     return pos / TILE_SIZE;
 }
 

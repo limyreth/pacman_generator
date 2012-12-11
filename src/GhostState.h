@@ -23,7 +23,7 @@ public:
 
 public:
     GhostState();
-    GhostState(SDL_Point spawn_pos);
+    GhostState(IPoint spawn_pos);
 
     bool is_in_tunnel();
 
@@ -33,5 +33,5 @@ public:
     State state;
 
 private:
-    SDL_Point get_action_pos() const;
+    IPoint get_action_pos() const;
 };

@@ -12,7 +12,7 @@
 
 #include "Point.h"
 
-inline int at(SDL_Point tile_pos) {
+inline int at(IPoint tile_pos) {
     return tile_pos.y * MAP_WIDTH + tile_pos.x;
 }
 
