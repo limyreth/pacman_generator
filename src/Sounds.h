@@ -13,8 +13,6 @@
 #include <boost/shared_ptr.hpp>
 using boost::shared_ptr;
 
-#include "Main.h"
-
 class Mix_Chunk;
 
 #define NUMOFSOUNDS 13

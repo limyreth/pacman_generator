@@ -9,10 +9,13 @@
 
 
 #include "Sounds.h"
-#include "SDL.h"
+#include "Error.h"
+#include "Log.h"
+#include <SDL/SDL_mixer.h>
 
-extern App app;
 extern Log logtxt;
+
+using std::string;
 
 void Sounds::toggleSounds() {
     if ( on ) {

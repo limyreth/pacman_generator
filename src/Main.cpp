@@ -7,9 +7,16 @@
  *                                                                         *
  ***************************************************************************/
 
+//////////////////////////////////////////////////////
+// Pacman version 4
+// Started September 5, 2008
+// using C++ & SDL
+// ported to linux with attempt at crossplatform compatibility
+//////////////////////////////////////////////////////
 
-#include "Main.h"
 #include "Game.h"
+#include "Log.h"
+#include "App.h"
 
 //////////////////////////////////////////////////////
 //	GLOBAL VARS

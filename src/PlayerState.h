@@ -10,9 +10,7 @@
 
 #pragma once
 
-#include "Main.h"
 #include "Point.h"
-#include "Directions.h"
 
 class PlayerState
 {

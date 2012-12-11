@@ -11,9 +11,8 @@
 #pragma once
 
 #include <boost/shared_ptr.hpp>
-
-#include "Main.h"
-
 using boost::shared_ptr;
+
+class SDL_Surface;
 
 void scale_to_size(shared_ptr<SDL_Surface>& surface, double size);

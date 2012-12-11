@@ -9,8 +9,10 @@
 
 
 #include "Log.h"
+#include "Error.h"
+#include <fstream>
 
-extern App app;
+#define WNDTITLE	"pacman_sdl (" __DATE__ ", " __TIME__ ")"
 
 void Log::print(std::string txt) {
     std::ofstream file(filename.c_str(), std::ios::app);

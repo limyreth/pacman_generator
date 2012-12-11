@@ -10,14 +10,13 @@
 
 #pragma once
 
-#include <boost/shared_ptr.hpp>
-
-#include "Main.h"
 #include "Object.h"
-#include "Draw.h"
-#include "PacmanState.h"
 
+#include <boost/shared_ptr.hpp>
 using boost::shared_ptr;
+
+class SDL_Surface;
+class PacmanState;
 
 #define NUMPACANIM 8
 

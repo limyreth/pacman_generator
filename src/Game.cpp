@@ -9,12 +9,27 @@
 
 
 #include "Game.h"
+#include "App.h"
+#include "Log.h"
+#include "Error.h"
 #include "Sounds.h"
+#include "Object.h"
+#include "GameState.h"
+#include "BckgrObj.h"
+#include "Pacman.h"
+#include "Ghost.h"
+
+#include <fstream>
+#include <sstream>
 
 extern Log logtxt;
 extern App app;
 
 #define PAC 1
+#define MAPFILE "map"
+
+#define STATE_GAME	0
+#define STATE_STOPPED 4
 
 void Game::changeSkin() {
     int i;
@@ -32,22 +47,6 @@ bool Game::emptyMsgPump() {
             case SDLK_ESCAPE:
             case SDLK_q:
                 return false;
-            case SDLK_UP:
-                processInput(UP);
-                // TODO
-                break;
-            case SDLK_DOWN:
-                processInput(DOWN);
-                // TODO
-                break;
-            case SDLK_LEFT:
-                processInput(LEFT);
-                // TODO
-                break;
-            case SDLK_RIGHT:
-                processInput(RIGHT);
-                // TODO
-                break;
             case SDLK_p:
                 if ( getState() == STATE_GAME )
                     pause();
@@ -55,8 +54,12 @@ bool Game::emptyMsgPump() {
             case SDLK_f:
                 toggleFps();
                 break;
+            case SDLK_UP:
+            case SDLK_DOWN:
+            case SDLK_LEFT:
+            case SDLK_RIGHT:
             case SDLK_RETURN:
-                processInput(ENTER);
+                processInput(ev.key.keysym.sym);
                 break;
             default:
                 break;
@@ -219,13 +222,6 @@ void Game::gameInit() {
     }
 
     logtxt.print("Unloading complete");
-
-    //if level has different field size than currently selected, setup new window with proper size
-    if (MAP_WIDTH*TILE_SIZE != app.getScreen()->w
-        || MAP_HEIGHT*TILE_SIZE+EXTRA_Y_SPACE != app.getScreen()->h) {
-        app.InitWindow();
-        logtxt.print("window resized...");
-    }
 
     // INIT MAPS
     tmpstr = LEVEL_PATH;

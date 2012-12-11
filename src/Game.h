@@ -10,16 +10,15 @@
 
 #pragma once
 
+#include <SDL/SDL.h>  // TODO if many include Game.h, then this should be split off to elsewhere
+#include <SDL/SDL_ttf.h>
+#include "GameStateInfo.h"
+
 #include <boost/shared_ptr.hpp>
-
-#include "Main.h"
-#include "BckgrObj.h"
-#include "Object.h"
-#include "Pacman.h"
-#include "Ghost.h"
-#include "GameState.h"
-
 using boost::shared_ptr;
+
+class GameState;
+class Object;
 
 #define NUMOFOBJECTS 6
 

@@ -10,26 +10,15 @@
 
 #pragma once
 
-#include <boost/shared_ptr.hpp>
 #include <boost/utility.hpp>
-
-#include "Main.h"
 #include "PacmanState.h"
 #include "GhostState.h"
-#include "Directions.h"
 #include "Food.h"
+#include "Constants.h"
 
-using boost::shared_ptr;
+#include <assert.h>
 
-#define GHOST_COUNT 4
-#define PLAYER_COUNT GHOST_COUNT + 1
-
-class GameState;
-
-struct GameStateInfo {
-    shared_ptr<GameState> state;
-    char legal_actions[PLAYER_COUNT][ACTION_COUNT];  // legal_actions[player][action_index] player 0 is pacman, the next 4 are ghosts
-};
+class GameStateInfo;
 
 class GameState : public boost::noncopyable  // why copy a big thing when you can point!
 {
@@ -107,6 +96,4 @@ private:
     static const int FRUIT_TICKS = 10 * TICK_RATE;  // the amount of ticks fruit stays on the map after spawning
     static const int FULL_SPEED = 9.5 * TILE_SIZE / TICK_RATE;  // 100% speed expressed in px per tick.
 
-    static const SDL_Point PACMAN_SPAWN;
-    static const SDL_Point GHOST_SPAWN;
 };

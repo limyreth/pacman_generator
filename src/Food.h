@@ -10,6 +10,8 @@
 
 #pragma once
 
+#include "Constants.h"
+
 namespace Food {
     enum Type : unsigned char {
         NONE,

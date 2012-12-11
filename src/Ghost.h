@@ -10,14 +10,13 @@
 
 #pragma once
 
-#include <boost/shared_ptr.hpp>
-
-#include "Main.h"
 #include "Object.h"
-#include "Draw.h"
-#include "GhostState.h"
 
+#include <boost/shared_ptr.hpp>
 using boost::shared_ptr;
+
+class SDL_Surface;
+class GhostState;
 
 class Ghost :
 	public Object
@@ -25,7 +24,7 @@ class Ghost :
 public:
     Ghost(shared_ptr<SDL_Surface> buf, int os, std::string fn);
 
-    void Draw(GhostState current);
+    void Draw(const GhostState& current);
     void Draw(int ix, int iy, int obj=0, int type=0) ;
     void LoadTextures(std::string path);
     void reset();

@@ -9,9 +9,14 @@
 
 
 #include "Pacman.h"
+#include "Log.h"
+#include "PacmanState.h"
+#include "Error.h"
+#include "Draw.h"
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
 
 extern Log logtxt;
-extern App app;
 
 void Pacman::Draw(int ix, int iy, int obj, int type) {
     SDL_Rect pos;

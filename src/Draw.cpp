@@ -9,7 +9,8 @@
 
 
 #include "Draw.h"
-#include "SDL.h"
+#include <SDL/SDL.h>
+#include <SDL/SDL_rotozoom.h>
 
 /*
  * Rendering notes: http://home.comcast.net/~jpittman2/pacman/pacmandossier.html#CH3_What_Tile_Am_I_In

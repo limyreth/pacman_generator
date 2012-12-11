@@ -10,14 +10,13 @@
 
 #pragma once
 
-#include <boost/shared_ptr.hpp>
-
-#include "Main.h"
 #include "Object.h"
-#include "Draw.h"
 #include "Food.h"
 
+#include <boost/shared_ptr.hpp>
 using boost::shared_ptr;
+
+class SDL_Surface;
 
 #define NUMOFMAPTEX 10
 
@@ -27,7 +26,7 @@ class BckgrObj :
 public:
     BckgrObj(shared_ptr<SDL_Surface> buffer, int os);
 
-    void Draw(const int* walls, const Foods& foods);
+    void Draw(const int* walls, const Foods foods);
     void Draw(int ix, int iy, int obj=3, int type=1);
     void Draw(int ix, int iy, int obj, int type, int alp);
 

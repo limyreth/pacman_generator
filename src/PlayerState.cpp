@@ -9,6 +9,9 @@
 
 
 #include "PlayerState.h"
+#include "Directions.h"
+#include "Constants.h"
+#include <assert.h>
 
 extern Directions DIRECTIONS;
 

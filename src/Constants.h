@@ -9,13 +9,8 @@
 
 
 #pragma once
-#include <vector>
-#include <string>
-#include <cstdlib>
-#include <sys/stat.h>
-#include "Main.h"
 
-using std::string;
+#include <string>
 
 // ticks per second
 static const int TICK_RATE = 60;
@@ -27,13 +22,12 @@ static const int MAP_WIDTH = 28;
 static const int MAP_HEIGHT = 31;
 
 // path to level files
-static const string LEVEL_PATH = "./levels/0/";
+static const std::string LEVEL_PATH = "./levels/0/";
 
 // path to skin images
-static const string SKINS_PATH = "./skins/minimal/";
-
-// window size
-static const int SCREEN_WIDTH = MAP_WIDTH * TILE_SIZE;
-static const int SCREEN_HEIGHT = MAP_HEIGHT * TILE_SIZE;
+static const std::string SKINS_PATH = "./skins/minimal/";
 
 static const int ACTION_COUNT = 4;
+
+#define GHOST_COUNT 4
+#define PLAYER_COUNT GHOST_COUNT + 1

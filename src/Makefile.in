@@ -22,8 +22,8 @@ INSTALL = install
 CP = cp
 CHMOD = chmod
 
-SOURCES=Sounds.cpp Pacman.cpp Main.cpp Log.cpp Ghost.cpp Game.cpp BckgrObj.cpp App.cpp Draw.cpp GameState.cpp PacmanState.cpp GhostState.cpp PlayerState.cpp Directions.cpp
-OBJECTS=Sounds.o Pacman.o Main.o Log.o  Ghost.o Game.o BckgrObj.o App.o Draw.o GameState.o PacmanState.o GhostState.o PlayerState.o Directions.o
+SOURCES=Sounds.cpp Pacman.cpp Main.cpp Log.cpp Ghost.cpp Game.cpp BckgrObj.cpp App.cpp Draw.cpp GameState.cpp PacmanState.cpp GhostState.cpp PlayerState.cpp Directions.cpp Object.cpp
+OBJECTS=Sounds.o Pacman.o Main.o Log.o  Ghost.o Game.o BckgrObj.o App.o Draw.o GameState.o PacmanState.o GhostState.o PlayerState.o Directions.o Object.o
 EXECUTABLE=pacman_sdl
 
 all: 

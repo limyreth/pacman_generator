@@ -7,29 +7,9 @@
  *                                                                         *
  ***************************************************************************/
 
-
-#include "GameState.h"
-#include "Sounds.h"
-
-
-#define SMALL_DOTS_SCORE 10
-#define LARGE_DOTS_SCORE 50
-
-#define GHOST_BLINKY 0
-#define GHOST_PINKY 1
-#define GHOST_INKY 2
-#define GHOST_CLYDE 3
-
-extern App app;
-
-const SDL_Point GameState::PACMAN_SPAWN(14 * TILE_SIZE, 23.5 * TILE_SIZE);
-const SDL_Point GameState::GHOST_SPAWN = SDL_Point(14, 14) * TILE_SIZE;
-
-using std::max;
-
 /*
  * Pacman rules: 
- * TODO make this implementation consistent with it
+ * TODO check our impl is valid, maybe even write tests for it
  *
  * - 10 points for each dot
  * - 50 points for each energizer (big dot)
@@ -51,6 +31,26 @@ using std::max;
  *
  * For full details: http://home.comcast.net/~jpittman2/pacman/pacmandossier.html
  */
+
+#include "GameState.h"
+#include "Sounds.h"
+#include "App.h"
+#include "Directions.h"
+#include "GameStateInfo.h"
+#include <string.h>
+
+
+#define GHOST_BLINKY 0
+#define GHOST_PINKY 1
+#define GHOST_INKY 2
+#define GHOST_CLYDE 3
+
+extern App app;
+
+static const SDL_Point PACMAN_SPAWN(14 * TILE_SIZE, 23.5 * TILE_SIZE);
+static const SDL_Point GHOST_SPAWN = SDL_Point(14, 14) * TILE_SIZE;
+
+using std::max;
 
 extern Directions DIRECTIONS;
 
@@ -261,7 +261,7 @@ GameState::GameState(const int* walls, const int* actions, const GameState* stat
         // eat small dot
         foods[food_index] = Food::NONE;
         --food_count;
-        score += SMALL_DOTS_SCORE;
+        score += 10;
 
         app.dot_eaten();
 
@@ -271,7 +271,7 @@ GameState::GameState(const int* walls, const int* actions, const GameState* stat
     else if (foods[food_index] == Food::ENERGIZER) {
         foods[food_index] = Food::NONE;
         --food_count;
-        score += LARGE_DOTS_SCORE;
+        score += 50;
 
         app.getSnd()->play(3, 0);
         app.getSnd()->play(7, 1);

@@ -10,16 +10,21 @@
 
 #include "App.h"
 #include "Sounds.h"
-#include "SDL.h"
-#include <boost/exception/all.hpp>
+#include "Constants.h"
+#include "Log.h"
+#include "Error.h"
+#include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
 
 extern Log logtxt;
 
 void App::InitWindow() {
     int bpp(32);
 
-    screen.reset(SDL_SetVideoMode( SCREEN_WIDTH,
-                               SCREEN_HEIGHT+EXTRA_Y_SPACE,
+    const int width = MAP_WIDTH * TILE_SIZE;
+    const int height = MAP_HEIGHT * TILE_SIZE + 50;
+    screen.reset(SDL_SetVideoMode(width,
+                               height,
                                bpp,         //bits per pixel; todo-make this dynamic
                                SDL_NOFRAME | SDL_DOUBLEBUF | SDL_HWSURFACE | SDL_ANYFORMAT ), SDL_FreeSurface);
 

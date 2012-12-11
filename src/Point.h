@@ -10,8 +10,6 @@
 
 #pragma once
 
-#include "Main.h"
-
 // TODO rename to Point
 class SDL_Point
 {

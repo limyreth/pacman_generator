@@ -10,7 +10,6 @@
 
 #pragma once
 
-#include "Main.h"
 #include <boost/exception/all.hpp>
 #include <boost/throw_exception.hpp>
 

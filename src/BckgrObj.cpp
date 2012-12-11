@@ -9,9 +9,13 @@
 
 
 #include "BckgrObj.h"
+#include "Error.h"
+#include "Draw.h"
+#include "Log.h"
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
 
 extern Log logtxt;
-extern App app;
 
 void BckgrObj::Draw(int ix, int iy, int obj, int type, int alp) {
     SDL_Rect pos;
@@ -38,7 +42,7 @@ void BckgrObj::setFruitAlpha(int a) {
     fruitalpha = a;
 }
 
-void BckgrObj::Draw(const int* walls, const Foods& foods) {
+void BckgrObj::Draw(const int* walls, const Foods foods) {
     int height,
         width,
         i,

@@ -10,7 +10,6 @@
 
 #pragma once
 
-#include "Main.h"
 #include "PlayerState.h"
 
 class GhostState : public PlayerState
