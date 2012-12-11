@@ -37,7 +37,11 @@
 #include "App.h"
 #include "Directions.h"
 #include "GameStateInfo.h"
+#include "Utility.h"
 #include <string.h>
+
+using std::cout;
+using std::endl;
 
 #define GHOST_BLINKY 0
 #define GHOST_PINKY 1
@@ -52,10 +56,6 @@ static const SDL_Point GHOST_SPAWN = SDL_Point(14, 14) * TILE_SIZE;
 using std::max;
 
 extern Directions DIRECTIONS;
-
-inline int at(SDL_Point tile_pos) {
-    return tile_pos.y * MAP_WIDTH + tile_pos.x ;
-}
 
 /**
  * Create new game
@@ -131,21 +131,21 @@ GameState::GameState(const int* walls, GameStateInfo& info)
     // TODO we seem to have only 3 energizers, that's not right...
     assert(food_count_ == food_count); // TODO might want asserts to throw exceptions and have them add some interesting output to display too
 
-    set_legal_actions(walls, NULL, NULL, info);
+    get_legal_actions(walls, NULL, NULL, info);
 }
 
 /*
  * Create successor of state
  */
-GameState::GameState(const int* walls, const int* actions, const GameState* state, GameStateInfo& info)
+GameState::GameState(const int* walls, const Action* actions, const GameState* state, GameStateInfo& info)
 :   pacman(state->pacman)  // pacman has no default constructor, so it gets angry unless I use this one
 {
     std::cout // TODO just some debug output, ... directly to cout
-        << actions[0] << ", "
-        << actions[1] << ", "
-        << actions[2] << ", "
-        << actions[3] << ", "
-        << actions[4] << std::endl;
+        << (int)actions[0] << ", "
+        << (int)actions[1] << ", "
+        << (int)actions[2] << ", "
+        << (int)actions[3] << ", "
+        << (int)actions[4] << std::endl;
 
     static const int VULNERABLE_TICKS = 6 * TICK_RATE;  // the amount of ticks ghosts are vulnerable
     static const int FRUIT_TICKS = 10 * TICK_RATE;  // the amount of ticks fruit stays on the map after spawning
@@ -305,48 +305,30 @@ GameState::GameState(const int* walls, const int* actions, const GameState* stat
 
 
     // Calculate next legal actions
-    set_legal_actions(walls, actions, state, info);
+    get_legal_actions(walls, actions, state, info);
 }
 
-void GameState::set_legal_actions(const int* walls, const int* actions, const GameState* state, GameStateInfo& info) {
+void GameState::get_legal_actions(const int* walls, const Action* actions, const GameState* state, GameStateInfo& info) {
     for (int i=0; i<PLAYER_COUNT; ++i) {
-        SDL_Point tpos;
-        SDL_Point previous_tpos;
+        Action current_action = -1;
+        PlayerState* current = NULL;
+        const PlayerState* old = NULL;
 
         if (i == 0) {
-            tpos = pacman.get_tile_pos();
+            current = &pacman;
             if (state)
-                previous_tpos = state->pacman.get_tile_pos();
+                old = &state->pacman;
         }
         else {
-            tpos = ghosts[i-1].get_tile_pos();
+            current = &ghosts[i-1];
             if (state)
-                previous_tpos = state->ghosts[i].get_tile_pos();
+                old = &state->ghosts[i-1];
         }
 
-        if (!state) {
-            // set previous pos to an invalid pos
-            previous_tpos = SDL_Point(-1, -1);
-        }
+        if (actions)
+            current_action = actions[i];
 
-        // TODO ghosts should be offered a change of direction only when they are about to cross the center of a tile, rather than the edge
-        // TODO add a pacman.cornering bool that's set to true when pacman is changing direction
-        if (tpos == previous_tpos) {
-            // Next action has to be the same as current action
-            info.legal_actions[i][0] = actions[i];
-            for (int j=1; j<ACTION_COUNT; ++j) {
-                info.legal_actions[i][j] = -1;
-            }
-        }
-        else {
-            // Any nonobstructed path is fine
-            for (int j=0; j<ACTION_COUNT; ++j) {
-                auto new_tpos = tpos + DIRECTIONS[j];
-                bool is_legal_tpos = walls[at(new_tpos)] == 0 || new_tpos.x < 0 || new_tpos.x == MAP_WIDTH;
-                info.legal_actions[i][j] = is_legal_tpos ? j : -1;
-            }
-            // TODO order reverse direction as last (swap its value with that of the last)
-        }
+        current->get_legal_actions(walls, current_action, info.legal_actions[i], old);
     }
 }
 
@@ -357,7 +339,7 @@ GameStateInfo GameState::start_new_game(const int* walls) {
     return info;
 }
 
-GameStateInfo GameState::get_successor(const int* walls, const int* actions) {
+GameStateInfo GameState::get_successor(const int* walls, const Action* actions) {
     assert(!did_pacman_win());
     assert(!did_pacman_lose());
 

@@ -11,6 +11,7 @@
 #pragma once
 
 #include "Point.h"
+#include "GameStateInfo.h"
 
 class PlayerState
 {
@@ -22,6 +23,8 @@ public:
     inline SDL_Point get_pixel_pos() const {
         return pos;
     }
+
+    void get_legal_actions(const int* walls, Action action, Actions legal_actions, const PlayerState* old);
 
 private:
     SDL_Point pos;  // current position in pixels

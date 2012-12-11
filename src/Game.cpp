@@ -125,10 +125,10 @@ void Game::logicGame() {
         cout << endl;
     }
     */
-    int actions[5] = {-1, -1, -1, -1, -1};
-    for (int i=0; i<5; ++i) {
+    Action actions[PLAYER_COUNT] = {-1, -1, -1, -1, -1};
+    for (int i=0; i<PLAYER_COUNT; ++i) {
         for (int j=0; j<4; ++j) {
-            char action = game_state_info.legal_actions[i][j];
+            Action action = game_state_info.legal_actions[i][j];
             if (action > -1) {
                 actions[i] = action;
                 break;

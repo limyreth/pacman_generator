@@ -24,7 +24,7 @@ class GameState : public boost::noncopyable  // why copy a big thing when you ca
 {
 public:
     static GameStateInfo start_new_game(const int* walls);
-    GameStateInfo get_successor(const int* walls, const int* actions);  // game state after 1 tick/frame
+    GameStateInfo get_successor(const int* walls, const Action* actions);  // game state after 1 tick/frame
 
     bool get_vulnerable_ghost_count() const;
 
@@ -63,9 +63,9 @@ public:
 
 private:
     GameState(const int* walls, GameStateInfo& info);
-    GameState(const int* walls, const int* actions, const GameState* state, GameStateInfo& info);
+    GameState(const int* walls, const Action* actions, const GameState* state, GameStateInfo& info);
 
-    void set_legal_actions(const int* walls, const int* actions, const GameState* state, GameStateInfo& info);
+    void get_legal_actions(const int* walls, const Action* actions, const GameState* state, GameStateInfo& info);
 
     void resetLvl();
     void nextLvl();
