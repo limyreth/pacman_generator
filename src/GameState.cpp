@@ -22,8 +22,8 @@
 
 extern App app;
 
-const SDL_Point GameState::PACMAN_SPAWN(13.5 * TILE_SIZE, 23 * TILE_SIZE);
-const SDL_Point GameState::GHOST_SPAWN = SDL_Point(13, 13) * TILE_SIZE;
+const SDL_Point GameState::PACMAN_SPAWN(14 * TILE_SIZE, 23.5 * TILE_SIZE);
+const SDL_Point GameState::GHOST_SPAWN = SDL_Point(14, 14) * TILE_SIZE;
 
 using std::max;
 
@@ -107,15 +107,15 @@ GameState::GameState(const int* walls, GameStateInfo& info)
     SDL_Point spawn = GHOST_SPAWN;
     ghosts[0] = GhostState(spawn);
 
-    spawn.x += 2;
+    spawn.x += 2 * TILE_SIZE;
     ghosts[1] = GhostState(spawn);
 
     spawn = GHOST_SPAWN;
-    spawn.x -= 2;
+    spawn.x -= 2 * TILE_SIZE;
     ghosts[2] = GhostState(spawn);
 
     spawn = GHOST_SPAWN;
-    spawn.y -= 2;
+    spawn.y -= 2.5 * TILE_SIZE;
     ghosts[3] = GhostState(spawn);
 
     // TODO once debug is over, comment this check
