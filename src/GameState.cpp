@@ -39,7 +39,6 @@
 #include "GameStateInfo.h"
 #include <string.h>
 
-
 #define GHOST_BLINKY 0
 #define GHOST_PINKY 1
 #define GHOST_INKY 2
@@ -141,6 +140,13 @@ GameState::GameState(const int* walls, GameStateInfo& info)
 GameState::GameState(const int* walls, const int* actions, const GameState* state, GameStateInfo& info)
 :   pacman(state->pacman)  // pacman has no default constructor, so it gets angry unless I use this one
 {
+    std::cout // TODO just some debug output, ... directly to cout
+        << actions[0] << ", "
+        << actions[1] << ", "
+        << actions[2] << ", "
+        << actions[3] << ", "
+        << actions[4] << std::endl;
+
     static const int VULNERABLE_TICKS = 6 * TICK_RATE;  // the amount of ticks ghosts are vulnerable
     static const int FRUIT_TICKS = 10 * TICK_RATE;  // the amount of ticks fruit stays on the map after spawning
     static const int FULL_SPEED = 9.5 * TILE_SIZE / TICK_RATE;  // 100% speed expressed in px per tick.
