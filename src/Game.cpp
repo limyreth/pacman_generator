@@ -18,7 +18,7 @@ extern App app;
 
 void Game::changeSkin() {
     int i;
-    for (i=0;i<NUMOFOBJECTS;i++) objects[i]->LoadTextures( APP_PATH "/" + SKINS_PATH );
+    for (i=0;i<NUMOFOBJECTS;i++) objects[i]->LoadTextures( SKINS_PATH );
 }
 
 bool Game::emptyMsgPump() {
@@ -246,7 +246,7 @@ void Game::gameInit() {
     //loading level graphics
 
     objects[0] = new BckgrObj( app.getScreen(), 10 );
-    objects[0]->LoadTextures(APP_PATH "/" + SKINS_PATH);
+    objects[0]->LoadTextures(SKINS_PATH);
 
     logtxt.print("Level background loaded");
 
@@ -259,19 +259,19 @@ void Game::gameInit() {
     //create pacman + ghosts
 
     objects[1] = new Pacman(app.getScreen(), 20);
-    objects[1]->LoadTextures(APP_PATH "/" + SKINS_PATH);
+    objects[1]->LoadTextures(SKINS_PATH);
 
     objects[2] = new Ghost(app.getScreen(), 20, "1");
-    objects[2]->LoadTextures(APP_PATH "/" + SKINS_PATH);
+    objects[2]->LoadTextures(SKINS_PATH);
 
     objects[3] = new Ghost(app.getScreen(), 20, "2");
-    objects[3]->LoadTextures(APP_PATH "/" + SKINS_PATH);
+    objects[3]->LoadTextures(SKINS_PATH);
 
     objects[4] = new Ghost(app.getScreen(), 20, "3");
-    objects[4]->LoadTextures(APP_PATH "/" + SKINS_PATH);
+    objects[4]->LoadTextures(SKINS_PATH);
 
     objects[5] = new Ghost(app.getScreen(), 20, "4");
-    objects[5]->LoadTextures(APP_PATH "/" + SKINS_PATH);
+    objects[5]->LoadTextures(SKINS_PATH);
 
     logtxt.print("Objects loaded");
 
@@ -383,7 +383,7 @@ void Game::render() {
 }
 
 void Game::loadFont() {
-    font = TTF_OpenFont(APP_PATH "/" "arial.ttf",24);
+    font = TTF_OpenFont("arial.ttf",24);
     if (!font)
         throw_exception("Failed to create font object ");
 

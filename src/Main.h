@@ -58,8 +58,6 @@
 #define OBJFILE "objmap"
 #define MAPFILE "map"
 
-#define APP_PATH "/usr/share/pacman_sdl"
-
 using std::cout;
 using std::cerr;
 using std::endl;
