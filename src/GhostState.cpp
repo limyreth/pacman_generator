@@ -37,34 +37,34 @@ SDL_Point GhostState::get_action_pos() const {
 }
 
 void GhostState::get_legal_actions(const int* walls, Action action, Actions legal_actions, const PlayerState* old) {
-        SDL_Point apos = get_action_pos();
+    SDL_Point apos = get_action_pos();
 
-        SDL_Point old_apos;
-        if (old) {
-            old_apos = ((GhostState*)old)->get_action_pos();
-        }
-        else {
-            // set previous pos to an invalid pos
-            old_apos = SDL_Point(-1, -1);
-        }
+    SDL_Point old_apos;
+    if (old) {
+        old_apos = ((GhostState*)old)->get_action_pos();
+    }
+    else {
+        // set previous pos to an invalid pos
+        old_apos = SDL_Point(-1, -1);
+    }
 
-        if (apos == old_apos) {
-            // Next action has to be the same as current action
-            legal_actions[0] = action;
-            for (int i=1; i<ACTION_COUNT; ++i) {
-                legal_actions[i] = -1;
-            }
+    if (apos == old_apos) {
+        // Next action has to be the same as current action
+        legal_actions[0] = action;
+        for (int i=1; i<ACTION_COUNT; ++i) {
+            legal_actions[i] = -1;
         }
-        else {
-            SDL_Point tpos = get_tile_pos();
-            // Any nonobstructed path is fine
-            for (int i=0; i<ACTION_COUNT; ++i) {
-                auto new_tpos = tpos + DIRECTIONS[i];
-                bool is_legal_tpos = walls[at(new_tpos)] == 0 || new_tpos.x < 0 || new_tpos.x == MAP_WIDTH;
-                legal_actions[i] = is_legal_tpos ? i : -1;
-            }
-            // TODO order reverse direction as last (swap its value with that of the last)
+    }
+    else {
+        SDL_Point tpos = get_tile_pos();
+        // Any nonobstructed path is fine
+        for (int i=0; i<ACTION_COUNT; ++i) {
+            auto new_tpos = tpos + DIRECTIONS[i];
+            bool is_legal_tpos = walls[at(new_tpos)] == 0 || new_tpos.x < 0 || new_tpos.x == MAP_WIDTH;
+            legal_actions[i] = is_legal_tpos ? i : -1;
         }
+        // TODO order reverse direction as last (swap its value with that of the last)
+    }
 }
 
 
