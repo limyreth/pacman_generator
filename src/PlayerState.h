@@ -24,8 +24,8 @@ public:
         return pos;
     }
 
-    void get_legal_actions(const int* walls, Action action, Actions legal_actions, const PlayerState* old);
+    virtual void get_legal_actions(const int* walls, Action action, Actions legal_actions, const PlayerState* old) = 0;
 
-private:
+protected:
     SDL_Point pos;  // current position in pixels
 };

@@ -27,6 +27,11 @@ public:
 
     bool is_in_tunnel();
 
+    virtual void get_legal_actions(const int* walls, Action action, Actions legal_actions, const PlayerState* old);
+
 public:
     State state;
+
+private:
+    SDL_Point get_action_pos() const;
 };

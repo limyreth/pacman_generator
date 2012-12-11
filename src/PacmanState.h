@@ -17,4 +17,6 @@ class PacmanState : public PlayerState
 {
 public:
     PacmanState(SDL_Point spawn_pos);
+
+    virtual void get_legal_actions(const int* walls, Action action, Actions legal_actions, const PlayerState* old);
 };

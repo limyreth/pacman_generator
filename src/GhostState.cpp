@@ -9,6 +9,10 @@
 
 
 #include "GhostState.h"
+#include "Utility.h"
+#include "Directions.h"
+
+extern Directions DIRECTIONS;
 
 // TODO dead ghost takes shortest path back to correct pen tile
 
@@ -25,6 +29,42 @@ GhostState::GhostState(SDL_Point spawn_pos)
 
 bool GhostState::is_in_tunnel() {
     return false; // TODO implement this damn it
+}
+
+// Note: this has little meaning other than that when it changes, a new action may be chosen (which is by crossing any grid line with offset half a tile)
+SDL_Point GhostState::get_action_pos() const {
+    return (pos + SDL_Point(TILE_SIZE, TILE_SIZE)/2) / TILE_SIZE;
+}
+
+void GhostState::get_legal_actions(const int* walls, Action action, Actions legal_actions, const PlayerState* old) {
+        SDL_Point apos = get_action_pos();
+
+        SDL_Point old_apos;
+        if (old) {
+            old_apos = ((GhostState*)old)->get_action_pos();
+        }
+        else {
+            // set previous pos to an invalid pos
+            old_apos = SDL_Point(-1, -1);
+        }
+
+        if (apos == old_apos) {
+            // Next action has to be the same as current action
+            legal_actions[0] = action;
+            for (int i=1; i<ACTION_COUNT; ++i) {
+                legal_actions[i] = -1;
+            }
+        }
+        else {
+            SDL_Point tpos = get_tile_pos();
+            // Any nonobstructed path is fine
+            for (int i=0; i<ACTION_COUNT; ++i) {
+                auto new_tpos = tpos + DIRECTIONS[i];
+                bool is_legal_tpos = walls[at(new_tpos)] == 0 || new_tpos.x < 0 || new_tpos.x == MAP_WIDTH;
+                legal_actions[i] = is_legal_tpos ? i : -1;
+            }
+            // TODO order reverse direction as last (swap its value with that of the last)
+        }
 }
 
 
