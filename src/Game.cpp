@@ -105,19 +105,17 @@ void Game::setState(int st) {
 
 void Game::logicGame() {
     // Note: might come in handy: SDL_GetTicks();
-    // TODO order reverse direction as last (could return legal actions as -1 terminated array)
     if (get_state()->did_pacman_win() || get_state()->did_pacman_lose()) {
         assert(false); // TODO implement proper reaction to this
     }
 
-    int actions[5];
+    int actions[5] = {-1, -1, -1, -1, -1};
     for (int i=0; i<5; ++i) {
         for (int j=0; j<4; ++j) {
-            if (game_state_info.legal_actions[i][j]) {
+            if (game_state_info.legal_actions[i][j] > -1) {
                 actions[i] = j;
                 break;
             }
-            assert(false);
         }
     }
     game_state_info = get_state()->get_successor(walls, actions);

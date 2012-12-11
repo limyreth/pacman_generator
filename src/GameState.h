@@ -26,11 +26,9 @@ using boost::shared_ptr;
 
 class GameState;
 
-
-#define ACTION_COUNT 4
 struct GameStateInfo {
     shared_ptr<GameState> state;
-    bool legal_actions[PLAYER_COUNT][ACTION_COUNT];  // legal_actions[player][action_index] player 0 is pacman, the next 4 are ghosts
+    char legal_actions[PLAYER_COUNT][ACTION_COUNT];  // legal_actions[player][action_index] player 0 is pacman, the next 4 are ghosts
 };
 
 class GameState : public boost::noncopyable  // why copy a big thing when you can point!
@@ -75,8 +73,10 @@ public:
     }
 
 private:
-    GameState(const int* walls);
+    GameState(const int* walls, GameStateInfo& info);
     GameState(const int* walls, const int* actions, const GameState* state, GameStateInfo& info);
+
+    void set_legal_actions(const int* walls, const int* actions, const GameState* state, GameStateInfo& info);
 
     void resetLvl();
     void nextLvl();

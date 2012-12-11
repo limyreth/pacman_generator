@@ -35,3 +35,5 @@ static const string SKINS_PATH = "./skins/minimal/";
 // window size
 static const int SCREEN_WIDTH = MAP_WIDTH * TILE_SIZE;
 static const int SCREEN_HEIGHT = MAP_HEIGHT * TILE_SIZE;
+
+static const int ACTION_COUNT = 4;

@@ -61,7 +61,7 @@ inline int at(SDL_Point tile_pos) {
 /**
  * Create new game
  */
-GameState::GameState(const int* walls)
+GameState::GameState(const int* walls, GameStateInfo& info)
 :   food_count(244),
     score(0),
     lives(1),
@@ -131,6 +131,8 @@ GameState::GameState(const int* walls)
     }
     // TODO we seem to have only 3 energizers, that's not right...
     assert(food_count_ == food_count); // TODO might want asserts to throw exceptions and have them add some interesting output to display too
+
+    set_legal_actions(walls, NULL, NULL, info);
 }
 
 /*
@@ -293,38 +295,52 @@ GameState::GameState(const int* walls, const int* actions, const GameState* stat
 
 
     // Calculate next legal actions
+    set_legal_actions(walls, actions, state, info);
+}
+
+void GameState::set_legal_actions(const int* walls, const int* actions, const GameState* state, GameStateInfo& info) {
     for (int i=0; i<PLAYER_COUNT; ++i) {
         SDL_Point tpos;
         SDL_Point previous_tpos;
 
         if (i == 0) {
             tpos = pacman.get_tile_pos();
-            previous_tpos = state->pacman.get_tile_pos();
+            if (state)
+                previous_tpos = state->pacman.get_tile_pos();
         }
         else {
             tpos = ghosts[i-1].get_tile_pos();
-            previous_tpos = state->ghosts[i].get_tile_pos();
+            if (state)
+                previous_tpos = state->ghosts[i].get_tile_pos();
+        }
+
+        if (!state) {
+            // set previous pos to an invalid pos
+            previous_tpos = SDL_Point(-1, -1);
         }
 
         if (tpos == previous_tpos) {
             // Next action has to be the same as current action
-            for (int j=0; j<ACTION_COUNT; ++j) {
-                info.legal_actions[i][j] = j == actions[i];
+            info.legal_actions[i][0] = actions[i];
+            for (int j=1; j<ACTION_COUNT; ++j) {
+                info.legal_actions[i][j] = -1;
             }
         }
         else {
             // Any nonobstructed path is fine
             for (int j=0; j<ACTION_COUNT; ++j) {
                 auto new_tpos = tpos + DIRECTIONS[j];
-                info.legal_actions[i][j] = walls[at(new_tpos)] == 0 || new_tpos.x < 0 || new_tpos.x == MAP_WIDTH;
+                bool is_legal_tpos = walls[at(new_tpos)] == 0 || new_tpos.x < 0 || new_tpos.x == MAP_WIDTH;
+                info.legal_actions[i][j] = is_legal_tpos ? j : -1;
             }
+            // TODO order reverse direction as last (swap its value with that of the last)
         }
     }
 }
 
 GameStateInfo GameState::start_new_game(const int* walls) {
     GameStateInfo info;
-    info.state.reset(new GameState(walls));
+    info.state.reset(new GameState(walls, info));
     info.legal_actions;
     return info;
 }

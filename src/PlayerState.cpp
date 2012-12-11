@@ -23,6 +23,8 @@ PlayerState::PlayerState(SDL_Point pos)
  * Player will move at FULL_SPEED * speed_modifier.
  */
 void PlayerState::move(int action, double speed) {
+    assert(action >= 0);
+    assert(action < ACTION_COUNT);
 
     pos += DIRECTIONS[action] * speed;
 
