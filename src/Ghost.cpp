@@ -32,8 +32,8 @@ void Ghost::Draw(const GhostState current) {
 
     // center the image on our current location
     SDL_Point real_pos = current.get_pixel_pos();
-    pos.x = real_pos.x - Object::PLAYER_SIZE/4;
-    pos.y = real_pos.y - Object::PLAYER_SIZE/4;
+    pos.x = real_pos.x - Object::PLAYER_SIZE/2;
+    pos.y = real_pos.y - Object::PLAYER_SIZE/2;
 
     if (current.state == GhostState::NORMAL) {
         SDL_SetAlpha(ghostEl[0].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);

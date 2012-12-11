@@ -54,8 +54,8 @@ void Pacman::Draw(const PacmanState state) {
 
     // center the image on our current location
     SDL_Point real_pos = state.get_pixel_pos();
-    pos.x = real_pos.x - Object::PLAYER_SIZE/4;
-    pos.y = real_pos.y - Object::PLAYER_SIZE/4;
+    pos.x = real_pos.x - Object::PLAYER_SIZE/2;
+    pos.y = real_pos.y - Object::PLAYER_SIZE/2;
 
     // TODO render correct direction (requires old pacman state as well)
     int dx = 0;
