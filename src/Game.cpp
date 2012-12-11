@@ -69,6 +69,7 @@ bool Game::emptyMsgPump() {
             break;
         }
     }
+    return true;
 }
 
 void Game::toggleSound() {
