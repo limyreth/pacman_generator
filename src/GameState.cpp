@@ -141,6 +141,10 @@ GameState::GameState(const int* walls, GameStateInfo& info)
 GameState::GameState(const int* walls, const int* actions, const GameState* state, GameStateInfo& info)
 :   pacman(state->pacman)  // pacman has no default constructor, so it gets angry unless I use this one
 {
+    static const int VULNERABLE_TICKS = 6 * TICK_RATE;  // the amount of ticks ghosts are vulnerable
+    static const int FRUIT_TICKS = 10 * TICK_RATE;  // the amount of ticks fruit stays on the map after spawning
+    static const int FULL_SPEED = 9.5 * TILE_SIZE / TICK_RATE;  // 100% speed expressed in px per tick.
+
     // Note: order of everything in this function is important TODO split in functions to provide better overview of ordering
 
     // First copy everything
