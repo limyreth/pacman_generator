@@ -8,10 +8,43 @@
  ***************************************************************************/
 
 #include "Directions.h"
+#include <cmath>
 
-Directions DIRECTIONS = {
-    FPoint(0, -1), // North; y-axis points towards the bottom of the screen
-    FPoint(1, 0), // East
-    FPoint(0, 1), // South
-    FPoint(-1, 0) // West
+namespace ActionFlags {
+    Action NORTH = 1;
+    Action EAST = 2;
+    Action SOUTH = 4;
+    Action WEST = 8;
+}
+
+const Action BASIC_ACTIONS[] = {
+    ActionFlags::NORTH,
+    ActionFlags::EAST,
+    ActionFlags::SOUTH,
+    ActionFlags::WEST
 };
+
+FPoint action_to_direction(Action action) {
+    assert(action > 0);
+
+    FPoint direction;
+
+    if (action & ActionFlags::NORTH) {
+        direction.y = -1.0;
+    }
+    else if (action & ActionFlags::SOUTH) {
+        direction.y = 1.0;
+    }
+
+    if (action & ActionFlags::EAST) {
+        direction.x = 1.0;
+    }
+    else if (action & ActionFlags::WEST) {
+        direction.x = -1.0;
+    }
+
+    // normalize
+    direction /= sqrt(direction.x * direction.x + direction.y * direction.y);
+
+    return direction;
+}

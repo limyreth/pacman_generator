@@ -12,8 +12,6 @@
 #include "Utility.h"
 #include "Directions.h"
 
-extern Directions DIRECTIONS;
-
 PacmanState::PacmanState(IPoint spawn_pos)
 :   PlayerState(spawn_pos)
 {
@@ -42,9 +40,14 @@ void PacmanState::get_legal_actions(const int* walls, Action action, Actions leg
     else {
         // Any nonobstructed path is fine
         for (int i=0; i<ACTION_COUNT; ++i) {
-            auto new_tpos = tpos + DIRECTIONS[i];
+            IPoint new_tpos = tpos + action_to_direction(BASIC_ACTIONS[i]);
             bool is_legal_tpos = walls[at(new_tpos)] == 0 || new_tpos.x < 0 || new_tpos.x == MAP_WIDTH;
-            legal_actions[i] = is_legal_tpos ? i : -1;
+            if (is_legal_tpos) {
+                legal_actions[i] = BASIC_ACTIONS[i];
+            }
+            else {
+                legal_actions[i] = 0;
+            }
         }
         // TODO order reverse direction as last (swap its value with that of the last)
     }

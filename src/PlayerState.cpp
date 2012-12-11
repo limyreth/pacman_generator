@@ -13,8 +13,6 @@
 #include "Constants.h"
 #include <assert.h>
 
-extern Directions DIRECTIONS;
-
 PlayerState::PlayerState(IPoint pos) 
 :   pos(pos)
 {
@@ -25,11 +23,8 @@ PlayerState::PlayerState(IPoint pos)
  *
  * Player will move at FULL_SPEED * speed_modifier.
  */
-void PlayerState::move(int action, double speed) {
-    assert(action >= 0);
-    assert(action < ACTION_COUNT);
-
-    pos += DIRECTIONS[action] * speed;
+void PlayerState::move(Action action, double speed) {
+    pos += action_to_direction(action) * speed;
 
     // wrap screen when hitting left/right edge of tunnel
     auto tpos = get_tile_pos();

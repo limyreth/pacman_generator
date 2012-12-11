@@ -10,9 +10,11 @@
 
 #pragma once
 
+#include "GameStateInfo.h"
 #include "Point.h"
 
-typedef FPoint Directions[4];
+extern const Action BASIC_ACTIONS[];
 
+FPoint action_to_direction(Action action);
 // TODO bool is_opposite_direction(FPoint)
 // TODO bool are_perpendicular(FPoint, FPoint)

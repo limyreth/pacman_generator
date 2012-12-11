@@ -14,9 +14,9 @@ template <typename T>
 class Point
 {
 public:
-    Point() {}
+    Point() : Point(0, 0) {}
 
-    Point(int x, int y) 
+    Point(T x, T y) 
     :   x(x),
         y(y)
     {

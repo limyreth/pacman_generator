@@ -17,7 +17,7 @@ class PlayerState
 {
 public:
     PlayerState(IPoint pos);
-    void move(int action, double speed);
+    void move(Action action, double speed);
     IPoint get_tile_pos() const;
 
     inline IPoint get_pixel_pos() const {

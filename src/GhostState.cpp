@@ -12,8 +12,6 @@
 #include "Utility.h"
 #include "Directions.h"
 
-extern Directions DIRECTIONS;
-
 // TODO dead ghost takes shortest path back to correct pen tile
 
 // TODO size enums to 1 byte
@@ -59,9 +57,10 @@ void GhostState::get_legal_actions(const int* walls, Action action, Actions lega
         IPoint tpos = get_tile_pos();
         // Any nonobstructed path is fine
         for (int i=0; i<ACTION_COUNT; ++i) {
-            auto new_tpos = tpos + DIRECTIONS[i];
+            Action action = BASIC_ACTIONS[i];
+            IPoint new_tpos = tpos + action_to_direction(action);
             bool is_legal_tpos = walls[at(new_tpos)] == 0 || new_tpos.x < 0 || new_tpos.x == MAP_WIDTH;
-            legal_actions[i] = is_legal_tpos ? i : -1;
+            legal_actions[i] = is_legal_tpos ? action : 0;
         }
         // TODO order reverse direction as last (swap its value with that of the last)
     }

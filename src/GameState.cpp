@@ -35,7 +35,6 @@
 #include "GameState.h"
 #include "Sounds.h"
 #include "App.h"
-#include "Directions.h"
 #include "GameStateInfo.h"
 #include "Utility.h"
 #include <string.h>
@@ -54,8 +53,6 @@ static const IPoint PACMAN_SPAWN(14 * TILE_SIZE, 23.5 * TILE_SIZE);
 static const IPoint GHOST_SPAWN = IPoint(14, 14) * TILE_SIZE;
 
 using std::max;
-
-extern Directions DIRECTIONS;
 
 /**
  * Create new game
