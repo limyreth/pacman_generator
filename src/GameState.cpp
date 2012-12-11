@@ -329,6 +329,8 @@ void GameState::set_legal_actions(const int* walls, const int* actions, const Ga
             previous_tpos = SDL_Point(-1, -1);
         }
 
+        // TODO ghosts should be offered a change of direction only when they are about to cross the center of a tile, rather than the edge
+        // TODO add a pacman.cornering bool that's set to true when pacman is changing direction
         if (tpos == previous_tpos) {
             // Next action has to be the same as current action
             info.legal_actions[i][0] = actions[i];
