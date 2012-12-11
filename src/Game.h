@@ -31,7 +31,7 @@ public:
 
     void loadFont();
     bool loadSprites();
-    bool loadMap(std::string file, int* memmap);
+    void loadMap(std::string file, int* memmap);
 
     void render();
     void renderNormal();
@@ -56,7 +56,7 @@ public:
     bool isinit;
 
     void toggleSound();
-    void emptyMsgPump();
+    bool emptyMsgPump();
     void changeSkin();
 
     void PrepareShutdown();

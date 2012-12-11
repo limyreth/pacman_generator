@@ -32,8 +32,6 @@ public:
     //Global
     //////////////
 
-    inline bool getQuit() const { return quit; }
-    void setQuit( bool q ) { quit = q; }
     shared_ptr<SDL_Surface> getScreen() const { return screen; }
     shared_ptr<SDL_Surface> getBuf() const { return buf; }
     Sounds* getSnd() { return snd; }

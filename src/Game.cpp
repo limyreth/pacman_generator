@@ -21,7 +21,7 @@ void Game::changeSkin() {
     for (i=0;i<NUMOFOBJECTS;i++) objects[i]->LoadTextures( APP_PATH "/" + SKINS_PATH );
 }
 
-void Game::emptyMsgPump() {
+bool Game::emptyMsgPump() {
 
     SDL_Event ev;
 
@@ -31,8 +31,7 @@ void Game::emptyMsgPump() {
             switch (ev.key.keysym.sym ) {
             case SDLK_ESCAPE:
             case SDLK_q:
-                app.setQuit(true);
-                break;
+                return false;
             case SDLK_UP:
                 processInput(UP);
                 // TODO
@@ -232,8 +231,7 @@ void Game::gameInit() {
     tmpstr = LEVEL_PATH;
 
     walls = new int[MAP_HEIGHT*MAP_WIDTH];
-    if ( !loadMap(tmpstr + MAPFILE, walls) )
-        throw_exception("Failed to load map.txt");
+    loadMap(tmpstr + MAPFILE, walls);
 
     game_state_info = GameState::start_new_game(walls);
 
@@ -298,7 +296,7 @@ void Game::processLogic() {
     logicGame();
 }
 
-bool Game::loadMap(std::string file, int* memmap) {
+void Game::loadMap(std::string file, int* memmap) {
     int i, count=0, size = MAP_HEIGHT * MAP_WIDTH;
     std::string tmp;
     char c('i');
@@ -307,9 +305,7 @@ bool Game::loadMap(std::string file, int* memmap) {
     mp.open( file.c_str() );
 
     if (!mp ) {
-        logtxt.print(file + " - Loading error");
-        app.setQuit(true);
-        return false;
+        throw_exception(file + " - Loading error");
     }
 
     for (i=0;i<size;i++) {
@@ -330,13 +326,10 @@ bool Game::loadMap(std::string file, int* memmap) {
     if ( mp.is_open() ) mp.close();
 
     if (count != size) {
-        logtxt.print(file + " - Loading error");
-        app.setQuit(true);
-        return false;
+        throw_exception(file + " - Loading error");
     }
 
     logtxt.print(file + " loaded");
-    return true;
 }
 
 

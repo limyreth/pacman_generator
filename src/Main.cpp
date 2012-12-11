@@ -43,34 +43,19 @@ int main( int argc, char** argv ) {
     srand( (unsigned int)time(NULL) );
 
     try {
-        //init log
         logtxt.setFilename(".pacman_sdl");
 
-        // TODO rm set/getQuit, just let them bubble up to here, or further
+        app.InitApp();
+        app.InitWindow();
+        app.InitSound();
 
-        //init SDL
-        if ( !app.getQuit() ) app.InitApp();
-
-        //init window
-        if ( !app.getQuit() ) app.InitWindow();
-
-        //init sound
-        if ( !app.getQuit() ) app.InitSound();
-
-        //init game class
         Game game;
-        if ( !app.getQuit() ) game.gameInit();
+        game.gameInit();
 
         //main loop
-        while ( ! app.getQuit() ) {
-
-            game.emptyMsgPump();
-
-            if ( ! app.getQuit() )
-                game.processLogic();
-
-            if ( ! app.getQuit() ) // TODO don't render when generating
-                game.render();
+        while (game.emptyMsgPump()) {
+            game.processLogic();
+            game.render();// TODO don't render when generating
         }
 
         //shutdown
