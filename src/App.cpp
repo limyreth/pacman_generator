@@ -94,6 +94,6 @@ void App::log_exception(const std::exception& e) {
 
 void App::delay(unsigned int ms) {
     //return; // TODO use bool no_gui or inheritance or something to switch whether or not to delay. Should only delay when showing things in GUI
-    SDL_Delay(ms);
+    SDL_Delay(10*ms);  // 10* for easier debugging TODO rm again
 }
 
