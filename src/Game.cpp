@@ -104,7 +104,6 @@ void Game::setState(int st) {
 }
 
 void Game::logicGame() {
-    // Note: might come in handy: SDL_GetTicks();
     if (get_state()->did_pacman_win() || get_state()->did_pacman_lose()) {
         assert(false); // TODO implement proper reaction to this
     }
@@ -122,6 +121,9 @@ void Game::logicGame() {
 }
 
 void Game::renderNormal() {
+    // Note: might come in handy: SDL_GetTicks(); to make a more accurate delay
+    app.delay(1000/TICK_RATE); // feel like life is flashing by, this helps fix that
+
     int i;
     std::ostringstream ostr;
     SDL_Color col;
