@@ -28,6 +28,11 @@ public:
     }
 
     template <typename U>
+    bool operator != (const Point<U>& a) const {
+        return !(*this == a);
+    }
+
+    template <typename U>
     Point& operator += (const Point<U>& p) {
         this->x += p.x;
         this->y += p.y;
