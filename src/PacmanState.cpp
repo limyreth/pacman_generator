@@ -17,6 +17,9 @@ PacmanState::PacmanState(IPoint spawn_pos)
 {
 }
 
+// TODO need to move at twice the speed when cornering
+// private is_cornering(Action): speed*2.0
+
 void PacmanState::get_legal_actions(const int* walls, Action action, Actions legal_actions, const PlayerState* old) {
     IPoint tpos = get_tile_pos();
 
@@ -38,12 +41,20 @@ void PacmanState::get_legal_actions(const int* walls, Action action, Actions leg
         }
     }
     else {
+        // TODO cornering needs to start when pacman's bounds hit the edge of the next tile, not pacman's center
         // Any nonobstructed path is fine
         for (int i=0; i<ACTION_COUNT; ++i) {
-            IPoint new_tpos = tpos + action_to_direction(BASIC_ACTIONS[i]);
+            Action new_action = BASIC_ACTIONS[i];
+            IPoint new_tpos = tpos + action_to_direction(new_action);
+
             bool is_legal_tpos = walls[at(new_tpos)] == 0 || new_tpos.x < 0 || new_tpos.x == MAP_WIDTH;
             if (is_legal_tpos) {
-                legal_actions[i] = BASIC_ACTIONS[i];
+                if (is_basic(action) && are_perpendicular(action, new_action)) {
+                    legal_actions[i] = action | new_action;
+                }
+                else {
+                    legal_actions[i] = new_action;
+                }
             }
             else {
                 legal_actions[i] = 0;

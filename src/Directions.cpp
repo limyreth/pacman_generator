@@ -11,10 +11,12 @@
 #include <cmath>
 
 namespace ActionFlags {
-    Action NORTH = 1;
-    Action EAST = 2;
-    Action SOUTH = 4;
-    Action WEST = 8;
+    const Action X_AXIS = 0;
+    const Action Y_AXIS = 16;
+    const Action NORTH = 1 + Y_AXIS;
+    const Action EAST = 2 + X_AXIS;
+    const Action SOUTH = 4 + Y_AXIS;
+    const Action WEST = 8 + X_AXIS;
 }
 
 const Action BASIC_ACTIONS[] = {
@@ -47,4 +49,18 @@ FPoint action_to_direction(Action action) {
     direction /= sqrt(direction.x * direction.x + direction.y * direction.y);
 
     return direction;
+}
+
+//#define BASIC_ACTION_COUNT 4
+bool is_basic(Action a) {
+    //return a <= BASIC_ACTION_COUNT, then use bunch of arrays as maps opposite[action]=opposite_action, is_perpendicular[a][b]=bool; actions[8]=all of them; directions[action]=fpoint TODO is perhaps more performant. So if that part is a bottleneck with calgrind...
+    return a == ActionFlags::NORTH || a == ActionFlags::EAST || a == ActionFlags::SOUTH || a == ActionFlags::WEST;
+}
+
+bool are_opposites(Action a, Action b) {
+    return a != b && !are_perpendicular(a, b);
+}
+
+bool are_perpendicular(Action a, Action b) {
+    return (a & ActionFlags::Y_AXIS) != (b & ActionFlags::Y_AXIS);
 }

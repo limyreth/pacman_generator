@@ -16,5 +16,11 @@
 extern const Action BASIC_ACTIONS[];
 
 FPoint action_to_direction(Action action);
-// TODO bool is_opposite_direction(FPoint)
-// TODO bool are_perpendicular(FPoint, FPoint)
+
+bool is_basic(Action a);
+
+// Note: only works for basic actions
+bool are_opposites(Action a, Action b);
+
+// Note: only works for basic actions
+bool are_perpendicular(Action a, Action b);
