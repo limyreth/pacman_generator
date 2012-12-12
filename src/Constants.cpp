@@ -8,30 +8,16 @@
  ***************************************************************************/
 
 
-#pragma once
+#include "Constants.h"
+#include <assert.h>
 
-#include <string>
+const int TICK_RATE = 60;
+const int TILE_SIZE = 20;
 
-// ticks per second
-extern const int TICK_RATE;
+const std::string LEVEL_PATH = "./levels/0/";
+const std::string SKINS_PATH = "./skins/minimal/";
 
-extern const int TILE_SIZE;
-
-// map sizes in tiles
-#define MAP_WIDTH 28
-#define MAP_HEIGHT 31
-
-// path to level files
-extern const std::string LEVEL_PATH;
-
-// path to skin images
-extern const std::string SKINS_PATH;
-
-#define ACTION_COUNT 4
-
-// size of ghost/pacman
-extern const int PLAYER_SIZE;
+//assert(false);
+const int PLAYER_SIZE = 2.0 * TILE_SIZE * 0.8;
 //assert(PLAYER_SIZE < 2.0 * TILE_SIZE);
 
-#define GHOST_COUNT 4
-#define PLAYER_COUNT GHOST_COUNT + 1
