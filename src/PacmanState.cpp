@@ -32,7 +32,6 @@ void PacmanState::get_legal_actions(const int* walls, Action action, Actions leg
         old_tpos = IPoint(-1, -1);
     }
 
-    // TODO add a pacman.cornering bool that's set to true when pacman is changing direction
     if (tpos == old_tpos) {
         // Next action has to be the same as current action
         legal_actions[0] = action;
