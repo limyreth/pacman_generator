@@ -57,10 +57,14 @@ bool is_basic(Action a) {
     return a == ActionFlags::NORTH || a == ActionFlags::EAST || a == ActionFlags::SOUTH || a == ActionFlags::WEST;
 }
 
+bool is_vertical(Action a) {
+    return a & ActionFlags::Y_AXIS;
+}
+
 bool are_opposites(Action a, Action b) {
     return a != b && !are_perpendicular(a, b);
 }
 
 bool are_perpendicular(Action a, Action b) {
-    return (a & ActionFlags::Y_AXIS) != (b & ActionFlags::Y_AXIS);
+    return is_vertical(a) != is_vertical(b);
 }

@@ -37,7 +37,16 @@ void PlayerState::move(Action action, double speed) {
         assert(get_tile_pos().x > 0); // TODO rm after testing
     }
 
-    // TODO to deal with rounding error, when moving along the x-axis, center us vertically in tile. Analog for horizontal movement.
+    // To deal with rounding error, center us along the direction perpendicular
+    // to our basic movement direction
+    if (is_basic(action)) {
+        if (is_vertical(action)) {
+            pos.x = (get_tile_pos().x + 0.5) * TILE_SIZE;
+        }
+        else {
+            pos.y = (get_tile_pos().y + 0.5) * TILE_SIZE;
+        }
+    }
 }
 
 IPoint PlayerState::get_tile_pos() const {

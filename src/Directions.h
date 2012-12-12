@@ -20,6 +20,9 @@ FPoint action_to_direction(Action action);
 bool is_basic(Action a);
 
 // Note: only works for basic actions
+bool is_vertical(Action a);
+
+// Note: only works for basic actions
 bool are_opposites(Action a, Action b);
 
 // Note: only works for basic actions
