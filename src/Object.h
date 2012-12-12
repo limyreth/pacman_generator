@@ -38,9 +38,6 @@ public:
 
     virtual shared_ptr<SDL_Surface> Rotate(shared_ptr<SDL_Surface> src, int angle, double zoomx=1, double zoomy=1);
 protected:
-    // drawing size of ghost/pacman
-    static const int PLAYER_SIZE = 2.0 * TILE_SIZE * 0.8;
-
     shared_ptr<SDL_Surface>
             buf;
 

@@ -29,5 +29,8 @@ static const std::string SKINS_PATH = "./skins/minimal/";
 
 static const int ACTION_COUNT = 4;
 
+// size of ghost/pacman
+static const int PLAYER_SIZE = 2.0 * TILE_SIZE * 0.8;
+
 #define GHOST_COUNT 4
 #define PLAYER_COUNT GHOST_COUNT + 1

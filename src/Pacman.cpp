@@ -59,8 +59,8 @@ void Pacman::Draw(const PacmanState state) {
 
     // center the image on our current location
     IPoint real_pos = state.get_pixel_pos();
-    pos.x = real_pos.x - Object::PLAYER_SIZE/2;
-    pos.y = real_pos.y - Object::PLAYER_SIZE/2;
+    pos.x = real_pos.x - PLAYER_SIZE/2;
+    pos.y = real_pos.y - PLAYER_SIZE/2;
 
     // TODO render correct direction (requires old pacman state as well)
     int dx = 0;
@@ -110,7 +110,7 @@ void Pacman::LoadTextures(std::string path) {
 
         fmt = pacEl[i]->format;
         SDL_SetColorKey(pacEl[i].get(),SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(fmt,255,0,255));
-        scale_to_size(pacEl[i], Object::PLAYER_SIZE);
+        scale_to_size(pacEl[i], PLAYER_SIZE);
 
         //cache rotated sprites
         for (j=0;j<3;j++) {

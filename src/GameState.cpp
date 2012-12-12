@@ -22,12 +22,16 @@
  * - speeds: see the table. Speed is determined solely by the current tile and state of the player. 100% speed = 9.5 tiles per sec.
  * - pacman and ghosts are free to change direction any time. Ghosts and pacman take in a path as AI.
  * - tunnel: wrap when tile pos exits map bounds. Wrap with pixel accuracy.
+ * - Original tile size was 8 px, pacman size 10x11 px, ghost size 14x25. 
+ *   Simplification: pacman size = ghost size = 0.8 * 2 * tile_size.
+ *   Sizes should be relatively correct
  *
  * In our case we'll start with 1 life. Later we'll add more lifes, but first let's solve the simpler problem
  *
  * The above rules only apply to level 1, I'm assuming pacman won't make it through the first level.
  *
  * The game's logic plays at a fixed rate of 60 ticks per second. So the max render rate is 60 frames per second.
+ *
  *
  * For full details: http://home.comcast.net/~jpittman2/pacman/pacmandossier.html
  */
