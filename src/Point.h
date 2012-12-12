@@ -33,41 +33,41 @@ public:
     }
 
     template <typename U>
-    Point& operator += (const Point<U>& p) {
+    Point<T>& operator += (const Point<U>& p) {
         this->x += p.x;
         this->y += p.y;
         return *this;
     }
 
     template <typename U>
-    Point operator + (const Point<U>& p) const {
-        Point p2(*this);
+    Point<T> operator + (const Point<U>& p) const {
+        Point<T> p2(*this);
         return p2 += p;
     }
 
-    Point& operator *= (double a) {
+    Point<T>& operator *= (double a) {
         this->x *= a;
         this->y *= a;
         return *this;
     }
 
-    Point operator * (double a) const {
-        Point p2(*this);
+    Point<T> operator * (double a) const {
+        Point<T> p2(*this);
         return p2 *= a;
     }
 
-    Point& operator /= (double a) {
+    Point<T>& operator /= (double a) {
         this->x /= a;
         this->y /= a;
         return *this;
     }
 
-    Point operator / (double a) const {
-        Point p2(*this);
+    Point<T> operator / (double a) const {
+        Point<T> p2(*this);
         return p2 /= a;
     }
 
-    Point operator -() const {
+    Point<T> operator -() const {
         return (*this) * -1;
     }
 
