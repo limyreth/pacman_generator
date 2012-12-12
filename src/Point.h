@@ -67,6 +67,10 @@ public:
         return p2 /= a;
     }
 
+    Point operator -() const {
+        return (*this) * -1;
+    }
+
 public:
     T x;
     T y;
