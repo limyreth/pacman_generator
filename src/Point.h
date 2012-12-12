@@ -10,6 +10,8 @@
 
 #pragma once
 
+#include <iostream>
+
 template <typename T>
 class Point
 {
@@ -75,6 +77,11 @@ public:
     T x;
     T y;
 };
+
+template <typename T>
+std::ostream& operator<< (std::ostream& out, Point<T> p) {
+    out << "(" << p.x << ", " << p.y << ")";
+}
 
 typedef Point<int> IPoint;
 typedef Point<double> FPoint;

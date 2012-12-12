@@ -30,16 +30,13 @@ bool GhostState::is_in_tunnel() {
 }
 
 // Note: this has little meaning other than that when it changes, a new action may be chosen (which is by crossing any grid line with offset half a tile)
-IPoint GhostState::get_action_pos() const {
-    return (pos + IPoint(TILE_SIZE, TILE_SIZE)/2) / TILE_SIZE;
-}
 
 void GhostState::get_legal_actions(const int* walls, Action action, Actions legal_actions, const PlayerState* old) {
-    IPoint apos = get_action_pos();
+    IPoint apos = get_half_grid_pos();
 
     IPoint old_apos;
     if (old) {
-        old_apos = ((GhostState*)old)->get_action_pos();
+        old_apos = ((GhostState*)old)->get_half_grid_pos();
     }
     else {
         // set previous pos to an invalid pos

@@ -13,6 +13,15 @@
 #include "GameStateInfo.h"
 #include "Point.h"
 
+namespace ActionFlags {
+    const Action X_AXIS = 0; // TODO extern
+    const Action Y_AXIS = 16;
+    const Action NORTH = 1 + Y_AXIS;
+    const Action EAST = 2 + X_AXIS;
+    const Action SOUTH = 4 + Y_AXIS;
+    const Action WEST = 8 + X_AXIS;
+}
+
 extern const Action BASIC_ACTIONS[];
 
 FPoint action_to_direction(Action action);

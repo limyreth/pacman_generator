@@ -116,7 +116,7 @@ void Game::logicGame() {
         assert(false); // TODO implement proper reaction to this
     }
 
-    /* juicy debug code TODO
+    /* juicy debug code TODO 
     for (int i=0; i<5; ++i) {
         cout << (int)i << endl;
         for (int j=0; j<4; ++j) {

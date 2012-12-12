@@ -31,7 +31,4 @@ public:
 
 public:
     State state;
-
-private:
-    IPoint get_action_pos() const;
 };

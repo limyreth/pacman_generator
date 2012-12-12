@@ -19,4 +19,9 @@ public:
     PacmanState(IPoint spawn_pos);
 
     virtual void get_legal_actions(const int* walls, Action action, Actions legal_actions, const PlayerState* old);
+
+private:
+    bool is_cornering(Action action) const;
+    bool must_continue(Action action, const PlayerState* old) const;
+    IPoint get_bound_pos(FPoint direction) const;
 };

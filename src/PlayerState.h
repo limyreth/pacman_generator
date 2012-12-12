@@ -19,6 +19,7 @@ public:
     PlayerState(IPoint pos);
     void move(Action action, double speed);
     IPoint get_tile_pos() const;
+    IPoint get_half_grid_pos() const;
 
     inline IPoint get_pixel_pos() const {
         return pos;
@@ -27,5 +28,8 @@ public:
     virtual void get_legal_actions(const int* walls, Action action, Actions legal_actions, const PlayerState* old) = 0;
 
 protected:
+    IPoint get_grid_pos(IPoint pos) const;
+
+private:
     IPoint pos;  // current position in pixels
 };

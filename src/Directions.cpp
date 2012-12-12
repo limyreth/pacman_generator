@@ -10,14 +10,6 @@
 #include "Directions.h"
 #include <cmath>
 
-namespace ActionFlags {
-    const Action X_AXIS = 0;
-    const Action Y_AXIS = 16;
-    const Action NORTH = 1 + Y_AXIS;
-    const Action EAST = 2 + X_AXIS;
-    const Action SOUTH = 4 + Y_AXIS;
-    const Action WEST = 8 + X_AXIS;
-}
 
 const Action BASIC_ACTIONS[] = {
     ActionFlags::NORTH,

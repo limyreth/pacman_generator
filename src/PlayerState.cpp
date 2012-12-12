@@ -13,6 +13,8 @@
 #include "Constants.h"
 #include <assert.h>
 
+static_assert(PLAYER_SIZE < 2.0 * TILE_SIZE, "Legal actions logic requires this");
+
 PlayerState::PlayerState(IPoint pos) 
 :   pos(pos)
 {
@@ -49,7 +51,19 @@ void PlayerState::move(Action action, double speed) {
     }
 }
 
+// TODO rename to grid
 IPoint PlayerState::get_tile_pos() const {
+    return get_grid_pos(pos);
+}
+
+IPoint PlayerState::get_grid_pos(IPoint pos) const {
     return pos / TILE_SIZE;
+}
+
+/*
+ * Get position in the grid that's offsetted by half a tile
+ */
+IPoint PlayerState::get_half_grid_pos() const {
+    return (pos + IPoint(1, 1) * TILE_SIZE / 2.0) / TILE_SIZE;
 }
 

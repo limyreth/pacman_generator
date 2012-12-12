@@ -41,6 +41,7 @@
 #include "App.h"
 #include "GameStateInfo.h"
 #include "Utility.h"
+#include "Directions.h"
 #include <string.h>
 
 using std::cout;
@@ -104,19 +105,22 @@ GameState::GameState(const int* walls, GameStateInfo& info)
         Food::NONE, Food::NONE,      Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE,      Food::NONE
     }
 {
-    IPoint spawn = GHOST_SPAWN;
-    ghosts[0] = GhostState(spawn);
-
-    spawn.x += 2 * TILE_SIZE;
-    ghosts[1] = GhostState(spawn);
-
-    spawn = GHOST_SPAWN;
-    spawn.x -= 2 * TILE_SIZE;
-    ghosts[2] = GhostState(spawn);
+    IPoint spawn;
 
     spawn = GHOST_SPAWN;
     spawn.y -= 2.5 * TILE_SIZE;
-    ghosts[3] = GhostState(spawn);
+    ghosts[GHOST_BLINKY] = GhostState(spawn);
+
+    spawn = GHOST_SPAWN;
+    ghosts[GHOST_PINKY] = GhostState(spawn);
+
+    spawn = GHOST_SPAWN;
+    spawn.x -= 2 * TILE_SIZE;
+    ghosts[GHOST_INKY] = GhostState(spawn);
+
+    spawn = GHOST_SPAWN;
+    spawn.x += 2 * TILE_SIZE;
+    ghosts[GHOST_CLYDE] = GhostState(spawn);
 
     // TODO once debug is over, comment this check
     int food_count_ = 0;
@@ -132,7 +136,14 @@ GameState::GameState(const int* walls, GameStateInfo& info)
     // TODO we seem to have only 3 energizers, that's not right...
     assert(food_count_ == food_count); // TODO might want asserts to throw exceptions and have them add some interesting output to display too
 
-    get_legal_actions(walls, NULL, NULL, info);
+    Action actions[ACTION_COUNT];
+    actions[0] = ActionFlags::WEST; // whether pacman starts to west/east doesn't matter
+    actions[1 + GHOST_BLINKY] = 0; // can't tell which way blinky should start
+    actions[1 + GHOST_PINKY] = ActionFlags::NORTH; // towards the exit
+    actions[1 + GHOST_INKY] = ActionFlags::EAST; // towards the exit
+    actions[1 + GHOST_CLYDE] = ActionFlags::WEST; // towards the exit
+
+    get_legal_actions(walls, actions, NULL, info);
 }
 
 /*
