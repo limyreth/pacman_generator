@@ -87,8 +87,12 @@ public:
         return (*this) * -1;
     }
 
+    T dot_product(Point<T> p) const {
+        return x*p.x + y*p.y;
+    }
+
     T length() const {
-        return sqrt(x*x + y*y);
+        return sqrt(dot_product(*this));
     }
 
     void normalise() {
