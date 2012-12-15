@@ -11,6 +11,7 @@
 #pragma once
 
 #include <iostream>
+#include <cmath>
 
 template <typename T>
 class Point
@@ -71,6 +72,14 @@ public:
 
     Point<T> operator -() const {
         return (*this) * -1;
+    }
+
+    T length() const {
+        return sqrt(x*x + y*y);
+    }
+
+    void normalise() {
+        *this /= length();
     }
 
 public:
