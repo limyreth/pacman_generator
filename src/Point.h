@@ -48,6 +48,19 @@ public:
         return p2 += p;
     }
 
+    template <typename U>
+    Point<T>& operator -= (const Point<U>& p) {
+        this->x -= p.x;
+        this->y -= p.y;
+        return *this;
+    }
+
+    template <typename U>
+    Point<T> operator - (const Point<U>& p) const {
+        Point<T> p2(*this);
+        return p2 -= p;
+    }
+
     Point<T>& operator *= (double a) {
         this->x *= a;
         this->y *= a;
