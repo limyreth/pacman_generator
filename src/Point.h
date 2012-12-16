@@ -25,38 +25,32 @@ public:
     {
     }
 
-    template <typename U>
-    bool operator == (const Point<U>& p) const {
+    bool operator == (const Point<T>& p) const {
         return this->x == p.x && this->y == p.y;
     }
 
-    template <typename U>
-    bool operator != (const Point<U>& a) const {
+    bool operator != (const Point<T>& a) const {
         return !(*this == a);
     }
 
-    template <typename U>
-    Point<T>& operator += (const Point<U>& p) {
+    Point<T>& operator += (const Point<T>& p) {
         this->x += p.x;
         this->y += p.y;
         return *this;
     }
 
-    template <typename U>
-    Point<T> operator + (const Point<U>& p) const {
+    Point<T> operator + (const Point<T>& p) const {
         Point<T> p2(*this);
         return p2 += p;
     }
 
-    template <typename U>
-    Point<T>& operator -= (const Point<U>& p) {
+    Point<T>& operator -= (const Point<T>& p) {
         this->x -= p.x;
         this->y -= p.y;
         return *this;
     }
 
-    template <typename U>
-    Point<T> operator - (const Point<U>& p) const {
+    Point<T> operator - (const Point<T>& p) const {
         Point<T> p2(*this);
         return p2 -= p;
     }
