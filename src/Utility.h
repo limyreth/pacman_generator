@@ -11,8 +11,17 @@
 #pragma once
 
 #include "Point.h"
+#include "Constants.h"
+
+inline int at_wrap(int x, int y) {
+    return y * MAP_WIDTH + (x % MAP_WIDTH);
+}
+
+inline int at(int x, int y) {
+    return y * MAP_WIDTH + x;
+}
 
 inline int at(IPoint tile_pos) {
-    return tile_pos.y * MAP_WIDTH + tile_pos.x;
+    return at(tile_pos.y, tile_pos.x);
 }
 
