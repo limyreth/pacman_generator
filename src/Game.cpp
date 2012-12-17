@@ -121,16 +121,6 @@ void Game::logicGame() {
         assert(false); // TODO implement proper reaction to this
     }
 
-    /* juicy debug code TODO 
-    for (int i=0; i<5; ++i) {
-        cout << (int)i << endl;
-        for (int j=0; j<4; ++j) {
-            cout << (int)game_state_info.legal_actions[i][j] << ", ";
-        }
-        cout << endl;
-    }
-    */
-    
     Action actions[PLAYER_COUNT] = {-1, -1, -1, -1, -1};
     for (int i=0; i<PLAYER_COUNT; ++i) {
         for (int j=0; j<4; ++j) {

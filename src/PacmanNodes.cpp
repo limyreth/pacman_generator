@@ -20,7 +20,6 @@ const Node* PacmanNodes::init(const int* walls) {
     assert_valid(nodes);
     for (int x=0; x < MAP_WIDTH; ++x) {
         for (int y=0; y < MAP_HEIGHT; ++y) {
-            std::cout << at(x,y) << std::endl;
             auto& node = nodes.at(at(x, y));
             if (!node)
                 continue;

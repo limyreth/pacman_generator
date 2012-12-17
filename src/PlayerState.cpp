@@ -12,6 +12,7 @@
 #include "Node.h"
 #include "Constants.h"
 #include <assert.h>
+#include "Utility.h"
 
 // default constructor because collections want them, don't use anything
 // instantiated like this, because it is utter garbage
@@ -42,7 +43,7 @@ void PlayerState::move(double distance_moved, Action next_action, Actions legal_
         // consume the next action
         auto old_destination = destination;
         destination = destination->neighbours.at(next_action);
-        get_legal_actions(legal_actions, destination);
+        get_legal_actions(legal_actions, old_destination);
         // TODO move towards new destination for the remainder: distance_moved - direction.length
         return;
     }
@@ -92,6 +93,7 @@ void PlayerState::get_legal_actions(Actions legal_actions, const Node* old_desti
         if (old_destination == destination->neighbours.at(i)) {
             legal_actions[i] = legal_actions[ACTION_COUNT-1];
             legal_actions[ACTION_COUNT-1] = i;
+            break;
         }
     }
 }

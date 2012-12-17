@@ -12,6 +12,7 @@
 
 #include "Point.h"
 #include "Constants.h"
+#include "GameStateInfo.h"
 #include <sstream>
 #include <assert.h>
 
@@ -36,4 +37,11 @@ inline std::string to_string(const T a) {
     std::ostringstream str;
     str << a;
     return str.str();
+}
+
+inline void print_legal_actions(Actions legal_actions) {
+    for (int i=0; i<ACTION_COUNT; ++i) {
+        std::cout << (int)legal_actions[i] << ", ";
+    }
+    std::cout << std::endl;
 }
