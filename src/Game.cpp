@@ -141,10 +141,6 @@ void Game::logicGame() {
             }
         }
     }
-    if (actions[0] == 52) {//TODO
-        int a = 5;
-        a++;
-    }
     game_state_info = get_state()->get_successor(actions);
 }
 
