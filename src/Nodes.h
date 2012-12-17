@@ -10,12 +10,27 @@
 
 #pragma once
 
-#include "PlayerState.h"
-#include "Point.h"
+#include <vector>
 
-class PacmanState : public PlayerState
+#include <boost/shared_ptr.hpp>
+using boost::shared_ptr;
+
+class Node;
+class SDL_Surface;
+
+// these are choice nodes for pacman/ghosts
+class Nodes
 {
 public:
-    PacmanState();
-    PacmanState(const Node* initial_node);
+    Nodes();
+    virtual ~Nodes();
+
+    void draw(shared_ptr<SDL_Surface> buffer);
+
+protected:
+    void init(const int* walls);
+    std::vector<Node*> nodes;
+
+    void assert_valid(const std::vector<Node*>& nodes);
+    void assert_valid(const Node* node);
 };

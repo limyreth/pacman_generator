@@ -8,14 +8,10 @@
  ***************************************************************************/
 
 
-#pragma once
+#include "Node.h"
 
-#include "PlayerState.h"
-#include "Point.h"
-
-class PacmanState : public PlayerState
+Node::Node(FPoint location) 
+:   location(location)
 {
-public:
-    PacmanState();
-    PacmanState(const Node* initial_node);
-};
+}
+

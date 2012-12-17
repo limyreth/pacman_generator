@@ -12,12 +12,18 @@
 
 #include "Point.h"
 #include "Constants.h"
+#include <sstream>
+#include <assert.h>
 
 inline int at_wrap(int x, int y) {
     return y * MAP_WIDTH + (x % MAP_WIDTH);
 }
 
 inline int at(int x, int y) {
+    assert(x >= 0);
+    assert(x < MAP_WIDTH);
+    assert(y >= 0);
+    assert(y < MAP_HEIGHT);
     return y * MAP_WIDTH + x;
 }
 
@@ -25,3 +31,9 @@ inline int at(IPoint tile_pos) {
     return at(tile_pos.y, tile_pos.x);
 }
 
+template <class T>
+inline std::string to_string(const T a) {
+    std::ostringstream str;
+    str << a;
+    return str.str();
+}

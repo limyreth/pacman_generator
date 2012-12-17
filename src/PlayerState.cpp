@@ -9,61 +9,110 @@
 
 
 #include "PlayerState.h"
-#include "Directions.h"
+#include "Node.h"
 #include "Constants.h"
 #include <assert.h>
 
-static_assert(PLAYER_SIZE < 2.0 * TILE_SIZE, "Legal actions logic requires this");
-
-PlayerState::PlayerState(IPoint pos) 
-:   pos(pos)
+// default constructor because collections want them, don't use anything
+// instantiated like this, because it is utter garbage
+PlayerState::PlayerState() 
 {
 }
 
+PlayerState::PlayerState(const Node* initial_node) 
+:   pos(initial_node->location), destination(initial_node)
+{
+    assert(pos.x >= 0);
+    assert(pos.y >= 0);
+}
+
 /*
- * Move player by given action.
+ * Move player distance_moved px towards destination, ...
+ * 
+ * If destination reached, pick new one by next_action.
  *
- * Player will move at FULL_SPEED * speed_modifier.
+ * precondition: next_action is one of previously acquired legal_actions
+ * postcondition: legal_actions contains the legal actions for the next move.
  */
-void PlayerState::move(Action action, double speed) {
-    pos += action_to_direction(action) * speed;
+void PlayerState::move(double distance_moved, Action next_action, Actions legal_actions) {
+    FPoint direction = destination->location - pos;
 
-    // wrap screen when hitting left/right edge of tunnel
-    auto tpos = get_tile_pos();
-    if (tpos.x < 0) {
-        pos.x = MAP_WIDTH * TILE_SIZE - pos.x;
-        assert(get_tile_pos().x < MAP_WIDTH); // TODO rm after testing
+    if (direction.length() <= distance_moved) {
+        // destination reached
+        // consume the next action
+        auto old_destination = destination;
+        destination = destination->neighbours.at(next_action);
+        get_legal_actions(legal_actions, destination);
+        // TODO move towards new destination for the remainder: distance_moved - direction.length
+        return;
     }
-    else if (tpos.x >= MAP_WIDTH) {
-        pos.x -= MAP_WIDTH * TILE_SIZE;
-        assert(get_tile_pos().x > 0); // TODO rm after testing
-    }
+    else {
+        // force to do same action again next tick
+        get_repeat_actions(next_action, legal_actions);
 
-    // To deal with rounding error, center us along the direction perpendicular
-    // to our basic movement direction
-    if (is_basic(action)) {
-        if (is_vertical(action)) {
-            pos.x = (get_tile_pos().x + 0.5) * TILE_SIZE;
+        direction.normalise();
+        pos += direction * distance_moved;
+
+        // wrap screen when hitting left/right edge of tunnel
+        auto tpos = get_tile_pos();
+        if (tpos.x < 0) {
+            pos.x = MAP_WIDTH * TILE_SIZE - pos.x;
+        }
+        else if (tpos.x >= MAP_WIDTH) {
+            pos.x -= MAP_WIDTH * TILE_SIZE;
+        }
+    }
+}
+
+IPoint PlayerState::get_tile_pos() const {
+    assert(pos.x >= 0);
+    assert(pos.y >= 0);
+    assert(pos.x <= MAP_WIDTH * TILE_SIZE);
+    assert(pos.y <= MAP_HEIGHT * TILE_SIZE);
+    return IPoint(pos.x / TILE_SIZE, pos.y / TILE_SIZE);
+}
+
+void PlayerState::get_initial_legal_actions(Actions legal_actions) const {
+    for (Action i=0; i<ACTION_COUNT; ++i) {
+        if (i < destination->neighbours.size()) {
+            legal_actions[i] = i;
         }
         else {
-            pos.y = (get_tile_pos().y + 0.5) * TILE_SIZE;
+            legal_actions[i] = -1;
         }
     }
 }
 
-// TODO rename to grid
-IPoint PlayerState::get_tile_pos() const {
-    return get_grid_pos(pos);
-}
+void PlayerState::get_legal_actions(Actions legal_actions, const Node* old_destination) const {
+    get_initial_legal_actions(legal_actions);
 
-IPoint PlayerState::get_grid_pos(IPoint pos) const {
-    return pos / TILE_SIZE;
+    // order reverse direction last (it's likely the wrong thing to do)
+    assert(old_destination);
+    for (Action i=0; i < destination->neighbours.size(); ++i) {
+        if (old_destination == destination->neighbours.at(i)) {
+            legal_actions[i] = legal_actions[ACTION_COUNT-1];
+            legal_actions[ACTION_COUNT-1] = i;
+        }
+    }
 }
 
 /*
- * Get position in the grid that's offsetted by half a tile
+ * Sets action as only legal action
  */
-IPoint PlayerState::get_half_grid_pos() const {
-    return (pos + IPoint(1, 1) * TILE_SIZE / 2.0) / TILE_SIZE;
+void PlayerState::get_repeat_actions(Action action, Actions legal_actions) const {
+    legal_actions[0] = action;
+    for (Action i=1; i<ACTION_COUNT; ++i) {
+        legal_actions[i] = -1;
+    }
 }
 
+// Note: reversing direction between intersections is a legal action and a
+// perfect play player might actually make use of that. E.g. consider this path between intersections:
+// Dot Dot Dot 
+// => Pac Dot Dot 
+// => None Dot Ghost (pacman reversed because it had to run) 
+// => None Dot Pac (pacman now approaches from the right)
+// => Ghost Pac None (pacman now cleared this path, which would not have been possible without reversing)
+//
+// Reversing is usually not the best action though, so we return it as the last possible legal action (in hope of it getting pruned)
+// TODO might still want to allow a search without reversal though, as it'll probably be a lot quicker to find a solution, although we can't be sure that solution is perfect

@@ -18,6 +18,8 @@
 #include "BckgrObj.h"
 #include "Pacman.h"
 #include "Ghost.h"
+#include "PacmanNodes.h"
+#include "GhostNodes.h"
 
 #include <fstream>
 #include <sstream>
@@ -35,6 +37,9 @@ extern App app;
 
 #define STATE_GAME	0
 #define STATE_STOPPED 4
+
+static PacmanNodes pacman_nodes; // TODO not static
+static GhostNodes ghost_nodes;
 
 void Game::changeSkin() {
     int i;
@@ -125,17 +130,22 @@ void Game::logicGame() {
         cout << endl;
     }
     */
-    Action actions[PLAYER_COUNT] = {0, 0, 0, 0, 0};
+    
+    Action actions[PLAYER_COUNT] = {-1, -1, -1, -1, -1};
     for (int i=0; i<PLAYER_COUNT; ++i) {
         for (int j=0; j<4; ++j) {
             Action action = game_state_info.legal_actions[i][j];
-            if (action > 0) {
+            if (action > -1) {
                 actions[i] = action;
                 break;
             }
         }
     }
-    game_state_info = get_state()->get_successor(walls, actions);
+    if (actions[0] == 52) {//TODO
+        int a = 5;
+        a++;
+    }
+    game_state_info = get_state()->get_successor(actions);
 }
 
 void Game::renderNormal() {
@@ -184,6 +194,10 @@ void Game::renderNormal() {
 
         SDL_BlitSurface(txt.get(),NULL,app.getScreen().get(),&pauserect);
     }
+
+    // draw node map
+    pacman_nodes.draw(app.getScreen());
+    //ghost_nodes.draw(app.getScreen());
 }
 
 bool Game::pause() {
@@ -245,7 +259,7 @@ void Game::gameInit() {
     walls = new int[MAP_HEIGHT*MAP_WIDTH];
     loadMap(tmpstr + MAPFILE, walls);
 
-    game_state_info = GameState::start_new_game(walls);
+    game_state_info = GameState::start_new_game(pacman_nodes.init(walls), ghost_nodes.init(walls));
 
     logtxt.print("Maps loaded");
 

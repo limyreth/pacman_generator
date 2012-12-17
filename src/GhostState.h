@@ -23,11 +23,9 @@ public:
 
 public:
     GhostState();
-    GhostState(IPoint spawn_pos);
+    GhostState(const Node* initial_node);
 
     bool is_in_tunnel();
-
-    virtual void get_legal_actions(const int* walls, Action action, Actions legal_actions, const PlayerState* old);
 
 public:
     State state;

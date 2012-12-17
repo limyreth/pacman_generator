@@ -34,3 +34,8 @@ extern const std::string SKINS_PATH;
 
 #define GHOST_COUNT 4
 #define PLAYER_COUNT GHOST_COUNT + 1
+
+#define GHOST_BLINKY 0
+#define GHOST_PINKY 1
+#define GHOST_INKY 2
+#define GHOST_CLYDE 3

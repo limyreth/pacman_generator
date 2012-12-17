@@ -41,36 +41,28 @@
 #include "App.h"
 #include "GameStateInfo.h"
 #include "Utility.h"
-#include "Directions.h"
+#include "Node.h"
 #include <string.h>
 
+using std::vector;
 using std::cout;
 using std::endl;
 
-#define GHOST_BLINKY 0
-#define GHOST_PINKY 1
-#define GHOST_INKY 2
-#define GHOST_CLYDE 3
-
 extern App app;
-
-static const IPoint PACMAN_SPAWN(14 * TILE_SIZE, 23.5 * TILE_SIZE);
-static const IPoint GHOST_SPAWN = IPoint(14, 14) * TILE_SIZE;
 
 using std::max;
 
 /**
  * Create new game
  */
-GameState::GameState(const int* walls, GameStateInfo& info)
+GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns, GameStateInfo& info)
 :   food_count(244),
     score(0),
     lives(1),
     fruit_spawned(false),
     fruit_ticks_left(-1),
     vulnerable_ticks_left(-1),
-    idler_ticks_left(-1),
-    pacman(PACMAN_SPAWN),
+    idler_ticks_left(0),
     foods {
         Food::NONE, Food::NONE,      Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE,      Food::NONE,
         Food::NONE, Food::DOT,       Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,       Food::NONE,
@@ -105,22 +97,11 @@ GameState::GameState(const int* walls, GameStateInfo& info)
         Food::NONE, Food::NONE,      Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE,      Food::NONE
     }
 {
-    IPoint spawn;
+    pacman = PacmanState(pacman_spawn);
 
-    spawn = GHOST_SPAWN;
-    spawn.y -= 2.5 * TILE_SIZE;
-    ghosts[GHOST_BLINKY] = GhostState(spawn);
-
-    spawn = GHOST_SPAWN;
-    ghosts[GHOST_PINKY] = GhostState(spawn);
-
-    spawn = GHOST_SPAWN;
-    spawn.x -= 2 * TILE_SIZE;
-    ghosts[GHOST_INKY] = GhostState(spawn);
-
-    spawn = GHOST_SPAWN;
-    spawn.x += 2 * TILE_SIZE;
-    ghosts[GHOST_CLYDE] = GhostState(spawn);
+    for (int i=0; i<GHOST_COUNT; ++i) {
+        ghosts[i] = GhostState(ghost_spawns.at(i));
+    }
 
     // TODO once debug is over, comment this check
     int food_count_ = 0;
@@ -136,28 +117,36 @@ GameState::GameState(const int* walls, GameStateInfo& info)
     // TODO we seem to have only 3 energizers, that's not right...
     assert(food_count_ == food_count); // TODO might want asserts to throw exceptions and have them add some interesting output to display too
 
-    Action actions[ACTION_COUNT];
-    actions[0] = ActionFlags::WEST; // whether pacman starts to west/east doesn't matter
-    actions[1 + GHOST_BLINKY] = 0; // can't tell which way blinky should start
-    actions[1 + GHOST_PINKY] = ActionFlags::NORTH; // towards the exit
-    actions[1 + GHOST_INKY] = ActionFlags::EAST; // towards the exit
-    actions[1 + GHOST_CLYDE] = ActionFlags::WEST; // towards the exit
+    get_initial_legal_actions(info);
+}
 
-    get_legal_actions(walls, actions, NULL, info);
+void GameState::get_initial_legal_actions(GameStateInfo& info) {
+    for (int i=0; i<PLAYER_COUNT; ++i) {
+        PlayerState* current = NULL;
+
+        if (i == 0) {
+            current = &pacman;
+        }
+        else {
+            current = &ghosts[i-1];
+        }
+
+        current->get_initial_legal_actions(info.legal_actions[i]);
+    }
 }
 
 /*
  * Create successor of state
  */
-GameState::GameState(const int* walls, const Action* actions, const GameState* state, GameStateInfo& info)
+GameState::GameState(const Action* actions, const GameState* state, GameStateInfo& info)
 :   pacman(state->pacman)  // pacman has no default constructor, so it gets angry unless I use this one
 {
-    std::cout // TODO just some debug output, ... directly to cout
+    /*std::cout // TODO just some debug output, ... directly to cout
         << (int)actions[0] << ", "
         << (int)actions[1] << ", "
         << (int)actions[2] << ", "
         << (int)actions[3] << ", "
-        << (int)actions[4] << std::endl;
+        << (int)actions[4] << std::endl;*/
 
     static const int VULNERABLE_TICKS = 6 * TICK_RATE;  // the amount of ticks ghosts are vulnerable
     static const int FRUIT_TICKS = 10 * TICK_RATE;  // the amount of ticks fruit stays on the map after spawning
@@ -205,40 +194,49 @@ GameState::GameState(const int* walls, const Action* actions, const GameState* s
 
     // Move players
     {
-        // TODO cornering
         double speed_modifier;
 
-        // move pacman
-        if (idler_ticks_left <= 0) {
-            if (get_vulnerable_ghost_count() > 0) {
-                speed_modifier = 0.9;
+        
+        for (int i=0; i<PLAYER_COUNT; i++) {
+            PlayerState* player;
+            if (i == 0) {
+                // pacman
+                if (idler_ticks_left > 0) {
+                    idler_ticks_left = max(idler_ticks_left - 1, 0);
+                    speed_modifier = 0;
+                    //TODO check fruit timing and such. We need unit tests of the GameState class.
+                }
+                else if (get_vulnerable_ghost_count() > 0) {
+                    speed_modifier = 0.9;
+                }
+                else {
+                    speed_modifier = 0.8;
+                }
+
+                player = &pacman;
             }
             else {
-                speed_modifier = 0.8;
+                const int ghost_i = i-1;
+                if (ghosts[ghost_i].is_in_tunnel()) {
+                    speed_modifier = 0.4;
+                }
+                else if (ghosts[ghost_i].state = GhostState::VULNERABLE) {
+                    speed_modifier = 0.5;
+                }
+                else if (is_elroy2(ghost_i)) {
+                    speed_modifier = 0.85;
+                }
+                else if (is_elroy1(ghost_i)) {
+                    speed_modifier = 0.8;
+                }
+                else {
+                    speed_modifier = 0.75;
+                }
+
+                player = &ghosts[ghost_i];
             }
 
-            pacman.move(actions[0], FULL_SPEED * speed_modifier);
-        }
-        idler_ticks_left = max(idler_ticks_left - 1, -1);
-
-        // move ghosts
-        for (int i=0; i<GHOST_COUNT; i++) {
-            if (ghosts[i].is_in_tunnel()) {
-                speed_modifier = 0.4;
-            }
-            else if (ghosts[i].state = GhostState::VULNERABLE) {
-                speed_modifier = 0.5;
-            }
-            else if (is_elroy2(i)) {
-                speed_modifier = 0.85;
-            }
-            else if (is_elroy1(i)) {
-                speed_modifier = 0.8;
-            }
-            else {
-                speed_modifier = 0.75;
-            }
-            ghosts[i].move(actions[1+i], FULL_SPEED * speed_modifier);
+            player->move(FULL_SPEED * speed_modifier, actions[i], info.legal_actions[i]);
         }
     }
 
@@ -287,7 +285,7 @@ GameState::GameState(const int* walls, const Action* actions, const GameState* s
 
         app.dot_eaten();
 
-        assert(idler_ticks_left == -1);
+        assert(idler_ticks_left == 0);
         idler_ticks_left = 1;  // pacman can't move for 1 tick after eating a dot
     }
     else if (foods[food_index] == Food::ENERGIZER) {
@@ -309,54 +307,21 @@ GameState::GameState(const int* walls, const Action* actions, const GameState* s
         app.getSnd()->play(5, 0);
         fruit_spawned = false;
     }*/
-
-
-    ///////////////////////////////////
-    //	OTHER
-    ///////////////////////////////////
-
-
-    // Calculate next legal actions
-    get_legal_actions(walls, actions, state, info);
 }
 
-void GameState::get_legal_actions(const int* walls, const Action* actions, const GameState* state, GameStateInfo& info) {
-    for (int i=0; i<PLAYER_COUNT; ++i) {
-        Action current_action = -1;
-        PlayerState* current = NULL;
-        const PlayerState* old = NULL;
-
-        if (i == 0) {
-            current = &pacman;
-            if (state)
-                old = &state->pacman;
-        }
-        else {
-            current = &ghosts[i-1];
-            if (state)
-                old = &state->ghosts[i-1];
-        }
-
-        if (actions)
-            current_action = actions[i];
-
-        current->get_legal_actions(walls, current_action, info.legal_actions[i], old);
-    }
-}
-
-GameStateInfo GameState::start_new_game(const int* walls) {
+GameStateInfo GameState::start_new_game(const Node* pacman_spawn, const vector<Node*> ghost_spawns) {
     GameStateInfo info;
-    info.state.reset(new GameState(walls, info));
+    info.state.reset(new GameState(pacman_spawn, ghost_spawns, info));
     info.legal_actions;
     return info;
 }
 
-GameStateInfo GameState::get_successor(const int* walls, const Action* actions) {
+GameStateInfo GameState::get_successor(const Action* actions) {
     assert(!did_pacman_win());
     assert(!did_pacman_lose());
 
     GameStateInfo info;
-    info.state.reset(new GameState(walls, actions, this, info));
+    info.state.reset(new GameState(actions, this, info));
     return info;
 }
 

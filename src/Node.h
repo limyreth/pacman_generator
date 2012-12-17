@@ -10,12 +10,20 @@
 
 #pragma once
 
-#include "PlayerState.h"
+#include <vector>
 #include "Point.h"
 
-class PacmanState : public PlayerState
+#include <boost/shared_ptr.hpp>
+
+using boost::shared_ptr;
+
+// these are choice nodes for pacman/ghosts
+class Node
 {
 public:
-    PacmanState();
-    PacmanState(const Node* initial_node);
+    Node(FPoint location);
+
+public:
+    FPoint location; // TODO player locations should also be FPoint
+    std::vector<Node*> neighbours;
 };

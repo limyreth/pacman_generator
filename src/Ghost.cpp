@@ -36,7 +36,7 @@ void Ghost::Draw(const GhostState& current) {
     SDL_Rect pos;
 
     // center the image on our current location
-    IPoint real_pos = current.get_pixel_pos();
+    FPoint real_pos = current.get_pixel_pos();
     pos.x = real_pos.x - PLAYER_SIZE/2;
     pos.y = real_pos.y - PLAYER_SIZE/2;
 

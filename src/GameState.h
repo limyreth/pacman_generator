@@ -17,14 +17,15 @@
 #include "Constants.h"
 
 #include <assert.h>
+#include <vector>
 
 class GameStateInfo;
 
 class GameState : public boost::noncopyable  // why copy a big thing when you can point!
 {
 public:
-    static GameStateInfo start_new_game(const int* walls);
-    GameStateInfo get_successor(const int* walls, const Action* actions);  // game state after 1 tick/frame
+    static GameStateInfo start_new_game(const Node* pacman_spawn, const std::vector<Node*> ghost_spawns);
+    GameStateInfo get_successor(const Action* actions);  // game state after 1 tick/frame
 
     bool get_vulnerable_ghost_count() const;
 
@@ -62,10 +63,11 @@ public:
     }
 
 private:
-    GameState(const int* walls, GameStateInfo& info);
-    GameState(const int* walls, const Action* actions, const GameState* state, GameStateInfo& info);
+    GameState(const Node* pacman_spawn, const std::vector<Node*> ghost_spawns, GameStateInfo& info);
+    GameState(const Action* actions, const GameState* state, GameStateInfo& info);
 
-    void get_legal_actions(const int* walls, const Action* actions, const GameState* state, GameStateInfo& info);
+    void get_initial_legal_actions(GameStateInfo& info);
+    void get_legal_actions(const Action* actions, const GameState* state, GameStateInfo& info);
 
     void resetLvl();
     void nextLvl();

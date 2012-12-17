@@ -58,7 +58,7 @@ void Pacman::Draw(const PacmanState state) {
     else i=0; //avoid compiler warning
 
     // center the image on our current location
-    IPoint real_pos = state.get_pixel_pos();
+    FPoint real_pos = state.get_pixel_pos();
     pos.x = real_pos.x - PLAYER_SIZE/2;
     pos.y = real_pos.y - PLAYER_SIZE/2;
 

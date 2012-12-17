@@ -13,23 +13,27 @@
 #include "Point.h"
 #include "GameStateInfo.h"
 
+class Node;
+
 class PlayerState
 {
 public:
-    PlayerState(IPoint pos);
-    void move(Action action, double speed);
+    PlayerState();
+    PlayerState(const Node* initial_node);
+    void move(double distance_moved, Action next_action, Actions legal_actions);
     IPoint get_tile_pos() const;
-    IPoint get_half_grid_pos() const;
 
-    inline IPoint get_pixel_pos() const {
+    inline FPoint get_pixel_pos() const {
         return pos;
     }
 
-    virtual void get_legal_actions(const int* walls, Action action, Actions legal_actions, const PlayerState* old) = 0;
-
-protected:
-    IPoint get_grid_pos(IPoint pos) const;
+    void get_initial_legal_actions(Actions legal_actions) const;
 
 private:
-    IPoint pos;  // current position in pixels
+    void get_legal_actions(Actions legal_actions, const Node* old_destination) const;
+    void get_repeat_actions(Action action, Actions legal_actions) const;
+
+private:
+    FPoint pos;  // current position in pixels
+    const Node* destination;  // move towards this node
 };

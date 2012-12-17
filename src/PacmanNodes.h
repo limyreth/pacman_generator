@@ -10,12 +10,12 @@
 
 #pragma once
 
-#include "PlayerState.h"
-#include "Point.h"
+#include <vector>
+#include "Nodes.h"
 
-class PacmanState : public PlayerState
+// these are choice nodes for pacman/ghosts
+class PacmanNodes : public Nodes
 {
 public:
-    PacmanState();
-    PacmanState(const Node* initial_node);
+    const Node* init(const int* walls);
 };
