@@ -1,5 +1,7 @@
 CMakeFiles
 CMakeCache.txt
 cmake_install.cmake
+Testing
+CTestTestfile.cmake
 pacman_sdl
 *.swp

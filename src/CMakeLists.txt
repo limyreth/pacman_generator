@@ -48,3 +48,15 @@ target_link_libraries(pacman_sdl
     ${SDL_GFX_LIBRARIES} 
     ${LIBS} 
 )
+
+
+######## Testing ############
+
+enable_testing()
+
+add_test(
+    NAME DummyTest 
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/..
+    COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pacman_sdl
+)
+
