@@ -82,15 +82,9 @@ bool Game::emptyMsgPump() {
 
 void Game::toggleSound() {
 
-    if ( app.getSnd()->on) {
-        app.getSnd()->toggleSounds();
-    }
-    else {
-        app.getSnd()->toggleSounds();
-
-        if (gamestarted && !ispaused ) app.getSnd()->play(10, 1);
-        if (gamestarted && get_state()->get_vulnerable_ghost_count()>0 && !ispaused ) app.getSnd()->play(7, 1);
-    }
+    app.getSnd()->toggleSounds();
+    if (gamestarted && !ispaused ) app.getSnd()->play(10, 1);
+    if (gamestarted && get_state()->get_vulnerable_ghost_count()>0 && !ispaused ) app.getSnd()->play(7, 1);
 }
 
 void Game::setState(int st) {

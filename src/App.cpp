@@ -9,7 +9,8 @@
 
 
 #include "App.h"
-#include "Sounds.h"
+#include "NullSounds.h"
+#include "DefaultSounds.h"
 #include "Constants.h"
 #include "Log.h"
 #include "Error.h"
@@ -47,9 +48,14 @@ void App::InitApp() {
 }
 
 void App::InitSound() {
-    snd = new Sounds();
-    snd->init();
-    snd->toggleSounds();  // start muted
+    if (true) {  //TODO offer choice to turn it on
+        // use disabled sound (!= muted)
+        // This is handy for debugging (no more alsa underrun messages)
+        snd = new NullSounds();
+    }
+    else {
+        snd = new DefaultSounds();
+    }
 
     logtxt.print("Sound initialized");
 }

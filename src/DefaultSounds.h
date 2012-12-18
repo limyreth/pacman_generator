@@ -10,13 +10,30 @@
 
 #pragma once
 
+#include "Sounds.h"
 
-class Sounds
+#include <boost/shared_ptr.hpp>
+using boost::shared_ptr;
+
+class Mix_Chunk;
+
+#define NUMOFSOUNDS 13
+
+class DefaultSounds : public Sounds
 {
 public:
-    virtual ~Sounds() {};
-    virtual void play(int i, bool looped=0, int volume=128) = 0;
-    virtual void stop(int i) = 0;
-    virtual void stop() = 0;
-    virtual void toggleSounds() = 0;
+    DefaultSounds();
+    ~DefaultSounds();
+    void play(int i, bool looped=0, int volume=128);
+    void stop(int i);
+    void stop();
+    void toggleSounds();
+
+private:
+    shared_ptr<Mix_Chunk> snd[NUMOFSOUNDS];
+
+    std::string sndPaths[NUMOFSOUNDS];
+
+    bool isinit;
+    bool on;
 };
