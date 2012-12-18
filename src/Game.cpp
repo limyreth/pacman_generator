@@ -29,8 +29,6 @@
 using std::cout;
 using std::endl;
 
-extern Log logtxt;
-
 #define PAC 1
 #define MAPFILE "map"
 

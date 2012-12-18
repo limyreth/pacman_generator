@@ -13,8 +13,6 @@
 #include "Log.h"
 #include <SDL/SDL_mixer.h>
 
-extern Log logtxt;
-
 using std::string;
 
 void Sounds::toggleSounds() {

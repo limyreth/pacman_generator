@@ -26,3 +26,5 @@ private:
     std::string
             filename;
 };
+
+extern Log logtxt;

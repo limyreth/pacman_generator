@@ -14,6 +14,8 @@
 
 #define WNDTITLE	"pacman_sdl (" __DATE__ ", " __TIME__ ")"
 
+Log logtxt;
+
 void Log::print(std::string txt) {
     std::ofstream file(filename.c_str(), std::ios::app);
 

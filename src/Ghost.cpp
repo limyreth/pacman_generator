@@ -16,8 +16,6 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
-extern Log logtxt;
-
 void Ghost::Draw(int ix, int iy, int obj, int type) {
     SDL_Rect pos;
 
