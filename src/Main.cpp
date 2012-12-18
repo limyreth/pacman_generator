@@ -16,15 +16,12 @@
 
 #include "Game.h"
 #include "Log.h"
-#include "App.h"
 
 //////////////////////////////////////////////////////
 //	GLOBAL VARS
 //////////////////////////////////////////////////////
 
 Log		logtxt;
-App		app;
-
 
 //////////////////////////////////////////////////////
 //	MAIN
@@ -51,10 +48,6 @@ int main( int argc, char** argv ) {
 
     try {
         logtxt.setFilename(".pacman_sdl");
-
-        app.InitApp();
-        app.InitWindow();
-        app.InitSound();
 
         Game game;
         game.gameInit();

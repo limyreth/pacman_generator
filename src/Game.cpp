@@ -30,7 +30,6 @@ using std::cout;
 using std::endl;
 
 extern Log logtxt;
-extern App app;
 
 #define PAC 1
 #define MAPFILE "map"
@@ -40,6 +39,7 @@ extern App app;
 
 static PacmanNodes pacman_nodes; // TODO not static
 static GhostNodes ghost_nodes;
+static App app; // TODO not static
 
 void Game::changeSkin() {
     int i;
@@ -131,7 +131,7 @@ void Game::logicGame() {
             }
         }
     }
-    game_state_info = get_state()->get_successor(actions);
+    game_state_info = get_state()->get_successor(actions, app);
 }
 
 void Game::renderNormal() {
@@ -421,6 +421,10 @@ Game::Game()
     renderisbusy(false)
 
 {
+    app.InitApp();
+    app.InitWindow();
+    app.InitSound();
+
     int i;
 
     fps = "loading";

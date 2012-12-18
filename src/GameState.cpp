@@ -48,8 +48,6 @@ using std::vector;
 using std::cout;
 using std::endl;
 
-extern App app;
-
 using std::max;
 
 /**
@@ -138,7 +136,7 @@ void GameState::get_initial_legal_actions(GameStateInfo& info) {
 /*
  * Create successor of state
  */
-GameState::GameState(const Action* actions, const GameState* state, GameStateInfo& info)
+GameState::GameState(const Action* actions, const GameState* state, GameStateInfo& info, App& app)
 :   pacman(state->pacman)  // pacman has no default constructor, so it gets angry unless I use this one
 {
     static const int VULNERABLE_TICKS = 6 * TICK_RATE;  // the amount of ticks ghosts are vulnerable
@@ -309,12 +307,12 @@ GameStateInfo GameState::start_new_game(const Node* pacman_spawn, const vector<N
     return info;
 }
 
-GameStateInfo GameState::get_successor(const Action* actions) {
+GameStateInfo GameState::get_successor(const Action* actions, App& app) {
     assert(!did_pacman_win());
     assert(!did_pacman_lose());
 
     GameStateInfo info;
-    info.state.reset(new GameState(actions, this, info));
+    info.state.reset(new GameState(actions, this, info, app));
     return info;
 }
 
