@@ -16,7 +16,11 @@
 
 #include "Game.h"
 #include "Log.h"
+#include "Tests.h"
+#include <sstream>
 
+using std::string;
+using std::cout;
 
 //////////////////////////////////////////////////////
 //	MAIN
@@ -25,22 +29,29 @@
 int main( int argc, char** argv ) {
     std::string str="";
 
-    for (int i = 1;i<argc;i++) {
-        str=argv[i];
-        if (str=="--help") {
-            std::cout << "pacman usage:\n\ncommandline arguments\n--help:\t\tshow this message\n"
-                    << "ingame\nesc/q:\tquit\narrows:\tmovement\n"
-                    << "p:\ttoggle pause\nn:\tnew game\n"
-                    << "f:\ttoggle fps display\n";
-            return 0;
-        }
-        else
-            std::cerr << "unrecognized commandline option\n";
-    }
-
-    srand( (unsigned int)time(NULL) );
-
     try {
+        for (int i = 1;i<argc;i++) {
+            str=argv[i];
+            if (str=="--help") {
+                std::cout << "pacman usage:\n\ncommandline arguments\n--help:\t\tshow this message\n"
+                        << "ingame\nesc/q:\tquit\narrows:\tmovement\n"
+                        << "p:\ttoggle pause\nn:\tnew game\n"
+                        << "f:\ttoggle fps display\n";
+                return 0;
+            }
+            else if (str == "--test") {
+                std::istringstream str(argv[i+1]);
+                int index;
+                str >> index;
+                test(index-1);
+                return 0;
+            }
+            else
+                std::cerr << "unrecognized commandline option\n";
+        }
+
+        srand( (unsigned int)time(NULL) );
+
         logtxt.setFilename(".pacman_sdl");
 
         Game game;

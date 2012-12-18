@@ -56,7 +56,11 @@ enable_testing()
 
 add_test(
     NAME DummyTest 
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/..
-    COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pacman_sdl
+    COMMAND pacman_sdl --test 1
+)
+
+add_test(
+    NAME DummyTest2
+    COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pacman_sdl --test 2
 )
 
