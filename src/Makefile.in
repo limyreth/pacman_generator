@@ -17,8 +17,6 @@ CPPFLAGS = @CPPFLAGS@
 CFLAGS = $(CPPFLAGS) @CFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
-#INSTALL = @INSTALL@
-INSTALL = install
 CP = cp
 CHMOD = chmod
 
@@ -33,19 +31,3 @@ all:
 clean:
 	rm -f $(OBJECTS)
 
-install:
-	mkdir -p $(DESTDIR)/usr/bin/
-	mkdir -p $(DESTDIR)/usr/share/applications/
-	mkdir -p $(DESTDIR)/usr/share/pacman_sdl/levels
-
-	$(INSTALL) -m644 pacman_sdl.desktop $(DESTDIR)/usr/share/applications/
-	$(INSTALL) -m755 pacman_sdl $(DESTDIR)/usr/bin/
-	$(INSTALL) -m644 ../icon.png $(DESTDIR)/usr/share/pacman_sdl/
-	$(INSTALL) -m644 ../arial.ttf $(DESTDIR)/usr/share/pacman_sdl/
-	$(INSTALL) -m644 ../settings.conf $(DESTDIR)/usr/share/pacman_sdl/
-
-	$(CP) -r ../levels/ $(DESTDIR)/usr/share/pacman_sdl
-	$(CP) -r ../skins/ $(DESTDIR)/usr/share/pacman_sdl
-	$(CP) -r ../sound/ $(DESTDIR)/usr/share/pacman_sdl
-	
-	$(CHMOD) 666 $(DESTDIR)/usr/share/pacman_sdl/levels/*/hscore
