@@ -43,9 +43,6 @@ private:
     //Global
     //////////////
 
-    bool
-            quit;       //if true then quit application
-
     shared_ptr<SDL_Surface>
             screen,    //screen surface
             buf;       //buffer surface

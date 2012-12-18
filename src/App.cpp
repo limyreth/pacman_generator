@@ -61,8 +61,7 @@ void App::dot_eaten() {
 }
 
 App::App()
-:   quit(false),
-    snd(NULL)
+:   snd(NULL)
 {
 }
 
