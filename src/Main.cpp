@@ -69,7 +69,7 @@ int main( int argc, char** argv ) {
         logtxt.print( "Shutdown" );
     }
     catch (const std::exception& e) {
-        app.log_exception(e);
+        logtxt.log_exception(e);
         return 1;
     }
 

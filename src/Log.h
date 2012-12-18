@@ -20,6 +20,7 @@ public:
 
     void setFilename(std::string fn);
     void print(std::string txt);
+    void log_exception(const std::exception& e);
 
 private:
     std::string

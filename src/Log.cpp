@@ -45,3 +45,20 @@ Log::Log()
 Log::~Log()
 {
 }
+
+void Log::log_exception(const std::exception& e) {
+    auto* file_name = boost::get_error_info<boost::throw_file>(e);
+    auto* function_name = boost::get_error_info<boost::throw_function>(e);
+    auto* line_number = boost::get_error_info<boost::throw_line>(e);
+
+    std::ostringstream out;
+    if (file_name) {
+        // assume others are valid too iff file_name is valid
+        out << *file_name <<  ":" << std::endl << *function_name << ":" << *line_number << ":" << std::endl;
+    }
+    out << e.what();
+
+    std::cerr << out.str() << std::endl;
+    print(out.str());
+}
+

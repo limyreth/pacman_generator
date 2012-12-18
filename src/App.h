@@ -35,7 +35,6 @@ public:
     Sounds* getSnd() { return snd; }
     void dot_eaten();
     void delay(unsigned int ms);
-    void log_exception(const std::exception& e);
 
 private:
 
