@@ -317,9 +317,6 @@ Game::Game()
 
     for (i=0;i<NUMOFOBJECTS;i++)
         objects[i] = NULL;
-
-    for (i=0;i<10;i++)
-        num[i]='0'+i;
 }
 
 Game::~Game()

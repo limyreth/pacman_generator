@@ -89,10 +89,6 @@ private:
 
     bool showfps;
 
-    std::string
-            num[10];
-
-
     PacmanNodes pacman_nodes;
     GhostNodes ghost_nodes;
     App app;
