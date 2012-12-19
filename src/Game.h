@@ -10,8 +10,6 @@
 
 #pragma once
 
-#include <SDL/SDL.h>  // TODO if many include Game.h, then this should be split off to elsewhere
-#include <SDL/SDL_ttf.h>
 #include "GameStateInfo.h"
 #include "PacmanNodes.h"
 #include "GhostNodes.h"
@@ -19,78 +17,31 @@
 #include <boost/shared_ptr.hpp>
 using boost::shared_ptr;
 
-class Sounds;
 class GameState;
-class Object;
 class UIHints;
-
-#define NUMOFOBJECTS 6
 
 class Game
 {
 public:
-    Game();
-    ~Game();
+    Game(const int* walls);
 
-    void InitApp();
-    void InitWindow();
-    void InitSound();
-    void loadFont();
-    bool loadSprites();
-    void loadMap(std::string file, int* memmap);
+    void processLogic(shared_ptr<UIHints> uihints);
+    void logicGame(shared_ptr<UIHints> uihints);
 
-    void render();
-    void renderNormal();
-
-    std::string getFPS();
-
-    void processLogic();
-    void logicGame();
-
-    void toggleFps() { showfps = !showfps; }
-
-    void toggleSound();
-    bool emptyMsgPump();
-
-private:
-    inline shared_ptr<GameState> get_state() {
+    inline shared_ptr<GameState> get_state() const {
         return game_state_info.state;
     }
 
+    inline const PacmanNodes& get_pacman_nodes() const {
+        return pacman_nodes;
+    }
+
+    inline const GhostNodes& get_ghost_nodes() const {
+        return ghost_nodes;
+    }
+
 private:
-    shared_ptr<UIHints> uihints;
-
-    shared_ptr<SDL_Surface>
-            screen,    //screen surface
-            buf;       //buffer surface
-
-    Sounds *snd;
-
-    int
-            counter;
-
-    std::string
-            fps;
-
-    SDL_Rect
-            fpsbox,
-            scorebox;
-
-    unsigned int
-            ticks;
-
-    TTF_Font
-            *font;
-
-    Object
-            *objects[NUMOFOBJECTS];
-
-
     GameStateInfo game_state_info;
-
-    int *walls;
-
-    bool showfps;
 
     PacmanNodes pacman_nodes;
     GhostNodes ghost_nodes;

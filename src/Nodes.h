@@ -25,14 +25,14 @@ public:
     Nodes();
     virtual ~Nodes();
 
-    void draw(shared_ptr<SDL_Surface> buffer);
+    void draw(shared_ptr<SDL_Surface> buffer) const;
 
 protected:
     void init(const int* walls);
     std::vector<Node*> nodes;
 
-    void assert_valid(const std::vector<Node*>& nodes);
-    void assert_valid(const Node* node);
+    void assert_valid(const std::vector<Node*>& nodes) const;
+    void assert_valid(const Node* node) const;
 
-    double get_branching_factor(const std::vector<Node*>& nodes);
+    double get_branching_factor(const std::vector<Node*>& nodes) const;
 };

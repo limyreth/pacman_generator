@@ -100,14 +100,14 @@ void Nodes::init(const int* walls) {
     }
 }
 
-void Nodes::assert_valid(const vector<Node*>& nodes) {
+void Nodes::assert_valid(const vector<Node*>& nodes) const {
     for (auto node : nodes) {
         if (node)
             assert_valid(node);
     }
 }
 
-void Nodes::assert_valid(const Node* node) {
+void Nodes::assert_valid(const Node* node) const {
     assert(node->neighbours.size() > 0);  // odd
     for (auto neighbour : node->neighbours) { //TODO perhaps rm this check
         assert((int)neighbour->location.x > 0);
@@ -115,7 +115,7 @@ void Nodes::assert_valid(const Node* node) {
     BOOST_ASSERT_MSG(node->neighbours.size() <= ACTION_COUNT, to_string(node->neighbours.size()).c_str());  // required by PlayerState
 }
 
-void Nodes::draw(shared_ptr<SDL_Surface> screen) {
+void Nodes::draw(shared_ptr<SDL_Surface> screen) const {
     for (auto node : nodes) {
         if (!node)
             continue;
@@ -138,7 +138,7 @@ void Nodes::draw(shared_ptr<SDL_Surface> screen) {
     }
 }
 
-double Nodes::get_branching_factor(const vector<Node*>& nodes) {
+double Nodes::get_branching_factor(const vector<Node*>& nodes) const {
     double branching_factor = 0.0;
     int count = 0;
     for (auto node : nodes) {

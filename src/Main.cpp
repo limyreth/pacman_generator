@@ -15,16 +15,55 @@
 //////////////////////////////////////////////////////
 
 #include "Game.h"
+#include "GUI.h"
 #include "Log.h"
 #include "Tests.h"
 #include <sstream>
 
+#include "Constants.h"
+#include "Error.h"
+#include <fstream>
+#define MAPFILE "map"
+
 using std::string;
 using std::cout;
 
-//////////////////////////////////////////////////////
-//	MAIN
-//////////////////////////////////////////////////////
+void loadMap(std::string file, int* memmap) {
+    int i, count=0, size = MAP_HEIGHT * MAP_WIDTH;
+    std::string tmp;
+    char c('i');
+    std::ifstream mp;
+
+    mp.open( file.c_str() );
+
+    if (!mp ) {
+        throw_exception(file + " - Loading error");
+    }
+
+    for (i=0;i<size;i++) {
+        do {
+            if ( mp.eof() ) break;
+            c=mp.get();
+            if (c == '/' ) {	// enable comments in map file by prefixing line with  a slash
+                getline(mp, tmp);
+                continue;
+            }
+        }
+        while (! (c >= '0' && c <= '9') ) ;
+        memmap[i]=c-48;
+        count++;
+        if (!mp) break;
+    }
+
+    if ( mp.is_open() ) mp.close();
+
+    if (count != size) {
+        throw_exception(file + " - Loading error");
+    }
+
+    logtxt.print(file + " loaded");
+}
+
 
 int main( int argc, char** argv ) {
     std::string str="";
@@ -54,12 +93,17 @@ int main( int argc, char** argv ) {
 
         logtxt.setFilename(".pacman_sdl");
 
-        Game game;
+        int walls[MAP_HEIGHT * MAP_WIDTH];
+        loadMap(LEVEL_PATH + MAPFILE, walls);
+
+        Game game(walls);
+        GUI gui(game);
+        shared_ptr<UIHints> uihints = gui.create_uihints();
 
         //main loop
-        while (game.emptyMsgPump()) {
-            game.processLogic();
-            game.render();// TODO don't render when generating
+        while (gui.emptyMsgPump()) {
+            gui.render(walls);
+            game.processLogic(uihints);
         }
 
         //shutdown
