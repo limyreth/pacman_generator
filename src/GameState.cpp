@@ -165,7 +165,7 @@ GameState::GameState(const Action* actions, const GameState* state, GameStateInf
             }
         }
 
-        app.getSnd()->stop(7);
+        app.ghosts_no_longer_vulnerable();
     }
     vulnerable_ticks_left = max(vulnerable_ticks_left - 1, -1);  // Consume 1 tick of timer
 
@@ -247,10 +247,7 @@ GameState::GameState(const Action* actions, const GameState* state, GameStateInf
                 // pacman gets eaten
                 lives--;
 
-                app.getSnd()->stop();
-                app.getSnd()->play(8, 0);
-
-                app.delay(1000);
+                app.ate_pacman();
 
                 if (get_lives() > 0) {
                     resetLvl();
@@ -261,7 +258,7 @@ GameState::GameState(const Action* actions, const GameState* state, GameStateInf
                 // pacman eats ghost
                 score += (int) pow(2.0, GHOST_COUNT - get_vulnerable_ghost_count()) * 200;
                 ghost.state = GhostState::DEAD;
-                app.getSnd()->play(4,0);
+                app.ate_ghost();
             }
         }
     }
@@ -274,7 +271,7 @@ GameState::GameState(const Action* actions, const GameState* state, GameStateInf
         --food_count;
         score += 10;
 
-        app.dot_eaten();
+        app.ate_dot();
 
         assert(idler_ticks_left == 0);
         idler_ticks_left = 1;  // pacman can't move for 1 tick after eating a dot
@@ -284,8 +281,7 @@ GameState::GameState(const Action* actions, const GameState* state, GameStateInf
         --food_count;
         score += 50;
 
-        app.getSnd()->play(3, 0);
-        app.getSnd()->play(7, 1);
+        app.ate_energizer();
 
         vulnerable_ticks_left = VULNERABLE_TICKS;
 
@@ -295,6 +291,7 @@ GameState::GameState(const Action* actions, const GameState* state, GameStateInf
     /*else if (fruit_spawned && foods[food_index] == 3) { // TODO fix
         // eat fruit
         score += get_fruit_score();
+        ate_fruit
         app.getSnd()->play(5, 0);
         fruit_spawned = false;
     }*/
@@ -340,6 +337,7 @@ void GameState::nextLvl() {
     /*std::string tmpstr;
     level++;
 
+    app.reached_next_level
     app.getSnd()->stop();
     app.getSnd()->play(9);
 
@@ -390,7 +388,8 @@ void GameState::nextLvl() {
 void GameState::resetLvl() {	// vars and positions when pacman dies during level
     assert(false); // we're testing with lives==0 for now
 
-    /*app.getSnd()->stop();
+    /*
+    app.getSnd()->stop();
 
     SDL_Delay(1000);
 

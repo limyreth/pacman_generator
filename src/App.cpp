@@ -13,12 +13,6 @@
 #include <SDL/SDL.h>
 #include "Sounds.h"
 
-void App::dot_eaten() {
-    static unsigned int sound_counter = 0;
-    snd->play(1 + sound_counter%2, 0, -500);
-    sound_counter++;
-}
-
 App::App(Sounds* snd)
 :   snd(snd)
 {
@@ -29,3 +23,27 @@ void App::delay(unsigned int ms) {
     SDL_Delay(10*ms);  // 10* for easier debugging TODO rm again
 }
 
+void App::ate_dot() {
+    static unsigned int sound_counter = 0;
+    snd->play(1 + sound_counter%2, 0, -500);
+    sound_counter++;
+}
+
+void App::ghosts_no_longer_vulnerable() {
+    snd->stop(7);
+}
+
+void App::ate_pacman() {
+    snd->stop();
+    snd->play(8, 0);
+    delay(1000);
+}
+
+void App::ate_ghost() {
+    snd->play(4,0);
+}
+
+void App::ate_energizer() {
+    snd->play(3, 0);
+    snd->play(7, 1);
+}

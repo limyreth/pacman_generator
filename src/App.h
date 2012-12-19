@@ -20,9 +20,13 @@ class App
 public:
     App(Sounds* snd);
 
-    Sounds* getSnd() { return snd; }
-    void dot_eaten();
     void delay(unsigned int ms);
+
+    void ate_dot();
+    void ate_energizer();
+    void ate_ghost();
+    void ate_pacman();
+    void ghosts_no_longer_vulnerable();
 
 private:
     Sounds *snd;
