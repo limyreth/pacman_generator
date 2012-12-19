@@ -8,24 +8,12 @@
  ***************************************************************************/
 
 
-#pragma once
+#include "SDLUtility.h"
 
-#include <boost/shared_ptr.hpp>
-using boost::shared_ptr;
+#include <SDL/SDL.h>
 
-class Sounds;
+void delay(unsigned int ms) {
+    //return; // TODO use bool no_gui or inheritance or something to switch whether or not to delay. Should only delay when showing things in GUI
+    SDL_Delay(10*ms);  // 10* for easier debugging TODO rm again
+}
 
-class UIHints
-{
-public:
-    UIHints(Sounds* snd);
-
-    void ate_dot();
-    void ate_energizer();
-    void ate_ghost();
-    void ate_pacman();
-    void ghosts_no_longer_vulnerable();
-
-private:
-    Sounds *snd;
-};

@@ -10,22 +10,4 @@
 
 #pragma once
 
-#include <boost/shared_ptr.hpp>
-using boost::shared_ptr;
-
-class Sounds;
-
-class UIHints
-{
-public:
-    UIHints(Sounds* snd);
-
-    void ate_dot();
-    void ate_energizer();
-    void ate_ghost();
-    void ate_pacman();
-    void ghosts_no_longer_vulnerable();
-
-private:
-    Sounds *snd;
-};
+void delay(unsigned int ms);

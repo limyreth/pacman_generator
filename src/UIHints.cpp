@@ -9,18 +9,12 @@
 
 
 #include "UIHints.h"
-
-#include <SDL/SDL.h>
+#include "SDLUtility.h"
 #include "Sounds.h"
 
 UIHints::UIHints(Sounds* snd)
 :   snd(snd)
 {
-}
-
-void UIHints::delay(unsigned int ms) {
-    //return; // TODO use bool no_gui or inheritance or something to switch whether or not to delay. Should only delay when showing things in GUI
-    SDL_Delay(10*ms);  // 10* for easier debugging TODO rm again
 }
 
 void UIHints::ate_dot() {
