@@ -83,8 +83,6 @@ GUI::~GUI()
         if (objects[i]) 
             delete objects[i];
 
-    delete snd;
-
     if (TTF_WasInit())
         TTF_Quit();
 }
@@ -121,10 +119,10 @@ void GUI::InitSound() {
     if (true) {  //TODO offer choice to turn it on
         // use disabled sound (!= muted)
         // This is handy for debugging (no more alsa underrun messages)
-        snd = new NullSounds();
+        snd.reset(new NullSounds());
     }
     else {
-        snd = new DefaultSounds();
+        snd.reset(new DefaultSounds());
     }
 
     logtxt.print("Sound initialized");

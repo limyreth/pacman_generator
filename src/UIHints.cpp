@@ -12,7 +12,7 @@
 #include "SDLUtility.h"
 #include "Sounds.h"
 
-UIHints::UIHints(Sounds* snd)
+UIHints::UIHints(shared_ptr<Sounds> snd)
 :   snd(snd)
 {
 }

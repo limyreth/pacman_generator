@@ -56,7 +56,7 @@ private:
             screen,    //screen surface
             buf;       //buffer surface
 
-    Sounds *snd;
+    shared_ptr<Sounds> snd;
 
     int
             counter;

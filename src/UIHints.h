@@ -18,7 +18,7 @@ class Sounds;
 class UIHints
 {
 public:
-    UIHints(Sounds* snd);
+    UIHints(shared_ptr<Sounds> snd);
 
     void ate_dot();
     void ate_energizer();
@@ -27,5 +27,5 @@ public:
     void ghosts_no_longer_vulnerable();
 
 private:
-    Sounds *snd;
+    shared_ptr<Sounds> snd;
 };
