@@ -360,23 +360,18 @@ void Game::render() {
         counter = 0;
     }
 
-    if ( !renderisbusy ) {
-        renderisbusy = true;
+    renderNormal();
 
-        renderNormal();
+    if ( showfps ) {
+        txt.reset(TTF_RenderText_Solid(font,fps.c_str(),col), SDL_FreeSurface);
+        if (!txt) throw_exception("DrawText failed");
 
-        if ( showfps ) {
-            txt.reset(TTF_RenderText_Solid(font,fps.c_str(),col), SDL_FreeSurface);
-            if (!txt) throw_exception("DrawText failed");
-
-            SDL_BlitSurface(txt.get(),NULL,buf.get(),&fpsbox);
-        }
-
-        SDL_Flip(buf.get());
-
-        renderisbusy = false;
-        counter++;
+        SDL_BlitSurface(txt.get(),NULL,buf.get(),&fpsbox);
     }
+
+    SDL_Flip(buf.get());
+
+    counter++;
 }
 
 void Game::loadFont() {
@@ -402,8 +397,7 @@ Game::Game()
     walls(NULL),
     gamestarted(false),
     ispaused(false),
-    showfps(false),
-    renderisbusy(false)
+    showfps(false)
 
 {
     app.InitApp();

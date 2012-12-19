@@ -99,8 +99,7 @@ private:
     bool
             gamestarted,
             ispaused,
-            showfps,
-            renderisbusy;
+            showfps;
 
     std::string
             num[10];
