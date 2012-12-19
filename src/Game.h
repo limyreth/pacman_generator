@@ -31,6 +31,9 @@ public:
     Game();
     ~Game();
 
+    void InitApp();
+    void InitWindow();
+    void InitSound();
     void loadFont();
     bool loadSprites();
     void loadMap(std::string file, int* memmap);
@@ -54,6 +57,14 @@ private:
     }
 
 private:
+    shared_ptr<App> app;
+
+    shared_ptr<SDL_Surface>
+            screen,    //screen surface
+            buf;       //buffer surface
+
+    Sounds *snd;
+
     int
             counter;
 
@@ -82,5 +93,4 @@ private:
 
     PacmanNodes pacman_nodes;
     GhostNodes ghost_nodes;
-    App app;
 };

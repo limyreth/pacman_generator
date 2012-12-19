@@ -17,17 +17,63 @@
 #include "BckgrObj.h"
 #include "Pacman.h"
 #include "Ghost.h"
+#include "NullSounds.h"
+#include "DefaultSounds.h"
+#include "Constants.h"
+
+#include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
 
 #include <fstream>
 #include <sstream>
 
 // debug
-#include <iostream>
 using std::cout;
 using std::endl;
 
 #define PAC 1
 #define MAPFILE "map"
+
+void Game::InitWindow() {
+    int bpp(32);
+
+    const int width = MAP_WIDTH * TILE_SIZE;
+    const int height = MAP_HEIGHT * TILE_SIZE + 50;
+    screen.reset(SDL_SetVideoMode(width,
+                               height,
+                               bpp,         //bits per pixel; todo-make this dynamic
+                               SDL_NOFRAME | SDL_DOUBLEBUF | SDL_HWSURFACE | SDL_ANYFORMAT ), SDL_FreeSurface);
+
+    if (screen == NULL)
+        throw_exception("Error while setting video mode");
+
+    logtxt.print("Video mode set successfully");
+}
+
+void Game::InitApp() {
+    if ( SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0 )
+        throw_exception("Error while initializing SDL");
+
+    logtxt.print("SDL systems initialized");
+
+    if ( TTF_Init() < 0 )
+        throw_exception("Error while initializing SDL_ttf");
+
+    logtxt.print("SDL_ttf initialized");
+}
+
+void Game::InitSound() {
+    if (true) {  //TODO offer choice to turn it on
+        // use disabled sound (!= muted)
+        // This is handy for debugging (no more alsa underrun messages)
+        snd = new NullSounds();
+    }
+    else {
+        snd = new DefaultSounds();
+    }
+
+    logtxt.print("Sound initialized");
+}
 
 bool Game::emptyMsgPump() {
 
@@ -56,9 +102,9 @@ bool Game::emptyMsgPump() {
 
 void Game::toggleSound() {
 
-    app.getSnd()->toggleSounds();
-    app.getSnd()->play(10, 1);
-    if (get_state()->get_vulnerable_ghost_count()>0) app.getSnd()->play(7, 1);
+    snd->toggleSounds();
+    snd->play(10, 1);
+    if (get_state()->get_vulnerable_ghost_count()>0) snd->play(7, 1);
 }
 
 void Game::logicGame() {
@@ -76,12 +122,12 @@ void Game::logicGame() {
             }
         }
     }
-    game_state_info = get_state()->get_successor(actions, app);
+    game_state_info = get_state()->get_successor(actions, *app);
 }
 
 void Game::renderNormal() {
     // Note: might come in handy: SDL_GetTicks(); to make a more accurate delay
-    app.delay(1000/TICK_RATE); // feel like life is flashing by, this helps fix that
+    app->delay(1000/TICK_RATE); // feel like life is flashing by, this helps fix that
 
     int i;
     std::ostringstream ostr;
@@ -110,11 +156,11 @@ void Game::renderNormal() {
     txt.reset(TTF_RenderText_Solid(font,ostr.str().c_str(),col), SDL_FreeSurface);
     if (!txt) throw_exception("DrawText failed");
 
-    SDL_BlitSurface(txt.get(),NULL,app.getScreen().get(),&scorebox);
+    SDL_BlitSurface(txt.get(),NULL,screen.get(),&scorebox);
 
     // draw node map
-    pacman_nodes.draw(app.getScreen());
-    //ghost_nodes.draw(app.getScreen());
+    pacman_nodes.draw(screen);
+    //ghost_nodes.draw(screen);
 }
 
 void Game::processLogic() {
@@ -177,7 +223,7 @@ std::string Game::getFPS() {
 
 void Game::render() {
     shared_ptr<SDL_Surface>
-            buf = app.getScreen(),
+            buf = screen,
             txt;
     SDL_Color
             col;
@@ -212,11 +258,12 @@ void Game::loadFont() {
 Game::Game()
 :   counter(0),
     showfps(false)
-
 {
-    app.InitApp();
-    app.InitWindow();
-    app.InitSound();
+    InitApp();
+    InitWindow();
+    InitSound();
+
+    app.reset(new App(snd));
 
     fps = "loading";
 
@@ -237,30 +284,41 @@ Game::Game()
 
     loadFont();
 
-    app.getSnd()->play(9, 0);
+    snd->play(9, 0);
 
-    objects[0] = new BckgrObj( app.getScreen(), 10 );
+    objects[0] = new BckgrObj( screen, 10 );
     objects[0]->LoadTextures(SKINS_PATH);
 
-    objects[1] = new Pacman(app.getScreen(), 20);
+    objects[1] = new Pacman(screen, 20);
     objects[1]->LoadTextures(SKINS_PATH);
 
-    objects[2] = new Ghost(app.getScreen(), 20, "1");
+    objects[2] = new Ghost(screen, 20, "1");
     objects[2]->LoadTextures(SKINS_PATH);
 
-    objects[3] = new Ghost(app.getScreen(), 20, "2");
+    objects[3] = new Ghost(screen, 20, "2");
     objects[3]->LoadTextures(SKINS_PATH);
 
-    objects[4] = new Ghost(app.getScreen(), 20, "3");
+    objects[4] = new Ghost(screen, 20, "3");
     objects[4]->LoadTextures(SKINS_PATH);
 
-    objects[5] = new Ghost(app.getScreen(), 20, "4");
+    objects[5] = new Ghost(screen, 20, "4");
     objects[5]->LoadTextures(SKINS_PATH);
 }
 
 Game::~Game()
 {
-    if (walls) delete[] walls;
-    if (font) TTF_CloseFont(font);
-    for (int i=0; i<NUMOFOBJECTS; i++) if (objects[i]) delete objects[i];
+    if (walls) 
+        delete[] walls;
+
+    if (font) 
+        TTF_CloseFont(font);
+
+    for (int i=0; i<NUMOFOBJECTS; i++) 
+        if (objects[i]) 
+            delete objects[i];
+
+    delete snd;
+
+    if (TTF_WasInit())
+        TTF_Quit();
 }

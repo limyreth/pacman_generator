@@ -9,43 +9,21 @@
 
 
 #pragma once
+
 #include <boost/shared_ptr.hpp>
 using boost::shared_ptr;
 
 class Sounds;
-class SDL_Surface;
 
 class App
 {
 public:
-    App();
-    ~App();             //SDL systems are shut down in destructor
+    App(Sounds* snd);
 
-    void InitApp();     //SDL systems are initialized
-    void InitWindow();  //creates window with parameters from loaded settings file
-    void InitSound();
-
-    //////////////
-    //Global
-    //////////////
-
-    shared_ptr<SDL_Surface> getScreen() const { return screen; }
-    shared_ptr<SDL_Surface> getBuf() const { return buf; }
     Sounds* getSnd() { return snd; }
     void dot_eaten();
     void delay(unsigned int ms);
 
 private:
-
-    //////////////
-    //Global
-    //////////////
-
-    shared_ptr<SDL_Surface>
-            screen,    //screen surface
-            buf;       //buffer surface
-
-    Sounds
-            *snd;
-
+    Sounds *snd;
 };
