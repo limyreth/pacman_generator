@@ -15,10 +15,10 @@ using boost::shared_ptr;
 
 class Sounds;
 
-class App
+class UIHints
 {
 public:
-    App(Sounds* snd);
+    UIHints(Sounds* snd);
 
     void delay(unsigned int ms);
 

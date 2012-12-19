@@ -38,7 +38,7 @@
 
 #include "GameState.h"
 #include "Sounds.h"
-#include "App.h"
+#include "UIHints.h"
 #include "GameStateInfo.h"
 #include "Utility.h"
 #include "Node.h"
@@ -136,7 +136,7 @@ void GameState::get_initial_legal_actions(GameStateInfo& info) {
 /*
  * Create successor of state
  */
-GameState::GameState(const Action* actions, const GameState* state, GameStateInfo& info, App& app)
+GameState::GameState(const Action* actions, const GameState* state, GameStateInfo& info, UIHints& uihints)
 :   pacman(state->pacman)  // pacman has no default constructor, so it gets angry unless I use this one
 {
     static const int VULNERABLE_TICKS = 6 * TICK_RATE;  // the amount of ticks ghosts are vulnerable
@@ -165,7 +165,7 @@ GameState::GameState(const Action* actions, const GameState* state, GameStateInf
             }
         }
 
-        app.ghosts_no_longer_vulnerable();
+        uihints.ghosts_no_longer_vulnerable();
     }
     vulnerable_ticks_left = max(vulnerable_ticks_left - 1, -1);  // Consume 1 tick of timer
 
@@ -247,7 +247,7 @@ GameState::GameState(const Action* actions, const GameState* state, GameStateInf
                 // pacman gets eaten
                 lives--;
 
-                app.ate_pacman();
+                uihints.ate_pacman();
 
                 if (get_lives() > 0) {
                     resetLvl();
@@ -258,7 +258,7 @@ GameState::GameState(const Action* actions, const GameState* state, GameStateInf
                 // pacman eats ghost
                 score += (int) pow(2.0, GHOST_COUNT - get_vulnerable_ghost_count()) * 200;
                 ghost.state = GhostState::DEAD;
-                app.ate_ghost();
+                uihints.ate_ghost();
             }
         }
     }
@@ -271,7 +271,7 @@ GameState::GameState(const Action* actions, const GameState* state, GameStateInf
         --food_count;
         score += 10;
 
-        app.ate_dot();
+        uihints.ate_dot();
 
         assert(idler_ticks_left == 0);
         idler_ticks_left = 1;  // pacman can't move for 1 tick after eating a dot
@@ -281,7 +281,7 @@ GameState::GameState(const Action* actions, const GameState* state, GameStateInf
         --food_count;
         score += 50;
 
-        app.ate_energizer();
+        uihints.ate_energizer();
 
         vulnerable_ticks_left = VULNERABLE_TICKS;
 
@@ -304,12 +304,12 @@ GameStateInfo GameState::start_new_game(const Node* pacman_spawn, const vector<N
     return info;
 }
 
-GameStateInfo GameState::get_successor(const Action* actions, App& app) {
+GameStateInfo GameState::get_successor(const Action* actions, UIHints& uihints) {
     assert(!did_pacman_win());
     assert(!did_pacman_lose());
 
     GameStateInfo info;
-    info.state.reset(new GameState(actions, this, info, app));
+    info.state.reset(new GameState(actions, this, info, uihints));
     return info;
 }
 

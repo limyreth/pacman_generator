@@ -20,13 +20,13 @@
 #include <vector>
 
 class GameStateInfo;
-class App;
+class UIHints;
 
 class GameState : public boost::noncopyable  // why copy a big thing when you can point!
 {
 public:
     static GameStateInfo start_new_game(const Node* pacman_spawn, const std::vector<Node*> ghost_spawns);
-    GameStateInfo get_successor(const Action* actions, App& app);  // game state after 1 tick/frame
+    GameStateInfo get_successor(const Action* actions, UIHints& app);  // game state after 1 tick/frame
 
     bool get_vulnerable_ghost_count() const;
 
@@ -65,7 +65,7 @@ public:
 
 private:
     GameState(const Node* pacman_spawn, const std::vector<Node*> ghost_spawns, GameStateInfo& info);
-    GameState(const Action* actions, const GameState* state, GameStateInfo& info, App& app);
+    GameState(const Action* actions, const GameState* state, GameStateInfo& info, UIHints& app);
 
     void get_initial_legal_actions(GameStateInfo& info);
     void get_legal_actions(const Action* actions, const GameState* state, GameStateInfo& info);

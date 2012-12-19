@@ -15,13 +15,14 @@
 #include "GameStateInfo.h"
 #include "PacmanNodes.h"
 #include "GhostNodes.h"
-#include "App.h"
 
 #include <boost/shared_ptr.hpp>
 using boost::shared_ptr;
 
+class Sounds;
 class GameState;
 class Object;
+class UIHints;
 
 #define NUMOFOBJECTS 6
 
@@ -57,7 +58,7 @@ private:
     }
 
 private:
-    shared_ptr<App> app;
+    shared_ptr<UIHints> uihints;
 
     shared_ptr<SDL_Surface>
             screen,    //screen surface

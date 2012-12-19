@@ -20,6 +20,7 @@
 #include "NullSounds.h"
 #include "DefaultSounds.h"
 #include "Constants.h"
+#include "UIHints.h"
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
@@ -122,12 +123,12 @@ void Game::logicGame() {
             }
         }
     }
-    game_state_info = get_state()->get_successor(actions, *app);
+    game_state_info = get_state()->get_successor(actions, *uihints);
 }
 
 void Game::renderNormal() {
     // Note: might come in handy: SDL_GetTicks(); to make a more accurate delay
-    app->delay(1000/TICK_RATE); // feel like life is flashing by, this helps fix that
+    uihints->delay(1000/TICK_RATE); // feel like life is flashing by, this helps fix that
 
     int i;
     std::ostringstream ostr;
@@ -263,7 +264,7 @@ Game::Game()
     InitWindow();
     InitSound();
 
-    app.reset(new App(snd));
+    uihints.reset(new UIHints(snd));
 
     fps = "loading";
 
