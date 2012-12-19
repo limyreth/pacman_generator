@@ -73,19 +73,11 @@ App::App()
 
 App::~App(void)
 {
-    if ( snd ) {
-        delete snd;
-        snd = NULL;
-    }
-}
+    delete snd;
 
-void App::PrepareShutdown() {
     if ( TTF_WasInit() )
         TTF_Quit();
-
-    SDL_Quit();
 }
-
 
 void App::delay(unsigned int ms) {
     //return; // TODO use bool no_gui or inheritance or something to switch whether or not to delay. Should only delay when showing things in GUI

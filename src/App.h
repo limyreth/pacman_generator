@@ -24,7 +24,6 @@ public:
     void InitApp();     //SDL systems are initialized
     void InitWindow();  //creates window with parameters from loaded settings file
     void InitSound();
-    void PrepareShutdown();
 
     //////////////
     //Global
