@@ -29,9 +29,6 @@ using std::endl;
 #define PAC 1
 #define MAPFILE "map"
 
-#define STATE_GAME	0
-#define STATE_STOPPED 4
-
 void Game::changeSkin() {
     int i;
     for (i=0;i<NUMOFOBJECTS;i++) objects[i]->LoadTextures( SKINS_PATH );
@@ -48,19 +45,8 @@ bool Game::emptyMsgPump() {
             case SDLK_ESCAPE:
             case SDLK_q:
                 return false;
-            case SDLK_p:
-                if ( getState() == STATE_GAME )
-                    pause();
-                break;
             case SDLK_f:
                 toggleFps();
-                break;
-            case SDLK_UP:
-            case SDLK_DOWN:
-            case SDLK_LEFT:
-            case SDLK_RIGHT:
-            case SDLK_RETURN:
-                processInput(ev.key.keysym.sym);
                 break;
             default:
                 break;
@@ -76,29 +62,8 @@ bool Game::emptyMsgPump() {
 void Game::toggleSound() {
 
     app.getSnd()->toggleSounds();
-    if (!ispaused ) app.getSnd()->play(10, 1);
-    if (get_state()->get_vulnerable_ghost_count()>0 && !ispaused ) app.getSnd()->play(7, 1);
-}
-
-void Game::setState(int st) {
-    int i;
-
-    if ( st == STATE_GAME ) {
-        app.getSnd()->stop();
-        app.getSnd()->play(10,1);
-
-        for (i=0;i<NUMOFOBJECTS;i++) if (objects[i]) objects[i]->setAlpha(255);
-        for (i=0;i<NUMOFOBJECTS;i++) if (objects[i]) objects[i]->setPaused( false);
-
-    }
-    else if ( st == STATE_STOPPED && state != STATE_STOPPED) {
-        app.getSnd()->stop();
-        app.getSnd()->play(0, 1);
-        for (i=0;i<NUMOFOBJECTS;i++) if (objects[i]) objects[i]->setPaused( true);
-        for (i=0;i<NUMOFOBJECTS;i++) if (objects[i]) objects[i]->setAlpha(255);
-    }
-
-    state = st;
+    app.getSnd()->play(10, 1);
+    if (get_state()->get_vulnerable_ghost_count()>0) app.getSnd()->play(7, 1);
 }
 
 void Game::logicGame() {
@@ -152,43 +117,9 @@ void Game::renderNormal() {
 
     SDL_BlitSurface(txt.get(),NULL,app.getScreen().get(),&scorebox);
 
-    // PAUSE
-    if ( ispaused ) {
-        SDL_Rect pauserect;
-        pauserect.y = MAP_WIDTH*TILE_SIZE / 2 - 100;
-        pauserect.w = 200;
-        pauserect.x = MAP_HEIGHT*TILE_SIZE / 2 - 10;
-        pauserect.h = 50;
-
-        txt.reset(TTF_RenderText_Solid(font,"PAUSED",col), SDL_FreeSurface);
-        if (!txt) throw_exception("DrawText failed");
-
-        SDL_BlitSurface(txt.get(),NULL,app.getScreen().get(),&pauserect);
-    }
-
     // draw node map
     pacman_nodes.draw(app.getScreen());
     //ghost_nodes.draw(app.getScreen());
-}
-
-bool Game::pause() {
-    int i;
-
-    if ( !ispaused ) {
-        ispaused = true;
-        app.getSnd()->stop();
-        for (i=0;i<NUMOFOBJECTS;i++) objects[i]->setPaused( true);
-
-        return ispaused;
-    }
-    else {
-        ispaused = false;
-        app.getSnd()->play(10, 1);
-        if (get_state()->get_vulnerable_ghost_count() > 0) app.getSnd()->play(7, 1);
-        for (i=0;i<NUMOFOBJECTS;i++) objects[i]->setPaused( false);
-
-        return ispaused;
-    }
 }
 
 void Game::gameInit() {
@@ -199,11 +130,6 @@ void Game::gameInit() {
     app.getSnd()->stop();
 
     //resetting variables
-    setState(STATE_GAME);
-
-    if ( ispaused )
-        pause();
-
     scorebox.x= 20;
     scorebox.w = 500;
     scorebox.y = MAP_HEIGHT * TILE_SIZE ;
@@ -250,8 +176,6 @@ void Game::gameInit() {
 
     app.getSnd()->play(9, 0);
 
-    setState( STATE_STOPPED);
-
     //create pacman + ghosts
 
     objects[1] = new Pacman(app.getScreen(), 20);
@@ -276,13 +200,6 @@ void Game::gameInit() {
     emptyMsgPump();
 
     isinit = true;
-}
-
-void Game::processInput(int k, int ix, int iy) {
-    if ( !ispaused ) {
-        if ( state == STATE_STOPPED || state == STATE_GAME )
-            setState( STATE_GAME );
-    }
 }
 
 void Game::processLogic() {
@@ -388,11 +305,9 @@ void Game::PrepareShutdown() {
 
 Game::Game()
 :   isinit(false),
-    state(STATE_STOPPED),
     counter(0),
     font(NULL),
     walls(NULL),
-    ispaused(false),
     showfps(false)
 
 {

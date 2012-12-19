@@ -48,11 +48,6 @@ public:
     void nextLvl();
     void gameInit();
 
-    bool pause();
-
-    int  getState() { return state; }
-    void setState( int st);
-
     void toggleFps() { showfps = !showfps; }
 
     bool isinit;
@@ -70,7 +65,6 @@ private:
 
 private:
     int
-            state,
             counter;
 
     std::string
@@ -96,9 +90,7 @@ private:
             *walls,
             key;
 
-    bool
-            ispaused,
-            showfps;
+    bool showfps;
 
     std::string
             num[10];

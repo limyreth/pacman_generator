@@ -35,7 +35,7 @@ int main( int argc, char** argv ) {
             if (str=="--help") {
                 std::cout << "pacman usage:\n\ncommandline arguments\n--help:\t\tshow this message\n"
                         << "ingame\nesc/q:\tquit\narrows:\tmovement\n"
-                        << "p:\ttoggle pause\nn:\tnew game\n"
+                        << "n:\tnew game\n"
                         << "f:\ttoggle fps display\n";
                 return 0;
             }
