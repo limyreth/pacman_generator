@@ -13,6 +13,9 @@
 #include <SDL/SDL.h>  // TODO if many include Game.h, then this should be split off to elsewhere
 #include <SDL/SDL_ttf.h>
 #include "GameStateInfo.h"
+#include "PacmanNodes.h"
+#include "GhostNodes.h"
+#include "App.h"
 
 #include <boost/shared_ptr.hpp>
 using boost::shared_ptr;
@@ -86,10 +89,7 @@ private:
     Object
             *objects[NUMOFOBJECTS];
 
-    ///////////////////////
-    // GAME OBJECTS
-    //////////////////////
-    
+
     GameStateInfo game_state_info;
 
     int
@@ -105,4 +105,8 @@ private:
     std::string
             num[10];
 
+
+    PacmanNodes pacman_nodes;
+    GhostNodes ghost_nodes;
+    App app;
 };

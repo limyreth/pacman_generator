@@ -9,7 +9,6 @@
 
 
 #include "Game.h"
-#include "App.h"
 #include "Log.h"
 #include "Error.h"
 #include "Sounds.h"
@@ -18,8 +17,6 @@
 #include "BckgrObj.h"
 #include "Pacman.h"
 #include "Ghost.h"
-#include "PacmanNodes.h"
-#include "GhostNodes.h"
 
 #include <fstream>
 #include <sstream>
@@ -34,10 +31,6 @@ using std::endl;
 
 #define STATE_GAME	0
 #define STATE_STOPPED 4
-
-static PacmanNodes pacman_nodes; // TODO not static
-static GhostNodes ghost_nodes;
-static App app; // TODO not static
 
 void Game::changeSkin() {
     int i;
