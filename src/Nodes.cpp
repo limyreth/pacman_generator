@@ -138,3 +138,16 @@ void Nodes::draw(shared_ptr<SDL_Surface> screen) {
     }
 }
 
+double Nodes::get_branching_factor(const vector<Node*>& nodes) {
+    double branching_factor = 0.0;
+    int count = 0;
+    for (auto node : nodes) {
+        if (node) {
+            branching_factor += node->neighbours.size();
+            count++;
+        }
+    }
+    branching_factor /= count;
+    return branching_factor;
+}
+

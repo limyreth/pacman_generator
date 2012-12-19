@@ -33,4 +33,6 @@ protected:
 
     void assert_valid(const std::vector<Node*>& nodes);
     void assert_valid(const Node* node);
+
+    double get_branching_factor(const std::vector<Node*>& nodes);
 };

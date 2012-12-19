@@ -14,6 +14,8 @@
 #include "Constants.h"
 
 using std::vector;
+using std::cout;
+using std::endl;
 
 const vector<Node*> GhostNodes::init(const int* walls) {
     Nodes::init(walls);
@@ -34,6 +36,9 @@ const vector<Node*> GhostNodes::init(const int* walls) {
 
     assert_valid(nodes);
     assert_valid(spawns);
+
+    // print stats
+    cout << "Ghost branching factor: " << get_branching_factor(nodes) << endl;
 
     return spawns;
 }

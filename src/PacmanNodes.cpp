@@ -14,6 +14,8 @@
 #include "Constants.h"
 
 using std::vector;
+using std::cout;
+using std::endl;
 
 const Node* PacmanNodes::init(const int* walls) {
     Nodes::init(walls);
@@ -61,6 +63,9 @@ const Node* PacmanNodes::init(const int* walls) {
 
     assert_valid(nodes);
     assert_valid(spawn);
+
+    // print stats
+    cout << "Pacman branching factor: " << get_branching_factor(nodes) << endl;
 
     return spawn;
 }
