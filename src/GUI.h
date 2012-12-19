@@ -29,6 +29,11 @@ public:
     GUI(const Game& game);
     ~GUI();
 
+    shared_ptr<UIHints> create_uihints();
+    void render(const int* walls);
+    bool emptyMsgPump();
+
+private:
     void InitApp();
     void InitWindow();
     void InitSound();
@@ -36,7 +41,6 @@ public:
     bool loadSprites();
     void loadMap(std::string file, int* memmap);
 
-    void render(const int* walls);
     void renderNormal(const int* walls);
 
     std::string getFPS();
@@ -44,9 +48,6 @@ public:
     void toggleFps() { showfps = !showfps; }
 
     void toggleSound();
-    bool emptyMsgPump();
-
-    shared_ptr<UIHints> create_uihints();
 
 private:
     const Game& game;
