@@ -29,11 +29,6 @@ using std::endl;
 #define PAC 1
 #define MAPFILE "map"
 
-void Game::changeSkin() {
-    int i;
-    for (i=0;i<NUMOFOBJECTS;i++) objects[i]->LoadTextures( SKINS_PATH );
-}
-
 bool Game::emptyMsgPump() {
 
     SDL_Event ev;

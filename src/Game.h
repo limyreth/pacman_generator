@@ -54,7 +54,6 @@ public:
 
     void toggleSound();
     bool emptyMsgPump();
-    void changeSkin();
 
     void PrepareShutdown();
 
