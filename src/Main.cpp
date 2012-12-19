@@ -55,7 +55,6 @@ int main( int argc, char** argv ) {
         logtxt.setFilename(".pacman_sdl");
 
         Game game;
-        game.gameInit();
 
         //main loop
         while (game.emptyMsgPump()) {

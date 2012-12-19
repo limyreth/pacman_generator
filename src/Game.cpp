@@ -117,83 +117,6 @@ void Game::renderNormal() {
     //ghost_nodes.draw(app.getScreen());
 }
 
-void Game::gameInit() {
-    int i;
-    std::string tmpstr;
-
-    app.getSnd()->stop();
-
-    //resetting variables
-    scorebox.x= 20;
-    scorebox.w = 500;
-    scorebox.y = MAP_HEIGHT * TILE_SIZE ;
-    scorebox.h = 50;
-
-    //DYNAMIC OBJECTS INIT
-    if (walls!=NULL) {
-        delete[] walls;
-        walls=NULL;
-    }
-    for (i=0; i< NUMOFOBJECTS; i++) {
-        if (objects[i]!=NULL) {
-            delete objects[i];
-            objects[i] = NULL;
-        }
-    }
-
-    logtxt.print("Unloading complete");
-
-    // INIT MAPS
-    tmpstr = LEVEL_PATH;
-
-    walls = new int[MAP_HEIGHT*MAP_WIDTH];
-    loadMap(tmpstr + MAPFILE, walls);
-
-    game_state_info = GameState::start_new_game(pacman_nodes.init(walls), ghost_nodes.init(walls));
-
-    logtxt.print("Maps loaded");
-
-    //creating font
-
-    if ( !font ) loadFont();
-
-    logtxt.print("Font created");
-
-    //loading level graphics
-
-    objects[0] = new BckgrObj( app.getScreen(), 10 );
-    objects[0]->LoadTextures(SKINS_PATH);
-
-    logtxt.print("Level background loaded");
-
-    logtxt.print("Sounds loaded");
-
-    app.getSnd()->play(9, 0);
-
-    //create pacman + ghosts
-
-    objects[1] = new Pacman(app.getScreen(), 20);
-    objects[1]->LoadTextures(SKINS_PATH);
-
-    objects[2] = new Ghost(app.getScreen(), 20, "1");
-    objects[2]->LoadTextures(SKINS_PATH);
-
-    objects[3] = new Ghost(app.getScreen(), 20, "2");
-    objects[3]->LoadTextures(SKINS_PATH);
-
-    objects[4] = new Ghost(app.getScreen(), 20, "3");
-    objects[4]->LoadTextures(SKINS_PATH);
-
-    objects[5] = new Ghost(app.getScreen(), 20, "4");
-    objects[5]->LoadTextures(SKINS_PATH);
-
-    logtxt.print("Objects loaded");
-
-    render();
-
-    emptyMsgPump();
-}
-
 void Game::processLogic() {
     // TODO rm intermediate
     logicGame();
@@ -284,8 +207,6 @@ void Game::loadFont() {
     font = TTF_OpenFont("arial.ttf",24);
     if (!font)
         throw_exception("Failed to create font object ");
-
-    logtxt.print("Font loaded");
 }
 
 void Game::PrepareShutdown() {
@@ -297,16 +218,12 @@ void Game::PrepareShutdown() {
 
 Game::Game()
 :   counter(0),
-    font(NULL),
-    walls(NULL),
     showfps(false)
 
 {
     app.InitApp();
     app.InitWindow();
     app.InitSound();
-
-    int i;
 
     fps = "loading";
 
@@ -315,8 +232,37 @@ Game::Game()
     fpsbox.y = 10;
     fpsbox.h = 190;
 
-    for (i=0;i<NUMOFOBJECTS;i++)
-        objects[i] = NULL;
+    scorebox.x= 20;
+    scorebox.w = 500;
+    scorebox.y = MAP_HEIGHT * TILE_SIZE ;
+    scorebox.h = 50;
+
+    walls = new int[MAP_HEIGHT*MAP_WIDTH];
+    loadMap(LEVEL_PATH + MAPFILE, walls);
+
+    game_state_info = GameState::start_new_game(pacman_nodes.init(walls), ghost_nodes.init(walls));
+
+    loadFont();
+
+    app.getSnd()->play(9, 0);
+
+    objects[0] = new BckgrObj( app.getScreen(), 10 );
+    objects[0]->LoadTextures(SKINS_PATH);
+
+    objects[1] = new Pacman(app.getScreen(), 20);
+    objects[1]->LoadTextures(SKINS_PATH);
+
+    objects[2] = new Ghost(app.getScreen(), 20, "1");
+    objects[2]->LoadTextures(SKINS_PATH);
+
+    objects[3] = new Ghost(app.getScreen(), 20, "2");
+    objects[3]->LoadTextures(SKINS_PATH);
+
+    objects[4] = new Ghost(app.getScreen(), 20, "3");
+    objects[4]->LoadTextures(SKINS_PATH);
+
+    objects[5] = new Ghost(app.getScreen(), 20, "4");
+    objects[5]->LoadTextures(SKINS_PATH);
 }
 
 Game::~Game()

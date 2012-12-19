@@ -43,8 +43,6 @@ public:
     void processLogic();
     void logicGame();
 
-    void gameInit();
-
     void toggleFps() { showfps = !showfps; }
 
     void toggleSound();
