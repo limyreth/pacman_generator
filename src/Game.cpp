@@ -76,8 +76,8 @@ bool Game::emptyMsgPump() {
 void Game::toggleSound() {
 
     app.getSnd()->toggleSounds();
-    if (gamestarted && !ispaused ) app.getSnd()->play(10, 1);
-    if (gamestarted && get_state()->get_vulnerable_ghost_count()>0 && !ispaused ) app.getSnd()->play(7, 1);
+    if (!ispaused ) app.getSnd()->play(10, 1);
+    if (get_state()->get_vulnerable_ghost_count()>0 && !ispaused ) app.getSnd()->play(7, 1);
 }
 
 void Game::setState(int st) {
@@ -199,7 +199,6 @@ void Game::gameInit() {
     app.getSnd()->stop();
 
     //resetting variables
-    gamestarted = false;
     setState(STATE_GAME);
 
     if ( ispaused )
@@ -275,14 +274,12 @@ void Game::gameInit() {
     render();
 
     emptyMsgPump();
-    gamestarted = false;
 
     isinit = true;
 }
 
 void Game::processInput(int k, int ix, int iy) {
-    if ( !gamestarted && !ispaused ) {
-        gamestarted = true;
+    if ( !ispaused ) {
         if ( state == STATE_STOPPED || state == STATE_GAME )
             setState( STATE_GAME );
     }
@@ -395,7 +392,6 @@ Game::Game()
     counter(0),
     font(NULL),
     walls(NULL),
-    gamestarted(false),
     ispaused(false),
     showfps(false)
 

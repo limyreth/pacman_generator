@@ -97,7 +97,6 @@ private:
             key;
 
     bool
-            gamestarted,
             ispaused,
             showfps;
 
