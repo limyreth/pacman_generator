@@ -48,8 +48,6 @@ public:
     void toggleSound();
     bool emptyMsgPump();
 
-    void PrepareShutdown();
-
 private:
     inline shared_ptr<GameState> get_state() {
         return game_state_info.state;

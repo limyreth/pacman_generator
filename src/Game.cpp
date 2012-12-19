@@ -209,13 +209,6 @@ void Game::loadFont() {
         throw_exception("Failed to create font object ");
 }
 
-void Game::PrepareShutdown() {
-    int i;
-
-    if ( font ) TTF_CloseFont(font);
-    for (i=0;i<NUMOFOBJECTS;i++) if ( objects[i] ) delete objects[i];
-}
-
 Game::Game()
 :   counter(0),
     showfps(false)
@@ -268,4 +261,6 @@ Game::Game()
 Game::~Game()
 {
     if (walls) delete[] walls;
+    if (font) TTF_CloseFont(font);
+    for (int i=0; i<NUMOFOBJECTS; i++) if (objects[i]) delete objects[i];
 }
