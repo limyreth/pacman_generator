@@ -40,12 +40,9 @@ public:
 
     std::string getFPS();
 
-    void processInput(int k, int ix = -1, int iy = -1);
     void processLogic();
     void logicGame();
 
-    void resetLvl();
-    void nextLvl();
     void gameInit();
 
     void toggleFps() { showfps = !showfps; }
