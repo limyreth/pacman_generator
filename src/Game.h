@@ -50,8 +50,6 @@ public:
 
     void toggleFps() { showfps = !showfps; }
 
-    bool isinit;
-
     void toggleSound();
     bool emptyMsgPump();
 

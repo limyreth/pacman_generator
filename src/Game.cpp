@@ -121,7 +121,6 @@ void Game::gameInit() {
     int i;
     std::string tmpstr;
 
-    isinit=false;
     app.getSnd()->stop();
 
     //resetting variables
@@ -193,8 +192,6 @@ void Game::gameInit() {
     render();
 
     emptyMsgPump();
-
-    isinit = true;
 }
 
 void Game::processLogic() {
@@ -299,8 +296,7 @@ void Game::PrepareShutdown() {
 }
 
 Game::Game()
-:   isinit(false),
-    counter(0),
+:   counter(0),
     font(NULL),
     walls(NULL),
     showfps(false)
