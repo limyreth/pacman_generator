@@ -21,7 +21,7 @@ Game::Game(const int* walls)
     game_state_info = GameState::start_new_game(pacman_nodes.init(walls), ghost_nodes.init(walls));
 }
 
-void Game::logicGame(shared_ptr<UIHints> uihints) {
+void Game::step(shared_ptr<UIHints> uihints) {
     if (get_state()->did_pacman_win() || get_state()->did_pacman_lose()) {
         assert(false); // TODO implement proper reaction to this
     }
@@ -37,10 +37,5 @@ void Game::logicGame(shared_ptr<UIHints> uihints) {
         }
     }
     game_state_info = get_state()->get_successor(actions, *uihints);
-}
-
-void Game::processLogic(shared_ptr<UIHints> uihints) {
-    // TODO rm intermediate
-    logicGame(uihints);
 }
 

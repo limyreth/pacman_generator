@@ -103,7 +103,7 @@ int main( int argc, char** argv ) {
         //main loop
         while (gui.emptyMsgPump()) {
             gui.render(walls);
-            game.processLogic(uihints);
+            game.step(uihints);
         }
 
         //shutdown

@@ -25,8 +25,7 @@ class Game
 public:
     Game(const int* walls);
 
-    void processLogic(shared_ptr<UIHints> uihints);
-    void logicGame(shared_ptr<UIHints> uihints);
+    void step(shared_ptr<UIHints> uihints);
 
     inline shared_ptr<GameState> get_state() const {
         return game_state_info.state;
