@@ -83,9 +83,7 @@ private:
 
     GameStateInfo game_state_info;
 
-    int
-            *walls,
-            key;
+    int *walls;
 
     bool showfps;
 
