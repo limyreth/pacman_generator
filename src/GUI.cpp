@@ -25,6 +25,7 @@
 #include "SDLUtility.h"
 #include "PacmanNodes.h"
 #include "GhostNodes.h"
+#include "Walls.h"
 
 #include <sstream>
 
@@ -160,7 +161,7 @@ void GUI::toggleSound() {
     if (game.get_state()->get_vulnerable_ghost_count()>0) snd->play(7, 1);
 }
 
-void GUI::renderNormal(const int* walls) {
+void GUI::renderNormal() {
     // Note: might come in handy: SDL_GetTicks(); to make a more accurate delay
     delay(1000/TICK_RATE); // feel like life is flashing by, this helps fix that
 
@@ -216,7 +217,7 @@ std::string GUI::getFPS() {
     return ostr.str();
 }
 
-void GUI::render(const int* walls) {
+void GUI::render() {
     shared_ptr<SDL_Surface>
             buf = screen,
             txt;
@@ -230,7 +231,7 @@ void GUI::render(const int* walls) {
         counter = 0;
     }
 
-    renderNormal(walls);
+    renderNormal();
 
     if ( showfps ) {
         txt.reset(TTF_RenderText_Solid(font,fps.c_str(),col), SDL_FreeSurface);

@@ -30,7 +30,7 @@ public:
     ~GUI();
 
     shared_ptr<UIHints> create_uihints();
-    void render(const int* walls);
+    void render();
     bool emptyMsgPump();
 
 private:
@@ -41,7 +41,7 @@ private:
     bool loadSprites();
     void loadMap(std::string file, int* memmap);
 
-    void renderNormal(const int* walls);
+    void renderNormal();
 
     std::string getFPS();
 

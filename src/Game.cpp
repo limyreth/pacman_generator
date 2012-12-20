@@ -16,9 +16,9 @@
 using std::cout;
 using std::endl;
 
-Game::Game(const int* walls)
+Game::Game()
 {
-    game_state_info = GameState::start_new_game(pacman_nodes.init(walls), ghost_nodes.init(walls));
+    game_state_info = GameState::start_new_game(pacman_nodes.init(), ghost_nodes.init());
 }
 
 void Game::step(shared_ptr<UIHints> uihints) {

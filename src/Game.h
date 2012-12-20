@@ -23,7 +23,7 @@ class UIHints;
 class Game
 {
 public:
-    Game(const int* walls);
+    Game();
 
     void step(shared_ptr<UIHints> uihints);
 

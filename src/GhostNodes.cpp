@@ -12,13 +12,14 @@
 #include "Node.h"
 #include "Utility.h"
 #include "Constants.h"
+#include "Walls.h"
 
 using std::vector;
 using std::cout;
 using std::endl;
 
-const vector<Node*> GhostNodes::init(const int* walls) {
-    Nodes::init(walls);
+const vector<Node*> GhostNodes::init() {
+    Nodes::init();
 
     // ghost pen nodes
     vector<Node*> spawns(GHOST_COUNT);

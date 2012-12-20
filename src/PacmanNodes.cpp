@@ -12,13 +12,14 @@
 #include "Node.h"
 #include "Utility.h"
 #include "Constants.h"
+#include "Walls.h"
 
 using std::vector;
 using std::cout;
 using std::endl;
 
-const Node* PacmanNodes::init(const int* walls) {
-    Nodes::init(walls);
+const Node* PacmanNodes::init() {
+    Nodes::init();
     assert_valid(nodes);
     for (int x=0; x < MAP_WIDTH; ++x) {
         for (int y=0; y < MAP_HEIGHT; ++y) {

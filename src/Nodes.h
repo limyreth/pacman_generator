@@ -28,7 +28,7 @@ public:
     void draw(shared_ptr<SDL_Surface> buffer) const;
 
 protected:
-    void init(const int* walls);
+    void init();
     std::vector<Node*> nodes;
 
     void assert_valid(const std::vector<Node*>& nodes) const;

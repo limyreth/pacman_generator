@@ -17,5 +17,5 @@
 class PacmanNodes : public Nodes
 {
 public:
-    const Node* init(const int* walls);
+    const Node* init();
 };

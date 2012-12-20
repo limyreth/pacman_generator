@@ -12,6 +12,8 @@
 #include "Node.h"
 #include "Utility.h"
 #include "Constants.h"
+#include "Walls.h"
+
 #include <boost/assert.hpp>
 
 #include <SDL/SDL.h>
@@ -35,7 +37,7 @@ Nodes::~Nodes()
     }
 }
 
-void Nodes::init(const int* walls) {
+void Nodes::init() {
     // create a node for each free tile
     for (int x=0; x < MAP_WIDTH; ++x) {
         for (int y=0; y < MAP_HEIGHT; ++y) {
