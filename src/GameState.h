@@ -51,12 +51,13 @@ public:
         return food_count == 0;
     }
 
-    inline PacmanState get_pacman_state() const {
-        return pacman;
-    }
-
-    inline GhostState get_ghost_state(int ghost_index) const {
-        return ghosts[ghost_index];
+    inline const PlayerState& get_player(int index) const {
+        if (index == 0) {
+            return pacman;
+        }
+        else {
+            return ghosts[index-1];
+        }
     }
 
     inline const Foods& get_foods() const {

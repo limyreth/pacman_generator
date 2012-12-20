@@ -120,16 +120,7 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns,
 
 void GameState::get_initial_legal_actions(GameStateInfo& info) {
     for (int i=0; i<PLAYER_COUNT; ++i) {
-        PlayerState* current = NULL;
-
-        if (i == 0) {
-            current = &pacman;
-        }
-        else {
-            current = &ghosts[i-1];
-        }
-
-        current->get_initial_legal_actions(info.legal_actions[i]);
+        get_player(i).get_initial_legal_actions(info.legal_actions[i]);
     }
 }
 

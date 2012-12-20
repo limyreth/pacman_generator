@@ -40,11 +40,11 @@ void assert_equals(T a, T b) {
 void test_1() {
     Game game;
     auto state = game.get_state();
-    assert_equals(state->get_pacman_state().get_pixel_pos(), FPoint(13.5, 23.5) * TILE_SIZE);
-    assert_equals(state->get_ghost_state(GHOST_BLINKY).get_pixel_pos(), FPoint(14, 11.5) * TILE_SIZE);
-    assert_equals(state->get_ghost_state(GHOST_PINKY).get_pixel_pos(), FPoint(14, 14) * TILE_SIZE);
-    assert_equals(state->get_ghost_state(GHOST_INKY).get_pixel_pos(), FPoint(12, 14) * TILE_SIZE);
-    assert_equals(state->get_ghost_state(GHOST_CLYDE).get_pixel_pos(), FPoint(16, 14) * TILE_SIZE);
+    assert_equals(state->get_player(0).get_pixel_pos(), FPoint(13.5, 23.5) * TILE_SIZE);
+    assert_equals(state->get_player(GHOST_BLINKY+1).get_pixel_pos(), FPoint(14, 11.5) * TILE_SIZE);
+    assert_equals(state->get_player(GHOST_PINKY+1).get_pixel_pos(), FPoint(14, 14) * TILE_SIZE);
+    assert_equals(state->get_player(GHOST_INKY+1).get_pixel_pos(), FPoint(12, 14) * TILE_SIZE);
+    assert_equals(state->get_player(GHOST_CLYDE+1).get_pixel_pos(), FPoint(16, 14) * TILE_SIZE);
 }
 
 void test_2() {

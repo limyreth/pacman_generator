@@ -176,11 +176,10 @@ void GUI::renderNormal() {
 
     // DRAW FIELD + SPRITES
     ((BckgrObj*)objects[0])->Draw(walls, state->get_foods());
-    ((Pacman*)objects[1])->Draw(state->get_pacman_state());
-    ((Ghost*)objects[2])->Draw(state->get_ghost_state(0));
-    ((Ghost*)objects[3])->Draw(state->get_ghost_state(1));
-    ((Ghost*)objects[4])->Draw(state->get_ghost_state(2));
-    ((Ghost*)objects[5])->Draw(state->get_ghost_state(3));
+    ((Pacman*)objects[1])->Draw((const PacmanState&)state->get_player(0));
+    for (int i=0; i<GHOST_COUNT; ++i) {
+        ((Ghost*)objects[i+2])->Draw((const GhostState&)state->get_player(i+1));
+    }
 
     // DRAW SCORE + INFO
     for (i=1; i < state->get_lives(); i++)
