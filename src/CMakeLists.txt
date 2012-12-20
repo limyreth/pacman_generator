@@ -55,7 +55,7 @@ target_link_libraries(pacman_sdl
 enable_testing()
 
 add_test(
-    NAME DummyTest 
+    NAME initial_spawn_positions
     COMMAND pacman_sdl --test 1
 )
 
