@@ -39,9 +39,7 @@ inline std::string to_string(const T a) {
     return str.str();
 }
 
-inline void print_legal_actions(Actions legal_actions) {
-    for (int i=0; i<ACTION_COUNT; ++i) {
-        std::cout << (int)legal_actions[i] << ", ";
-    }
+inline void print_legal_actions(LegalActions legal_actions) {
+    std::cout << (int)legal_actions.count << ", " << (int)legal_actions.reverse_action;
     std::cout << std::endl;
 }

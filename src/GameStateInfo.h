@@ -18,9 +18,13 @@ using boost::shared_ptr;
 class GameState;
 
 typedef char Action;
-typedef Action Actions[ACTION_COUNT];
+
+struct LegalActions {
+    unsigned char count; // legal actions are [0, count-1]. If count==-1, only the previously given action is legal.
+    Action reverse_action;  // which action is the reverse action, -1 if none
+};
 
 struct GameStateInfo {
     shared_ptr<GameState> state;
-    Actions legal_actions[PLAYER_COUNT];  // legal_actions[player][action_index] player 0 is pacman, the next 4 are ghosts
+    LegalActions legal_actions[PLAYER_COUNT];
 };

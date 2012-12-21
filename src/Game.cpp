@@ -26,16 +26,7 @@ void Game::step(shared_ptr<UIHints> uihints) {
         assert(false); // TODO implement proper reaction to this
     }
 
-    Action actions[PLAYER_COUNT] = {-1, -1, -1, -1, -1};
-    for (int i=0; i<PLAYER_COUNT; ++i) {
-        for (int j=0; j<4; ++j) {
-            Action action = game_state_info.legal_actions[i][j];
-            if (action > -1) {
-                actions[i] = action;
-                break;
-            }
-        }
-    }
+    Action actions[PLAYER_COUNT] = {0, 0, 0, 0, 0};
     game_state_info = get_state()->get_successor(actions, *uihints);
 }
 

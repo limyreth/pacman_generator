@@ -20,18 +20,18 @@ class PlayerState
 public:
     PlayerState();
     PlayerState(const Node* initial_node);
-    void move(double distance_moved, Action next_action, Actions legal_actions);
+    void move(double distance_moved, Action next_action, LegalActions& legal_actions);
     IPoint get_tile_pos() const;
 
     inline FPoint get_pixel_pos() const {
         return pos;
     }
 
-    void get_initial_legal_actions(Actions legal_actions) const;
+    void get_initial_legal_actions(LegalActions& legal_actions) const;
 
 private:
-    void get_legal_actions(Actions legal_actions, const Node* old_destination) const;
-    void get_repeat_actions(Action action, Actions legal_actions) const;
+    void get_legal_actions(LegalActions& legal_actions, const Node* old_destination) const;
+    void get_repeat_actions(Action action, LegalActions& legal_actions) const;
 
 private:
     FPoint pos;  // current position in pixels

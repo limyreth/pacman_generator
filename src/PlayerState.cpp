@@ -35,7 +35,7 @@ PlayerState::PlayerState(const Node* initial_node)
  * precondition: next_action is one of previously acquired legal_actions
  * postcondition: legal_actions contains the legal actions for the next move.
  */
-void PlayerState::move(double distance_moved, Action next_action, Actions legal_actions) {
+void PlayerState::move(double distance_moved, Action next_action, LegalActions& legal_actions) {
     FPoint direction = destination->location - pos;
 
     if (direction.length() <= distance_moved) {
@@ -73,26 +73,19 @@ IPoint PlayerState::get_tile_pos() const {
     return IPoint(pos.x / TILE_SIZE, pos.y / TILE_SIZE);
 }
 
-void PlayerState::get_initial_legal_actions(Actions legal_actions) const {
-    for (Action i=0; i<ACTION_COUNT; ++i) {
-        if (i < destination->neighbours.size()) {
-            legal_actions[i] = i;
-        }
-        else {
-            legal_actions[i] = -1;
-        }
-    }
+void PlayerState::get_initial_legal_actions(LegalActions& legal_actions) const {
+    legal_actions.count = destination->neighbours.size();
+    legal_actions.reverse_action = -1;
 }
 
-void PlayerState::get_legal_actions(Actions legal_actions, const Node* old_destination) const {
+void PlayerState::get_legal_actions(LegalActions& legal_actions, const Node* old_destination) const {
     get_initial_legal_actions(legal_actions);
 
     // order reverse direction last (it's likely the wrong thing to do)
     assert(old_destination);
     for (Action i=0; i < destination->neighbours.size(); ++i) {
         if (old_destination == destination->neighbours.at(i)) {
-            legal_actions[i] = legal_actions[ACTION_COUNT-1];
-            legal_actions[ACTION_COUNT-1] = i;
+            legal_actions.reverse_action = i;
             break;
         }
     }
@@ -101,11 +94,9 @@ void PlayerState::get_legal_actions(Actions legal_actions, const Node* old_desti
 /*
  * Sets action as only legal action
  */
-void PlayerState::get_repeat_actions(Action action, Actions legal_actions) const {
-    legal_actions[0] = action;
-    for (Action i=1; i<ACTION_COUNT; ++i) {
-        legal_actions[i] = -1;
-    }
+void PlayerState::get_repeat_actions(Action action, LegalActions& legal_actions) const {
+    legal_actions.count = -1;
+    legal_actions.reverse_action = -1;
 }
 
 // Note: reversing direction between intersections is a legal action and a
