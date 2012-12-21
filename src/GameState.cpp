@@ -53,7 +53,7 @@ using std::max;
 /**
  * Create new game
  */
-GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns, GameStateInfo& info)
+GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns)
 :   food_count(244),
     score(0),
     lives(1),
@@ -114,20 +114,12 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns,
     }
     // TODO we seem to have only 3 energizers, that's not right...
     assert(food_count_ == food_count); // TODO might want asserts to throw exceptions and have them add some interesting output to display too
-
-    get_initial_legal_actions(info);
-}
-
-void GameState::get_initial_legal_actions(GameStateInfo& info) {
-    for (int i=0; i<PLAYER_COUNT; ++i) {
-        get_player(i).get_legal_actions(info.legal_actions[i]);
-    }
 }
 
 /*
  * Create successor of state
  */
-GameState::GameState(const Action* actions, const GameState* state, GameStateInfo& info, UIHints& uihints)
+GameState::GameState(const Action* actions, const GameState* state, UIHints& uihints)
 :   pacman(state->pacman)  // pacman has no default constructor, so it gets angry unless I use this one
 {
     static const int VULNERABLE_TICKS = 6 * TICK_RATE;  // the amount of ticks ghosts are vulnerable
@@ -219,7 +211,6 @@ GameState::GameState(const Action* actions, const GameState* state, GameStateInf
             }
 
             player->move(FULL_SPEED * speed_modifier, actions[i]);
-            player->get_legal_actions(info.legal_actions[i]);
         }
     }
 
@@ -289,20 +280,15 @@ GameState::GameState(const Action* actions, const GameState* state, GameStateInf
     }*/
 }
 
-GameStateInfo GameState::start_new_game(const Node* pacman_spawn, const vector<Node*> ghost_spawns) {
-    GameStateInfo info;
-    info.state.reset(new GameState(pacman_spawn, ghost_spawns, info));
-    info.legal_actions;
-    return info;
+shared_ptr<GameState> GameState::start_new_game(const Node* pacman_spawn, const vector<Node*> ghost_spawns) {
+    return shared_ptr<GameState>(new GameState(pacman_spawn, ghost_spawns));
 }
 
-GameStateInfo GameState::get_successor(const Action* actions, UIHints& uihints) {
+shared_ptr<GameState> GameState::get_successor(const Action* actions, UIHints& uihints) {
     assert(!did_pacman_win());
     assert(!did_pacman_lose());
 
-    GameStateInfo info;
-    info.state.reset(new GameState(actions, this, info, uihints));
-    return info;
+    return shared_ptr<GameState>(new GameState(actions, this, uihints));
 }
 
 bool GameState::get_vulnerable_ghost_count() const {

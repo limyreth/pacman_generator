@@ -24,7 +24,3 @@ struct LegalActions {
     Action reverse_action;  // which action is the reverse action, -1 if none
 };
 
-struct GameStateInfo {
-    shared_ptr<GameState> state;
-    LegalActions legal_actions[PLAYER_COUNT];
-};

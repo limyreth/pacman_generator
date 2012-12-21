@@ -28,7 +28,7 @@ public:
     void step(shared_ptr<UIHints> uihints);
 
     inline shared_ptr<GameState> get_state() const {
-        return game_state_info.state;
+        return state;
     }
 
     inline const PacmanNodes& get_pacman_nodes() const {
@@ -40,7 +40,7 @@ public:
     }
 
 private:
-    GameStateInfo game_state_info;
+    shared_ptr<GameState> state;
 
     PacmanNodes pacman_nodes;
     GhostNodes ghost_nodes;

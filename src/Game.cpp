@@ -18,7 +18,7 @@ using std::endl;
 
 Game::Game()
 {
-    game_state_info = GameState::start_new_game(pacman_nodes.init(), ghost_nodes.init());
+    state = GameState::start_new_game(pacman_nodes.init(), ghost_nodes.init());
 }
 
 void Game::step(shared_ptr<UIHints> uihints) {
@@ -27,6 +27,6 @@ void Game::step(shared_ptr<UIHints> uihints) {
     }
 
     Action actions[PLAYER_COUNT] = {0, 0, 0, 0, 0};
-    game_state_info = get_state()->get_successor(actions, *uihints);
+    state = get_state()->get_successor(actions, *uihints);
 }
 
