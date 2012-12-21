@@ -120,7 +120,7 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns,
 
 void GameState::get_initial_legal_actions(GameStateInfo& info) {
     for (int i=0; i<PLAYER_COUNT; ++i) {
-        get_player(i).get_initial_legal_actions(info.legal_actions[i]);
+        get_player(i).get_legal_actions(info.legal_actions[i]);
     }
 }
 
@@ -218,7 +218,8 @@ GameState::GameState(const Action* actions, const GameState* state, GameStateInf
                 player = &ghosts[ghost_i];
             }
 
-            player->move(FULL_SPEED * speed_modifier, actions[i], info.legal_actions[i]);
+            player->move(FULL_SPEED * speed_modifier, actions[i]);
+            player->get_legal_actions(info.legal_actions[i]);
         }
     }
 

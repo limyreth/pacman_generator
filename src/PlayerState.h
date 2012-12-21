@@ -20,20 +20,19 @@ class PlayerState
 public:
     PlayerState();
     PlayerState(const Node* initial_node);
-    void move(double distance_moved, Action next_action, LegalActions& legal_actions);
+    void move(double distance_moved, Action next_action);
     IPoint get_tile_pos() const;
 
     inline FPoint get_pixel_pos() const {
         return pos;
     }
 
-    void get_initial_legal_actions(LegalActions& legal_actions) const;
-
-private:
-    void get_legal_actions(LegalActions& legal_actions, const Node* old_destination) const;
-    void get_repeat_actions(Action action, LegalActions& legal_actions) const;
+    // what are legal next actions to a next move() call
+    void get_legal_actions(LegalActions& legal_actions) const;
 
 private:
     FPoint pos;  // current position in pixels
-    const Node* destination;  // move towards this node
+    const Node* origin;  // we come from this node
+    const Node* destination;  // we are moving towards this node
+    bool must_repeat_previous_action;
 };
