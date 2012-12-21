@@ -1,25 +1,27 @@
-PACMAN_SDL
 
+Short Description
+=================
 
-Project Information
--------------------
+A fork of pacman_sdl. pacman_sdl is a clone of the classic arcade game using
+C++ and SDL.
 
-pacman_sdl is a clone of the classic arcade game using C++ and SDL.
+This fork calculates and displays perfect play for perfect pacman and perfect
+ghosts.
 
 
 License
--------------------
+=======
 
-pacman_sdl is licensed under the terms of the GNU General Public License 
-version 2 (or any later version).
+pacman_sdl (and this fork) is licensed under the terms of the GNU General
+Public License version 2 (or any later version).
 
 
 Contact / More Information
--------------------
+==========================
 
-Github: http://github.com/schuay/pacman
+Github: http://github.com/timdiels/pacman
 
-Email: jakob.gruber@gmail.com
+Email: tim@timdiels.be
 
 
 Enjoy!
