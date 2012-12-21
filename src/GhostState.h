@@ -12,21 +12,27 @@
 
 #include "PlayerState.h"
 
-class GhostState : public PlayerState
-{
-public:
-    enum State : unsigned char {
-        NORMAL,
-        VULNERABLE,
-        DEAD
-    };
+namespace PACMAN {
+    namespace MODEL {
 
-public:
-    GhostState();
-    GhostState(const Node* initial_node);
+        class GhostState : public PlayerState
+        {
+        public:
+            enum State : unsigned char {
+                NORMAL,
+                VULNERABLE,
+                DEAD
+            };
 
-    bool is_in_tunnel();
+        public:
+            GhostState();
+            GhostState(const Node* initial_node);
 
-public:
-    State state;
-};
+            bool is_in_tunnel();
+
+        public:
+            State state;
+        };
+
+    }
+}

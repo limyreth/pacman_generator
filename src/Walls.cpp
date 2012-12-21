@@ -11,6 +11,9 @@
 #include "Walls.h"
 #include "Constants.h"
 
+namespace PACMAN {
+    namespace SPECIFICATION {
+
 const int walls[MAP_HEIGHT * MAP_WIDTH] = {
     3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 8, 8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4,
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
@@ -45,3 +48,5 @@ const int walls[MAP_HEIGHT * MAP_WIDTH] = {
     6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5
 };
 
+    }
+}

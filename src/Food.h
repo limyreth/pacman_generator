@@ -12,12 +12,18 @@
 
 #include "Constants.h"
 
-namespace Food {
-    enum Type : unsigned char {
-        NONE,
-        DOT,
-        ENERGIZER
-    };
-}
-typedef Food::Type Foods[MAP_WIDTH * MAP_HEIGHT];
+namespace PACMAN {
 
+    namespace SPECIFICATION {
+
+        namespace Food {
+            enum Type : unsigned char {
+                NONE,
+                DOT,
+                ENERGIZER
+            };
+        }
+        typedef Food::Type Foods[MAP_WIDTH * MAP_HEIGHT];
+
+    }
+}

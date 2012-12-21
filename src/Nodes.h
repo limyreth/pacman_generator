@@ -15,24 +15,31 @@
 #include <boost/shared_ptr.hpp>
 using boost::shared_ptr;
 
-class Node;
 class SDL_Surface;
 
-// these are choice nodes for pacman/ghosts
-class Nodes
-{
-public:
-    Nodes();
-    virtual ~Nodes();
+namespace PACMAN {
+    namespace MODEL {
 
-    void draw(shared_ptr<SDL_Surface> buffer) const;
+        class Node;
 
-protected:
-    void init();
-    std::vector<Node*> nodes;
+        // these are choice nodes for pacman/ghosts
+        class Nodes
+        {
+        public:
+            Nodes();
+            virtual ~Nodes();
 
-    void assert_valid(const std::vector<Node*>& nodes) const;
-    void assert_valid(const Node* node) const;
+            void draw(shared_ptr<SDL_Surface> buffer) const;
 
-    double get_branching_factor(const std::vector<Node*>& nodes) const;
-};
+        protected:
+            void init();
+            std::vector<Node*> nodes;
+
+            void assert_valid(const std::vector<Node*>& nodes) const;
+            void assert_valid(const Node* node) const;
+
+            double get_branching_factor(const std::vector<Node*>& nodes) const;
+        };
+
+    }
+}

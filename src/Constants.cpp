@@ -10,8 +10,13 @@
 
 #include "Constants.h"
 
-const int TICK_RATE = 60;
+namespace PACMAN {
+    namespace SPECIFICATION {
+        const int TICK_RATE = 60;
+    }
 
-const std::string LEVEL_PATH = "./levels/0/";
-const std::string SKINS_PATH = "./skins/minimal/";
+    namespace GUI {
+        const std::string SKINS_PATH = "./skins/minimal/";
+    }
+}
 

@@ -12,6 +12,10 @@
 #include "GameState.h"
 #include "Constants.h"
 
+namespace PACMAN {
+
+using namespace MODEL;
+
 // debug
 using std::cout;
 using std::endl;
@@ -30,3 +34,4 @@ void Game::step(shared_ptr<UIHints> uihints) {
     state = get_state()->get_successor(actions, *uihints);
 }
 
+}

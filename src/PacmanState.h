@@ -13,9 +13,15 @@
 #include "PlayerState.h"
 #include "Point.h"
 
-class PacmanState : public PlayerState
-{
-public:
-    PacmanState();
-    PacmanState(const Node* initial_node);
-};
+namespace PACMAN {
+    namespace MODEL {
+
+        class PacmanState : public PlayerState
+        {
+        public:
+            PacmanState();
+            PacmanState(const Node* initial_node);
+        };
+
+    }
+}

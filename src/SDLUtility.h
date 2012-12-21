@@ -10,4 +10,10 @@
 
 #pragma once
 
-void delay(unsigned int ms);
+namespace PACMAN {
+    namespace GUI {
+
+        void delay(unsigned int ms);
+
+    }
+}

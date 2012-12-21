@@ -16,6 +16,11 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
+namespace PACMAN {
+    namespace GUI {
+
+using MODEL::GhostState;
+
 void Ghost::Draw(int ix, int iy, int obj, int type) {
     SDL_Rect pos;
 
@@ -30,7 +35,7 @@ void Ghost::reset() {
     animcounter=0;
 }
 
-void Ghost::Draw(const GhostState& current) {
+void Ghost::Draw(const MODEL::GhostState& current) {
     SDL_Rect pos;
 
     // center the image on our current location
@@ -113,3 +118,6 @@ Ghost::Ghost(shared_ptr<SDL_Surface> buf, int os, std::string fn)
 {
 }
 
+
+    }
+}

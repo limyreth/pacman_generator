@@ -17,31 +17,36 @@
 #include <boost/shared_ptr.hpp>
 using boost::shared_ptr;
 
-class GameState;
-class UIHints;
+namespace PACMAN {
 
-class Game
-{
-public:
-    Game();
-
-    void step(shared_ptr<UIHints> uihints);
-
-    inline shared_ptr<GameState> get_state() const {
-        return state;
+    namespace MODEL {
+        class GameState;
+        class UIHints;
     }
 
-    inline const PacmanNodes& get_pacman_nodes() const {
-        return pacman_nodes;
-    }
+    class Game
+    {
+    public:
+        Game();
 
-    inline const GhostNodes& get_ghost_nodes() const {
-        return ghost_nodes;
-    }
+        void step(shared_ptr<MODEL::UIHints> uihints);
 
-private:
-    shared_ptr<GameState> state;
+        inline shared_ptr<MODEL::GameState> get_state() const {
+            return state;
+        }
 
-    PacmanNodes pacman_nodes;
-    GhostNodes ghost_nodes;
-};
+        inline const MODEL::PacmanNodes& get_pacman_nodes() const {
+            return pacman_nodes;
+        }
+
+        inline const MODEL::GhostNodes& get_ghost_nodes() const {
+            return ghost_nodes;
+        }
+
+    private:
+        shared_ptr<MODEL::GameState> state;
+        MODEL::PacmanNodes pacman_nodes;
+        MODEL::GhostNodes ghost_nodes;
+    };
+
+}

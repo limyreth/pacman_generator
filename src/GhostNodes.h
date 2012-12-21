@@ -13,9 +13,15 @@
 #include <vector>
 #include "Nodes.h"
 
-// these are choice nodes for pacman/ghosts
-class GhostNodes : public Nodes
-{
-public:
-    const std::vector<Node*> init();
-};
+namespace PACMAN {
+    namespace MODEL {
+
+        // these are choice nodes for pacman/ghosts
+        class GhostNodes : public Nodes
+        {
+        public:
+            const std::vector<Node*> init();
+        };
+
+    }
+}

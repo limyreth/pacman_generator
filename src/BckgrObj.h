@@ -20,39 +20,45 @@ class SDL_Surface;
 
 #define NUMOFMAPTEX 10
 
-class BckgrObj :
-	public Object
-{
-public:
-    BckgrObj(shared_ptr<SDL_Surface> buffer, int os);
+namespace PACMAN {
+    namespace GUI {
 
-    void Draw(const int* walls, const Foods foods);
-    void Draw(int ix, int iy, int obj=3, int type=1);
-    void Draw(int ix, int iy, int obj, int type, int alp);
+        class BckgrObj :
+                public Object
+        {
+        public:
+            BckgrObj(shared_ptr<SDL_Surface> buffer, int os);
 
-    virtual void reset( int ix, int iy) { ix = iy; };   /* avoid compiler warnings */
-    virtual void Update(int time) { time = 0; };        /* avoid compiler warnings */
+            void Draw(const int* walls, const SPECIFICATION::Foods foods);
+            void Draw(int ix, int iy, int obj=3, int type=1);
+            void Draw(int ix, int iy, int obj, int type, int alp);
 
-    void LoadTextures(std::string path);
+            virtual void reset( int ix, int iy) { ix = iy; };   /* avoid compiler warnings */
+            virtual void Update(int time) { time = 0; };        /* avoid compiler warnings */
 
-    void setSpecialSpawned(bool b) {specialspawned = b;	}
-    void setSpecialEaten(bool b) {specialeaten = b;	}
+            void LoadTextures(std::string path);
 
-    int getObjCount() {	return objcounter;	}
+            void setSpecialSpawned(bool b) {specialspawned = b;	}
+            void setSpecialEaten(bool b) {specialeaten = b;	}
 
-    void setFruitAlpha(int a);
+            int getObjCount() {	return objcounter;	}
 
-private:
-    shared_ptr<SDL_Surface>
-            mapEl[NUMOFMAPTEX],
-            objEl[NUMOFMAPTEX],
-            mapElRot[NUMOFMAPTEX][3];
+            void setFruitAlpha(int a);
 
-    int
-            objcounter,
-            fruitalpha;
+        private:
+            shared_ptr<SDL_Surface>
+                    mapEl[NUMOFMAPTEX],
+                    objEl[NUMOFMAPTEX],
+                    mapElRot[NUMOFMAPTEX][3];
 
-    bool
-            specialspawned,
-            specialeaten;
-};
+            int
+                    objcounter,
+                    fruitalpha;
+
+            bool
+                    specialspawned,
+                    specialeaten;
+        };
+
+    }
+}

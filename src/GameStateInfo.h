@@ -15,12 +15,15 @@
 #include <boost/shared_ptr.hpp>
 using boost::shared_ptr;
 
-class GameState;
+namespace PACMAN {
+    namespace MODEL {
 
-typedef char Action;
+        typedef char Action;
 
-struct LegalActions {
-    unsigned char count; // legal actions are [0, count-1]. If count==-1, only the previously given action is legal.
-    Action reverse_action;  // which action is the reverse action, -1 if none
-};
+        struct LegalActions {
+            unsigned char count; // legal actions are [0, count-1]. If count==-1, only the previously given action is legal.
+            Action reverse_action;  // which action is the reverse action, -1 if none
+        };
 
+    }
+}

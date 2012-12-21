@@ -12,11 +12,17 @@
 
 #include "Sounds.h"
 
-class NullSounds : public Sounds
-{
-public:
-    virtual void play(int i, bool looped=0, int volume=128) {}
-    virtual void stop(int i) {}
-    virtual void stop() {}
-    virtual void toggleSounds() {}
-};
+namespace PACMAN {
+    namespace GUI {
+
+        class NullSounds : public Sounds
+        {
+        public:
+            virtual void play(int i, bool looped=0, int volume=128) {}
+            virtual void stop(int i) {}
+            virtual void stop() {}
+            virtual void toggleSounds() {}
+        };
+
+    }
+}

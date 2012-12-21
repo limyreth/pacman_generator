@@ -16,25 +16,34 @@
 using boost::shared_ptr;
 
 class SDL_Surface;
-class GhostState;
 
-class Ghost :
-	public Object
-{
-public:
-    Ghost(shared_ptr<SDL_Surface> buf, int os, std::string fn);
+namespace PACMAN {
+    namespace MODEL {
+        class GhostState;
+    }
 
-    void Draw(const GhostState& current);
-    void Draw(int ix, int iy, int obj=0, int type=0) ;
-    void LoadTextures(std::string path);
-    void reset();
+    namespace GUI {
 
-private:
-    int animcounter;
+        class Ghost :
+                public Object
+        {
+        public:
+            Ghost(shared_ptr<SDL_Surface> buf, int os, std::string fn);
 
-    shared_ptr<SDL_Surface>
-            ghostEl[5];
+            void Draw(const MODEL::GhostState& current);
+            void Draw(int ix, int iy, int obj=0, int type=0) ;
+            void LoadTextures(std::string path);
+            void reset();
 
-    std::string
-            filename;
-};
+        private:
+            int animcounter;
+
+            shared_ptr<SDL_Surface>
+                    ghostEl[5];
+
+            std::string
+                    filename;
+        };
+
+    }
+}

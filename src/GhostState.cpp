@@ -15,6 +15,9 @@
 
 // TODO size enums to 1 byte
 
+namespace PACMAN {
+    namespace MODEL {
+
 GhostState::GhostState()
 {
 }
@@ -30,3 +33,5 @@ bool GhostState::is_in_tunnel() {
 
 // Note: this has little meaning other than that when it changes, a new action may be chosen (which is by crossing any grid line with offset half a tile)
 
+    }
+}

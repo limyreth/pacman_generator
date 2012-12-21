@@ -10,8 +10,13 @@
 
 #include "Node.h"
 
+namespace PACMAN {
+    namespace MODEL {
+
 Node::Node(FPoint location) 
 :   location(location)
 {
 }
 
+    }
+}

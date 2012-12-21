@@ -10,4 +10,10 @@
 
 #pragma once
 
-void test(int index);
+namespace PACMAN {
+    namespace TEST {
+
+        void test(int index);
+
+    }
+}

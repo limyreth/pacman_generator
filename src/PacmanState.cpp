@@ -10,6 +10,9 @@
 
 #include "PacmanState.h"
 
+namespace PACMAN {
+    namespace MODEL {
+
 PacmanState::PacmanState()
 {
 }
@@ -17,4 +20,7 @@ PacmanState::PacmanState()
 PacmanState::PacmanState(const Node* initial_node)
 :   PlayerState(initial_node)
 {
+}
+
+    }
 }

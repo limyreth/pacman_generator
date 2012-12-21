@@ -15,4 +15,10 @@ using boost::shared_ptr;
 
 class SDL_Surface;
 
-void scale_to_size(shared_ptr<SDL_Surface>& surface, double size);
+namespace PACMAN {
+    namespace GUI {
+
+        void scale_to_size(shared_ptr<SDL_Surface>& surface, double size);
+
+    }
+}

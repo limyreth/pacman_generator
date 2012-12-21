@@ -31,6 +31,11 @@
 
 #define PAC 1
 
+namespace PACMAN {
+    using namespace SPECIFICATION;
+
+    namespace GUI {
+
 GUI::GUI(const Game& game)
 :   counter(0),
     showfps(false),
@@ -172,13 +177,13 @@ void GUI::renderNormal() {
 
     col.r = col.g = col.b = 255;
 
-    shared_ptr<GameState> state = game.get_state();
+    shared_ptr<MODEL::GameState> state = game.get_state();
 
     // DRAW FIELD + SPRITES
     ((BckgrObj*)objects[0])->Draw(walls, state->get_foods());
-    ((Pacman*)objects[1])->Draw((const PacmanState&)state->get_player(0));
+    ((Pacman*)objects[1])->Draw((const MODEL::PacmanState&)state->get_player(0));
     for (int i=0; i<GHOST_COUNT; ++i) {
-        ((Ghost*)objects[i+2])->Draw((const GhostState&)state->get_player(i+1));
+        ((Ghost*)objects[i+2])->Draw((const MODEL::GhostState&)state->get_player(i+1));
     }
 
     // DRAW SCORE + INFO
@@ -250,7 +255,9 @@ void GUI::loadFont() {
         throw_exception("Failed to create font object ");
 }
 
-shared_ptr<UIHints> GUI::create_uihints() {
-    return shared_ptr<UIHints>(new UIHints(snd));
+shared_ptr<MODEL::UIHints> GUI::create_uihints() {
+    return shared_ptr<MODEL::UIHints>(new MODEL::UIHints(snd));
 }
 
+    }
+}

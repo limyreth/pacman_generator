@@ -22,6 +22,10 @@
 
 #include "Constants.h"
 
+using namespace PACMAN;
+using namespace MODEL;
+using TEST::test;
+
 using std::string;
 using std::cout;
 
@@ -54,7 +58,7 @@ int main( int argc, char** argv ) {
         logtxt.setFilename(".pacman_sdl");
 
         Game game;
-        GUI gui(game);
+        GUI::GUI gui(game);
         shared_ptr<UIHints> uihints = gui.create_uihints();
 
         //main loop

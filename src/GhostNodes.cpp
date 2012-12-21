@@ -18,6 +18,9 @@ using std::vector;
 using std::cout;
 using std::endl;
 
+namespace PACMAN {
+    namespace MODEL {
+
 const vector<Node*> GhostNodes::init() {
     Nodes::init();
 
@@ -44,3 +47,5 @@ const vector<Node*> GhostNodes::init() {
     return spawns;
 }
 
+    }
+}

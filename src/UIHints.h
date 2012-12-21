@@ -13,19 +13,29 @@
 #include <boost/shared_ptr.hpp>
 using boost::shared_ptr;
 
-class Sounds;
+namespace PACMAN {
 
-class UIHints
-{
-public:
-    UIHints(shared_ptr<Sounds> snd);
+    namespace GUI {
+        class Sounds;
+    }
 
-    void ate_dot();
-    void ate_energizer();
-    void ate_ghost();
-    void ate_pacman();
-    void ghosts_no_longer_vulnerable();
+    namespace MODEL {
 
-private:
-    shared_ptr<Sounds> snd;
-};
+        // an observer of GameState transitions
+        class UIHints
+        {
+        public:
+            UIHints(shared_ptr<GUI::Sounds> snd);
+
+            void ate_dot();
+            void ate_energizer();
+            void ate_ghost();
+            void ate_pacman();
+            void ghosts_no_longer_vulnerable();
+
+        private:
+            shared_ptr<GUI::Sounds> snd;
+        };
+
+    }
+}

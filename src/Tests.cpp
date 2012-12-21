@@ -19,6 +19,11 @@
 
 #include <sstream>
 
+namespace PACMAN {
+    namespace TEST {
+
+using namespace MODEL;
+
 using std::ostringstream;
 using std::cout;
 using std::endl;
@@ -57,4 +62,7 @@ void test(int index) {
         test_2
     };
     tests[index]();
+}
+
+    }
 }

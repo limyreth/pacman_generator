@@ -19,21 +19,27 @@ class Mix_Chunk;
 
 #define NUMOFSOUNDS 13
 
-class DefaultSounds : public Sounds
-{
-public:
-    DefaultSounds();
-    ~DefaultSounds();
-    void play(int i, bool looped=0, int volume=128);
-    void stop(int i);
-    void stop();
-    void toggleSounds();
+namespace PACMAN {
+    namespace GUI {
 
-private:
-    shared_ptr<Mix_Chunk> snd[NUMOFSOUNDS];
+        class DefaultSounds : public Sounds
+        {
+        public:
+            DefaultSounds();
+            ~DefaultSounds();
+            void play(int i, bool looped=0, int volume=128);
+            void stop(int i);
+            void stop();
+            void toggleSounds();
 
-    std::string sndPaths[NUMOFSOUNDS];
+        private:
+            shared_ptr<Mix_Chunk> snd[NUMOFSOUNDS];
 
-    bool isinit;
-    bool on;
-};
+            std::string sndPaths[NUMOFSOUNDS];
+
+            bool isinit;
+            bool on;
+        };
+
+    }
+}

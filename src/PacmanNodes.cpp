@@ -18,6 +18,11 @@ using std::vector;
 using std::cout;
 using std::endl;
 
+namespace PACMAN {
+    namespace MODEL {
+
+using SPECIFICATION::walls;
+
 const Node* PacmanNodes::init() {
     Nodes::init();
     assert_valid(nodes);
@@ -71,3 +76,5 @@ const Node* PacmanNodes::init() {
     return spawn;
 }
 
+    }
+}

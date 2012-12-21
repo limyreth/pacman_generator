@@ -12,20 +12,26 @@
 
 #include <string>
 
-// ticks per second
-extern const int TICK_RATE;
+namespace PACMAN {
+    namespace SPECIFICATION {
+        // ticks per second
+        extern const int TICK_RATE;
+    }
+
+    namespace GUI {
+        // path to skin images
+        extern const std::string SKINS_PATH;
+    }
+}
+
+
+// note: namespaces have no effect on defines, because preprocessor doesn't understand C++
 
 #define TILE_SIZE 20
 
 // map sizes in tiles
 #define MAP_WIDTH 28
 #define MAP_HEIGHT 31
-
-// path to level files
-extern const std::string LEVEL_PATH;
-
-// path to skin images
-extern const std::string SKINS_PATH;
 
 #define ACTION_COUNT 4
 

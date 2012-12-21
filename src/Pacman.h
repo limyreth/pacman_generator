@@ -16,27 +16,36 @@
 using boost::shared_ptr;
 
 class SDL_Surface;
-class PacmanState;
 
 #define NUMPACANIM 8
 
-// renderer/view of the pacman model/state
-class Pacman :
-	public Object  // render object
-{
-public:
-    Pacman(shared_ptr <SDL_Surface> buf, int os);
+namespace PACMAN {
+    namespace MODEL {
+        class PacmanState;
+    }
 
-    void Draw(PacmanState state);
-    void Draw(int ix, int iy, int obj=3, int type=1);
-    void LoadTextures(std::string path);
-    void reset();
+    namespace GUI {
 
-private:
-    unsigned int
-            animcounter;
+        // renderer/view of the pacman model/state
+        class Pacman :
+                public Object  // render object
+        {
+        public:
+            Pacman(shared_ptr <SDL_Surface> buf, int os);
 
-    shared_ptr<SDL_Surface>
-            pacEl[NUMPACANIM],
-            pacElRot[NUMPACANIM][3];
-};
+            void Draw(MODEL::PacmanState state);
+            void Draw(int ix, int iy, int obj=3, int type=1);
+            void LoadTextures(std::string path);
+            void reset();
+
+        private:
+            unsigned int
+                    animcounter;
+
+            shared_ptr<SDL_Surface>
+                    pacEl[NUMPACANIM],
+                    pacElRot[NUMPACANIM][3];
+        };
+
+    }
+}

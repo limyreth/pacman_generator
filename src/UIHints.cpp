@@ -12,7 +12,10 @@
 #include "SDLUtility.h"
 #include "Sounds.h"
 
-UIHints::UIHints(shared_ptr<Sounds> snd)
+namespace PACMAN {
+    namespace MODEL {
+
+UIHints::UIHints(shared_ptr<GUI::Sounds> snd)
 :   snd(snd)
 {
 }
@@ -30,7 +33,7 @@ void UIHints::ghosts_no_longer_vulnerable() {
 void UIHints::ate_pacman() {
     snd->stop();
     snd->play(8, 0);
-    delay(1000);
+    GUI::delay(1000);
 }
 
 void UIHints::ate_ghost() {
@@ -40,4 +43,7 @@ void UIHints::ate_ghost() {
 void UIHints::ate_energizer() {
     snd->play(3, 0);
     snd->play(7, 1);
+}
+
+    }
 }

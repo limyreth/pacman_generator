@@ -14,6 +14,9 @@
 #include <assert.h>
 #include "Utility.h"
 
+namespace PACMAN {
+    namespace MODEL {
+
 // default constructor because collections want them, don't use anything
 // instantiated like this, because it is utter garbage
 PlayerState::PlayerState() 
@@ -106,3 +109,6 @@ void PlayerState::get_legal_actions(LegalActions& legal_actions) const {
 //
 // Reversing is usually not the best action though, so we return it as the last possible legal action (in hope of it getting pruned)
 // TODO might still want to allow a search without reversal though, as it'll probably be a lot quicker to find a solution, although we can't be sure that solution is perfect
+
+    }
+}

@@ -17,13 +17,19 @@
 
 using boost::shared_ptr;
 
-// these are choice nodes for pacman/ghosts
-class Node
-{
-public:
-    Node(FPoint location);
+namespace PACMAN {
+    namespace MODEL {
 
-public:
-    FPoint location; // TODO player locations should also be FPoint
-    std::vector<Node*> neighbours;
-};
+        // these are choice nodes for pacman/ghosts
+        class Node
+        {
+        public:
+            Node(FPoint location);
+
+        public:
+            FPoint location; // TODO player locations should also be FPoint
+            std::vector<Node*> neighbours;
+        };
+
+    }
+}

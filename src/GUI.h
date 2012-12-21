@@ -16,66 +16,78 @@
 #include <boost/shared_ptr.hpp>
 using boost::shared_ptr;
 
-class Game;
-class Sounds;
-class Object;
-class UIHints;
 
 #define NUMOFOBJECTS 6
 
-class GUI
-{
-public:
-    GUI(const Game& game);
-    ~GUI();
+namespace PACMAN {
 
-    shared_ptr<UIHints> create_uihints();
-    void render();
-    bool emptyMsgPump();
+    class Game;
 
-private:
-    void InitApp();
-    void InitWindow();
-    void InitSound();
-    void loadFont();
-    bool loadSprites();
-    void loadMap(std::string file, int* memmap);
+    namespace MODEL {
+        class UIHints;
+    }
 
-    void renderNormal();
+    namespace GUI {
 
-    std::string getFPS();
+        class Sounds;
+        class Object;
 
-    void toggleFps() { showfps = !showfps; }
+        class GUI
+        {
+        public:
+            GUI(const Game& game);
+            ~GUI();
 
-    void toggleSound();
+            shared_ptr<MODEL::UIHints> create_uihints();
+            void render();
+            bool emptyMsgPump();
 
-private:
-    const Game& game;
+        private:
+            void InitApp();
+            void InitWindow();
+            void InitSound();
+            void loadFont();
+            bool loadSprites();
+            void loadMap(std::string file, int* memmap);
 
-    shared_ptr<SDL_Surface>
-            screen,    //screen surface
-            buf;       //buffer surface
+            void renderNormal();
 
-    shared_ptr<Sounds> snd;
+            std::string getFPS();
 
-    int
-            counter;
+            void toggleFps() { showfps = !showfps; }
 
-    std::string
-            fps;
+            void toggleSound();
 
-    SDL_Rect
-            fpsbox,
-            scorebox;
+        private:
+            const Game& game;
 
-    unsigned int
-            ticks;
+            shared_ptr<SDL_Surface>
+                    screen,    //screen surface
+                    buf;       //buffer surface
 
-    TTF_Font
-            *font;
+            shared_ptr<Sounds> snd;
 
-    Object
-            *objects[NUMOFOBJECTS];
+            int
+                    counter;
 
-    bool showfps;
-};
+            std::string
+                    fps;
+
+            SDL_Rect
+                    fpsbox,
+                    scorebox;
+
+            unsigned int
+                    ticks;
+
+            TTF_Font
+                    *font;
+
+            Object
+                    *objects[NUMOFOBJECTS];
+
+            bool showfps;
+        };
+
+    }
+}

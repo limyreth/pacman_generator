@@ -10,4 +10,10 @@
 
 #pragma once
 
-extern const int walls[];
+namespace PACMAN {
+    namespace SPECIFICATION {
+
+        extern const int walls[];
+
+    }
+}

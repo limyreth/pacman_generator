@@ -16,6 +16,34 @@ pacman_sdl (and this fork) is licensed under the terms of the GNU General
 Public License version 2 (or any later version).
 
 
+Development
+===========
+
+Development view
+----------------
+
++---------------------------------+
+|             Main.cpp            |
++---------------------------------+
+|   Tests   |   GUI   | Generator |
++---------------------------------+
+|              Model              |
++---------------------------------+
+|           Specification         |
++---------------------------------+
+
+Each layer depends on the layer(s) below.
+
+Tests may only depend on constants specified by the specification, not anything
+implementation specific.
+
+Changing anything in Specification implies changing the specification, so
+that's normally not what you want to do.
+
+Model: GameState, implementation constants (e.g. tile size, screen size), ...
+
+Specification: constants, ... as specified and used by the specification.
+
 Contact / More Information
 ==========================
 

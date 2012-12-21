@@ -44,6 +44,11 @@
 #include "Node.h"
 #include <string.h>
 
+namespace PACMAN {
+    namespace MODEL {
+
+using namespace SPECIFICATION;
+
 using std::vector;
 using std::cout;
 using std::endl;
@@ -397,4 +402,5 @@ void GameState::resetLvl() {	// vars and positions when pacman dies during level
     inputwaiting = false;*/
 }
 
-
+    }
+}

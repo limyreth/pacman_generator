@@ -23,6 +23,11 @@ static_assert(PLAYER_SIZE < 2.0 * TILE_SIZE, "Node map requires this");
 
 using std::vector;
 
+namespace PACMAN {
+    namespace MODEL {
+
+using SPECIFICATION::walls;
+
 Nodes::Nodes()
 :   nodes(MAP_WIDTH * MAP_HEIGHT)
 {
@@ -153,3 +158,5 @@ double Nodes::get_branching_factor(const vector<Node*>& nodes) const {
     return branching_factor;
 }
 
+    }
+}

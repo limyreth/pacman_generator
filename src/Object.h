@@ -17,36 +17,42 @@ using boost::shared_ptr;
 
 class SDL_Surface;
 
-class Object
-{
-public:
-    Object(shared_ptr<SDL_Surface> buffer, int os )
-    :	buf(buffer),
-            offset(os),
-            paused(true),
-            alpha(255)
-    {
+namespace PACMAN {
+    namespace GUI {
+
+        class Object
+        {
+        public:
+            Object(shared_ptr<SDL_Surface> buffer, int os )
+            :	buf(buffer),
+                    offset(os),
+                    paused(true),
+                    alpha(255)
+            {
+            }
+
+            virtual ~Object() {}
+
+            void setPaused(bool b) { paused = b; }
+            void setAlpha(int a) { alpha = a; }
+
+            virtual void Draw(int ix, int iy, int obj=3, int type=1)=0;
+            virtual void LoadTextures(std::string path)=0;
+
+            virtual shared_ptr<SDL_Surface> Rotate(shared_ptr<SDL_Surface> src, int angle, double zoomx=1, double zoomy=1);
+        protected:
+            shared_ptr<SDL_Surface>
+                    buf;
+
+            const int
+                    offset;
+
+            bool
+                    paused;
+
+            int
+                    alpha;
+        };
+
     }
-
-    virtual ~Object() {}
-
-    void setPaused(bool b) { paused = b; }
-    void setAlpha(int a) { alpha = a; }
-
-    virtual void Draw(int ix, int iy, int obj=3, int type=1)=0;
-    virtual void LoadTextures(std::string path)=0;
-
-    virtual shared_ptr<SDL_Surface> Rotate(shared_ptr<SDL_Surface> src, int angle, double zoomx=1, double zoomy=1);
-protected:
-    shared_ptr<SDL_Surface>
-            buf;
-
-    const int
-            offset;
-
-    bool
-            paused;
-
-    int
-            alpha;
-};
+}

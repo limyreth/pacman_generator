@@ -16,6 +16,9 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
+namespace PACMAN {
+    namespace GUI {
+
 void Pacman::Draw(int ix, int iy, int obj, int type) {
     SDL_Rect pos;
 
@@ -30,7 +33,7 @@ void Pacman::reset() {
     animcounter=0;
 }
 
-void Pacman::Draw(const PacmanState state) {
+void Pacman::Draw(const MODEL::PacmanState state) {
 
     int i;
     SDL_Rect pos;
@@ -127,4 +130,7 @@ Pacman::Pacman(shared_ptr<SDL_Surface> buf, int os)
 :   Object(buf, os),
     animcounter(0)
 {
+}
+
+    }
 }

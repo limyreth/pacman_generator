@@ -12,6 +12,9 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_rotozoom.h>
 
+namespace PACMAN {
+    namespace GUI {
+
 /*
  * Rendering notes: http://home.comcast.net/~jpittman2/pacman/pacmandossier.html#CH3_What_Tile_Am_I_In
  *
@@ -26,4 +29,7 @@ void scale_to_size(shared_ptr<SDL_Surface>& surface, double size) {
     int dw, dh;
     zoomSurfaceSize(surface->w, surface->h, zoomx, zoomy, &dw, &dh);
     surface.reset(zoomSurface(surface.get(), zoomx, zoomy, 0), SDL_FreeSurface);
+}
+
+    }
 }

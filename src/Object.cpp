@@ -12,6 +12,9 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_rotozoom.h>
 
+namespace PACMAN {
+    namespace GUI {
+
 shared_ptr<SDL_Surface> Object::Rotate(shared_ptr<SDL_Surface> src, int angle, double zoomx, double zoomy) {
     SDL_PixelFormat *fmt;
 
@@ -33,4 +36,7 @@ shared_ptr<SDL_Surface> Object::Rotate(shared_ptr<SDL_Surface> src, int angle, d
             SDL_FreeSurface);
 
     return rotatedSurface;
+}
+
+    }
 }
