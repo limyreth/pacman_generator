@@ -64,8 +64,8 @@ const Node* PacmanNodes::init() {
     }
 
     // create pacman spawn
-    Node* spawn = new Node(FPoint(13.5, 23.5) * TILE_SIZE);
-    spawn->neighbours.push_back(nodes.at(at(13, 23))); // Note: symmetrical map, just going to the right is fine
+    Node* spawn = new Node(FPoint(14, 23.5) * TILE_SIZE);
+    spawn->neighbours.push_back(nodes.at(at(14, 23))); // Note: symmetrical map, just going to the right is fine
 
     assert_valid(nodes);
     assert_valid(spawn);

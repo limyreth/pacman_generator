@@ -89,7 +89,7 @@ private:
 void test_1() {
     Game game;
     auto state = game.get_state();
-    assert_equals(state->get_player(0).get_pixel_pos(), FPoint(13.5, 23.5) * TILE_SIZE);
+    assert_equals(state->get_player(0).get_pixel_pos(), FPoint(14, 23.5) * TILE_SIZE);
     assert_equals(state->get_player(GHOST_BLINKY+1).get_pixel_pos(), FPoint(14, 11.5) * TILE_SIZE);
     assert_equals(state->get_player(GHOST_PINKY+1).get_pixel_pos(), FPoint(14, 14) * TILE_SIZE);
     assert_equals(state->get_player(GHOST_INKY+1).get_pixel_pos(), FPoint(12, 14) * TILE_SIZE);
