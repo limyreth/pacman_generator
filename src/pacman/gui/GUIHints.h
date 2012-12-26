@@ -10,19 +10,29 @@
 
 #pragma once
 
-#include "Constants.h"
+#include "../model/UIHints.h"
 
 #include <boost/shared_ptr.hpp>
 using boost::shared_ptr;
 
 namespace PACMAN {
-    namespace MODEL {
+    namespace GUI {
 
-        typedef char Action;
+        class Sounds;
 
-        struct LegalActions {
-            unsigned char count; // legal actions are [0, count-1]. If count==-1, only the previously given action is legal.
-            Action reverse_action;  // which action is the reverse action, -1 if none
+        class GUIHints : public MODEL::UIHints
+        {
+        public:
+            GUIHints(shared_ptr<Sounds> snd);
+
+            void ate_dot();
+            void ate_energizer();
+            void ate_ghost();
+            void ate_pacman();
+            void ghosts_no_longer_vulnerable();
+
+        private:
+            shared_ptr<Sounds> snd;
         };
 
     }

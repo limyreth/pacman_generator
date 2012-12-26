@@ -10,9 +10,9 @@
 
 #include "GhostNodes.h"
 #include "Node.h"
-#include "Utility.h"
-#include "Constants.h"
-#include "Walls.h"
+#include "../Utility.h"
+#include "../Constants.h"
+#include "../specification/Walls.h"
 
 using std::vector;
 using std::cout;

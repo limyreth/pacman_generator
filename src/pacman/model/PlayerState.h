@@ -10,8 +10,9 @@
 
 #pragma once
 
-#include "Point.h"
+#include "../Point.h"
 #include "GameStateInfo.h"
+#include "../Directions.h"
 
 namespace PACMAN {
     namespace MODEL {
@@ -32,6 +33,8 @@ namespace PACMAN {
 
             // what are legal next actions to a next move() call
             void get_legal_actions(LegalActions& legal_actions) const;
+
+            Action get_action_along_direction(Direction::Type direction) const;
 
         private:
             FPoint pos;  // current position in pixels

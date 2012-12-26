@@ -37,7 +37,7 @@ execute_process(
 
 set(CMAKE_CXX_FLAGS "-g -std=c++11 ${SDL_CFLAGS}")
 
-file(GLOB Sources *.cpp)
+file(GLOB_RECURSE Sources pacman/*.cpp)
 add_executable(pacman_sdl ${Sources})
 
 target_link_libraries(pacman_sdl 
@@ -60,7 +60,7 @@ add_test(
 )
 
 add_test(
-    NAME DummyTest2
+    NAME pacman_movement_regular_speed_not_cornering
     COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pacman_sdl --test 2
 )
 

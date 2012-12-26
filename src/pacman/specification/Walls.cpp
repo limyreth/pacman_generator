@@ -9,7 +9,7 @@
 
 
 #include "Walls.h"
-#include "Constants.h"
+#include "../Constants.h"
 
 namespace PACMAN {
     namespace SPECIFICATION {

@@ -10,9 +10,9 @@
 
 #include "PlayerState.h"
 #include "Node.h"
-#include "Constants.h"
+#include "../Constants.h"
 #include <assert.h>
-#include "Utility.h"
+#include "../Utility.h"
 
 namespace PACMAN {
     namespace MODEL {
@@ -97,6 +97,33 @@ void PlayerState::get_legal_actions(LegalActions& legal_actions) const {
             }
         }
     }
+}
+
+/*
+ * Gets action that moves most along the desired direction
+ */
+Action PlayerState::get_action_along_direction(Direction::Type direction_) const {
+    if (direction_ == Direction::ANY)
+        return 0;
+
+    auto direction = DIRECTIONS[(int)direction_];
+    assert(direction.length() == 1.0);
+
+    double best_dot_prod = -1.0; // worst = -1, best = 1
+    Action best_action = -1;
+    for (int i=0; i < destination->neighbours.size(); ++i) {
+        auto dir = destination->neighbours[i]->location - destination->location;
+        dir.normalise();
+
+        double dot_prod = dir.dot_product(direction);
+        assert(dot_prod >= -1.0);
+        assert(dot_prod <= 1.0);
+
+        if (dot_prod >= best_dot_prod) {
+            best_action = i;
+        }
+    }
+    return best_action;
 }
 
 // Note: reversing direction between intersections is a legal action and a

@@ -37,10 +37,9 @@
  */
 
 #include "GameState.h"
-#include "Sounds.h"
 #include "UIHints.h"
 #include "GameStateInfo.h"
-#include "Utility.h"
+#include "../Utility.h"
 #include "Node.h"
 #include <string.h>
 

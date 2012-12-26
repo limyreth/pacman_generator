@@ -9,9 +9,9 @@
 
 
 #include "Pacman.h"
-#include "Log.h"
-#include "PacmanState.h"
-#include "Error.h"
+#include "../Log.h"
+#include "../model/PacmanState.h"
+#include "../Error.h"
 #include "Draw.h"
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>

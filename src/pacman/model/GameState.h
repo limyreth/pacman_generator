@@ -13,13 +13,18 @@
 #include <boost/utility.hpp>
 #include "PacmanState.h"
 #include "GhostState.h"
-#include "Food.h"
-#include "Constants.h"
+#include "../specification/Food.h"
+#include "../Constants.h"
 
 #include <assert.h>
 #include <vector>
 
 namespace PACMAN {
+
+    namespace TEST {
+        class Test;
+    }
+
     namespace MODEL {
 
         class UIHints;
@@ -95,6 +100,7 @@ namespace PACMAN {
             int fruit_ticks_left;  // amount of ticks left til fruit disappears
             int idler_ticks_left;  // ticks left til pacman gets off his lazy ass and starts moving again (pacman rests after eating dot or energizer)
 
+            friend class PACMAN::TEST::Test;
         };
 
     }

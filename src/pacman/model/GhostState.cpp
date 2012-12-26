@@ -8,22 +8,30 @@
  ***************************************************************************/
 
 
-#pragma once
+#include "GhostState.h"
+#include "../Utility.h"
 
-#include "Constants.h"
+// TODO dead ghost takes shortest path back to correct pen tile
+
+// TODO size enums to 1 byte
 
 namespace PACMAN {
+    namespace MODEL {
 
-    namespace SPECIFICATION {
+GhostState::GhostState()
+{
+}
 
-        namespace Food {
-            enum Type : unsigned char {
-                NONE,
-                DOT,
-                ENERGIZER
-            };
-        }
-        typedef Food::Type Foods[MAP_WIDTH * MAP_HEIGHT];
+GhostState::GhostState(const Node* initial_node)
+:   PlayerState(initial_node), state(NORMAL)
+{
+}
+
+bool GhostState::is_in_tunnel() {
+    return false; // TODO implement this damn it
+}
+
+// Note: this has little meaning other than that when it changes, a new action may be chosen (which is by crossing any grid line with offset half a tile)
 
     }
 }

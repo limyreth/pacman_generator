@@ -9,8 +9,8 @@
 
 
 #include "DefaultSounds.h"
-#include "Error.h"
-#include "Log.h"
+#include "../Error.h"
+#include "../Log.h"
 #include <SDL/SDL_mixer.h>
 
 namespace PACMAN {

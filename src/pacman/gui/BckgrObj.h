@@ -11,7 +11,7 @@
 #pragma once
 
 #include "Object.h"
-#include "Food.h"
+#include "../specification/Food.h"
 
 #include <boost/shared_ptr.hpp>
 using boost::shared_ptr;

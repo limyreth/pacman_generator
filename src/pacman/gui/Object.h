@@ -13,7 +13,7 @@
 #include <boost/shared_ptr.hpp>
 using boost::shared_ptr;
 
-#include "Constants.h"
+#include "../Constants.h"
 
 class SDL_Surface;
 

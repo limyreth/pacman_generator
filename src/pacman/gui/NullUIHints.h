@@ -10,25 +10,19 @@
 
 #pragma once
 
-#include <vector>
-#include "Point.h"
-
-#include <boost/shared_ptr.hpp>
-
-using boost::shared_ptr;
+#include "../model/UIHints.h"
 
 namespace PACMAN {
-    namespace MODEL {
+    namespace GUI {
 
-        // these are choice nodes for pacman/ghosts
-        class Node
+        class NullUIHints : public MODEL::UIHints
         {
         public:
-            Node(FPoint location);
-
-        public:
-            FPoint location; // TODO player locations should also be FPoint
-            std::vector<Node*> neighbours;
+            void ate_dot() {}
+            void ate_energizer() {}
+            void ate_ghost() {}
+            void ate_pacman() {}
+            void ghosts_no_longer_vulnerable() {}
         };
 
     }

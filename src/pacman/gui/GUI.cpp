@@ -9,23 +9,23 @@
 
 
 #include "GUI.h"
-#include "Game.h"
-#include "Log.h"
-#include "Error.h"
+#include "../Game.h"
+#include "../Log.h"
+#include "../Error.h"
 #include "Sounds.h"
 #include "Object.h"
-#include "GameState.h"
+#include "../model/GameState.h"
 #include "BckgrObj.h"
 #include "Pacman.h"
 #include "Ghost.h"
 #include "NullSounds.h"
 #include "DefaultSounds.h"
-#include "Constants.h"
-#include "UIHints.h"
+#include "../Constants.h"
+#include "GUIHints.h"
 #include "SDLUtility.h"
-#include "PacmanNodes.h"
-#include "GhostNodes.h"
-#include "Walls.h"
+#include "../model/PacmanNodes.h"
+#include "../model/GhostNodes.h"
+#include "../specification/Walls.h"
 
 #include <sstream>
 
@@ -256,7 +256,7 @@ void GUI::loadFont() {
 }
 
 shared_ptr<MODEL::UIHints> GUI::create_uihints() {
-    return shared_ptr<MODEL::UIHints>(new MODEL::UIHints(snd));
+    return shared_ptr<MODEL::UIHints>(new GUIHints(snd));
 }
 
     }

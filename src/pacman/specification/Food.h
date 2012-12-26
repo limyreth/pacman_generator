@@ -8,30 +8,22 @@
  ***************************************************************************/
 
 
-#include "Game.h"
-#include "GameState.h"
-#include "Constants.h"
+#pragma once
+
+#include "../Constants.h"
 
 namespace PACMAN {
 
-using namespace MODEL;
+    namespace SPECIFICATION {
 
-// debug
-using std::cout;
-using std::endl;
+        namespace Food {
+            enum Type : unsigned char {
+                NONE,
+                DOT,
+                ENERGIZER
+            };
+        }
+        typedef Food::Type Foods[MAP_WIDTH * MAP_HEIGHT];
 
-Game::Game()
-{
-    state = GameState::start_new_game(pacman_nodes.init(), ghost_nodes.init());
-}
-
-void Game::step(shared_ptr<UIHints> uihints) {
-    if (get_state()->did_pacman_win() || get_state()->did_pacman_lose()) {
-        assert(false); // TODO implement proper reaction to this
     }
-
-    Action actions[PLAYER_COUNT] = {0, 0, 0, 0, 0};
-    state = get_state()->get_successor(actions, *uihints);
-}
-
 }

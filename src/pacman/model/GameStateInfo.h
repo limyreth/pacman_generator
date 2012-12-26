@@ -10,43 +10,20 @@
 
 #pragma once
 
-#include "GameStateInfo.h"
-#include "PacmanNodes.h"
-#include "GhostNodes.h"
+#include "../Constants.h"
 
 #include <boost/shared_ptr.hpp>
 using boost::shared_ptr;
 
 namespace PACMAN {
-
     namespace MODEL {
-        class GameState;
-        class UIHints;
+
+        typedef char Action;
+
+        struct LegalActions {
+            unsigned char count; // legal actions are [0, count-1]. If count==-1, only the previously given action is legal.
+            Action reverse_action;  // which action is the reverse action, -1 if none
+        };
+
     }
-
-    class Game
-    {
-    public:
-        Game();
-
-        void step(shared_ptr<MODEL::UIHints> uihints);
-
-        inline shared_ptr<MODEL::GameState> get_state() const {
-            return state;
-        }
-
-        inline const MODEL::PacmanNodes& get_pacman_nodes() const {
-            return pacman_nodes;
-        }
-
-        inline const MODEL::GhostNodes& get_ghost_nodes() const {
-            return ghost_nodes;
-        }
-
-    private:
-        shared_ptr<MODEL::GameState> state;
-        MODEL::PacmanNodes pacman_nodes;
-        MODEL::GhostNodes ghost_nodes;
-    };
-
 }

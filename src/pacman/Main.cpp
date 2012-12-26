@@ -15,9 +15,9 @@
 //////////////////////////////////////////////////////
 
 #include "Game.h"
-#include "GUI.h"
+#include "gui/GUI.h"
 #include "Log.h"
-#include "Tests.h"
+#include "tests/Tests.h"
 #include <sstream>
 
 #include "Constants.h"
@@ -64,7 +64,9 @@ int main( int argc, char** argv ) {
         //main loop
         while (gui.emptyMsgPump()) {
             gui.render();
-            game.step(uihints);
+
+            Action actions[PLAYER_COUNT] = {0, 0, 0, 0, 0};
+            game.step(actions, uihints);
         }
 
         //shutdown

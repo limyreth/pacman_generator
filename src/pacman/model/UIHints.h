@@ -15,26 +15,16 @@ using boost::shared_ptr;
 
 namespace PACMAN {
 
-    namespace GUI {
-        class Sounds;
-    }
-
     namespace MODEL {
 
-        // an observer of GameState transitions
         class UIHints
         {
         public:
-            UIHints(shared_ptr<GUI::Sounds> snd);
-
-            void ate_dot();
-            void ate_energizer();
-            void ate_ghost();
-            void ate_pacman();
-            void ghosts_no_longer_vulnerable();
-
-        private:
-            shared_ptr<GUI::Sounds> snd;
+            virtual void ate_dot() = 0;
+            virtual void ate_energizer() = 0;
+            virtual void ate_ghost() = 0;
+            virtual void ate_pacman() = 0;
+            virtual void ghosts_no_longer_vulnerable() = 0;
         };
 
     }

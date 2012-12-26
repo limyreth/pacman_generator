@@ -9,9 +9,9 @@
 
 
 #include "BckgrObj.h"
-#include "Error.h"
+#include "../Error.h"
 #include "Draw.h"
-#include "Log.h"
+#include "../Log.h"
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 

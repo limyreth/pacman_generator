@@ -8,20 +8,29 @@
  ***************************************************************************/
 
 
-#pragma once
-
-#include "PlayerState.h"
-#include "Point.h"
+#include "Game.h"
+#include "model/GameState.h"
+#include "Constants.h"
 
 namespace PACMAN {
-    namespace MODEL {
 
-        class PacmanState : public PlayerState
-        {
-        public:
-            PacmanState();
-            PacmanState(const Node* initial_node);
-        };
+using namespace MODEL;
 
+// debug
+using std::cout;
+using std::endl;
+
+Game::Game()
+{
+    state = GameState::start_new_game(pacman_nodes.init(), ghost_nodes.init());
+}
+
+void Game::step(const Action* actions, shared_ptr<UIHints> uihints) {
+    if (get_state()->did_pacman_win() || get_state()->did_pacman_lose()) {
+        assert(false); // TODO implement proper reaction to this
     }
+
+    state = get_state()->get_successor(actions, *uihints);
+}
+
 }

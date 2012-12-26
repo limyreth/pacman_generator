@@ -7,31 +7,42 @@
  *                                                                         *
  ***************************************************************************/
 
-
-#include "GhostState.h"
-#include "Utility.h"
-
-// TODO dead ghost takes shortest path back to correct pen tile
-
-// TODO size enums to 1 byte
+#include "GUIHints.h"
+#include "SDLUtility.h"
+#include "Sounds.h"
 
 namespace PACMAN {
-    namespace MODEL {
+    namespace GUI {
 
-GhostState::GhostState()
+GUIHints::GUIHints(shared_ptr<Sounds> snd)
+:   snd(snd)
 {
 }
 
-GhostState::GhostState(const Node* initial_node)
-:   PlayerState(initial_node), state(NORMAL)
-{
+void GUIHints::ate_dot() {
+    static unsigned int sound_counter = 0;
+    snd->play(1 + sound_counter%2, 0, -500);
+    sound_counter++;
 }
 
-bool GhostState::is_in_tunnel() {
-    return false; // TODO implement this damn it
+void GUIHints::ghosts_no_longer_vulnerable() {
+    snd->stop(7);
 }
 
-// Note: this has little meaning other than that when it changes, a new action may be chosen (which is by crossing any grid line with offset half a tile)
+void GUIHints::ate_pacman() {
+    snd->stop();
+    snd->play(8, 0);
+    delay(1000);
+}
+
+void GUIHints::ate_ghost() {
+    snd->play(4,0);
+}
+
+void GUIHints::ate_energizer() {
+    snd->play(3, 0);
+    snd->play(7, 1);
+}
 
     }
 }
