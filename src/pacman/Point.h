@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <boost/assert.hpp>
 
 template <typename T>
 class Point
@@ -67,6 +68,7 @@ public:
     }
 
     Point<T>& operator /= (double a) {
+        BOOST_ASSERT(a != 0.0);
         this->x /= a;
         this->y /= a;
         return *this;

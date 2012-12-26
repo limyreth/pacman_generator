@@ -25,6 +25,7 @@
 namespace PACMAN {
 
     using namespace MODEL;
+    using namespace SPECIFICATION;
 
     using GUI::NullUIHints;
 
@@ -56,14 +57,22 @@ public:
     {
     }
 
-    shared_ptr<GameState> move(int player_index, Direction::Type direction, int steps) {
+    /*
+     * Moves until tile pos changes.
+     *
+     * Returns steps taken
+     */
+    int move(int player_index, Direction::Type direction) {
         auto original = game.get_state();
         auto current = original;
+        int steps = 0;
 
         Action actions[PLAYER_COUNT] = {0, 0, 0, 0, 0};
         actions[player_index] = original->get_player(player_index).get_action_along_direction(direction);
 
-        for (int i=0; i<steps; ++i) {
+        while (original->get_player(player_index).get_tile_pos() == current->get_player(player_index).get_tile_pos()) {
+            ++steps;
+
             assert_equals(original->food_count, current->food_count);
             assert_equals(original->lives, current->lives);
             assert_equals(original->score, current->score);
@@ -71,6 +80,8 @@ public:
             game.step(actions, uihints);
             current = game.get_state();
         }
+
+        return steps;
     }
 
     void directions_to_actions(Direction::Type pacman, Direction::Type blinky, Direction::Type pinky, Direction::Type inky, Direction::Type clyde, Action* actions, Game& game) {
@@ -79,6 +90,10 @@ public:
         for (int i=0; i<PLAYER_COUNT; ++i) {
             actions[i] = state->get_player(i).get_action_along_direction(directions[i]);
         }
+    }
+
+    shared_ptr<GameState> get_state() {
+        return game.get_state();
     }
 
 private:
@@ -90,6 +105,7 @@ void test_1() {
     Game game;
     auto state = game.get_state();
     assert_equals(state->get_player(0).get_pixel_pos(), FPoint(14, 23.5) * TILE_SIZE);
+    assert_equals(state->get_player(0).get_tile_pos(), IPoint(14, 23));
     assert_equals(state->get_player(GHOST_BLINKY+1).get_pixel_pos(), FPoint(14, 11.5) * TILE_SIZE);
     assert_equals(state->get_player(GHOST_PINKY+1).get_pixel_pos(), FPoint(14, 14) * TILE_SIZE);
     assert_equals(state->get_player(GHOST_INKY+1).get_pixel_pos(), FPoint(12, 14) * TILE_SIZE);
@@ -98,8 +114,12 @@ void test_1() {
 
 void test_2() {
     // pacman movement between 2 regular nodes
-    //Test test;
-    //test.move(0, Direction::EAST, (int)ceil((14 - 13.5) / NORMAL_PACMAN_SPEED))
+    Test test;
+
+    assert_equals(test.move(0, Direction::ANY), (int)ceil((15 - 14) * TILE_SIZE / NORMAL_PACMAN_SPEED));
+
+    auto tile_pos = test.get_state()->get_player(0).get_tile_pos();
+    assert_equals(tile_pos, IPoint(15, 23));
 }
 
 /* TODO

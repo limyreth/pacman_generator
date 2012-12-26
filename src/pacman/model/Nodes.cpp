@@ -118,6 +118,7 @@ void Nodes::assert_valid(const Node* node) const {
     assert(node->neighbours.size() > 0);  // odd
     for (auto neighbour : node->neighbours) { //TODO perhaps rm this check
         assert((int)neighbour->location.x > 0);
+        assert(neighbour->location != node->location);
     }
     BOOST_ASSERT_MSG(node->neighbours.size() <= ACTION_COUNT, to_string(node->neighbours.size()).c_str());  // required by PlayerState
 }

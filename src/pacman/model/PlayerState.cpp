@@ -13,6 +13,7 @@
 #include "../Constants.h"
 #include <assert.h>
 #include "../Utility.h"
+#include <boost/assert.hpp>
 
 namespace PACMAN {
     namespace MODEL {
@@ -116,8 +117,8 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
         dir.normalise();
 
         double dot_prod = dir.dot_product(direction);
-        assert(dot_prod >= -1.0);
-        assert(dot_prod <= 1.0);
+        BOOST_ASSERT_MSG(dot_prod >= -1.0, to_string(dot_prod).c_str());
+        BOOST_ASSERT_MSG(dot_prod <= 1.0, to_string(dot_prod).c_str());
 
         if (dot_prod >= best_dot_prod) {
             best_action = i;

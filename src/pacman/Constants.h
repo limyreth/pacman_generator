@@ -16,6 +16,13 @@ namespace PACMAN {
     namespace SPECIFICATION {
         // ticks per second
         extern const int TICK_RATE;
+        extern const double NORMAL_PACMAN_SPEED;
+        extern const double ENERGETIC_PACMAN_SPEED;
+        extern const double GHOST_TUNNEL_SPEED;
+        extern const double GHOST_VULNERABLE_SPEED;
+        extern const double ELROY2_SPEED;
+        extern const double ELROY1_SPEED;
+        extern const double GHOST_NORMAL_SPEED;
     }
 
     namespace GUI {

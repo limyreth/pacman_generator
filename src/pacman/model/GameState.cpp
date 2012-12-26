@@ -185,10 +185,10 @@ GameState::GameState(const Action* actions, const GameState* state, UIHints& uih
                     //TODO check fruit timing and such. We need unit tests of the GameState class.
                 }
                 else if (get_vulnerable_ghost_count() > 0) {
-                    speed_modifier = 0.9;
+                    speed_modifier = ENERGETIC_PACMAN_SPEED;
                 }
                 else {
-                    speed_modifier = 0.8;
+                    speed_modifier = NORMAL_PACMAN_SPEED;
                 }
 
                 player = &pacman;
@@ -196,19 +196,19 @@ GameState::GameState(const Action* actions, const GameState* state, UIHints& uih
             else {
                 const int ghost_i = i-1;
                 if (ghosts[ghost_i].is_in_tunnel()) {
-                    speed_modifier = 0.4;
+                    speed_modifier = GHOST_TUNNEL_SPEED;
                 }
                 else if (ghosts[ghost_i].state = GhostState::VULNERABLE) {
-                    speed_modifier = 0.5;
+                    speed_modifier = GHOST_VULNERABLE_SPEED;
                 }
                 else if (is_elroy2(ghost_i)) {
-                    speed_modifier = 0.85;
+                    speed_modifier = ELROY2_SPEED;
                 }
                 else if (is_elroy1(ghost_i)) {
-                    speed_modifier = 0.8;
+                    speed_modifier = ELROY1_SPEED;
                 }
                 else {
-                    speed_modifier = 0.75;
+                    speed_modifier = GHOST_NORMAL_SPEED;
                 }
 
                 player = &ghosts[ghost_i];

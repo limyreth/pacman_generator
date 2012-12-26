@@ -13,6 +13,13 @@
 namespace PACMAN {
     namespace SPECIFICATION {
         const int TICK_RATE = 60;
+        const double NORMAL_PACMAN_SPEED = 0.8;
+        const double ENERGETIC_PACMAN_SPEED = 0.9;
+        const double GHOST_TUNNEL_SPEED = 0.4;
+        const double GHOST_VULNERABLE_SPEED = 0.5;
+        const double ELROY2_SPEED = 0.85;
+        const double ELROY1_SPEED = 0.8;
+        const double GHOST_NORMAL_SPEED = 0.75;
     }
 
     namespace GUI {
