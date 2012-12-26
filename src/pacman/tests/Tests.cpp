@@ -39,13 +39,13 @@ using std::endl;
 typedef void (*TestFunc)();
 
 template <class T>
-void assert_equals(T a, T b) {
-    if (a == b) {
+void assert_equals(T actual_value, T expected_value) {
+    if (actual_value == expected_value) {
         return;
     }
 
     ostringstream str;
-    str << a << " != " << b;
+    str << actual_value << " != " << expected_value;
     BOOST_ASSERT_MSG(false, str.str().c_str());
 }
 
@@ -73,9 +73,16 @@ public:
         while (original->get_player(player_index).get_tile_pos() == current->get_player(player_index).get_tile_pos()) {
             ++steps;
 
-            assert_equals(original->food_count, current->food_count);
-            assert_equals(original->lives, current->lives);
-            assert_equals(original->score, current->score);
+            assert_equals(current->food_count, original->food_count);
+            assert_equals(current->lives, original->lives);
+            assert_equals(current->score, original->score);
+
+            for (int i=0; i < GHOST_COUNT; ++i) {
+                assert_equals(
+                    ((GhostState&)current->get_player(i+1)).state,
+                    ((GhostState&)original->get_player(i+1)).state
+                );
+            }
 
             game.step(actions, uihints);
             current = game.get_state();
@@ -102,14 +109,22 @@ private:
 };
 
 void test_1() {
+    // check for correct game start; everything in the first frame
     Game game;
     auto state = game.get_state();
+
+    // start positions
     assert_equals(state->get_player(0).get_pixel_pos(), FPoint(14, 23.5) * TILE_SIZE);
     assert_equals(state->get_player(0).get_tile_pos(), IPoint(14, 23));
     assert_equals(state->get_player(GHOST_BLINKY+1).get_pixel_pos(), FPoint(14, 11.5) * TILE_SIZE);
     assert_equals(state->get_player(GHOST_PINKY+1).get_pixel_pos(), FPoint(14, 14) * TILE_SIZE);
     assert_equals(state->get_player(GHOST_INKY+1).get_pixel_pos(), FPoint(12, 14) * TILE_SIZE);
     assert_equals(state->get_player(GHOST_CLYDE+1).get_pixel_pos(), FPoint(16, 14) * TILE_SIZE);
+
+    // vulnerability
+    for (int i=0; i < GHOST_COUNT; ++i) {
+        BOOST_ASSERT(((GhostState&)state->get_player(i+1)).state == GhostState::NORMAL);
+    }
 }
 
 void test_2() {
@@ -120,6 +135,12 @@ void test_2() {
 
     auto tile_pos = test.get_state()->get_player(0).get_tile_pos();
     assert_equals(tile_pos, IPoint(15, 23));
+}
+
+void test_3() {
+    // ghosts remain normal when no energizer eaten
+    Test test;
+    test.move(1, Direction::ANY);
 }
 
 /* TODO
@@ -140,7 +161,8 @@ void test_2() {
 void test(int index) {
     TestFunc tests[] = {
         test_1,
-        test_2
+        test_2,
+        test_3
     };
     tests[index]();
 }
