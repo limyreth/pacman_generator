@@ -12,7 +12,6 @@
 
 #include "Test.h"
 
-#include "../Game.h"
 #include "../model/GameState.h"
 #include "../Point.h"
 #include "../Constants.h"
@@ -30,8 +29,8 @@ using std::cout;
 using std::endl;
 
 void test_initial_game_state() {
-    Game game;
-    auto state = game.get_state();
+    Test test;
+    auto state = test.get_state();
 
     // start positions
     assert_equals(state->get_player(0).get_pixel_pos(), FPoint(14, 23.5) * TILE_SIZE);
