@@ -10,6 +10,8 @@
 
 #include "Tests.h"
 
+#include "Test.h"
+
 #include "../Game.h"
 #include "../model/GameState.h"
 #include "../Point.h"
@@ -17,95 +19,15 @@
 
 #include <boost/assert.hpp>
 
-#include <sstream>
-
-// Test
-#include "../gui/NullUIHints.h"
-
 namespace PACMAN {
 
     using namespace MODEL;
     using namespace SPECIFICATION;
 
-    using GUI::NullUIHints;
-
     namespace TEST {
 
-
-using std::ostringstream;
 using std::cout;
 using std::endl;
-
-typedef void (*TestFunc)();
-
-template <class T>
-void assert_equals(T actual_value, T expected_value) {
-    if (actual_value == expected_value) {
-        return;
-    }
-
-    ostringstream str;
-    str << actual_value << " != " << expected_value;
-    BOOST_ASSERT_MSG(false, str.str().c_str());
-}
-
-
-class Test {
-public:
-    Test() 
-    :   uihints(new NullUIHints())
-    {
-    }
-
-    /*
-     * Moves until tile pos changes.
-     *
-     * Returns steps taken
-     */
-    int move(int player_index, Direction::Type direction) {
-        auto original = game.get_state();
-        auto current = original;
-        int steps = 0;
-
-        Action actions[PLAYER_COUNT] = {0, 0, 0, 0, 0};
-        actions[player_index] = original->get_player(player_index).get_action_along_direction(direction);
-
-        while (original->get_player(player_index).get_tile_pos() == current->get_player(player_index).get_tile_pos()) {
-            assert_equals(current->food_count, original->food_count);
-            assert_equals(current->lives, original->lives);
-            assert_equals(current->score, original->score);
-
-            for (int i=0; i < GHOST_COUNT; ++i) {
-                assert_equals(
-                    ((GhostState&)current->get_player(i+1)).state,
-                    ((GhostState&)original->get_player(i+1)).state
-                );
-            }
-
-            game.step(actions, uihints);
-            current = game.get_state();
-            ++steps;
-        }
-
-        return steps;
-    }
-
-    void directions_to_actions(Direction::Type pacman, Direction::Type blinky, Direction::Type pinky, Direction::Type inky, Direction::Type clyde, Action* actions, Game& game) {
-        Direction::Type directions[PLAYER_COUNT] = {pacman, blinky, pinky, inky, clyde};
-        auto state = game.get_state();
-        for (int i=0; i<PLAYER_COUNT; ++i) {
-            actions[i] = state->get_player(i).get_action_along_direction(directions[i]);
-        }
-    }
-
-    shared_ptr<GameState> get_state() {
-        return game.get_state();
-    }
-
-private:
-    Game game;
-    shared_ptr<NullUIHints> uihints;
-};
 
 void test_initial_game_state() {
     Game game;
@@ -156,6 +78,8 @@ void test_pacman_movement_regular_speed_not_cornering() {
  */
 
 void test(int index) {
+    typedef void (*TestFunc)();
+
     TestFunc tests[] = {
         test_initial_game_state,
         test_ghosts_remain_normal_when_not_eating_energizer,
