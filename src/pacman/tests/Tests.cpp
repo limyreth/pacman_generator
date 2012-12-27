@@ -71,8 +71,6 @@ public:
         actions[player_index] = original->get_player(player_index).get_action_along_direction(direction);
 
         while (original->get_player(player_index).get_tile_pos() == current->get_player(player_index).get_tile_pos()) {
-            ++steps;
-
             assert_equals(current->food_count, original->food_count);
             assert_equals(current->lives, original->lives);
             assert_equals(current->score, original->score);
@@ -86,6 +84,7 @@ public:
 
             game.step(actions, uihints);
             current = game.get_state();
+            ++steps;
         }
 
         return steps;

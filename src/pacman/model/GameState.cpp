@@ -198,7 +198,7 @@ GameState::GameState(const Action* actions, const GameState* state, UIHints& uih
                 if (ghosts[ghost_i].is_in_tunnel()) {
                     speed_modifier = GHOST_TUNNEL_SPEED;
                 }
-                else if (ghosts[ghost_i].state = GhostState::VULNERABLE) {
+                else if (ghosts[ghost_i].state == GhostState::VULNERABLE) {
                     speed_modifier = GHOST_VULNERABLE_SPEED;
                 }
                 else if (is_elroy2(ghost_i)) {
