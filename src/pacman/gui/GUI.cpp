@@ -201,7 +201,7 @@ void GUI::renderNormal() {
     SDL_BlitSurface(txt.get(),NULL,screen.get(),&scorebox);
 
     // draw node map
-    game.get_pacman_nodes().draw(screen);
+    //game.get_pacman_nodes().draw(screen);
     //game.get_ghost_nodes().draw(screen);
 }
 
