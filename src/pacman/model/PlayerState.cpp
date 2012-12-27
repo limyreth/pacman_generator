@@ -14,6 +14,9 @@
 #include <assert.h>
 #include "../Utility.h"
 #include <boost/assert.hpp>
+#include <cmath>
+
+using std::min;
 
 namespace PACMAN {
     namespace MODEL {
@@ -44,31 +47,40 @@ PlayerState::PlayerState(const Node* initial_node)
  */
 void PlayerState::move(double distance_moved, Action next_action) {
     FPoint direction = destination->location - pos;
+    double distance_moved_towards_destination = min(direction.length(), distance_moved);
+    double distance_moved_towards_new_destination = distance_moved - distance_moved_towards_destination;
 
-    if (direction.length() <= distance_moved) {
+    // move towards destination
+    if (distance_moved_towards_destination > 0.0) {
+        must_repeat_previous_action = true;
+        move(distance_moved_towards_destination);
+    }
+
+    // if movement left, pick new destination and move towards that as well
+    if (distance_moved_towards_new_destination > 0.0) {
         must_repeat_previous_action = false;
 
         // destination reached
         // consume the next action
         origin = destination;
         destination = destination->neighbours.at(next_action);
-        // TODO move towards new destination for the remainder: distance_moved - direction.length
+        move(distance_moved_towards_new_destination);
         return;
     }
-    else {
-        must_repeat_previous_action = true;
+}
 
-        direction.normalise();
-        pos += direction * distance_moved;
+void PlayerState::move(double distance_moved) {
+    FPoint direction = destination->location - pos;
+    direction.normalise();
+    pos += direction * distance_moved;
 
-        // wrap screen when hitting left/right edge of tunnel
-        auto tpos = get_tile_pos();
-        if (tpos.x < 0) {
-            pos.x = MAP_WIDTH * TILE_SIZE - pos.x;
-        }
-        else if (tpos.x >= MAP_WIDTH) {
-            pos.x -= MAP_WIDTH * TILE_SIZE;
-        }
+    // wrap screen when hitting left/right edge of tunnel
+    auto tpos = get_tile_pos();
+    if (tpos.x < 0) {
+        pos.x = MAP_WIDTH * TILE_SIZE - pos.x;
+    }
+    else if (tpos.x >= MAP_WIDTH) {
+        pos.x -= MAP_WIDTH * TILE_SIZE;
     }
 }
 

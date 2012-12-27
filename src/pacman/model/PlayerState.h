@@ -24,7 +24,7 @@ namespace PACMAN {
         public:
             PlayerState();
             PlayerState(const Node* initial_node);
-            void move(double distance_moved, Action next_action);
+            void move(double distance, Action next_action);
             IPoint get_tile_pos() const;
 
             inline FPoint get_pixel_pos() const {
@@ -35,6 +35,9 @@ namespace PACMAN {
             void get_legal_actions(LegalActions& legal_actions) const;
 
             Action get_action_along_direction(Direction::Type direction) const;
+
+        private:
+            void move(double distance);
 
         private:
             FPoint pos;  // current position in pixels
