@@ -25,5 +25,6 @@ namespace PACMAN {
         }
         typedef Food::Type Foods[MAP_WIDTH * MAP_HEIGHT];
 
+        extern const Foods start_foods;
     }
 }
