@@ -126,10 +126,6 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns)
 GameState::GameState(const Action* actions, const GameState* state, UIHints& uihints)
 :   pacman(state->pacman)  // pacman has no default constructor, so it gets angry unless I use this one
 {
-    static const int VULNERABLE_TICKS = 6 * TICK_RATE;  // the amount of ticks ghosts are vulnerable
-    static const int FRUIT_TICKS = 10 * TICK_RATE;  // the amount of ticks fruit stays on the map after spawning
-    static const int FULL_SPEED = 9.5 * TILE_SIZE / TICK_RATE;  // 100% speed expressed in px per tick.
-
     // Note: order of everything in this function is important TODO split in functions to provide better overview of ordering
 
     // First copy everything
@@ -214,7 +210,7 @@ GameState::GameState(const Action* actions, const GameState* state, UIHints& uih
                 player = &ghosts[ghost_i];
             }
 
-            player->move(FULL_SPEED * speed_modifier, actions[i]);
+            player->move(FULL_SPEED * TILE_SIZE * speed_modifier, actions[i]);
         }
     }
 

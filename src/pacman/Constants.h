@@ -16,6 +16,7 @@ namespace PACMAN {
     namespace SPECIFICATION {
         // ticks per second
         extern const int TICK_RATE;
+
         extern const double NORMAL_PACMAN_SPEED;
         extern const double ENERGETIC_PACMAN_SPEED;
         extern const double GHOST_TUNNEL_SPEED;
@@ -23,6 +24,12 @@ namespace PACMAN {
         extern const double ELROY2_SPEED;
         extern const double ELROY1_SPEED;
         extern const double GHOST_NORMAL_SPEED;
+        // the amount of ticks ghosts are vulnerable
+        extern const int VULNERABLE_TICKS;
+        // the amount of ticks fruit stays on the map after spawning
+        extern const int FRUIT_TICKS;
+        // 100% speed expressed in tiles per tick.
+        extern const double FULL_SPEED;
     }
 
     namespace GUI {
