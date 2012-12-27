@@ -19,6 +19,10 @@
 namespace PACMAN {
 
     inline int at_wrap(int x, int y) {
+        assert(x >= -1);
+        assert(x <= MAP_WIDTH);
+        assert(y >= 0);
+        assert(y < MAP_HEIGHT);
         return y * MAP_WIDTH + (x % MAP_WIDTH);
     }
 
