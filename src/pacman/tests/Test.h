@@ -13,6 +13,7 @@
 #include "../Directions.h"
 #include "../Game.h"
 #include "../model/GameStateInfo.h"
+#include "../Utility.h"
 
 #include <sstream>
 #include <boost/assert.hpp>
@@ -24,16 +25,7 @@ namespace PACMAN {
 
     namespace TEST {
 
-        template <class T>
-        void assert_equals(T actual_value, T expected_value) {
-            if (actual_value == expected_value) {
-                return;
-            }
-
-            std::ostringstream str;
-            str << actual_value << " != " << expected_value;
-            BOOST_ASSERT_MSG(false, str.str().c_str());
-        }
+#define assert_equals(actual_value, expected_value) BOOST_ASSERT_MSG(actual_value == expected_value, (to_string(actual_value) + " != " + to_string(expected_value)).c_str());
 
         class Test {
         public:
