@@ -33,6 +33,8 @@ namespace PACMAN {
             int move(int player_index, Direction::Type direction);
             void directions_to_actions(Direction::Type pacman, Direction::Type blinky, Direction::Type pinky, Direction::Type inky, Direction::Type clyde, MODEL::Action* actions, Game& game);
 
+            int get_food_count();
+
             inline shared_ptr<MODEL::GameState> get_state() {
                 return game.get_state();
             }

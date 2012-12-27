@@ -54,8 +54,7 @@ void test_ghosts_remain_normal_when_not_eating_energizer() {
 void test_pacman_movement_regular_speed_not_cornering() {
     Test test;
 
-    // check correct step count to move a tile
-    assert_equals(test.move(0, Direction::EAST), (int)ceil((15 - 14) / (FULL_SPEED * NORMAL_PACMAN_SPEED)));
+    assert_equals(test.move(0, Direction::EAST), (int)ceil(1 /*tile*/ / (FULL_SPEED * NORMAL_PACMAN_SPEED)));
     auto tile_pos = test.get_state()->get_player(0).get_tile_pos();
     assert_equals(tile_pos, IPoint(15, 23));
 
@@ -63,6 +62,18 @@ void test_pacman_movement_regular_speed_not_cornering() {
     test.move(0, Direction::EAST);
     tile_pos = test.get_state()->get_player(0).get_tile_pos();
     assert_equals(tile_pos, IPoint(16, 23));
+}
+
+void test_dot_eating_no_cornering() {
+    Test test;
+
+    int start_food = test.get_food_count();
+    test.move(0, Direction::EAST);
+    assert_equals(test.get_food_count(), start_food-1);
+
+    // should take 1 step longer because pacman idles 1 tick after eating a dot
+    assert_equals(test.move(0, Direction::EAST), 1 + (int)ceil(1 /*tile*/ / (FULL_SPEED * NORMAL_PACMAN_SPEED)));
+    assert_equals(test.get_food_count(), start_food-2);
 }
 
 
@@ -87,7 +98,8 @@ void test(int index) {
     TestFunc tests[] = {
         test_initial_game_state,
         test_ghosts_remain_normal_when_not_eating_energizer,
-        test_pacman_movement_regular_speed_not_cornering
+        test_pacman_movement_regular_speed_not_cornering,
+        test_dot_eating_no_cornering
     };
     tests[index]();
 }

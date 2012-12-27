@@ -78,5 +78,9 @@ void Test::directions_to_actions(Direction::Type pacman, Direction::Type blinky,
     }
 }
 
+int Test::get_food_count() {
+    return get_state()->food_count;
+}
+
     }
 }

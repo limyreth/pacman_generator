@@ -69,3 +69,8 @@ add_test(
     COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pacman_sdl --test 3
 )
 
+add_test(
+    NAME dot_eating_no_cornering
+    COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pacman_sdl --test 4
+)
+
