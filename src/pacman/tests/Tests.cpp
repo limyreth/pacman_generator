@@ -107,8 +107,7 @@ private:
     shared_ptr<NullUIHints> uihints;
 };
 
-void test_1() {
-    // check for correct game start; everything in the first frame
+void test_initial_game_state() {
     Game game;
     auto state = game.get_state();
 
@@ -126,8 +125,12 @@ void test_1() {
     }
 }
 
-void test_2() {
-    // pacman movement between 2 regular nodes
+void test_ghosts_remain_normal_when_not_eating_energizer() {
+    Test test;
+    test.move(1, Direction::ANY);
+}
+
+void test_pacman_movement_regular_speed_not_cornering() {
     Test test;
 
     assert_equals(test.move(0, Direction::EAST), (int)ceil((15 - 14) / (FULL_SPEED * NORMAL_PACMAN_SPEED)));
@@ -136,11 +139,6 @@ void test_2() {
     assert_equals(tile_pos, IPoint(15, 23));
 }
 
-void test_3() {
-    // ghosts remain normal when no energizer eaten
-    Test test;
-    test.move(1, Direction::ANY);
-}
 
 /* TODO
  * move from node to node takes expected amount of ticks:
@@ -159,9 +157,9 @@ void test_3() {
 
 void test(int index) {
     TestFunc tests[] = {
-        test_1,
-        test_2,
-        test_3
+        test_initial_game_state,
+        test_ghosts_remain_normal_when_not_eating_energizer,
+        test_pacman_movement_regular_speed_not_cornering
     };
     tests[index]();
 }

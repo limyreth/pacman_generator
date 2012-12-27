@@ -60,12 +60,12 @@ add_test(
 )
 
 add_test(
-    NAME pacman_movement_regular_speed_not_cornering
+    NAME ghosts_remain_normal_when_not_eating_energizer
     COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pacman_sdl --test 2
 )
 
 add_test(
-    NAME ghosts_remain_normal_when_not_eating_energizer
+    NAME pacman_movement_regular_speed_not_cornering
     COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pacman_sdl --test 3
 )
 
