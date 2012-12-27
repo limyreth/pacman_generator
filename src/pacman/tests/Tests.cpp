@@ -130,7 +130,7 @@ void test_2() {
     // pacman movement between 2 regular nodes
     Test test;
 
-    assert_equals(test.move(0, Direction::ANY), (int)ceil((15 - 14) * TILE_SIZE / NORMAL_PACMAN_SPEED));
+    assert_equals(test.move(0, Direction::EAST), (int)ceil((15 - 14) / (FULL_SPEED * NORMAL_PACMAN_SPEED)));
 
     auto tile_pos = test.get_state()->get_player(0).get_tile_pos();
     assert_equals(tile_pos, IPoint(15, 23));
