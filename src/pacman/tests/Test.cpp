@@ -36,6 +36,10 @@ Test::Test()
 /*
  * Moves until tile pos changes.
  *
+ * Note that player might not currently move in direction, but the player is
+ * allowed to change direction during this movement, then it will try to change
+ * to that direction.
+ *
  * Returns steps taken
  */
 int Test::move(int player_index, Direction::Type direction) {
