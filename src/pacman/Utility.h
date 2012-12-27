@@ -35,7 +35,7 @@ namespace PACMAN {
     }
 
     inline int at(IPoint tile_pos) {
-        return at(tile_pos.y, tile_pos.x);
+        return at(tile_pos.x, tile_pos.y);
     }
 
     template <class T>
