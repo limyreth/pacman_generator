@@ -54,10 +54,15 @@ void test_ghosts_remain_normal_when_not_eating_energizer() {
 void test_pacman_movement_regular_speed_not_cornering() {
     Test test;
 
+    // check correct step count to move a tile
     assert_equals(test.move(0, Direction::EAST), (int)ceil((15 - 14) / (FULL_SPEED * NORMAL_PACMAN_SPEED)));
-
     auto tile_pos = test.get_state()->get_player(0).get_tile_pos();
     assert_equals(tile_pos, IPoint(15, 23));
+
+    // check we are really moving east
+    test.move(0, Direction::EAST);
+    tile_pos = test.get_state()->get_player(0).get_tile_pos();
+    assert_equals(tile_pos, IPoint(16, 23));
 }
 
 

@@ -134,6 +134,7 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
 
         if (dot_prod >= best_dot_prod) {
             best_action = i;
+            best_dot_prod = dot_prod;
         }
     }
     return best_action;
