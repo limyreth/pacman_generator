@@ -27,7 +27,7 @@ namespace PACMAN {
             Node(FPoint location);
 
         public:
-            FPoint location; // TODO player locations should also be FPoint
+            FPoint location;
             std::vector<Node*> neighbours;
         };
 
