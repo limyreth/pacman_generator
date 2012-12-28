@@ -10,6 +10,7 @@
 
 #pragma once
 
+#include "../util/assertion.h"
 #include <vector>
 
 #include <boost/shared_ptr.hpp>
@@ -23,7 +24,7 @@ namespace PACMAN {
         class Node;
 
         // these are choice nodes for pacman/ghosts
-        class Nodes
+        class Nodes : public ASSERTION::Assertable
         {
         public:
             Nodes();
@@ -35,8 +36,8 @@ namespace PACMAN {
             void init();
             std::vector<Node*> nodes;
 
-            void assert_valid(const std::vector<Node*>& nodes) const;
-            void assert_valid(const Node* node) const;
+            void ensure_valid(const std::vector<Node*>& nodes, const std::vector<Node*>& all_nodes) const;
+            void ensure_valid(const Node* node, const std::vector<Node*>& all_nodes) const;
 
             double get_branching_factor(const std::vector<Node*>& nodes) const;
         };

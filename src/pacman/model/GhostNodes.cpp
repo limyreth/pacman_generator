@@ -38,8 +38,12 @@ const vector<Node*> GhostNodes::init() {
     spawns.at(GHOST_BLINKY)->neighbours.push_back(nodes.at(at(13, 11)));
     spawns.at(GHOST_BLINKY)->neighbours.push_back(nodes.at(at(14, 11)));
 
-    assert_valid(nodes);
-    assert_valid(spawns);
+    ensure_valid(nodes, nodes);
+    vector<Node*> all_nodes;
+    all_nodes.reserve(nodes.size() + spawns.size());
+    all_nodes.insert(all_nodes.end(), nodes.begin(), nodes.end());
+    all_nodes.insert(all_nodes.end(), spawns.begin(), spawns.end());
+    ensure_valid(spawns, all_nodes);
 
     // print stats
     cout << "Ghost branching factor: " << get_branching_factor(nodes) << endl;

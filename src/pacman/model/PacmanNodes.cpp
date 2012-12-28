@@ -25,7 +25,6 @@ using SPECIFICATION::walls;
 
 const Node* PacmanNodes::init() {
     Nodes::init();
-    assert_valid(nodes);
     for (int x=0; x < MAP_WIDTH; ++x) {
         for (int y=0; y < MAP_HEIGHT; ++y) {
             auto& node = nodes.at(at(x, y));
@@ -67,8 +66,8 @@ const Node* PacmanNodes::init() {
     Node* spawn = new Node(FPoint(14, 23.5) * TILE_SIZE);
     spawn->neighbours.push_back(nodes.at(at(14, 23))); // Note: symmetrical map, just going to the right is fine
 
-    assert_valid(nodes);
-    assert_valid(spawn);
+    ensure_valid(nodes, nodes);
+    ensure_valid(spawn, nodes);
 
     // print stats
     cout << "Pacman branching factor: " << get_branching_factor(nodes) << endl;

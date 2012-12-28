@@ -14,8 +14,6 @@
 #include "../Constants.h"
 #include "../specification/Walls.h"
 
-#include <boost/assert.hpp>
-
 #include <SDL/SDL.h>
 #include <SDL/SDL_gfxPrimitives.h>
 
@@ -105,22 +103,35 @@ void Nodes::init() {
             }
         }
     }
+
+    ensure_valid(nodes, nodes);
 }
 
-void Nodes::assert_valid(const vector<Node*>& nodes) const {
+void Nodes::ensure_valid(const vector<Node*>& nodes, const vector<Node*>& all_nodes) const {
     for (auto node : nodes) {
         if (node)
-            assert_valid(node);
+            ensure_valid(node, all_nodes);
     }
+    ENSURE(nodes.size() > 0);
 }
 
-void Nodes::assert_valid(const Node* node) const {
-    assert(node->neighbours.size() > 0);  // odd
-    for (auto neighbour : node->neighbours) { //TODO perhaps rm this check
-        assert((int)neighbour->location.x > 0);
-        assert(neighbour->location != node->location);
+// check node
+void Nodes::ensure_valid(const Node* node, const vector<Node*>& all_nodes) const {
+    // within map bounds
+    ENSURE(node->location.x > 0.0);
+    ENSURE(node->location.y > 0.0);
+    ENSURE(node->location.x < MAP_WIDTH * TILE_SIZE);
+    ENSURE(node->location.y < MAP_HEIGHT * TILE_SIZE);
+
+    // required by PlayerState
+    ENSURE(node->neighbours.size() <= ACTION_COUNT);
+
+    // must have neighbours
+    ENSURE(node->neighbours.size() > 0);
+    for (auto neighbour : node->neighbours) {
+        ENSURE(std::find(all_nodes.begin(), all_nodes.end(), neighbour) != all_nodes.end());
+        ENSURE(neighbour->location != node->location);
     }
-    BOOST_ASSERT_MSG(node->neighbours.size() <= ACTION_COUNT, to_string(node->neighbours.size()).c_str());  // required by PlayerState
 }
 
 void Nodes::draw(shared_ptr<SDL_Surface> screen) const {
@@ -130,7 +141,7 @@ void Nodes::draw(shared_ptr<SDL_Surface> screen) const {
 
         for (auto neighbour : node->neighbours) {
             int retval = lineColor(screen.get(), (int)node->location.x, (int)node->location.y, (int)neighbour->location.x, (int)neighbour->location.y, 0xFF000077);// Uint32
-            assert(retval == 0);
+            ASSERT(retval == 0);
         }
     }
 
