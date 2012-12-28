@@ -12,10 +12,10 @@
 
 #include <iostream>
 #include <cmath>
-#include <boost/assert.hpp>
+#include "util/assertion.h"
 
 template <typename T>
-class Point
+class Point : public ASSERTION::Assertable
 {
 public:
     Point() : Point(0, 0) {}
@@ -68,7 +68,7 @@ public:
     }
 
     Point<T>& operator /= (double a) {
-        BOOST_ASSERT(a != 0.0);
+        REQUIRE(a != 0.0);
         this->x /= a;
         this->y /= a;
         return *this;

@@ -10,6 +10,7 @@
 
 #include "Log.h"
 #include "Error.h"
+#include "util/assertion.h"
 #include <fstream>
 
 #define WNDTITLE	"pacman_sdl (" __DATE__ ", " __TIME__ ")"
@@ -48,6 +49,20 @@ Log::~Log()
 {
 }
 
+void Log::log_exception(const std::string str) {
+    std::cerr << str << std::endl;
+    print(str);
+}
+
+void Log::log_exception(const ASSERTION::AssertionException& e) {
+    auto* message = boost::get_error_info<ASSERTION::assertion_message>(e);
+
+    std::ostringstream out;
+    out << "Assertion failed: " << *message;
+
+    log_exception(out.str());
+}
+
 void Log::log_exception(const std::exception& e) {
     auto* file_name = boost::get_error_info<boost::throw_file>(e);
     auto* function_name = boost::get_error_info<boost::throw_function>(e);
@@ -60,7 +75,6 @@ void Log::log_exception(const std::exception& e) {
     }
     out << e.what();
 
-    std::cerr << out.str() << std::endl;
-    print(out.str());
+    log_exception(out.str());
 }
 

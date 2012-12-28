@@ -8,29 +8,23 @@
  ***************************************************************************/
 
 
-#pragma once
-
-#include <string>
+#include "assertion.h"
+#include <boost/exception/all.hpp>
 
 namespace ASSERTION {
-    class AssertionException;
+
+void ensure(Assertable* assertable, bool condition, const char* message) {
+    ASSERT(assertable != NULL);
+    assertable->invariants();
+    my_assert(condition, message);
 }
 
-class Log
-{
-public:
-    Log();
-    ~Log();
+void my_assert(bool condition, const char* message) {
+    if (!condition) {
+        throw AssertionException() << assertion_message(message);
+        // TODO add a message... 
+        // TODO Add stack trace... Once we are running it regularly, rather than in a debugger, this will come in handy
+    }
+}
 
-    void setFilename(std::string fn);
-    void print(std::string txt);
-    void log_exception(const std::string str);
-    void log_exception(const ASSERTION::AssertionException& e);
-    void log_exception(const std::exception& e);
-
-private:
-    std::string
-            filename;
-};
-
-extern Log logtxt;
+}

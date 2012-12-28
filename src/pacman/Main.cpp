@@ -17,6 +17,7 @@
 #include "Game.h"
 #include "gui/GUI.h"
 #include "Log.h"
+#include "util/assertion.h"
 #include "tests/Tests.h"
 #include <sstream>
 
@@ -71,6 +72,10 @@ int main( int argc, char** argv ) {
 
         //shutdown
         logtxt.print( "Shutdown" );
+    }
+    catch (const ASSERTION::AssertionException& e) {
+        logtxt.log_exception(e);
+        return 1;
     }
     catch (const std::exception& e) {
         logtxt.log_exception(e);
