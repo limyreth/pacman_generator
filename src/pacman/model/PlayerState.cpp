@@ -28,7 +28,7 @@ PlayerState::PlayerState()
 }
 
 PlayerState::PlayerState(const Node* initial_node) 
-:   pos(initial_node->location), 
+:   pos(initial_node->get_location()), 
     must_repeat_previous_action(false),
     origin(NULL),
     destination(initial_node)
@@ -46,7 +46,7 @@ PlayerState::PlayerState(const Node* initial_node)
  * postcondition: legal_actions contains the legal actions for the next move.
  */
 void PlayerState::move(double distance_moved, Action next_action) {
-    FPoint direction = destination->location - pos;
+    FPoint direction = destination->get_location() - pos;
     double distance_moved_towards_destination = min(direction.length(), distance_moved);
     double distance_moved_towards_new_destination = distance_moved - distance_moved_towards_destination;
 
@@ -63,14 +63,14 @@ void PlayerState::move(double distance_moved, Action next_action) {
         // destination reached
         // consume the next action
         origin = destination;
-        destination = destination->neighbours.at(next_action);
+        destination = destination->get_neighbours().at(next_action);
         move(distance_moved_towards_new_destination);
         return;
     }
 }
 
 void PlayerState::move(double distance_moved) {
-    FPoint direction = destination->location - pos;
+    FPoint direction = destination->get_location() - pos;
     direction.normalise();
     pos += direction * distance_moved;
 
@@ -98,12 +98,12 @@ void PlayerState::get_legal_actions(LegalActions& legal_actions) const {
         legal_actions.reverse_action = -1;
     }
     else {
-        legal_actions.count = destination->neighbours.size();
+        legal_actions.count = destination->get_neighbours().size();
 
         legal_actions.reverse_action = -1;
         if (origin) {
-            for (Action i=0; i < destination->neighbours.size(); ++i) {
-                if (origin == destination->neighbours.at(i)) {
+            for (Action i=0; i < destination->get_neighbours().size(); ++i) {
+                if (origin == destination->get_neighbours().at(i)) {
                     legal_actions.reverse_action = i;
                     break;
                 }
@@ -124,8 +124,8 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
 
     double best_dot_prod = -1.0; // worst = -1, best = 1
     Action best_action = -1;
-    for (int i=0; i < destination->neighbours.size(); ++i) {
-        auto dir = destination->neighbours[i]->location - destination->location;
+    for (int i=0; i < destination->get_neighbours().size(); ++i) {
+        auto dir = destination->get_neighbours()[i]->get_location() - destination->get_location();
         dir.normalise();
 
         double dot_prod = dir.dot_product(direction);

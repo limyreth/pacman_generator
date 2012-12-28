@@ -20,15 +20,31 @@ using boost::shared_ptr;
 namespace PACMAN {
     namespace MODEL {
 
+        class Nodes;
+        class PacmanNodes;
+        class GhostNodes;
+
         // these are choice nodes for pacman/ghosts
         class Node
         {
         public:
             Node(FPoint location);
 
-        public:
+            inline const FPoint& get_location() const {
+                return location;
+            }
+
+            inline const std::vector<Node*>& get_neighbours() const {
+                return neighbours;
+            }
+
+        private:
             FPoint location;
             std::vector<Node*> neighbours;
+
+            friend Nodes;
+            friend PacmanNodes;
+            friend GhostNodes;
         };
 
     }
