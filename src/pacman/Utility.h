@@ -14,24 +14,32 @@
 #include "Constants.h"
 #include "model/GameStateInfo.h"
 #include <sstream>
-#include <assert.h>
+#include "util/assertion.h"
 
 namespace PACMAN {
 
-    inline int at_wrap(int x, int y) {
-        assert(x >= -1);
-        assert(x <= MAP_WIDTH);
-        assert(y >= 0);
-        assert(y < MAP_HEIGHT);
-        return y * MAP_WIDTH + (x % MAP_WIDTH);
+    inline int at(int x, int y) {
+        REQUIRE(x >= 0);
+        REQUIRE(x < MAP_WIDTH);
+        REQUIRE(y >= 0);
+        REQUIRE(y < MAP_HEIGHT);
+
+        auto ret_val = y * MAP_WIDTH + x;
+
+        ENSURE_(ret_val < MAP_WIDTH * MAP_HEIGHT);
+        return ret_val;
     }
 
-    inline int at(int x, int y) {
-        assert(x >= 0);
-        assert(x < MAP_WIDTH);
-        assert(y >= 0);
-        assert(y < MAP_HEIGHT);
-        return y * MAP_WIDTH + x;
+    inline int at_wrap(int x, int y) {
+        REQUIRE(x >= -1);
+        REQUIRE(x <= MAP_WIDTH);
+        if (x == -1) {
+            x = MAP_WIDTH - 1;
+        }
+        else if (x == MAP_WIDTH) {
+            x = 0;
+        }
+        return at(x, y);
     }
 
     inline int at(IPoint tile_pos) {
