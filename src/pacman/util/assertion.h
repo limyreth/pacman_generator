@@ -60,7 +60,7 @@ namespace ASSERTION {
 
     class Assertable {
     public:
-        virtual void invariants() {}
+        virtual void invariants() const {}
     };
 
     typedef boost::error_info<struct tag_assertion_message, const char*> assertion_message;
@@ -70,7 +70,7 @@ namespace ASSERTION {
         AssertionException() {}
     };
 
-    void ensure(Assertable* assertable, bool condition, const char* message);
+    void ensure(const Assertable* assertable, bool condition, const char* message);
 
     void my_assert(bool condition, const char* message);
 
