@@ -13,13 +13,14 @@
 #include "../Point.h"
 #include "GameStateInfo.h"
 #include "../Directions.h"
+#include "../util/assertion.h"
 
 namespace PACMAN {
     namespace MODEL {
 
         class Node;
 
-        class PlayerState
+        class PlayerState : public ASSERTION::Assertable
         {
         public:
             PlayerState();
@@ -38,6 +39,7 @@ namespace PACMAN {
 
         private:
             void move(double distance);
+            void invariants() const;
 
         private:
             FPoint pos;  // current position in pixels

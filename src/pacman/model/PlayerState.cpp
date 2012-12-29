@@ -11,9 +11,7 @@
 #include "PlayerState.h"
 #include "Node.h"
 #include "../Constants.h"
-#include <assert.h>
 #include "../Utility.h"
-#include <boost/assert.hpp>
 #include <cmath>
 
 using std::min;
@@ -33,8 +31,7 @@ PlayerState::PlayerState(const Node* initial_node)
     origin(NULL),
     destination(initial_node)
 {
-    assert(pos.x >= 0);
-    assert(pos.y >= 0);
+    ENSURE(destination);
 }
 
 /*
@@ -46,6 +43,10 @@ PlayerState::PlayerState(const Node* initial_node)
  * postcondition: legal_actions contains the legal actions for the next move.
  */
 void PlayerState::move(double distance_moved, Action next_action) {
+    REQUIRE(distance_moved >= 0.0);
+    REQUIRE(next_action >= 0);
+    REQUIRE(next_action < destination->get_neighbours().size());
+
     FPoint direction = destination->get_location() - pos;
     double distance_moved_towards_destination = min(direction.length(), distance_moved);
     double distance_moved_towards_new_destination = distance_moved - distance_moved_towards_destination;
@@ -70,6 +71,8 @@ void PlayerState::move(double distance_moved, Action next_action) {
 }
 
 void PlayerState::move(double distance_moved) {
+    REQUIRE(distance_moved >= 0.0);
+
     FPoint direction = destination->get_location() - pos;
     direction.normalise();
     pos += direction * distance_moved;
@@ -85,10 +88,7 @@ void PlayerState::move(double distance_moved) {
 }
 
 IPoint PlayerState::get_tile_pos() const {
-    assert(pos.x >= 0);
-    assert(pos.y >= 0);
-    assert(pos.x <= MAP_WIDTH * TILE_SIZE);
-    assert(pos.y <= MAP_HEIGHT * TILE_SIZE);
+    ENSURE(true);
     return IPoint(pos.x / TILE_SIZE, pos.y / TILE_SIZE);
 }
 
@@ -109,6 +109,8 @@ void PlayerState::get_legal_actions(LegalActions& legal_actions) const {
                 }
             }
         }
+
+        ENSURE(legal_actions.count > 0);
     }
 }
 
@@ -120,7 +122,6 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
         return 0;
 
     auto direction = DIRECTIONS[(int)direction_];
-    assert(direction.length() == 1.0);
 
     double best_dot_prod = -1.0; // worst = -1, best = 1
     Action best_action = -1;
@@ -129,8 +130,8 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
         dir.normalise();
 
         double dot_prod = dir.dot_product(direction);
-        BOOST_ASSERT_MSG(dot_prod >= -1.0, to_string(dot_prod).c_str());
-        BOOST_ASSERT_MSG(dot_prod <= 1.0, to_string(dot_prod).c_str());
+        ASSERT(dot_prod >= -1.0);
+        ASSERT(dot_prod <= 1.0);
 
         if (dot_prod >= best_dot_prod) {
             best_action = i;
@@ -138,6 +139,13 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
         }
     }
     return best_action;
+}
+
+void PlayerState::invariants() const {
+    INVARIANT(pos.x >= 0);
+    INVARIANT(pos.y >= 0);
+    INVARIANT(pos.x <= MAP_WIDTH * TILE_SIZE);
+    INVARIANT(pos.y <= MAP_HEIGHT * TILE_SIZE);
 }
 
 // Note: reversing direction between intersections is a legal action and a
