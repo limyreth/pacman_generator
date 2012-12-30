@@ -330,7 +330,7 @@ void GameState::invariants() const {
     INVARIANT(idler_ticks_left >= 0);
     INVARIANT(idler_ticks_left <= 3);
 
-    INVARIANT(foods[at(pacman.get_tile_pos())] == Food::NONE || did_pacman_win() || did_pacman_lose());
+    INVARIANT(foods[at(pacman.get_tile_pos())] == Food::NONE || did_pacman_lose());
 }
 
 void GameState::nextLvl() {
