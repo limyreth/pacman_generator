@@ -258,7 +258,7 @@ GameState::GameState(const Action* actions, const GameState* state, UIHints& uih
     ENSURE(score >= state->score);
     ENSURE(lives <= state->lives);
     ENSURE(fruit_ticks_left == -1 || fruit_ticks_left == FRUIT_TICKS || fruit_ticks_left == state->fruit_ticks_left - 1);
-    ENSURE(vulnerable_ticks_left == -1 || vulnerable_ticks_left == VULNERABLE_TICKS || vulnerable_ticks_left < state->vulnerable_ticks_left - 1);
+    ENSURE(vulnerable_ticks_left == -1 || vulnerable_ticks_left == VULNERABLE_TICKS || vulnerable_ticks_left == state->vulnerable_ticks_left - 1);
     ASSERT_INVARIANTS();
 }
 
