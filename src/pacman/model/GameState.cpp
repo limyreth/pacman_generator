@@ -321,90 +321,10 @@ void GameState::invariants() const {
 
 void GameState::nextLvl() {
     assert(false); // didn't expect pacman to win vs perfect ghosts
-
-    /*std::string tmpstr;
-    level++;
-
-    app.reached_next_level
-    app.getSnd()->stop();
-    app.getSnd()->play(9);
-
-    vuln_duration -= vuln_duration/10;
-
-    ((Ghost*)objects[ rand()%4 +2])->changeDifficulty( rand()%15, rand()%5 );
-    ((Ghost*)objects[ rand()%4 +2])->changeDifficulty( rand()%10, rand()%3 );
-
-    objects[PAC]->reset(pacstartx, pacstarty);
-    objects[GHOST1]->reset(baddiestartx, baddiestarty);
-    objects[GHOST2]->reset(baddiestartx+2, baddiestarty);
-    objects[GHOST3]->reset(baddiestartx-2, baddiestarty);
-    objects[GHOST4]->reset(baddiestartx, baddiestarty-2);
-
-    tmpstr = lvlpath[lvlpathcurrent] + OBJFILE;
-    if ( ! loadMap(tmpstr, objmap) )
-        throw Error("Error loading objmap.txt during Game::nextLvl()");
-
-    vulnflag= false;
-    deadghostcount= 0;
-    floatingscorecounter = 0;
-    floatingscore = 0;
-    specialspawned = false;
-    ((BckgrObj*)objects[0])->setSpecialSpawned(false);
-    specialeaten = false;
-    ((BckgrObj*)objects[0])->setSpecialEaten(false);
-    specialhasbeenspawned = false;
-    time = oldtime = SDL_GetTicks();
-    ghosttick = 0;
-    ((Pacman*)objects[PAC])->setSpeedMult( 1);
-    levelcleared = false;
-
-    if (ispaused) pause();
-
-
-    SDL_Delay(1000);
-
-
-    render();
-    specialspawntime = rand() % (((BckgrObj*)objects[0])->getObjCount() -20) + 10;
-
-    emptyMsgPump();
-    inputwaiting = false;
-    gamestarted = false;
-    */
 }
 
 void GameState::resetLvl() {	// vars and positions when pacman dies during level
     assert(false); // we're testing with lives==0 for now
-
-    /*
-    app.getSnd()->stop();
-
-    SDL_Delay(1000);
-
-    app.getSnd()->play(9);
-
-
-    // setting vars
-    vulnflag= false;
-    deadghostcount= 0;
-    floatingscorecounter= 0;
-    floatingscore= 0;
-    ghosttick = 0;
-    ((Pacman*)objects[PAC])->setSpeedMult( 1);
-
-    if (ispaused) pause();
-
-    objects[PAC]->reset(pacstartx, pacstarty);
-    objects[GHOST1]->reset(baddiestartx, baddiestarty);
-    objects[GHOST2]->reset(baddiestartx+2, baddiestarty);
-    objects[GHOST3]->reset(baddiestartx-2, baddiestarty);
-    objects[GHOST4]->reset(baddiestartx, baddiestarty-2);
-
-    render();
-
-    emptyMsgPump();
-    gamestarted= false;
-    inputwaiting = false;*/
 }
 
     }
