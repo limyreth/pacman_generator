@@ -26,7 +26,7 @@ namespace PACMAN {
 
         auto ret_val = y * MAP_WIDTH + x;
 
-        ENSURE_(ret_val < MAP_WIDTH * MAP_HEIGHT);
+        ENSURE(ret_val < MAP_WIDTH * MAP_HEIGHT);
         return ret_val;
     }
 

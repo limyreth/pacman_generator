@@ -12,6 +12,7 @@
 #include "Node.h"
 #include "../Constants.h"
 #include "../Utility.h"
+#include "../util/assertion.h"
 #include <cmath>
 
 using std::min;
@@ -32,6 +33,7 @@ PlayerState::PlayerState(const Node* initial_node)
     destination(initial_node)
 {
     ENSURE(destination);
+    ASSERT_INVARIANTS();
 }
 
 /*
@@ -66,8 +68,9 @@ void PlayerState::move(double distance_moved, Action next_action) {
         origin = destination;
         destination = destination->get_neighbours().at(next_action);
         move(distance_moved_towards_new_destination);
-        return;
     }
+
+    ASSERT_INVARIANTS();
 }
 
 void PlayerState::move(double distance_moved) {
@@ -85,10 +88,11 @@ void PlayerState::move(double distance_moved) {
     else if (tpos.x >= MAP_WIDTH) {
         pos.x -= MAP_WIDTH * TILE_SIZE;
     }
+
+    ASSERT_INVARIANTS();
 }
 
 IPoint PlayerState::get_tile_pos() const {
-    ENSURE(true);
     return IPoint(pos.x / TILE_SIZE, pos.y / TILE_SIZE);
 }
 

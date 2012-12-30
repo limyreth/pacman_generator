@@ -17,12 +17,6 @@
  */
 
 /* Pre conditions
- *
- * We don't check for invariants in require, because we assume each
- * modification of object state is followed by at least one ensure. 
- * Concretely:
- * - call at least one ensure at the end of each non-const method
- * - no public variables; modify them only through methods
  */
 #define REQUIRE(condition) ASSERTION::my_assert(condition, "Require " #condition)
 
@@ -30,7 +24,7 @@
 #ifdef DISABLE_ASSERTION_POST_CONDITIONS
 
 #define ENSURE(condition) ((void)0)
-#define ENSURE_(condition) ((void)0)
+#define ASSERT_INVARIANTS() ((void)0)
 #define INVARIANT(condition) ((void)0)
 #define ASSERT(condition) ((void)0)
 
@@ -38,11 +32,23 @@
 
 // Post conditions
 // Don't use these in selectors
+#define ENSURE(condition) ASSERTION::my_assert(condition, "Ensure " #condition)
 
-// for use in a method:
-#define ENSURE(condition) ASSERTION::ensure(this, condition, "Ensure " #condition)
-// for use in global functions
-#define ENSURE_(condition) ASSERTION::my_assert(condition, "Ensure " #condition)
+/* Call to check invariants
+ *
+ * Recommend calling at end of each non-const method. I.e. whenever state
+ * changes.
+ *
+ * Beware of:
+ *
+ * - public variables as they allow changing state without checking invariants
+ *
+ * - infinite recursion, e.g. invariants() calling a function that checks
+ *   invariants at the end too.
+ *
+ * - return statements skipping your ENSUREs, ...
+ */
+#define ASSERT_INVARIANTS() this->invariants()
 
 // Invariant, use inside Assertable::invariants()
 #define INVARIANT(condition) ASSERTION::my_assert(condition, "Invariant: " #condition)
@@ -58,19 +64,12 @@
 
 namespace ASSERTION {
 
-    class Assertable {
-    public:
-        virtual void invariants() const {}
-    };
-
     typedef boost::error_info<struct tag_assertion_message, const char*> assertion_message;
 
     class AssertionException : public boost::exception {
     public:
         AssertionException() {}
     };
-
-    void ensure(const Assertable* assertable, bool condition, const char* message);
 
     void my_assert(bool condition, const char* message);
 

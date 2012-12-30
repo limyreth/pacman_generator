@@ -13,14 +13,13 @@
 #include "../Point.h"
 #include "GameStateInfo.h"
 #include "../Directions.h"
-#include "../util/assertion.h"
 
 namespace PACMAN {
     namespace MODEL {
 
         class Node;
 
-        class PlayerState : public ASSERTION::Assertable
+        class PlayerState
         {
         public:
             PlayerState();

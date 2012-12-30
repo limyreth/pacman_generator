@@ -13,12 +13,6 @@
 
 namespace ASSERTION {
 
-void ensure(const Assertable* assertable, bool condition, const char* message) {
-    ASSERT(assertable != NULL);
-    assertable->invariants();
-    my_assert(condition, message);
-}
-
 void my_assert(bool condition, const char* message) {
     if (!condition) {
         throw AssertionException() << assertion_message(message);

@@ -15,7 +15,7 @@
 #include "util/assertion.h"
 
 template <typename T>
-class Point : public ASSERTION::Assertable
+class Point
 {
 public:
     Point() : Point(0, 0) {}

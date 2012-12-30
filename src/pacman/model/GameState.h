@@ -15,7 +15,6 @@
 #include "GhostState.h"
 #include "../specification/Food.h"
 #include "../Constants.h"
-#include "../util/assertion.h"
 
 #include <vector>
 
@@ -30,7 +29,7 @@ namespace PACMAN {
         class UIHints;
 
         // Each GameState shows the state at the begin/end of a tick
-        class GameState : public boost::noncopyable, public ASSERTION::Assertable  // why copy a big thing when you can point!
+        class GameState : public boost::noncopyable  // why copy a big thing when you can point!
         {
         public:
             static shared_ptr<GameState> start_new_game(const Node* pacman_spawn, const std::vector<Node*> ghost_spawns);

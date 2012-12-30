@@ -10,7 +10,6 @@
 
 #pragma once
 
-#include "../util/assertion.h"
 #include <vector>
 
 #include <boost/shared_ptr.hpp>
@@ -24,7 +23,7 @@ namespace PACMAN {
         class Node;
 
         // these are choice nodes for pacman/ghosts
-        class Nodes : public ASSERTION::Assertable
+        class Nodes
         {
         public:
             Nodes();

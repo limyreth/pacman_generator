@@ -13,6 +13,7 @@
 #include "../Utility.h"
 #include "../Constants.h"
 #include "../specification/Walls.h"
+#include "../util/assertion.h"
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_gfxPrimitives.h>

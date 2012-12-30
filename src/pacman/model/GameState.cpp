@@ -40,6 +40,7 @@
 #include "UIHints.h"
 #include "GameStateInfo.h"
 #include "../Utility.h"
+#include "../util/assertion.h"
 #include "Node.h"
 #include <string.h>
 
@@ -88,7 +89,7 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns)
     // TODO we seem to have only 3 energizers, that's not right...
     ASSERT(food_count_ == food_count); // TODO might want asserts to throw exceptions and have them add some interesting output to display too
 
-    ENSURE(true);
+    ASSERT_INVARIANTS();
 }
 
 /*
@@ -258,6 +259,7 @@ GameState::GameState(const Action* actions, const GameState* state, UIHints& uih
     ENSURE(lives <= state->lives);
     ENSURE(fruit_ticks_left == -1 || fruit_ticks_left == FRUIT_TICKS || fruit_ticks_left == state->fruit_ticks_left - 1);
     ENSURE(vulnerable_ticks_left == -1 || vulnerable_ticks_left == VULNERABLE_TICKS || vulnerable_ticks_left < state->vulnerable_ticks_left - 1);
+    ASSERT_INVARIANTS();
 }
 
 shared_ptr<GameState> GameState::start_new_game(const Node* pacman_spawn, const vector<Node*> ghost_spawns) {
