@@ -34,7 +34,6 @@ namespace PACMAN {
         public:
             static shared_ptr<GameState> start_new_game(const Node* pacman_spawn, const std::vector<Node*> ghost_spawns);
             shared_ptr<GameState> get_successor(const Action* actions, UIHints& app) const;  // game state after 1 tick/frame
-            void invariants() const;
 
             bool get_vulnerable_ghost_count() const;
 
@@ -74,6 +73,8 @@ namespace PACMAN {
         private:
             GameState(const Node* pacman_spawn, const std::vector<Node*> ghost_spawns);
             GameState(const Action* actions, const GameState* state, UIHints& app);
+
+            void invariants() const;
 
             void resetLvl();
             void nextLvl();
