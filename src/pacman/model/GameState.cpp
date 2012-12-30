@@ -86,7 +86,9 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns)
         }
     }
     // TODO we seem to have only 3 energizers, that's not right...
-    assert(food_count_ == food_count); // TODO might want asserts to throw exceptions and have them add some interesting output to display too
+    ASSERT(food_count_ == food_count); // TODO might want asserts to throw exceptions and have them add some interesting output to display too
+
+    ENSURE(true);
 }
 
 /*
@@ -95,6 +97,8 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns)
 GameState::GameState(const Action* actions, const GameState* state, UIHints& uihints)
 :   pacman(state->pacman)  // pacman has no default constructor, so it gets angry unless I use this one
 {
+    REQUIRE(actions);
+    REQUIRE(state);
     // Note: order of everything in this function is important TODO split in functions to provide better overview of ordering
 
     // First copy everything
@@ -121,7 +125,6 @@ GameState::GameState(const Action* actions, const GameState* state, UIHints& uih
     }
     vulnerable_ticks_left = max(vulnerable_ticks_left - 1, -1);  // Consume 1 tick of timer
 
-
     // Fruit spawning
     if (fruit_ticks_left == 0) {
         // aw, too late, despawn fruit
@@ -129,11 +132,12 @@ GameState::GameState(const Action* actions, const GameState* state, UIHints& uih
     }
     if (state->food_count == 70 || state->food_count == 170) {
         // spawn a fruit
-        assert(!fruit_spawned);  // It is impossible for another fruit to spawn while a previous is still spawned (eating 100 dots should take long enough for this never to happen)
+        ASSERT(!fruit_spawned);  // It is impossible for another fruit to spawn while a previous is still spawned (eating 100 dots should take long enough for this never to happen)
         fruit_spawned = true;
         fruit_ticks_left = FRUIT_TICKS;
     }
     fruit_ticks_left = max(fruit_ticks_left - 1, -1);
+
 
     // Move players
     {
@@ -225,7 +229,7 @@ GameState::GameState(const Action* actions, const GameState* state, UIHints& uih
 
         uihints.ate_dot();
 
-        assert(idler_ticks_left == 0);
+        ASSERT(idler_ticks_left == 0);
         idler_ticks_left = 1;  // pacman can't move for 1 tick after eating a dot
     }
     else if (foods[food_index] == Food::ENERGIZER) {
@@ -237,7 +241,7 @@ GameState::GameState(const Action* actions, const GameState* state, UIHints& uih
 
         vulnerable_ticks_left = VULNERABLE_TICKS;
 
-        assert(idler_ticks_left == -1);
+        ASSERT(idler_ticks_left == 0);
         idler_ticks_left = 3;  // pacman can't move for 3 ticks after eating a dot
     }
     /*else if (fruit_spawned && foods[food_index] == 3) { // TODO fix
@@ -246,16 +250,25 @@ GameState::GameState(const Action* actions, const GameState* state, UIHints& uih
         ate_fruit
         app.getSnd()->play(5, 0);
         fruit_spawned = false;
+        ASSERT(idler_ticks_left == 0);
     }*/
+
+    ENSURE(state->food_count - food_count <= 1);
+    ENSURE(score >= state->score);
+    ENSURE(lives <= state->lives);
+    ENSURE(fruit_ticks_left == -1 || fruit_ticks_left == FRUIT_TICKS || fruit_ticks_left == state->fruit_ticks_left - 1);
+    ENSURE(vulnerable_ticks_left == -1 || vulnerable_ticks_left == VULNERABLE_TICKS || vulnerable_ticks_left < state->vulnerable_ticks_left - 1);
 }
 
 shared_ptr<GameState> GameState::start_new_game(const Node* pacman_spawn, const vector<Node*> ghost_spawns) {
+    REQUIRE(pacman_spawn);
     return shared_ptr<GameState>(new GameState(pacman_spawn, ghost_spawns));
 }
 
 shared_ptr<GameState> GameState::get_successor(const Action* actions, UIHints& uihints) {
-    assert(!did_pacman_win());
-    assert(!did_pacman_lose());
+    REQUIRE(!did_pacman_win());
+    REQUIRE(!did_pacman_lose());
+    REQUIRE(actions);
 
     return shared_ptr<GameState>(new GameState(actions, this, uihints));
 }
@@ -271,11 +284,37 @@ bool GameState::get_vulnerable_ghost_count() const {
 
 bool GameState::is_elroy1(int ghost_index) const {
     // TODO clyde should have left the pen, otherwise elroy speeds are no go!
+    REQUIRE(ghost_index >= 0);
+    REQUIRE(ghost_index < GHOST_COUNT);
     return ghost_index == GHOST_BLINKY && food_count <= 20;
 }
 
 bool GameState::is_elroy2(int ghost_index) const {
+    REQUIRE(ghost_index >= 0);
+    REQUIRE(ghost_index < GHOST_COUNT);
     return ghost_index == GHOST_BLINKY && food_count <= 10;
+}
+
+void GameState::invariants() const {
+    INVARIANT(food_count >= 0);
+    INVARIANT(!(food_count == 0 && !did_pacman_win()));
+    // TODO count food in foods == food_count
+
+    INVARIANT(score >= 0);
+    INVARIANT(lives >= 0);
+
+    INVARIANT(fruit_ticks_left >= -1);
+    INVARIANT(fruit_ticks_left <= FRUIT_TICKS);
+    INVARIANT(!((fruit_ticks_left == -1 || fruit_ticks_left == FRUIT_TICKS) && fruit_spawned));
+
+    INVARIANT(vulnerable_ticks_left >= -1);
+    INVARIANT(vulnerable_ticks_left <= VULNERABLE_TICKS);
+    INVARIANT(!((vulnerable_ticks_left == -1 || vulnerable_ticks_left == VULNERABLE_TICKS) && get_vulnerable_ghost_count() > 0));
+
+    INVARIANT(idler_ticks_left >= 0);
+    INVARIANT(idler_ticks_left <= 3);
+
+    INVARIANT(foods[at(pacman.get_tile_pos())] == Food::NONE || did_pacman_win() || did_pacman_lose());
 }
 
 void GameState::nextLvl() {

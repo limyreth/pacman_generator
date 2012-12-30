@@ -15,8 +15,8 @@
 #include "GhostState.h"
 #include "../specification/Food.h"
 #include "../Constants.h"
+#include "../util/assertion.h"
 
-#include <assert.h>
 #include <vector>
 
 namespace PACMAN {
@@ -29,11 +29,13 @@ namespace PACMAN {
 
         class UIHints;
 
-        class GameState : public boost::noncopyable  // why copy a big thing when you can point!
+        // Each GameState shows the state at the begin/end of a tick
+        class GameState : public boost::noncopyable, public ASSERTION::Assertable  // why copy a big thing when you can point!
         {
         public:
             static shared_ptr<GameState> start_new_game(const Node* pacman_spawn, const std::vector<Node*> ghost_spawns);
             shared_ptr<GameState> get_successor(const Action* actions, UIHints& app);  // game state after 1 tick/frame
+            void invariants() const;
 
             bool get_vulnerable_ghost_count() const;
 
@@ -50,7 +52,6 @@ namespace PACMAN {
             }
 
             inline bool did_pacman_lose() const {
-                assert(lives >= 0);
                 return lives == 0;
             }
 
@@ -96,7 +97,9 @@ namespace PACMAN {
 
             bool fruit_spawned;
 
-            int vulnerable_ticks_left;  // how many more ticks ghosts will be vulnerable
+            // Note: used solely for timers, don't try to deduce any more meaning from them; that'd be confusing
+            // E.g. fruit_ticks_left == 0 && fruit_spawned, can happen (it means this was the last fruit tick)
+            int vulnerable_ticks_left;  // how many more ticks ( / successing game states) ghosts will be vulnerable
             int fruit_ticks_left;  // amount of ticks left til fruit disappears
             int idler_ticks_left;  // ticks left til pacman gets off his lazy ass and starts moving again (pacman rests after eating dot or energizer)
 
