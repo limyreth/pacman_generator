@@ -267,7 +267,7 @@ shared_ptr<GameState> GameState::start_new_game(const Node* pacman_spawn, const 
     return shared_ptr<GameState>(new GameState(pacman_spawn, ghost_spawns));
 }
 
-shared_ptr<GameState> GameState::get_successor(const Action* actions, UIHints& uihints) {
+shared_ptr<GameState> GameState::get_successor(const Action* actions, UIHints& uihints) const {
     REQUIRE(!did_pacman_win());
     REQUIRE(!did_pacman_lose());
     REQUIRE(actions);
