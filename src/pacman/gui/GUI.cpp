@@ -201,8 +201,8 @@ void GUI::renderNormal() {
     SDL_BlitSurface(txt.get(),NULL,screen.get(),&scorebox);
 
     // draw node map
-    //game.get_pacman_nodes().draw(screen);
-    //game.get_ghost_nodes().draw(screen);
+    //PACMAN_NODES.draw(screen);
+    //GHOST_NODES.draw(screen);
 }
 
 std::string GUI::getFPS() {

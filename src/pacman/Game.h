@@ -35,14 +35,6 @@ namespace PACMAN {
             return &state;
         }
 
-        inline const MODEL::PacmanNodes& get_pacman_nodes() const {
-            return MODEL::PACMAN_NODES;
-        }
-
-        inline const MODEL::GhostNodes& get_ghost_nodes() const {
-            return MODEL::GHOST_NODES;
-        }
-
     private:
         MODEL::GameState state;
     };
