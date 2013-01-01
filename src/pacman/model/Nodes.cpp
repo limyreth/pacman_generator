@@ -30,18 +30,6 @@ using SPECIFICATION::walls;
 Nodes::Nodes()
 :   nodes(MAP_WIDTH * MAP_HEIGHT)
 {
-}
-
-Nodes::~Nodes()
-{
-    for (auto node : nodes) {
-        if (node) {
-            delete node;
-        }
-    }
-}
-
-void Nodes::init() {
     // create a node for each free tile
     for (int x=0; x < MAP_WIDTH; ++x) {
         for (int y=0; y < MAP_HEIGHT; ++y) {
@@ -106,6 +94,15 @@ void Nodes::init() {
     }
 
     ensure_valid(nodes, nodes);
+}
+
+Nodes::~Nodes()
+{
+    for (auto node : nodes) {
+        if (node) {
+            delete node;
+        }
+    }
 }
 
 void Nodes::ensure_valid(const vector<Node*>& nodes, const vector<Node*>& all_nodes) const {

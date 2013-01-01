@@ -32,7 +32,6 @@ namespace PACMAN {
             void draw(shared_ptr<SDL_Surface> buffer) const;
 
         protected:
-            void init();
             std::vector<Node*> nodes;
 
             void ensure_valid(const std::vector<Node*>& nodes, const std::vector<Node*>& all_nodes) const;

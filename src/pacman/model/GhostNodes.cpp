@@ -24,8 +24,6 @@ namespace PACMAN {
 GhostNodes::GhostNodes() 
 :   spawns(GHOST_COUNT)
 {
-    Nodes::init();
-
     // ghost pen nodes
     spawns.at(GHOST_BLINKY) = new Node(FPoint(14, 11.5) * TILE_SIZE);
     spawns.at(GHOST_PINKY) = new Node(FPoint(14, 14) * TILE_SIZE);

@@ -24,7 +24,6 @@ namespace PACMAN {
 using SPECIFICATION::walls;
 
 PacmanNodes::PacmanNodes() {
-    Nodes::init();
     for (int x=0; x < MAP_WIDTH; ++x) {
         for (int y=0; y < MAP_HEIGHT; ++y) {
             auto& node = nodes.at(at(x, y));
