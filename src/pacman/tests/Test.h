@@ -13,6 +13,7 @@
 #include "../Directions.h"
 #include "../model/GameState.h"
 #include "../model/GameStateInfo.h"
+#include "../gui/NullUIHints.h"
 #include "../Utility.h"
 
 #include <sstream>
@@ -41,7 +42,7 @@ namespace PACMAN {
 
         private:
             MODEL::GameState state;
-            shared_ptr<MODEL::UIHints> uihints;
+            GUI::NullUIHints uihints;
         };
 
     }

@@ -15,7 +15,6 @@
 #include "../model/GhostNodes.h"
 #include "../Point.h"
 #include "../Constants.h"
-#include "../gui/NullUIHints.h"
 
 namespace PACMAN {
 
@@ -31,8 +30,7 @@ using std::cout;
 using std::endl;
 
 Test::Test() 
-:   uihints(new NullUIHints()),
-    state(PACMAN_NODES.get_spawn(), GHOST_NODES.get_spawns())
+:   state(PACMAN_NODES.get_spawn(), GHOST_NODES.get_spawns())
 {
 }
 
@@ -65,7 +63,7 @@ int Test::move(int player_index, Direction::Type direction) {
             );
         }
 
-        state = GameState(actions, &state, *uihints);
+        state = GameState(actions, &state, uihints);
 
         ++steps;
     }
