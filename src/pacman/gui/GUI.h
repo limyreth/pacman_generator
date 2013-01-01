@@ -35,7 +35,7 @@ namespace PACMAN {
         class GUI
         {
         public:
-            GUI(const Game& game);
+            GUI(Game& game);
             ~GUI();
 
             shared_ptr<MODEL::UIHints> create_uihints();
@@ -59,7 +59,7 @@ namespace PACMAN {
             void toggleSound();
 
         private:
-            const Game& game;
+            Game& game;
 
             shared_ptr<SDL_Surface>
                     screen,    //screen surface

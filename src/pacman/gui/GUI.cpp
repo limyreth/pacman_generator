@@ -36,7 +36,7 @@ namespace PACMAN {
 
     namespace GUI {
 
-GUI::GUI(const Game& game)
+GUI::GUI(Game& game)
 :   counter(0),
     showfps(false),
     game(game)
@@ -177,7 +177,7 @@ void GUI::renderNormal() {
 
     col.r = col.g = col.b = 255;
 
-    shared_ptr<MODEL::GameState> state = game.get_state();
+    auto state = game.get_state();
 
     // DRAW FIELD + SPRITES
     ((BckgrObj*)objects[0])->Draw(walls, state->get_foods());

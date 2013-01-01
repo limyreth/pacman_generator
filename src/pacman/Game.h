@@ -13,6 +13,7 @@
 #include "model/GameStateInfo.h"
 #include "model/PacmanNodes.h"
 #include "model/GhostNodes.h"
+#include "model/GameState.h"
 
 #include <boost/shared_ptr.hpp>
 using boost::shared_ptr;
@@ -20,7 +21,6 @@ using boost::shared_ptr;
 namespace PACMAN {
 
     namespace MODEL {
-        class GameState;
         class UIHints;
     }
 
@@ -31,8 +31,8 @@ namespace PACMAN {
 
         void step(const MODEL::Action* actions, shared_ptr<MODEL::UIHints> uihints);
 
-        inline shared_ptr<MODEL::GameState> get_state() const {
-            return state;
+        inline MODEL::GameState* get_state() {
+            return &state;
         }
 
         inline const MODEL::PacmanNodes& get_pacman_nodes() const {
@@ -44,7 +44,7 @@ namespace PACMAN {
         }
 
     private:
-        shared_ptr<MODEL::GameState> state;
+        MODEL::GameState state;
         MODEL::PacmanNodes pacman_nodes;
         MODEL::GhostNodes ghost_nodes;
     };

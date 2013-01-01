@@ -35,7 +35,7 @@ namespace PACMAN {
 
             int get_food_count();
 
-            inline shared_ptr<MODEL::GameState> get_state() {
+            inline MODEL::GameState* get_state() {
                 return game.get_state();
             }
 

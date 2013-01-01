@@ -22,7 +22,7 @@ using std::endl;
 
 Game::Game()
 {
-    state = GameState::start_new_game(pacman_nodes.init(), ghost_nodes.init());
+    state = GameState(pacman_nodes.init(), ghost_nodes.init());
 }
 
 void Game::step(const Action* actions, shared_ptr<UIHints> uihints) {
@@ -30,7 +30,8 @@ void Game::step(const Action* actions, shared_ptr<UIHints> uihints) {
         assert(false); // TODO implement proper reaction to this
     }
 
-    state = get_state()->get_successor(actions, *uihints);
+    GameState successor(actions, &state, *uihints);
+    state = successor;
 }
 
 }

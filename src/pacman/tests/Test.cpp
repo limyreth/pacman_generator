@@ -43,27 +43,27 @@ Test::Test()
  * Returns steps taken
  */
 int Test::move(int player_index, Direction::Type direction) {
-    auto original = game.get_state();
+    GameState original = *game.get_state();
     auto current = original;
     int steps = 0;
 
     Action actions[PLAYER_COUNT] = {0, 0, 0, 0, 0};
-    actions[player_index] = original->get_player(player_index).get_action_along_direction(direction);
+    actions[player_index] = original.get_player(player_index).get_action_along_direction(direction);
 
-    while (original->get_player(player_index).get_tile_pos() == current->get_player(player_index).get_tile_pos()) {
-        assert_equals(current->food_count, original->food_count);
-        assert_equals(current->lives, original->lives);
-        assert_equals(current->score, original->score);
+    while (original.get_player(player_index).get_tile_pos() == current.get_player(player_index).get_tile_pos()) {
+        assert_equals(current.food_count, original.food_count);
+        assert_equals(current.lives, original.lives);
+        assert_equals(current.score, original.score);
 
         for (int i=0; i < GHOST_COUNT; ++i) {
             assert_equals(
-                ((GhostState&)current->get_player(i+1)).state,
-                ((GhostState&)original->get_player(i+1)).state
+                ((GhostState&)current.get_player(i+1)).state,
+                ((GhostState&)original.get_player(i+1)).state
             );
         }
 
         game.step(actions, uihints);
-        current = game.get_state();
+        current = *game.get_state();
         ++steps;
     }
 
