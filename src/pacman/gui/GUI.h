@@ -60,9 +60,7 @@ namespace PACMAN {
         private:
             const MODEL::GameState& state;
 
-            shared_ptr<SDL_Surface>
-                    screen,    //screen surface
-                    buf;       //buffer surface
+            shared_ptr<SDL_Surface> screen;
 
             shared_ptr<Sounds> snd;
 
