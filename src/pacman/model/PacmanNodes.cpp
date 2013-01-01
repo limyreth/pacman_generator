@@ -23,6 +23,8 @@ namespace PACMAN {
 
 using SPECIFICATION::walls;
 
+const PacmanNodes PACMAN_NODES;
+
 PacmanNodes::PacmanNodes() {
     for (int x=0; x < MAP_WIDTH; ++x) {
         for (int y=0; y < MAP_HEIGHT; ++y) {

@@ -31,5 +31,7 @@ namespace PACMAN {
             std::vector<Node*> spawns;
         };
 
+        extern const GhostNodes GHOST_NODES;
+
     }
 }

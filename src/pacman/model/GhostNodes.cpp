@@ -21,6 +21,8 @@ using std::endl;
 namespace PACMAN {
     namespace MODEL {
 
+const GhostNodes GHOST_NODES;
+
 GhostNodes::GhostNodes() 
 :   spawns(GHOST_COUNT)
 {

@@ -30,5 +30,7 @@ namespace PACMAN {
             Node* spawn;
         };
 
+        extern const PacmanNodes PACMAN_NODES;
+
     }
 }
