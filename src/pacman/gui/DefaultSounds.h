@@ -37,7 +37,6 @@ namespace PACMAN {
 
             std::string sndPaths[NUMOFSOUNDS];
 
-            bool isinit;
             bool on;
         };
 

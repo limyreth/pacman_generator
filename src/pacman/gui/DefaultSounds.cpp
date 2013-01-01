@@ -19,8 +19,7 @@ namespace PACMAN {
 using std::string;
 
 DefaultSounds::DefaultSounds() 
-:   on(true), 
-    isinit(false)
+:   on(true)
 {
     //set sound paths
     sndPaths[0] = "sound/intro.wav";
@@ -56,7 +55,6 @@ DefaultSounds::DefaultSounds()
             throw_exception(Mix_GetError());
     }
 
-    isinit = true;
     logtxt.print("Sounds loaded successfully");
 }
 
@@ -80,13 +78,11 @@ void DefaultSounds::stop() {
 }
 
 void DefaultSounds::stop(int i) {
-    if ( !isinit ) return;
     if (Mix_Playing(i))
         Mix_HaltChannel(i);
 }
 
 void DefaultSounds::play(int i, bool looped, int volume) {
-    if ( !isinit ) return;
     if (!on) return;
 
     if (Mix_Playing(i))
