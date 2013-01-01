@@ -45,7 +45,6 @@ Test::Test()
  */
 int Test::move(int player_index, Direction::Type direction) {
     GameState original = state;
-    auto current = original;
     int steps = 0;
 
     Action actions[PLAYER_COUNT] = {0, 0, 0, 0, 0};
