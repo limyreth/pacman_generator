@@ -19,9 +19,12 @@ namespace PACMAN {
         class PacmanNodes : public Nodes
         {
         public:
-            virtual ~PacmanNodes();
+            PacmanNodes();
+            ~PacmanNodes();
 
-            const Node* init();
+            const Node* get_spawn() const {
+                return spawn;
+            }
 
         private:
             Node* spawn;

@@ -22,7 +22,7 @@ using std::endl;
 
 Game::Game()
 {
-    state = GameState(pacman_nodes.init(), ghost_nodes.init());
+    state = GameState(pacman_nodes.get_spawn(), ghost_nodes.init());
 }
 
 void Game::step(const Action* actions, shared_ptr<UIHints> uihints) {

@@ -23,18 +23,13 @@ namespace PACMAN {
 
 using SPECIFICATION::walls;
 
-PacmanNodes::~PacmanNodes() {
-    delete spawn;
-}
-
-const Node* PacmanNodes::init() {
+PacmanNodes::PacmanNodes() {
     Nodes::init();
     for (int x=0; x < MAP_WIDTH; ++x) {
         for (int y=0; y < MAP_HEIGHT; ++y) {
             auto& node = nodes.at(at(x, y));
             if (!node)
-                continue;
-
+                continue; 
             // if we are intersection/corner
             if ((walls[at_wrap(x-1,y)] == 0 || walls[at_wrap(x+1,y)] == 0)  // a free tile along x-axis
                     && (walls[at(x, y-1)] == 0 || walls[at(x, y+1)]) == 0)  // and a free tile along the y-axis
@@ -75,8 +70,10 @@ const Node* PacmanNodes::init() {
 
     // print stats
     cout << "Pacman branching factor: " << get_branching_factor(nodes) << endl;
+}
 
-    return spawn;
+PacmanNodes::~PacmanNodes() {
+    delete spawn;
 }
 
     }
