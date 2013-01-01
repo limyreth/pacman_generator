@@ -11,6 +11,8 @@
 #include "Test.h"
 
 #include "../model/GameState.h"
+#include "../model/PacmanNodes.h"
+#include "../model/GhostNodes.h"
 #include "../Point.h"
 #include "../Constants.h"
 #include "../gui/NullUIHints.h"
@@ -29,7 +31,8 @@ using std::cout;
 using std::endl;
 
 Test::Test() 
-:   uihints(new NullUIHints())
+:   uihints(new NullUIHints()),
+    state(PACMAN_NODES.get_spawn(), GHOST_NODES.get_spawns())
 {
 }
 
@@ -43,38 +46,37 @@ Test::Test()
  * Returns steps taken
  */
 int Test::move(int player_index, Direction::Type direction) {
-    GameState original = *game.get_state();
+    GameState original = state;
     auto current = original;
     int steps = 0;
 
     Action actions[PLAYER_COUNT] = {0, 0, 0, 0, 0};
     actions[player_index] = original.get_player(player_index).get_action_along_direction(direction);
 
-    while (original.get_player(player_index).get_tile_pos() == current.get_player(player_index).get_tile_pos()) {
-        assert_equals(current.food_count, original.food_count);
-        assert_equals(current.lives, original.lives);
-        assert_equals(current.score, original.score);
+    while (original.get_player(player_index).get_tile_pos() == state.get_player(player_index).get_tile_pos()) {
+        assert_equals(state.food_count, original.food_count);
+        assert_equals(state.lives, original.lives);
+        assert_equals(state.score, original.score);
 
         for (int i=0; i < GHOST_COUNT; ++i) {
             assert_equals(
-                ((GhostState&)current.get_player(i+1)).state,
+                ((GhostState&)state.get_player(i+1)).state,
                 ((GhostState&)original.get_player(i+1)).state
             );
         }
 
-        game.step(actions, uihints);
-        current = *game.get_state();
+        state = GameState(actions, &state, *uihints);
+
         ++steps;
     }
 
     return steps;
 }
 
-void Test::directions_to_actions(Direction::Type pacman, Direction::Type blinky, Direction::Type pinky, Direction::Type inky, Direction::Type clyde, Action* actions, Game& game) {
+void Test::directions_to_actions(Direction::Type pacman, Direction::Type blinky, Direction::Type pinky, Direction::Type inky, Direction::Type clyde, Action* actions) {
     Direction::Type directions[PLAYER_COUNT] = {pacman, blinky, pinky, inky, clyde};
-    auto state = game.get_state();
     for (int i=0; i<PLAYER_COUNT; ++i) {
-        actions[i] = state->get_player(i).get_action_along_direction(directions[i]);
+        actions[i] = state.get_player(i).get_action_along_direction(directions[i]);
     }
 }
 

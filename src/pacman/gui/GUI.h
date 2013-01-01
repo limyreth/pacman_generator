@@ -21,9 +21,8 @@ using boost::shared_ptr;
 
 namespace PACMAN {
 
-    class Game;
-
     namespace MODEL {
+        class GameState;
         class UIHints;
     }
 
@@ -35,7 +34,7 @@ namespace PACMAN {
         class GUI
         {
         public:
-            GUI(Game& game);
+            GUI(const MODEL::GameState& state);
             ~GUI();
 
             shared_ptr<MODEL::UIHints> create_uihints();
@@ -59,7 +58,7 @@ namespace PACMAN {
             void toggleSound();
 
         private:
-            Game& game;
+            const MODEL::GameState& state;
 
             shared_ptr<SDL_Surface>
                     screen,    //screen surface

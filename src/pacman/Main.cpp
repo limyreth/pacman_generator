@@ -14,7 +14,9 @@
 // ported to linux with attempt at crossplatform compatibility
 //////////////////////////////////////////////////////
 
-#include "Game.h"
+#include "model/GameState.h"
+#include "model/PacmanNodes.h"
+#include "model/GhostNodes.h"
 #include "gui/GUI.h"
 #include "Log.h"
 #include "util/assertion.h"
@@ -58,16 +60,14 @@ int main( int argc, char** argv ) {
 
         logtxt.setFilename(".pacman_sdl");
 
-        Game game;
-        GUI::GUI gui(game);
-        shared_ptr<UIHints> uihints = gui.create_uihints();
-
         //main loop
+        Action actions[PLAYER_COUNT] = {0, 0, 0, 0, 0};
+        MODEL::GameState state(PACMAN_NODES.get_spawn(), GHOST_NODES.get_spawns());
+        GUI::GUI gui(state);
+        shared_ptr<UIHints> uihints = gui.create_uihints();
         while (gui.emptyMsgPump()) {
             gui.render();
-
-            Action actions[PLAYER_COUNT] = {0, 0, 0, 0, 0};
-            game.step(actions, uihints);
+            state = GameState(actions, &state, *uihints);
         }
 
         //shutdown

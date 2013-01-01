@@ -9,7 +9,6 @@
 
 
 #include "GUI.h"
-#include "../Game.h"
 #include "../Log.h"
 #include "../Error.h"
 #include "Sounds.h"
@@ -36,10 +35,10 @@ namespace PACMAN {
 
     namespace GUI {
 
-GUI::GUI(Game& game)
+GUI::GUI(const MODEL::GameState& state)
 :   counter(0),
     showfps(false),
-    game(game)
+    state(state)
 {
     InitApp();
     InitWindow();
@@ -163,7 +162,7 @@ void GUI::toggleSound() {
 
     snd->toggleSounds();
     snd->play(10, 1);
-    if (game.get_state()->get_vulnerable_ghost_count()>0) snd->play(7, 1);
+    if (state.get_vulnerable_ghost_count()>0) snd->play(7, 1);
 }
 
 void GUI::renderNormal() {
@@ -177,23 +176,21 @@ void GUI::renderNormal() {
 
     col.r = col.g = col.b = 255;
 
-    auto state = game.get_state();
-
     // DRAW FIELD + SPRITES
-    ((BckgrObj*)objects[0])->Draw(walls, state->get_foods());
-    ((Pacman*)objects[1])->Draw((const MODEL::PacmanState&)state->get_player(0));
+    ((BckgrObj*)objects[0])->Draw(walls, state.get_foods());
+    ((Pacman*)objects[1])->Draw((const MODEL::PacmanState&)state.get_player(0));
     for (int i=0; i<GHOST_COUNT; ++i) {
-        ((Ghost*)objects[i+2])->Draw((const MODEL::GhostState&)state->get_player(i+1));
+        ((Ghost*)objects[i+2])->Draw((const MODEL::GhostState&)state.get_player(i+1));
     }
 
     // DRAW SCORE + INFO
-    for (i=1; i < state->get_lives(); i++)
+    for (i=1; i < state.get_lives(); i++)
         objects[PAC]->Draw( 350+i*50, MAP_HEIGHT*TILE_SIZE+5);
 
     // display eaten fruit
     // objects[0]->Draw( MAP_WIDTH*TILE_SIZE - 40 -10, MAP_HEIGHT*TILE_SIZE +15 );
 
-    ostr << "level: " << state->get_level() << " score: " << state->get_score();
+    ostr << "level: " << state.get_level() << " score: " << state.get_score();
 
     txt.reset(TTF_RenderText_Solid(font,ostr.str().c_str(),col), SDL_FreeSurface);
     if (!txt) throw_exception("DrawText failed");

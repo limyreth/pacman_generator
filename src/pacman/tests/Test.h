@@ -11,7 +11,7 @@
 #pragma once
 
 #include "../Directions.h"
-#include "../Game.h"
+#include "../model/GameState.h"
 #include "../model/GameStateInfo.h"
 #include "../Utility.h"
 
@@ -31,16 +31,16 @@ namespace PACMAN {
         public:
             Test();
             int move(int player_index, Direction::Type direction);
-            void directions_to_actions(Direction::Type pacman, Direction::Type blinky, Direction::Type pinky, Direction::Type inky, Direction::Type clyde, MODEL::Action* actions, Game& game);
+            void directions_to_actions(Direction::Type pacman, Direction::Type blinky, Direction::Type pinky, Direction::Type inky, Direction::Type clyde, MODEL::Action* actions);
 
             int get_food_count();
 
             inline MODEL::GameState* get_state() {
-                return game.get_state();
+                return &state;
             }
 
         private:
-            Game game;
+            MODEL::GameState state;
             shared_ptr<MODEL::UIHints> uihints;
         };
 
