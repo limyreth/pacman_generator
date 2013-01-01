@@ -23,6 +23,10 @@ namespace PACMAN {
 
 using SPECIFICATION::walls;
 
+PacmanNodes::~PacmanNodes() {
+    delete spawn;
+}
+
 const Node* PacmanNodes::init() {
     Nodes::init();
     for (int x=0; x < MAP_WIDTH; ++x) {
@@ -63,7 +67,7 @@ const Node* PacmanNodes::init() {
     }
 
     // create pacman spawn
-    Node* spawn = new Node(FPoint(14, 23.5) * TILE_SIZE);
+    spawn = new Node(FPoint(14, 23.5) * TILE_SIZE);
     spawn->neighbours.push_back(nodes.at(at(14, 23))); // Note: symmetrical map, just going to the right is fine
 
     ensure_valid(nodes, nodes);
