@@ -23,7 +23,9 @@ namespace PACMAN {
             GhostNodes();
             ~GhostNodes();
 
-            const std::vector<Node*> init();
+            const std::vector<Node*> get_spawns() const {
+                return spawns;
+            }
 
         private:
             std::vector<Node*> spawns;

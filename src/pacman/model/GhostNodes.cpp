@@ -24,16 +24,6 @@ namespace PACMAN {
 GhostNodes::GhostNodes() 
 :   spawns(GHOST_COUNT)
 {
-}
-
-GhostNodes::~GhostNodes()
-{
-    for (auto node : spawns) {
-        delete node;
-    }
-}
-
-const vector<Node*> GhostNodes::init() {
     Nodes::init();
 
     // ghost pen nodes
@@ -57,8 +47,13 @@ const vector<Node*> GhostNodes::init() {
 
     // print stats
     cout << "Ghost branching factor: " << get_branching_factor(nodes) << endl;
+}
 
-    return spawns;
+GhostNodes::~GhostNodes()
+{
+    for (auto node : spawns) {
+        delete node;
+    }
 }
 
     }
