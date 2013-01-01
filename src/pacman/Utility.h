@@ -12,7 +12,7 @@
 
 #include "Point.h"
 #include "Constants.h"
-#include "model/GameStateInfo.h"
+#include "model/Action.h"
 #include <sstream>
 #include "util/assertion.h"
 

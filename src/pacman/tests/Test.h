@@ -12,7 +12,7 @@
 
 #include "../Directions.h"
 #include "../model/GameState.h"
-#include "../model/GameStateInfo.h"
+#include "../model/Action.h"
 #include "../gui/NullUIHints.h"
 #include "../Utility.h"
 

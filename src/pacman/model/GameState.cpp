@@ -38,7 +38,7 @@
 
 #include "GameState.h"
 #include "UIHints.h"
-#include "GameStateInfo.h"
+#include "Action.h"
 #include "../Utility.h"
 #include "../util/assertion.h"
 #include "Node.h"

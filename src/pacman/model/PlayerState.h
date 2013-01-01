@@ -11,7 +11,7 @@
 #pragma once
 
 #include "../Point.h"
-#include "GameStateInfo.h"
+#include "Action.h"
 #include "../Directions.h"
 
 namespace PACMAN {
