@@ -20,7 +20,13 @@ namespace PACMAN {
         class GhostNodes : public Nodes
         {
         public:
+            GhostNodes();
+            ~GhostNodes();
+
             const std::vector<Node*> init();
+
+        private:
+            std::vector<Node*> spawns;
         };
 
     }
