@@ -58,6 +58,10 @@ namespace PACMAN {
                 return food_count == 0;
             }
 
+            inline bool is_game_over() const {
+                return did_pacman_lose() || did_pacman_win();
+            }
+
             inline const PlayerState& get_player(int index) const {
                 if (index == 0) {
                     return pacman;
