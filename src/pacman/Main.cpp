@@ -21,6 +21,7 @@
 #include "Log.h"
 #include "util/assertion.h"
 #include "tests/Tests.h"
+#include "generator/generate.h"
 #include <sstream>
 
 #include "Constants.h"
@@ -36,6 +37,8 @@ int main( int argc, char** argv ) {
     std::string str="";
 
     try {
+        logtxt.setFilename(".pacman_sdl");
+
         for (int i = 1;i<argc;i++) {
             str=argv[i];
             if (str=="--help") {
@@ -52,15 +55,16 @@ int main( int argc, char** argv ) {
                 test(index-1);
                 return 0;
             }
+            else if (str == "--generate") {
+                GENERATOR::Generator generator;
+                generator.run();
+                return 0;
+            }
             else
                 std::cerr << "unrecognized commandline option\n";
         }
 
-        srand( (unsigned int)time(NULL) );
-
-        logtxt.setFilename(".pacman_sdl");
-
-        //main loop
+        // interactive mode
         Action actions[PLAYER_COUNT] = {0, 0, 0, 0, 0};
         MODEL::GameState state(PACMAN_NODES.get_spawn(), GHOST_NODES.get_spawns());
         GUI::GUI gui(state);
@@ -70,7 +74,6 @@ int main( int argc, char** argv ) {
             state = GameState(actions, &state, *uihints);
         }
 
-        //shutdown
         logtxt.print( "Shutdown" );
     }
     catch (const ASSERTION::AssertionException& e) {
