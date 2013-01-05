@@ -21,8 +21,8 @@ namespace PACMAN {
 
 static const int MAX_CHOICES = 100;  // the max depth of choices to generate into
 
-Generator::Generator() 
-:   choice_tree(MAX_CHOICES)
+Generator::Generator(ChoiceTree& tree) 
+:   choice_tree(tree)
 {
     alpha_betas.reserve(MAX_CHOICES);
     ASSERT_INVARIANTS();

@@ -19,7 +19,7 @@ namespace PACMAN {
         class Generator
         {
         public:
-            Generator();
+            Generator(ChoiceTree& tree);
             void run();
 
         private:
@@ -33,7 +33,7 @@ namespace PACMAN {
 
         private:
             std::vector<int> alpha_betas;
-            ChoiceTree choice_tree;
+            ChoiceTree& choice_tree;
         };
 
     }

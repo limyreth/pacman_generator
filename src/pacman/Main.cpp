@@ -21,8 +21,10 @@
 #include "Log.h"
 #include "util/assertion.h"
 #include "tests/Tests.h"
-#include "generator/Generator.h"
 #include <sstream>
+
+#include "generator/Generator.h"
+#include "generator/ChoiceTree.h"
 
 #include "Constants.h"
 
@@ -56,7 +58,8 @@ int main( int argc, char** argv ) {
                 return 0;
             }
             else if (str == "--generate") {
-                GENERATOR::Generator generator;
+                GENERATOR::ChoiceTree tree(100);
+                GENERATOR::Generator generator(tree);
                 generator.run();
                 return 0;
             }
