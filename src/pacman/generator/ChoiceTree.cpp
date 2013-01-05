@@ -23,7 +23,9 @@ namespace PACMAN {
 
     namespace GENERATOR {
 
-ChoiceTree::ChoiceTree(int MAX_CHOICES) 
+static const int MAX_CHOICES = 100;  // the max depth of choices to generate into
+
+ChoiceTree::ChoiceTree() 
 :   choices(MAX_CHOICES),
     states(MAX_CHOICES),  // Note: this is probably too much as sometimes multiple players need to move at the same time in the same tick
     depth(MAX_CHOICES),
@@ -106,7 +108,13 @@ bool ChoiceTree::is_leaf() {
 }
 
 int ChoiceTree::get_score() {
+    REQUIRE(!search_complete);
     return get_state().get_score();
+}
+
+int ChoiceTree::get_max_depth() {
+    REQUIRE(!search_complete);
+    return MAX_CHOICES - 1;
 }
 
 void ChoiceTree::push_choice(int next_player) {
@@ -223,11 +231,11 @@ int ChoiceTree::progress_game_until_choice(GameState& state) {
 
 
 void ChoiceTree::invariants() {
-    INVARIANT(choices.capacity() == states.capacity()); // == MAX_CHOICES
-
+    INVARIANT(states.capacity() == MAX_CHOICES);
     INVARIANT(state_index >= 0);
     INVARIANT(search_complete || state_index < states.size());  // state_index valid unless search_complete
 
+    INVARIANT(choices.capacity() == MAX_CHOICES);
     INVARIANT(depth >= 0);
     INVARIANT(!initialised || search_complete || depth < choices.size()); // depth valid unless not initialised or search completed
 

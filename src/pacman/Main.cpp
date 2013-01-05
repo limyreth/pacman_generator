@@ -58,7 +58,7 @@ int main( int argc, char** argv ) {
                 return 0;
             }
             else if (str == "--generate") {
-                GENERATOR::ChoiceTree tree(100);
+                GENERATOR::ChoiceTree tree;
                 GENERATOR::Generator generator(tree);
                 generator.run();
                 return 0;

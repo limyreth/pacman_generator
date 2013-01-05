@@ -30,7 +30,7 @@ namespace PACMAN {
         class ChoiceTree
         {
         public:
-            ChoiceTree(int max_choices);
+            ChoiceTree();
 
             // move current node pointer to parent
             void parent();
@@ -45,12 +45,15 @@ namespace PACMAN {
             bool is_leaf();
 
             int get_score();
+            int get_max_depth();  // depth is 0-based index, max is inclusive
 
             inline const ChoiceNode& get() const {
+                REQUIRE(!search_complete);
                 return get(depth);
             }
 
             inline const ChoiceNode& get(int depth) const {
+                REQUIRE(!search_complete);
                 return choices.at(depth);
             }
 

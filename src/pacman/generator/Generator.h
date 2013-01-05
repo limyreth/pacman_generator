@@ -29,6 +29,8 @@ namespace PACMAN {
             void push_alpha_beta();
             void pop_alpha_beta();
 
+            int translate(int i) const;
+
             int minimax();
 
         private:

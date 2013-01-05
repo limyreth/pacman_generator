@@ -19,12 +19,10 @@ namespace PACMAN {
 
     namespace GENERATOR {
 
-static const int MAX_CHOICES = 100;  // the max depth of choices to generate into
-
 Generator::Generator(ChoiceTree& tree) 
 :   choice_tree(tree)
 {
-    alpha_betas.reserve(MAX_CHOICES);
+    alpha_betas.reserve(choice_tree.get_max_depth() + 1);
     ASSERT_INVARIANTS();
 }
 
@@ -33,8 +31,8 @@ void Generator::run() {
     ASSERT_INVARIANTS();
 }
 
-int translate(int i) {
-    return MAX_CHOICES - i - 1;
+int Generator::translate(int i) const {
+    return alpha_betas.capacity() - i - 1;
 }
 
 int Generator::get_alpha() const {
@@ -116,7 +114,7 @@ int Generator::minimax() {
 }
 
 void Generator::invariants() {
-    INVARIANT(alpha_betas.capacity() == MAX_CHOICES);
+    INVARIANT(alpha_betas.capacity() == choice_tree.get_max_depth());
 
     INVARIANT(get_alpha() >= 0);
     INVARIANT(get_beta() >= 0);
