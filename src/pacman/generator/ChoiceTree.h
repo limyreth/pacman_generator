@@ -11,24 +11,14 @@
 #pragma once
 
 #include "../model/Action.h"
+#include "../model/GameState.h"
 #include "../gui/NullUIHints.h"
 
 namespace PACMAN {
-    namespace MODEL {
-        class GameState;
-    }
 
     namespace GENERATOR {
 
-        void generate();
-
-        // TODO make private
         struct ChoiceNode {
-            // if is_pacman, then this is alpha, else it is beta value of current search tree node
-            // alpha ~= highest score pacman can get
-            // beta ~= lowest score ghost can make pacman get
-            int alpha_beta; 
-
             // action taken to get from this state to the next
             MODEL::Action action;  
 
@@ -36,36 +26,45 @@ namespace PACMAN {
             int player;  
         };
 
-
-        class Generator
+        // a tree of choice nodes through the game
+        class ChoiceTree
         {
         public:
-            Generator();
-            void run();
+            ChoiceTree(int max_choices);
+
+            // move current node pointer to parent
+            void parent();
+
+            // move to next sibling
+            // Returns whether there actually was a sibling
+            bool next_sibling();
+
+            // move to first child
+            void first_child();
+
+            bool is_leaf();
+
+            int get_score();
+
+            inline const ChoiceNode& get() const {
+                return get(depth);
+            }
+
+            inline const ChoiceNode& get(int depth) const {
+                return choices.at(depth);
+            }
 
         private:
             void invariants();
-            int get_alpha() const;
-            int get_beta() const;
             bool has_choice(int player) const;
             int get_first_undecided(int player) const;
             int progress_game_state();
             int progress_game_until_choice(MODEL::GameState& state);
-            void push_child(int next_player);
-            void pop();
+            void push_choice(int next_player);
 
-            int minimax();
-
-            inline ChoiceNode& get() {
-                return choices.at(choice_index);
-            }
-
-            inline const ChoiceNode& get() const {
-                return get(choice_index);
-            }
-
-            inline const ChoiceNode& get(int depth) const {
-                return choices.at(choice_index);
+            // Note: never overload with different accessibility http://stackoverflow.com/questions/1361618/const-overloading-public-private-lookup-in-c-class
+            inline ChoiceNode& get_() {
+                return choices.at(depth);
             }
 
             inline MODEL::GameState& get_state() {
@@ -78,7 +77,7 @@ namespace PACMAN {
 
         private:
             std::vector<ChoiceNode> choices;
-            int choice_index;  // starts at max, then counts down. Is choice index
+            int depth;  // starts at max, then counts down. Is choice index
 
             std::vector<MODEL::GameState> states;  // Note: this is probably too much as sometimes multiple players need to move at the same time in the same tick
             int state_index; // starts at max, then counts down

@@ -21,7 +21,7 @@
 #include "Log.h"
 #include "util/assertion.h"
 #include "tests/Tests.h"
-#include "generator/generate.h"
+#include "generator/Generator.h"
 #include <sstream>
 
 #include "Constants.h"
