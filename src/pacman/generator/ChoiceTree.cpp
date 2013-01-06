@@ -26,12 +26,13 @@ namespace PACMAN {
 static const int MAX_CHOICES = 100;  // the max depth of choices to generate into
 
 ChoiceTree::ChoiceTree() 
-:   choices(MAX_CHOICES),
-    states(MAX_CHOICES),  // Note: this is probably too much as sometimes multiple players need to move at the same time in the same tick
-    initialised(false),
+:   initialised(false),
     search_complete(false)
 {
-    get_state() = GameState(PACMAN_NODES.get_spawn(), GHOST_NODES.get_spawns());
+    choices.reserve(MAX_CHOICES);
+    states.reserve(MAX_CHOICES);  // Note: this is probably too much as sometimes multiple players need to move at the same time in the same tick
+
+    states.emplace_back(PACMAN_NODES.get_spawn(), GHOST_NODES.get_spawns());
 
     // progress to initial choice
     int next_player = progress_game_until_choice(get_state());
