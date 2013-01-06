@@ -11,8 +11,6 @@
 #pragma once
 
 #include "../model/Action.h"
-#include "../model/GameState.h"
-#include "../gui/NullUIHints.h"
 
 namespace PACMAN {
 
@@ -26,69 +24,27 @@ namespace PACMAN {
             int player;  
         };
 
-        // a tree of choice nodes through the game
+        // a tree of choice nodes
         class ChoiceTree
         {
         public:
-            ChoiceTree();
-
             // move current node pointer to parent
-            void parent();
+            virtual void parent() = 0;
 
             // move to next sibling
             // Returns whether there actually was a sibling
-            bool next_sibling();
+            virtual bool next_sibling() = 0;
 
             // move to first child
-            void first_child();
+            virtual void first_child() = 0;
 
-            bool is_leaf();
+            virtual bool is_leaf() = 0;
 
-            int get_score();
-            int get_max_depth();  // depth is 0-based index, max is inclusive
+            virtual int get_score() = 0;
+            virtual int get_max_depth() = 0;  // depth is 0-based index, max is inclusive
 
-            inline const ChoiceNode& get() const {
-                REQUIRE(!search_complete);
-                return choices.back();
-            }
-
-            inline const ChoiceNode& get(int depth) const {
-                REQUIRE(!search_complete);
-                return choices.at(depth);
-            }
-
-        private:
-            void invariants();
-            bool has_choice(int player) const;
-            int get_first_undecided(int player) const;
-            int progress_game_state();
-            int progress_game_until_choice(MODEL::GameState& state);
-            void push_choice(int next_player);
-
-            // Note: never overload with different accessibility http://stackoverflow.com/questions/1361618/const-overloading-public-private-lookup-in-c-class
-            inline ChoiceNode& get_() {
-                return choices.back();
-            }
-
-            inline MODEL::GameState& get_state() {
-                return states.at(state_index);
-            }
-
-            inline const MODEL::GameState& get_state() const {
-                return states.at(state_index);
-            }
-
-        private:
-            std::vector<ChoiceNode> choices;
-            int depth;  // starts at max, then counts down. Is choice index
-
-            std::vector<MODEL::GameState> states;  // Note: this is probably too much as sometimes multiple players need to move at the same time in the same tick
-            int state_index; // starts at max, then counts down
-
-            GUI::NullUIHints uihints;
-
-            bool initialised; // true after call to ctor, false otherwise
-            bool search_complete;
+            virtual const ChoiceNode& get() const = 0;
+            virtual const ChoiceNode& get(int depth) = 0;
         };
 
     }

@@ -24,7 +24,7 @@
 #include <sstream>
 
 #include "generator/Generator.h"
-#include "generator/ChoiceTree.h"
+#include "generator/PacmanChoiceTree.h"
 
 #include "Constants.h"
 
@@ -58,7 +58,7 @@ int main( int argc, char** argv ) {
                 return 0;
             }
             else if (str == "--generate") {
-                GENERATOR::ChoiceTree tree;
+                GENERATOR::PacmanChoiceTree tree;
                 GENERATOR::Generator generator(tree);
                 generator.run();
                 return 0;

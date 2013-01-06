@@ -8,7 +8,7 @@
  ***************************************************************************/
 
 
-#include "ChoiceTree.h"
+#include "PacmanChoiceTree.h"
 
 #include "../model/GameState.h"
 #include "../model/PacmanNodes.h"
@@ -25,7 +25,7 @@ namespace PACMAN {
 
 static const int MAX_CHOICES = 100;  // the max depth of choices to generate into
 
-ChoiceTree::ChoiceTree() 
+PacmanChoiceTree::PacmanChoiceTree() 
 :   initialised(false),
     search_complete(false)
 {
@@ -46,7 +46,7 @@ ChoiceTree::ChoiceTree()
 /*
  * Returns true if player has multiple legal actions to act upon the current state
  */
-bool ChoiceTree::has_choice(int player) const {
+bool PacmanChoiceTree::has_choice(int player) const {
     REQUIRE(player >= 0);
     REQUIRE(player < PLAYER_COUNT);
     LegalActions legal_actions;
@@ -54,7 +54,7 @@ bool ChoiceTree::has_choice(int player) const {
     return legal_actions.count > 1;
 }
 
-void ChoiceTree::parent() {
+void PacmanChoiceTree::parent() {
     REQUIRE(!search_complete);
     //REQUIRE(choices.size() > 0);
 
@@ -79,7 +79,7 @@ void ChoiceTree::parent() {
  *
  * Returns whether there was a next legal action to try
  */
-bool ChoiceTree::next_sibling() {
+bool PacmanChoiceTree::next_sibling() {
     REQUIRE(!search_complete);
 
     LegalActions legal_actions;
@@ -93,7 +93,7 @@ bool ChoiceTree::next_sibling() {
     return has_next_action;
 }
 
-void ChoiceTree::first_child() {
+void PacmanChoiceTree::first_child() {
     REQUIRE(!search_complete);
     REQUIRE(!is_leaf());
 
@@ -101,22 +101,32 @@ void ChoiceTree::first_child() {
     push_choice(next_player);
 }
 
-bool ChoiceTree::is_leaf() {
+bool PacmanChoiceTree::is_leaf() {
     REQUIRE(!search_complete);
     return get().player == -1 || choices.size() == choices.capacity() < 0;
 }
 
-int ChoiceTree::get_score() {
+int PacmanChoiceTree::get_score() {
     REQUIRE(!search_complete);
     return get_state().get_score();
 }
 
-int ChoiceTree::get_max_depth() {
+int PacmanChoiceTree::get_max_depth() {
     REQUIRE(!search_complete);
     return MAX_CHOICES - 1;
 }
 
-void ChoiceTree::push_choice(int next_player) {
+const ChoiceNode& PacmanChoiceTree::get() const {
+    REQUIRE(!search_complete);
+    return choices.back();
+}
+
+const ChoiceNode& PacmanChoiceTree::get(int depth) const {
+    REQUIRE(!search_complete);
+    return choices.at(depth);
+}
+
+void PacmanChoiceTree::push_choice(int next_player) {
     REQUIRE(next_player >= 0);
     REQUIRE(next_player < PLAYER_COUNT);
 
@@ -134,7 +144,7 @@ void ChoiceTree::push_choice(int next_player) {
  *
  * player: index of first player that might have a choice
  */
-int ChoiceTree::get_first_undecided(int player) const {
+int PacmanChoiceTree::get_first_undecided(int player) const {
     REQUIRE(player >= 0);
     REQUIRE(player < PLAYER_COUNT);
 
@@ -157,7 +167,7 @@ int ChoiceTree::get_first_undecided(int player) const {
  *
  * Returns the player who has to make a choice, or -1 if game over
  */
-int ChoiceTree::progress_game_state() {
+int PacmanChoiceTree::progress_game_state() {
     REQUIRE(get().action > -1);  // current player has chosen
 
     // sufficient choices made to proceed to next state?
@@ -207,7 +217,7 @@ int ChoiceTree::progress_game_state() {
 /*
  * Progress game state until game over or a player has a choice
  */
-int ChoiceTree::progress_game_until_choice(GameState& state) {
+int PacmanChoiceTree::progress_game_until_choice(GameState& state) {
     int next_player = -1;
 
     // progress as far as possible
@@ -226,7 +236,7 @@ int ChoiceTree::progress_game_until_choice(GameState& state) {
 }
 
 
-void ChoiceTree::invariants() {
+void PacmanChoiceTree::invariants() {
     INVARIANT(states.capacity() == MAX_CHOICES);
     INVARIANT(!states.empty() || search_complete);  // state_index valid unless search_complete
 
