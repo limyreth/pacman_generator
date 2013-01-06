@@ -31,13 +31,9 @@ void Generator::run() {
     ASSERT_INVARIANTS();
 }
 
-int Generator::translate(int i) const {
-    return alpha_betas.capacity() - i - 1;
-}
-
 int Generator::get_alpha() const {
     for (int i = alpha_betas.size() -1; i >= 0; ++i) {
-        if (choice_tree.get(translate(i)).player == 0) {
+        if (choice_tree.get(i).player == 0) {
             return alpha_betas.at(i);
         }
         ++i;
@@ -47,7 +43,7 @@ int Generator::get_alpha() const {
 
 int Generator::get_beta() const {
     for (int i = alpha_betas.size() -1; i >= 0; ++i) {
-        if (choice_tree.get(translate(i)).player != 0) {
+        if (choice_tree.get(i).player != 0) {
             return alpha_betas.at(i);
         }
         ++i;

@@ -28,8 +28,6 @@ static const int MAX_CHOICES = 100;  // the max depth of choices to generate int
 ChoiceTree::ChoiceTree() 
 :   choices(MAX_CHOICES),
     states(MAX_CHOICES),  // Note: this is probably too much as sometimes multiple players need to move at the same time in the same tick
-    depth(MAX_CHOICES),
-    state_index(MAX_CHOICES),
     initialised(false),
     search_complete(false)
 {
@@ -57,17 +55,19 @@ bool ChoiceTree::has_choice(int player) const {
 
 void ChoiceTree::parent() {
     REQUIRE(!search_complete);
+    //REQUIRE(choices.size() > 0);
 
-    ++depth;
+    auto previous = choices.back();
+    choices.pop_back();
 
-    if (depth == choices.size()) {
+    if (choices.empty()) {
         // popped the last choice, search complete
-        ++state_index;
-        ASSERT(state_index == states.size());
+        states.pop_back();
+        ASSERT(states.empty());
         search_complete = true;
     }
-    else if (get().player >= get(depth-1).player) {
-        ++state_index;
+    else if (get().player >= previous.player) {
+        states.pop_back();
     }
 
     ASSERT_INVARIANTS();
@@ -97,14 +97,12 @@ void ChoiceTree::first_child() {
     REQUIRE(!is_leaf());
 
     const int next_player = progress_game_state();
-    const int next_depth = depth - 1;
-
     push_choice(next_player);
 }
 
 bool ChoiceTree::is_leaf() {
     REQUIRE(!search_complete);
-    return get().player == -1 || depth-1 < 0;
+    return get().player == -1 || choices.size() == choices.capacity() < 0;
 }
 
 int ChoiceTree::get_score() {
@@ -121,11 +119,9 @@ void ChoiceTree::push_choice(int next_player) {
     REQUIRE(next_player >= 0);
     REQUIRE(next_player < PLAYER_COUNT);
 
-    REQUIRE(depth > 0);
+    REQUIRE(!choices.empty());
 
-    --depth;
-    get_().player = next_player;
-    get_().action = -1;
+    choices.emplace_back(ChoiceNode{-1, next_player});
 
     ASSERT_INVARIANTS();
 }
@@ -220,8 +216,7 @@ int ChoiceTree::progress_game_until_choice(GameState& state) {
     }
 
     // push state
-    --state_index;
-    states.at(state_index) = state;
+    states.push_back(state);
 
     ENSURE(get_state().is_game_over() || has_choice(next_player));
     ENSURE(!get_state().is_game_over() || next_player == -1);
@@ -232,11 +227,9 @@ int ChoiceTree::progress_game_until_choice(GameState& state) {
 
 void ChoiceTree::invariants() {
     INVARIANT(states.capacity() == MAX_CHOICES);
-    INVARIANT(state_index >= 0);
-    INVARIANT(search_complete || state_index < states.size());  // state_index valid unless search_complete
+    INVARIANT(!states.empty() || search_complete);  // state_index valid unless search_complete
 
     INVARIANT(choices.capacity() == MAX_CHOICES);
-    INVARIANT(depth >= 0);
     INVARIANT(!initialised || search_complete || depth < choices.size()); // depth valid unless not initialised or search completed
 
     INVARIANT(state_index >= depth);
