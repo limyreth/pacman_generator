@@ -49,7 +49,7 @@ namespace PACMAN {
 
             inline const ChoiceNode& get() const {
                 REQUIRE(!search_complete);
-                return get(depth);
+                return choices.back();
             }
 
             inline const ChoiceNode& get(int depth) const {
@@ -67,7 +67,7 @@ namespace PACMAN {
 
             // Note: never overload with different accessibility http://stackoverflow.com/questions/1361618/const-overloading-public-private-lookup-in-c-class
             inline ChoiceNode& get_() {
-                return choices.at(depth);
+                return choices.back();
             }
 
             inline MODEL::GameState& get_state() {
