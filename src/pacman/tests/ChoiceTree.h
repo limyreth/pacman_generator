@@ -27,22 +27,26 @@ namespace PACMAN {
             std::vector<shared_ptr<TreeNode>> children;
         };
 
-        // a tree of choice nodes of a game of pacman
         class ChoiceTree : public GENERATOR::ChoiceTree
         {
         public:
             ChoiceTree(int max_depth, shared_ptr<TreeNode> root) ;
 
             void parent();
-            bool next_sibling();
-            void first_child();
+            bool next_child();
             bool is_leaf();
+            bool is_first_child();
 
             int get_score();
+            int get_depth();
             int get_max_depth();
 
             const GENERATOR::ChoiceNode& get() const;
             const GENERATOR::ChoiceNode& get(int depth) const;
+            void set_alpha_beta(int alpha_beta);
+
+        private:
+            void reset_last_choice();
 
         private:
             int max_depth;

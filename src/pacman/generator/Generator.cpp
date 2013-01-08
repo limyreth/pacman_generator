@@ -22,97 +22,106 @@ namespace PACMAN {
 Generator::Generator(ChoiceTree& tree) 
 :   choice_tree(tree)
 {
-    alpha_betas.reserve(choice_tree.get_max_depth() + 1);
     ASSERT_INVARIANTS();
 }
 
 void Generator::run(int& best_score) {
-    best_score = minimax();
+    minimax();
+    best_score = choice_tree.get().alpha_beta;
     ASSERT_INVARIANTS();
 }
 
 int Generator::get_alpha() const {
-    for (int i = alpha_betas.size() - 1; i >= 0; --i) {
-        if (choice_tree.get(i).player == 0) {
-            return alpha_betas.at(i);
+    return get_alpha(choice_tree.get_depth());
+}
+
+int Generator::get_alpha(int depth) const {
+    for (int i = depth; i >= 0; --i) {
+        auto node = choice_tree.get(i);
+        if (node.player == 0) {  // is maxing player
+            return node.alpha_beta;
         }
     }
     return 0;
 }
 
 int Generator::get_beta() const {
-    for (int i = alpha_betas.size() - 1; i >= 0; --i) {
-        if (choice_tree.get(i).player != 0) {
-            return alpha_betas.at(i);
+    return get_beta(choice_tree.get_depth());
+}
+
+int Generator::get_beta(int depth) const {
+    for (int i = depth; i >= 0; --i) {
+        auto node = choice_tree.get(i);
+        if (node.player != 0) {
+            return node.alpha_beta;
         }
     }
     return 999999999; // +infinity TODO calculate and set this to MAX_SCORE, have it in Spec constants
 }
 
 void Generator::push_alpha_beta() {
-    const ChoiceNode node = choice_tree.get();
-    int alpha_beta = node.player == 0 ? get_alpha() : get_beta();
-    alpha_betas.push_back(alpha_beta);
 
-    ASSERT_INVARIANTS();
-}
-
-void Generator::pop_alpha_beta() {
-    alpha_betas.pop_back();
     ASSERT_INVARIANTS();
 }
 
 /*
  * Explore all choices of current choice node
  */
-int Generator::minimax() {
-    REQUIRE(!choice_tree.is_leaf());
+void Generator::minimax() {
+    REQUIRE(choice_tree.get_depth() == 0);
 
-    choice_tree.first_child();
-    push_alpha_beta();
-
-    while (choice_tree.next_sibling() &&
-            get_alpha() >= get_beta()) {  // alpha beta pruning
-            
+    int child_value;
+    bool search_complete = false;
+    while (!search_complete) {
         if (choice_tree.is_leaf()) {
             // TODO if is better than current best, save current path as best
-            int score = choice_tree.get_score();
+            child_value = choice_tree.get_score();
             choice_tree.parent();
-            pop_alpha_beta();
-            ASSERT_INVARIANTS();
-            return score;
-        }
-
-        // explore choices of child
-        int value = minimax();
-
-        // process the alpha_beta value it returned
-        if (choice_tree.get().player == 0) {
-            if (value > get_alpha()) {
-                alpha_betas.back() = value;
-            }
         }
         else {
-            if (value < get_beta()) {
-                alpha_betas.back() = value;
+            if (choice_tree.is_first_child()) {
+                // Start search under a node
+                const ChoiceNode node = choice_tree.get();
+                choice_tree.set_alpha_beta(node.player == 0 ? get_alpha(choice_tree.get_depth()-1) : get_beta(choice_tree.get_depth()-1));
+            }
+            else {
+                // Process the alpha_beta returned by child
+                if (choice_tree.get().player == 0) {
+                    if (child_value > get_alpha()) {
+                        choice_tree.set_alpha_beta(child_value);
+                    }
+                }
+                else {
+                    if (child_value < get_beta()) {
+                        choice_tree.set_alpha_beta(child_value);
+                    }
+                }
+            }
+
+            ASSERT(get_alpha() >= 0);
+            ASSERT(get_beta() >= 0);
+            //std::cout << "alpha " << get_alpha() << ", beta " << get_beta() << std::endl;
+            bool continued_search = get_alpha() < get_beta()  // pruning
+                                    && choice_tree.next_child();  // get the next choice
+
+            if (!continued_search) {
+                if (choice_tree.get_depth() == 0) {
+                    search_complete = true;
+                }
+                else {
+                    child_value = choice_tree.get().alpha_beta;
+                    choice_tree.parent();
+                }
             }
         }
 
         ASSERT_INVARIANTS();
     }
 
-    choice_tree.parent();
-    pop_alpha_beta();
-    ASSERT_INVARIANTS();
-    return alpha_betas.back();
+    ENSURE(choice_tree.get_depth() == 0);
 }
 
 void Generator::invariants() {
-    INVARIANT(alpha_betas.capacity() == choice_tree.get_max_depth() + 1);
-
-    INVARIANT(get_alpha() >= 0);
-    INVARIANT(get_beta() >= 0);
-
     // Invariant: the action field of all ancestors is valid and shows the path
     // to the current node
 }

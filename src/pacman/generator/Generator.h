@@ -25,16 +25,17 @@ namespace PACMAN {
         private:
             void invariants();
             int get_alpha() const;
+            int get_alpha(int depth) const;
             int get_beta() const;
+            int get_beta(int depth) const;
             void push_alpha_beta();
             void pop_alpha_beta();
 
             int translate(int i) const;
 
-            int minimax();
+            void minimax();
 
         private:
-            std::vector<int> alpha_betas;
             ChoiceTree& choice_tree;
         };
 
