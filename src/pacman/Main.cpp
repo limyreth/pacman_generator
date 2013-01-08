@@ -58,10 +58,10 @@ int main( int argc, char** argv ) {
                 return 0;
             }
             else if (str == "--generate") {
-                GENERATOR::PacmanChoiceTree tree;
+                /*GENERATOR::PacmanChoiceTree tree;
                 GENERATOR::Generator generator(tree);
                 int best_score;
-                generator.run(best_score);
+                generator.run(best_score);*/
                 return 0;
             }
             else
