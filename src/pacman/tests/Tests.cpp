@@ -502,14 +502,6 @@ private:
         return n1_1;
     }
 
-    // TODO
-    // different players as siblings
-    // multiple min players
-    // try cut off by max depth
-    // try scores at higher level (they should be ignored)
-    //
-    // in all cases: check for alpha beta pruning of correct nodes (no more, no less). And pick correct score + node + path eventually
-
 public:
     static void test_1() {
         auto root = build_tree();
