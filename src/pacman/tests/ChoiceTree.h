@@ -45,11 +45,16 @@ namespace PACMAN {
             const GENERATOR::ChoiceNode& get(int depth) const;
             void set_alpha_beta(int alpha_beta);
 
+            inline int get_children_visited() {
+                return children_visited;
+            }
+
         private:
             void reset_last_choice();
 
         private:
             int max_depth;
+            int children_visited; // if a child is visited twice, then it is counted twice = the number of calls to next_child that return true
             shared_ptr<TreeNode> node;  // curent node, starts as root
             std::vector<GENERATOR::ChoiceNode> choices;
         };

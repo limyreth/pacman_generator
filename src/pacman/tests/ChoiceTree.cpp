@@ -23,7 +23,8 @@ namespace PACMAN {
 
 ChoiceTree::ChoiceTree(int max_depth, shared_ptr<TreeNode> root) 
 :   max_depth(max_depth), 
-    node(root)
+    node(root),
+    children_visited(0)
 {
     choices.reserve(get_max_depth()+1);
     choices.emplace_back(ChoiceNode{-1, node->player, -1});
@@ -37,8 +38,6 @@ void ChoiceTree::parent() {
 }
 
 bool ChoiceTree::next_child() {
-    static int visits;
-
     choices.back().action++;
     if (choices.back().action >= node->children.size()) {
         cout << "end" << endl;
@@ -48,8 +47,8 @@ bool ChoiceTree::next_child() {
         node = node->children.at(choices.back().action);
         choices.emplace_back(ChoiceNode{-1, node->player, -1});
 
-        ++visits;
-        cout << "next child " << visits << " at " << get_depth() << ", value " << node->score << endl;
+        ++children_visited;
+        cout << "next child at " << get_depth() << ", value " << node->score << endl;
         return true;
     }
 }
