@@ -108,7 +108,7 @@ int Generator::minimax() {
 }
 
 void Generator::invariants() {
-    INVARIANT(alpha_betas.capacity() == choice_tree.get_max_depth());
+    INVARIANT(alpha_betas.capacity() == choice_tree.get_max_depth() + 1);
 
     INVARIANT(get_alpha() >= 0);
     INVARIANT(get_beta() >= 0);
