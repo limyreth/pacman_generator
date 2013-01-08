@@ -26,8 +26,8 @@ Generator::Generator(ChoiceTree& tree)
     ASSERT_INVARIANTS();
 }
 
-void Generator::run() {
-    minimax();
+void Generator::run(int& best_score) {
+    best_score = minimax();
     ASSERT_INVARIANTS();
 }
 

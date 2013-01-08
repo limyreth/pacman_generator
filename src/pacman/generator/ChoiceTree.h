@@ -44,7 +44,7 @@ namespace PACMAN {
             virtual int get_max_depth() = 0;  // depth is 0-based index, max is inclusive
 
             virtual const ChoiceNode& get() const = 0;
-            virtual const ChoiceNode& get(int depth) = 0;
+            virtual const ChoiceNode& get(int depth) const = 0;
         };
 
     }

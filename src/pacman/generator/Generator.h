@@ -20,7 +20,7 @@ namespace PACMAN {
         {
         public:
             Generator(ChoiceTree& tree);
-            void run();
+            void run(int& best_score);
 
         private:
             void invariants();

@@ -74,3 +74,8 @@ add_test(
     COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pacman_sdl --test 4
 )
 
+add_test(
+    NAME minimax_1
+    COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pacman_sdl --test 5
+)
+
