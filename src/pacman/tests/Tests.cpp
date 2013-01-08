@@ -226,103 +226,103 @@ private:
         n6_13->player = 1;
 
         shared_ptr<TreeNode> n7_1(new TreeNode);
-        n7_1->score = 0;
+        n7_1->score = 10;
         n7_1->player = 0;
 
         shared_ptr<TreeNode> n7_2(new TreeNode);
-        n7_2->score = 5;
+        n7_2->score = 15;
         n7_2->player = 0;
 
         shared_ptr<TreeNode> n7_3(new TreeNode);
-        n7_3->score = -3;
+        n7_3->score = 7;
         n7_3->player = 0;
 
         shared_ptr<TreeNode> n7_4(new TreeNode);
-        n7_4->score = 3;
+        n7_4->score = 13;
         n7_4->player = 0;
 
         shared_ptr<TreeNode> n7_5(new TreeNode);
-        n7_5->score = 3;
+        n7_5->score = 13;
         n7_5->player = 0;
 
         shared_ptr<TreeNode> n7_6(new TreeNode);
-        n7_6->score = -3;
+        n7_6->score = 7;
         n7_6->player = 0;
 
         shared_ptr<TreeNode> n7_7(new TreeNode);
-        n7_7->score = 0;
+        n7_7->score = 10;
         n7_7->player = 0;
 
         shared_ptr<TreeNode> n7_8(new TreeNode);
-        n7_8->score = 2;
+        n7_8->score = 12;
         n7_8->player = 0;
 
         shared_ptr<TreeNode> n7_9(new TreeNode);
-        n7_9->score = -2;
+        n7_9->score = 8;
         n7_9->player = 0;
 
         shared_ptr<TreeNode> n7_10(new TreeNode);
-        n7_10->score = 3;
+        n7_10->score = 13;
         n7_10->player = 0;
 
         shared_ptr<TreeNode> n7_11(new TreeNode);
-        n7_11->score = 5;
+        n7_11->score = 15;
         n7_11->player = 0;
 
         shared_ptr<TreeNode> n7_12(new TreeNode);
-        n7_12->score = 2;
+        n7_12->score = 12;
         n7_12->player = 0;
 
         shared_ptr<TreeNode> n7_13(new TreeNode);
-        n7_13->score = 5;
+        n7_13->score = 15;
         n7_13->player = 0;
 
         shared_ptr<TreeNode> n7_14(new TreeNode);
-        n7_14->score = -5;
+        n7_14->score = 5;
         n7_14->player = 0;
 
         shared_ptr<TreeNode> n7_15(new TreeNode);
-        n7_15->score = 0;
+        n7_15->score = 10;
         n7_15->player = 0;
 
         shared_ptr<TreeNode> n7_16(new TreeNode);
-        n7_16->score = 1;
+        n7_16->score = 11;
         n7_16->player = 0;
 
         shared_ptr<TreeNode> n7_17(new TreeNode);
-        n7_17->score = 5;
+        n7_17->score = 15;
         n7_17->player = 0;
 
         shared_ptr<TreeNode> n7_18(new TreeNode);
-        n7_18->score = 1;
+        n7_18->score = 11;
         n7_18->player = 0;
 
         shared_ptr<TreeNode> n7_19(new TreeNode);
-        n7_19->score = -3;
+        n7_19->score = 7;
         n7_19->player = 0;
 
         shared_ptr<TreeNode> n7_20(new TreeNode);
-        n7_20->score = 0;
+        n7_20->score = 10;
         n7_20->player = 0;
 
         shared_ptr<TreeNode> n7_21(new TreeNode);
-        n7_21->score = -5;
+        n7_21->score = 5;
         n7_21->player = 0;
 
         shared_ptr<TreeNode> n7_22(new TreeNode);
-        n7_22->score = 5;
+        n7_22->score = 15;
         n7_22->player = 0;
 
         shared_ptr<TreeNode> n7_23(new TreeNode);
-        n7_23->score = -3;
+        n7_23->score = 7;
         n7_23->player = 0;
 
         shared_ptr<TreeNode> n7_24(new TreeNode);
-        n7_24->score = 3;
+        n7_24->score = 13;
         n7_24->player = 0;
 
         shared_ptr<TreeNode> n7_25(new TreeNode);
-        n7_25->score = 2;
+        n7_25->score = 12;
         n7_25->player = 0;
 
         n1_1->children.push_back(n2_1);
@@ -517,7 +517,7 @@ public:
         GENERATOR::Generator generator(tree);
         int best_score;
         generator.run(best_score);
-        assert_equals(best_score, 1);
+        assert_equals(best_score, 11);
     }
 };
 
