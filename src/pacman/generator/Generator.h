@@ -16,6 +16,16 @@ namespace PACMAN {
 
     namespace GENERATOR {
 
+        /* Background info:
+         *
+         * We use minimax with alpha beta pruning. Pruning leads to
+         * O(b**(3d/4)) execution time instead of O(b**d), assuming we have a
+         * random ordering.
+         *
+         * Negascout might work even better... or might not even work at all.
+         *
+         * Or we could improve the ordering...
+         */
         class Generator
         {
         public:
