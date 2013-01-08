@@ -54,7 +54,7 @@ bool ChoiceTree::next_child() {
 }
 
 bool ChoiceTree::is_leaf() {
-    return node->children.empty();
+    return node->children.empty() || get_depth() == get_max_depth();
 }
 
 bool ChoiceTree::is_first_child() {
