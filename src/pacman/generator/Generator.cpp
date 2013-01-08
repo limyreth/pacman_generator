@@ -32,21 +32,19 @@ void Generator::run(int& best_score) {
 }
 
 int Generator::get_alpha() const {
-    for (int i = alpha_betas.size() -1; i >= 0; ++i) {
+    for (int i = alpha_betas.size() - 1; i >= 0; --i) {
         if (choice_tree.get(i).player == 0) {
             return alpha_betas.at(i);
         }
-        ++i;
     }
     return 0;
 }
 
 int Generator::get_beta() const {
-    for (int i = alpha_betas.size() -1; i >= 0; ++i) {
+    for (int i = alpha_betas.size() - 1; i >= 0; --i) {
         if (choice_tree.get(i).player != 0) {
             return alpha_betas.at(i);
         }
-        ++i;
     }
     return 999999999; // +infinity TODO calculate and set this to MAX_SCORE, have it in Spec constants
 }
