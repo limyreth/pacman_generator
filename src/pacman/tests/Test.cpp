@@ -10,6 +10,8 @@
 
 #include "Test.h"
 
+#include "util.h"
+
 #include "../model/GameState.h"
 #include "../model/PacmanNodes.h"
 #include "../model/GhostNodes.h"

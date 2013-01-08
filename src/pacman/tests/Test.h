@@ -14,10 +14,6 @@
 #include "../model/GameState.h"
 #include "../model/Action.h"
 #include "../gui/NullUIHints.h"
-#include "../Utility.h"
-
-#include <sstream>
-#include <boost/assert.hpp>
 
 namespace PACMAN {
     namespace MODEL {
@@ -25,8 +21,6 @@ namespace PACMAN {
     }
 
     namespace TEST {
-
-#define assert_equals(actual_value, expected_value) BOOST_ASSERT_MSG(actual_value == expected_value, (to_string(actual_value) + " != " + to_string(expected_value)).c_str());
 
         class Test {
         public:
