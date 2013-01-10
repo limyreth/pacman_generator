@@ -23,9 +23,6 @@
 #include "tests/Tests.h"
 #include <sstream>
 
-#include "generator/Generator.h"
-#include "generator/PacmanChoiceTree.h"
-
 #include "Constants.h"
 
 using namespace PACMAN;
@@ -58,7 +55,9 @@ int main( int argc, char** argv ) {
                 return 0;
             }
             else if (str == "--generate") {
-                /*GENERATOR::PacmanChoiceTree tree;
+                /*const int MAX_CHOICES = 100;  // the max depth of choices to generate into
+
+                GENERATOR::PacmanChoiceTree tree;
                 GENERATOR::Generator generator(tree);
                 int best_score;
                 generator.run(best_score);*/

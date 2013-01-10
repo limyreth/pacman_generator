@@ -10,30 +10,41 @@
 
 #pragma once
 
-#include "../generator/ChoiceTree.h"
+#include "../generator/GameTree.h"
 #include "../model/Action.h"
+#include <vector>
 
 #include <boost/shared_ptr.hpp>
 using boost::shared_ptr;
 
 namespace PACMAN {
 
+    namespace GENERATOR {
+        struct ChoiceNode;
+    }
+
     namespace TEST {
 
-        class ChoiceTree : public GENERATOR::ChoiceTree
+        struct TreeNode {
+            int score;
+            int player;
+            shared_ptr<TreeNode> parent;
+            std::vector<shared_ptr<TreeNode>> children;
+        };
+
+        class GameTree : public GENERATOR::GameTree
         {
         public:
-            ChoiceTree(int max_depth, GENERATOR::GameTree& tree) ;
+            GameTree(shared_ptr<TreeNode> root) ;
 
-            void parent();
-            bool next_child();
-
-            inline int get_children_visited() {
-                return children_visited;
-            }
+            int init();
+            void parent(const std::vector<GENERATOR::ChoiceNode>& choices);
+            int child(const std::vector<GENERATOR::ChoiceNode>& choices);
+            int get_child_count(const std::vector<GENERATOR::ChoiceNode>& choices);
+            int get_score();
 
         private:
-            int children_visited; // if a child is visited twice, then it is counted twice = the number of calls to next_child that return true
+            shared_ptr<TreeNode> node;  // curent node, starts as root
         };
 
     }

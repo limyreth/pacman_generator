@@ -13,6 +13,7 @@
 #include "util.h"
 
 #include "ChoiceTree.h"
+#include "GameTree.h"
 #include "../generator/Generator.h"
 
 using std::cout;
@@ -440,12 +441,13 @@ shared_ptr<TreeNode> MinimaxTests::build_tree() {
 
 void MinimaxTests::test_1() {
     auto root = build_tree();
-    ChoiceTree tree(6, root);
-    GENERATOR::Generator generator(tree);
+    GameTree game_tree(root);
+    ChoiceTree choice_tree(6, game_tree);
+    GENERATOR::Generator generator(choice_tree);
     int best_score;
     generator.run(best_score);
     assert_equals(best_score, 11);
-    assert_equals(tree.get_children_visited(), 36);  // if more is pruned, could be nice, but that's suspicious
+    assert_equals(choice_tree.get_children_visited(), 36);  // if more is pruned, could be nice, but that's suspicious
 }
 
 }}

@@ -8,7 +8,8 @@
  ***************************************************************************/
 
 
-#include "ChoiceTree.h"
+#include "GameTree.h"
+#include "../generator/ChoiceNode.h"
 #include "../util/assertion.h"
 
 #include <iostream>
@@ -21,27 +22,31 @@ namespace PACMAN {
 
     namespace TEST {
 
-ChoiceTree::ChoiceTree(int max_depth, GENERATOR::GameTree& tree) 
-:   GENERATOR::ChoiceTree(max_depth, tree),
-    children_visited(0)
+GameTree::GameTree(shared_ptr<TreeNode> root) 
+:   node(root)
 {
 }
 
-void ChoiceTree::parent() {
-    cout << "parent" << endl;
-    GENERATOR::ChoiceTree::parent();
+int GameTree::init() {
+    return node->player;
 }
 
-bool ChoiceTree::next_child() {
-    bool had_child = GENERATOR::ChoiceTree::next_child();
-    if (had_child) {
-        ++children_visited;
-        cout << "next child at " << get_depth() << ", value " << get_score() << endl;
-    }
-    else {
-        cout << "end" << endl;
-    }
-    return had_child;
+void GameTree::parent(const std::vector<ChoiceNode>& choices) {
+    REQUIRE(node->parent != NULL);
+    node = node->parent;
+}
+
+int GameTree::child(const std::vector<ChoiceNode>& choices) {
+    node = node->children.at(choices.back().action);
+    return node->player;
+}
+
+int GameTree::get_child_count(const std::vector<ChoiceNode>& choices) {
+    return node->children.size();
+}
+
+int GameTree::get_score() {
+    return node->score;
 }
 
 }}

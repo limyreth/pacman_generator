@@ -10,30 +10,21 @@
 
 #pragma once
 
-#include "../generator/ChoiceTree.h"
 #include "../model/Action.h"
-
-#include <boost/shared_ptr.hpp>
-using boost::shared_ptr;
 
 namespace PACMAN {
 
-    namespace TEST {
+    namespace GENERATOR {
 
-        class ChoiceTree : public GENERATOR::ChoiceTree
-        {
-        public:
-            ChoiceTree(int max_depth, GENERATOR::GameTree& tree) ;
+        struct ChoiceNode {
+            // the move from this node to the next
+            MODEL::Action action;  
 
-            void parent();
-            bool next_child();
+            // index of player making the move
+            int player;  
 
-            inline int get_children_visited() {
-                return children_visited;
-            }
-
-        private:
-            int children_visited; // if a child is visited twice, then it is counted twice = the number of calls to next_child that return true
+            // alpha or beta value. Depends on player.
+            int alpha_beta;
         };
 
     }
