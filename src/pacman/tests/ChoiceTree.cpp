@@ -27,7 +27,7 @@ ChoiceTree::ChoiceTree(int max_depth, GENERATOR::GameTree& tree)
 {
 }
 
-void ChoiceTree::parent() {
+int ChoiceTree::parent() {
     cout << "parent" << endl;
     GENERATOR::ChoiceTree::parent();
 }

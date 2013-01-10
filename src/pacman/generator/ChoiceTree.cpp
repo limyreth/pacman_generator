@@ -26,9 +26,10 @@ ChoiceTree::ChoiceTree(int max_depth, GameTree& tree)
     choices.emplace_back(ChoiceNode{-1, tree.init(), -1});
 }
 
-void ChoiceTree::parent() {
+int ChoiceTree::parent() {
     tree.parent(choices);
     choices.pop_back();
+    return choices.back().action;
 }
 
 bool ChoiceTree::next_child() {

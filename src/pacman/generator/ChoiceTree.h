@@ -36,8 +36,12 @@ namespace PACMAN {
         public:
             ChoiceTree(int max_depth, GameTree& tree) ;
 
-            // move current node pointer to parent
-            virtual void parent();
+            /*
+             * Move current node pointer to parent
+             *
+             * Returns action used to get to child that was the current node
+             */
+            virtual int parent();
 
             // move to next child, starting with the first child
             // Returns whether there actually was a child

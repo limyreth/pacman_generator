@@ -25,7 +25,7 @@ namespace PACMAN {
         public:
             ChoiceTree(int max_depth, GENERATOR::GameTree& tree) ;
 
-            void parent();
+            int parent();
             bool next_child();
 
             inline int get_children_visited() {

@@ -43,7 +43,7 @@ namespace PACMAN {
 
             int translate(int i) const;
 
-            void minimax();
+            std::vector<MODEL::Action> minimax();
 
         private:
             ChoiceTree& choice_tree;
