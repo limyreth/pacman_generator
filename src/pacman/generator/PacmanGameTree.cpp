@@ -163,6 +163,7 @@ int PacmanGameTree::progress_game_state(const vector<ChoiceNode>& choices) {
         // proceed to next state
         state = GameState(actions, &state, uihints);
 
+        // proceed even further
         next_player = progress_game_until_choice(state);
     }
     
