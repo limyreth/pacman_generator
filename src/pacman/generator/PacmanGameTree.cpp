@@ -34,6 +34,7 @@ PacmanGameTree::PacmanGameTree(int max_depth)
 
 int PacmanGameTree::init() {
     INVARIANTS_ON_EXIT;
+
     // progress to initial choice
     int next_player = progress_game_until_choice(get_state());
     ASSERT(next_player > -1); // the game of pacman has choices
@@ -44,8 +45,8 @@ int PacmanGameTree::init() {
 
 void PacmanGameTree::parent(const vector<ChoiceNode>& choices) {
     INVARIANTS_ON_EXIT;
-    REQUIRE(!states.empty());
     REQUIRE(choices.size() > 1);
+    REQUIRE(initialised);
 
     auto previous = choices.back();
 
@@ -57,22 +58,20 @@ void PacmanGameTree::parent(const vector<ChoiceNode>& choices) {
 
 int PacmanGameTree::child(const vector<ChoiceNode>& choices) {
     INVARIANTS_ON_EXIT;
-    REQUIRE(!states.empty());
-
+    REQUIRE(initialised);
     REQUIRE(choices.back().action < get_child_count(choices));
 
     const int next_player = progress_game_state(choices);
-
     return next_player;
 }
 
 int PacmanGameTree::get_score() {
-    REQUIRE(!states.empty());
+    REQUIRE(initialised);
     return get_state().get_score();
 }
 
 int PacmanGameTree::get_child_count(const vector<ChoiceNode>& choices) {
-    REQUIRE(!states.empty());
+    REQUIRE(initialised);
     LegalActions legal_actions;
     get_state().get_player(choices.back().player).get_legal_actions(legal_actions);
     return legal_actions.count;
@@ -184,8 +183,7 @@ int PacmanGameTree::progress_game_until_choice(GameState& state) {
 
 
 void PacmanGameTree::invariants() const {
-    // Invariant: the action field of all ancestors is valid and shows the path
-    // to the current node
+    REQUIRE(!states.empty());
 }
 
 }}
