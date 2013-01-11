@@ -97,7 +97,7 @@ IPoint PlayerState::get_tile_pos() const {
 LegalActions PlayerState::get_legal_actions() const {
     LegalActions legal_actions;
     if (must_repeat_previous_action) {
-        legal_actions.count = -1;
+        legal_actions.count = 0;
         legal_actions.reverse_action = -1;
     }
     else {
