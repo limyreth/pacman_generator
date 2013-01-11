@@ -111,6 +111,34 @@ int PacmanGameTree::get_first_undecided(int player) const {
 }
 
 /*
+ * Get action of desired_player for current round
+ *
+ * Returns -1 if no choice was made for the player
+ */
+int PacmanGameTree::get_action(int desired_player, const std::vector<ChoiceNode>& choices) const {
+    REQUIRE(desired_player >= 0);
+    REQUIRE(desired_player < PLAYER_COUNT);
+
+    if (has_choice(desired_player)) {
+        int prev_player = PLAYER_COUNT;
+        for (auto it = choices.rbegin(); it != choices.rend(); it++) {
+            auto player = (*it).player;
+            if (player >= prev_player) {
+                return -1;  // no choice made for this player
+            }
+            if (player == desired_player) {
+                return (*it).action;
+            }
+            prev_player = player;
+        }
+    }
+    else {
+        return 0;
+    }
+    ASSERT(false);
+}
+
+/*
  * Progresses the game up til game over, or the next choice
  *
  * Returns the player who has to make a choice, or -1 if game over
@@ -134,25 +162,7 @@ int PacmanGameTree::progress_game_state(const vector<ChoiceNode>& choices) {
         // get actions
         Action actions[PLAYER_COUNT] = {-1, -1, -1, -1, -1};
         for (int i=0; i<PLAYER_COUNT; ++i) {
-            if (has_choice(i)) {
-                // TODO extract get_action(i)
-                int prev_player = PLAYER_COUNT;
-                for (auto it = choices.rbegin(); it != choices.rend(); it++) {
-                    auto player = (*it).player;
-                    if (player >= prev_player) {
-                        ASSERT(false);  // no choice made for this player
-                    }
-                    if (player == i) {
-                        actions[i] = (*it).action;
-                        break;
-                    }
-                    prev_player = player;
-                }
-                ENSURE(actions[i] > -1);
-            }
-            else {
-                actions[i] = 0;
-            }
+            actions[i] = get_action(i, choices);
         }
 
         // proceed to next state
