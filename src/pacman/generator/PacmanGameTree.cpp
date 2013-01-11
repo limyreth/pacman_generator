@@ -154,7 +154,7 @@ int PacmanGameTree::progress_game_state(const vector<ChoiceNode>& choices) {
     int next_player = get_first_undecided(get_state(), choices.back().player);
 
     if (next_player == -1) {
-        int old_states_size = states.size();
+        const int old_states_size = states.size();
         GameState state = get_state();
 
         // get actions
