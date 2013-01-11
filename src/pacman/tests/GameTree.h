@@ -40,8 +40,8 @@ namespace PACMAN {
             int init();
             void parent(const std::vector<GENERATOR::ChoiceNode>& choices);
             int child(const std::vector<GENERATOR::ChoiceNode>& choices);
-            int get_child_count(const std::vector<GENERATOR::ChoiceNode>& choices);
-            int get_score();
+            int get_child_count(const std::vector<GENERATOR::ChoiceNode>& choices) const;
+            int get_score() const;
 
         private:
             shared_ptr<TreeNode> node;  // curent node, starts as root

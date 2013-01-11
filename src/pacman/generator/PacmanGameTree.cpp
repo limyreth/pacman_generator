@@ -65,12 +65,12 @@ int PacmanGameTree::child(const vector<ChoiceNode>& choices) {
     return next_player;
 }
 
-int PacmanGameTree::get_score() {
+int PacmanGameTree::get_score() const {
     REQUIRE(initialised);
     return get_state().get_score();
 }
 
-int PacmanGameTree::get_child_count(const vector<ChoiceNode>& choices) {
+int PacmanGameTree::get_child_count(const vector<ChoiceNode>& choices) const {
     REQUIRE(initialised);
     LegalActions legal_actions;
     get_state().get_player(choices.back().player).get_legal_actions(legal_actions);

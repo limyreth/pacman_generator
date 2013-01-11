@@ -45,10 +45,10 @@ namespace PACMAN {
              */
             virtual int child(const std::vector<ChoiceNode>& choices) = 0;
 
-            virtual int get_child_count(const std::vector<ChoiceNode>& choices) = 0;
+            virtual int get_child_count(const std::vector<ChoiceNode>& choices) const = 0;
 
             // score of current game state
-            virtual int get_score() = 0;
+            virtual int get_score() const = 0;
         };
 
     }

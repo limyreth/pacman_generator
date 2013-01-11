@@ -31,8 +31,8 @@ namespace PACMAN {
             int init();
             void parent(const std::vector<ChoiceNode>& choices);
             int child(const std::vector<ChoiceNode>& choices);
-            int get_child_count(const std::vector<ChoiceNode>& choices);
-            int get_score();
+            int get_child_count(const std::vector<ChoiceNode>& choices) const;
+            int get_score() const;
 
         protected:
             void invariants() const;

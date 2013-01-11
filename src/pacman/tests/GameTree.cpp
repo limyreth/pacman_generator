@@ -41,11 +41,11 @@ int GameTree::child(const std::vector<ChoiceNode>& choices) {
     return node->player;
 }
 
-int GameTree::get_child_count(const std::vector<ChoiceNode>& choices) {
+int GameTree::get_child_count(const std::vector<ChoiceNode>& choices) const {
     return node->children.size();
 }
 
-int GameTree::get_score() {
+int GameTree::get_score() const {
     return node->score;
 }
 
