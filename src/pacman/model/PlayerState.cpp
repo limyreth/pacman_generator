@@ -94,7 +94,8 @@ IPoint PlayerState::get_tile_pos() const {
     return IPoint(pos.x / TILE_SIZE, pos.y / TILE_SIZE);
 }
 
-void PlayerState::get_legal_actions(LegalActions& legal_actions) const {
+LegalActions PlayerState::get_legal_actions() const {
+    LegalActions legal_actions;
     if (must_repeat_previous_action) {
         legal_actions.count = -1;
         legal_actions.reverse_action = -1;
@@ -114,6 +115,8 @@ void PlayerState::get_legal_actions(LegalActions& legal_actions) const {
 
         ENSURE(legal_actions.count > 0);
     }
+    ENSURE(legal_actions.count <= MAX_ACTION_COUNT);
+    return legal_actions;
 }
 
 /*

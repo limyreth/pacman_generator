@@ -47,7 +47,7 @@ namespace PACMAN {
 #define MAP_WIDTH 28
 #define MAP_HEIGHT 31
 
-#define ACTION_COUNT 4
+#define MAX_ACTION_COUNT 4
 
 // size of ghost/pacman
 #define PLAYER_SIZE 2.0 * TILE_SIZE * 0.8

@@ -74,9 +74,7 @@ int PacmanGameTree::get_score() const {
 
 int PacmanGameTree::get_child_count(const vector<ChoiceNode>& choices) const {
     REQUIRE(initialised);
-    LegalActions legal_actions;
-    get_state().get_player(choices.back().player).get_legal_actions(legal_actions);
-    return legal_actions.count;
+    return get_state().get_player(choices.back().player).get_legal_actions().count;
 }
 
 /*
@@ -85,9 +83,7 @@ int PacmanGameTree::get_child_count(const vector<ChoiceNode>& choices) const {
 bool PacmanGameTree::has_choice(const GameState& state, int player) const {
     REQUIRE(player >= 0);
     REQUIRE(player < PLAYER_COUNT);
-    LegalActions legal_actions;
-    state.get_player(player).get_legal_actions(legal_actions);
-    return legal_actions.count > 1;
+    return state.get_player(player).get_legal_actions().count > 1;
 }
 /*
  * Returns first player that still needs to choose an action for next tick

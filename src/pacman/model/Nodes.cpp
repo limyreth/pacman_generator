@@ -122,7 +122,7 @@ void Nodes::ensure_valid(const Node* node, const vector<Node*>& all_nodes) const
     ENSURE(node->location.y < MAP_HEIGHT * TILE_SIZE);
 
     // required by PlayerState
-    ENSURE(node->neighbours.size() <= ACTION_COUNT);
+    ENSURE(node->neighbours.size() <= MAX_ACTION_COUNT);
 
     // must have neighbours
     ENSURE(node->neighbours.size() > 0);
