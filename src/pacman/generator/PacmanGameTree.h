@@ -38,9 +38,9 @@ namespace PACMAN {
             void invariants() const;
 
         private:
-            bool has_choice(int player) const;
+            bool has_choice(const MODEL::GameState&, int player) const;
             int get_action(int player, const std::vector<ChoiceNode>& choices) const;
-            int get_first_undecided(int player) const;
+            int get_first_undecided(const MODEL::GameState&, int player) const;
             int progress_game_state(const std::vector<ChoiceNode>& choices);
             int progress_game_until_choice(MODEL::GameState& state);
 

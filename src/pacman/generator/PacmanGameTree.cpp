@@ -82,11 +82,11 @@ int PacmanGameTree::get_child_count(const vector<ChoiceNode>& choices) const {
 /*
  * Returns true if player has multiple legal actions to act upon the current state
  */
-bool PacmanGameTree::has_choice(int player) const {
+bool PacmanGameTree::has_choice(const GameState& state, int player) const {
     REQUIRE(player >= 0);
     REQUIRE(player < PLAYER_COUNT);
     LegalActions legal_actions;
-    get_state().get_player(player).get_legal_actions(legal_actions);
+    state.get_player(player).get_legal_actions(legal_actions);
     return legal_actions.count > 1;
 }
 /*
@@ -96,7 +96,7 @@ bool PacmanGameTree::has_choice(int player) const {
  *
  * player: index of last player that has chosen
  */
-int PacmanGameTree::get_first_undecided(const int player) const {
+int PacmanGameTree::get_first_undecided(const GameState& state, int player) const {
     REQUIRE(player >= -1);
     REQUIRE(player < PLAYER_COUNT);
 
@@ -112,7 +112,7 @@ int PacmanGameTree::get_first_undecided(const int player) const {
         if (undecided_player == PLAYER_COUNT) {
             return undecided_player = -1;
         }
-    } while (!has_choice(undecided_player));
+    } while (!has_choice(state, undecided_player));
 
     return undecided_player;
 }
@@ -126,7 +126,7 @@ int PacmanGameTree::get_action(int desired_player, const std::vector<ChoiceNode>
     REQUIRE(desired_player >= 0);
     REQUIRE(desired_player < PLAYER_COUNT);
 
-    if (has_choice(desired_player)) {
+    if (has_choice(get_state(), desired_player)) {
         int prev_player = PLAYER_COUNT;
         for (auto it = choices.rbegin(); it != choices.rend(); it++) {
             auto player = (*it).player;
@@ -155,7 +155,7 @@ int PacmanGameTree::progress_game_state(const vector<ChoiceNode>& choices) {
     REQUIRE(choices.back().action > -1);  // current player has chosen
 
     // sufficient choices made to proceed to next state?
-    int next_player = get_first_undecided(choices.back().player);
+    int next_player = get_first_undecided(get_state(), choices.back().player);
 
     if (next_player == -1) {
         int old_states_size = states.size();
@@ -177,7 +177,7 @@ int PacmanGameTree::progress_game_state(const vector<ChoiceNode>& choices) {
         ASSERT(states.size() == old_states_size + 1);
     }
 
-    ENSURE(get_state().is_game_over() || has_choice(next_player));
+    ENSURE(get_state().is_game_over() || has_choice(get_state(), next_player));
     ENSURE(!get_state().is_game_over() || next_player == -1);
     return next_player;
 }
@@ -191,14 +191,14 @@ int PacmanGameTree::progress_game_until_choice(GameState& state) {
 
     // progress as far as possible
     Action actions[PLAYER_COUNT] = {0, 0, 0, 0, 0};
-    while (!state.is_game_over() && (next_player = get_first_undecided(-1)) == -1) {
+    while (!state.is_game_over() && (next_player = get_first_undecided(state, -1)) == -1) {
         state = GameState(actions, &state, uihints);
     }
 
     // push state
     states.push_back(state);
 
-    ENSURE(get_state().is_game_over() || has_choice(next_player));
+    ENSURE(get_state().is_game_over() || has_choice(get_state(), next_player));
     ENSURE(!get_state().is_game_over() || next_player == -1);
     return next_player;
 }
