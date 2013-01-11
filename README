@@ -1,12 +1,14 @@
-
-Short Description
-=================
-
 A fork of pacman_sdl. pacman_sdl is a clone of the classic arcade game using
 C++ and SDL.
 
 This fork calculates and displays perfect play for perfect pacman and perfect
 ghosts.
+
+
+Project state
+=============
+
+Under development; not ready for usage.
 
 
 License
