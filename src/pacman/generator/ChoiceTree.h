@@ -48,20 +48,23 @@ namespace PACMAN {
             virtual bool next_child();
 
             // will calling next_child() return our first child?
-            bool is_first_child();
+            bool is_first_child() const;
 
-            bool is_leaf();
+            bool is_leaf() const;
 
-            int get_score();
-            int get_depth();  // current depth in the tree, depth is 0-based index
-            int get_max_depth();  // inclusive max
+            int get_score() const;
+            int get_depth() const;  // current depth in the tree, depth is 0-based index
+            int get_max_depth() const;  // inclusive max
 
             const GENERATOR::ChoiceNode& get() const;
             const GENERATOR::ChoiceNode& get(int depth) const;
             void set_alpha_beta(int alpha_beta);
 
         private:
-            int max_depth;
+            void invariants();
+
+        private:
+            const int max_depth;
             GameTree& tree;
             std::vector<GENERATOR::ChoiceNode> choices;
         };
