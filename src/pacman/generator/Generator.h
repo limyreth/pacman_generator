@@ -41,8 +41,6 @@ namespace PACMAN {
             int get_alpha(int depth) const;
             int get_beta() const;
             int get_beta(int depth) const;
-            void push_alpha_beta();
-            void pop_alpha_beta();
 
             int translate(int i) const;
 

@@ -58,10 +58,6 @@ int Generator::get_beta(int depth) const {
     return 999999999; // +infinity TODO calculate and set this to MAX_SCORE, have it in Spec constants
 }
 
-void Generator::push_alpha_beta() {
-    INVARIANTS_ON_EXIT;
-}
-
 /*
  * Explore all choices of current choice node
  */
