@@ -94,20 +94,23 @@ bool PacmanGameTree::has_choice(int player) const {
  *
  * player: index of last player that has chosen
  */
-int PacmanGameTree::get_first_undecided(int player) const {
+int PacmanGameTree::get_first_undecided(const int player) const {
     REQUIRE(player >= 0);
     REQUIRE(player < PLAYER_COUNT);
 
-    while (!has_choice(player)) {
-        ++player;
-        if (player == PLAYER_COUNT) {
-            player = -1;
+    int undecided_player = player;
+
+    while (!has_choice(undecided_player)) {
+        ++undecided_player;
+        if (undecided_player == PLAYER_COUNT) {
+            undecided_player = -1;
             break;
         }
     }
 
-    ENSURE(player < PLAYER_COUNT);
-    return player;
+    ENSURE(undecided_player < PLAYER_COUNT);
+    ENSURE(undecided_player == -1 || undecided_player > player);
+    return undecided_player;
 }
 
 /*
@@ -151,6 +154,7 @@ int PacmanGameTree::progress_game_state(const vector<ChoiceNode>& choices) {
     int next_player = get_first_undecided(choices.back().player);
 
     if (next_player == -1) {
+        int old_states_size = states.size();
         GameState state = get_state();
 
         // get actions
@@ -165,6 +169,8 @@ int PacmanGameTree::progress_game_state(const vector<ChoiceNode>& choices) {
 
         // proceed even further
         next_player = progress_game_until_choice(state);
+
+        ASSERT(states.size() == old_states_size + 1);
     }
     
     ENSURE(get_state().is_game_over() || has_choice(next_player));
