@@ -49,9 +49,9 @@
  * - infinite recursion, e.g. invariants() calling a function that checks
  *   invariants at the end too.
  *
- * - return statements skipping your ENSUREs
+ * - return statements skipping your ENSUREs -> use http://www.boost.org/doc/libs/1_41_0/libs/scope_exit/doc/html/scope_exit/tutorial.html
  *
- * - return statements skipping your ASSERT_INVARIANTS, ... Use INVARIANTS_ON_EXIT for that.
+ * - return statements skipping your ASSERT_INVARIANTS -> Use INVARIANTS_ON_EXIT for that.
  */
 #define ASSERT_INVARIANTS() this->invariants()
 
