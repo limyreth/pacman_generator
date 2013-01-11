@@ -36,6 +36,8 @@
 
 /* Call to check invariants
  *
+ * You probably want INVARIANTS_ON_EXIT instead
+ *
  * Recommend calling at end of each non-const method. I.e. whenever state
  * changes.
  *
@@ -46,9 +48,13 @@
  * - infinite recursion, e.g. invariants() calling a function that checks
  *   invariants at the end too.
  *
- * - return statements skipping your ENSUREs, ...
+ * - return statements skipping your ENSUREs
+ *
+ * - return statements skipping your ASSERT_INVARIANTS, ... Use INVARIANTS_ON_EXIT for that.
  */
 #define ASSERT_INVARIANTS() this->invariants()
+
+#define INVARIANTS_ON_EXIT ASSERTION::InvariantsOnExit _ASSERTION_invariants_on_exit(this)
 
 // Invariant, use inside Assertable::invariants()
 #define INVARIANT(condition) ASSERTION::my_assert(condition, "Invariant: " #condition)
@@ -69,6 +75,25 @@ namespace ASSERTION {
     class AssertionException : public boost::exception {
     public:
         AssertionException() {}
+    };
+
+    class InvariantsOnExit;
+
+    class Assertable {
+    protected:
+        virtual void invariants() const = 0;
+        friend InvariantsOnExit;
+    };
+
+    class InvariantsOnExit {
+    public:
+        InvariantsOnExit(Assertable* a) : assertable(a) {}
+        ~InvariantsOnExit() {
+            assertable->invariants();
+        }
+
+    private:
+        Assertable* assertable;
     };
 
     void my_assert(bool condition, const char* message);
