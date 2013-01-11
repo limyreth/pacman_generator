@@ -26,6 +26,7 @@
 #define ENSURE(condition) ((void)0)
 #define ASSERT_INVARIANTS() ((void)0)
 #define INVARIANT(condition) ((void)0)
+#define INVARIANTS_ON_EXIT 0
 #define ASSERT(condition) ((void)0)
 
 #else
