@@ -133,14 +133,20 @@ int PacmanGameTree::progress_game_state(const vector<ChoiceNode>& choices) {
 
         // get actions
         Action actions[PLAYER_COUNT] = {-1, -1, -1, -1, -1};
-        for (int i=0; i<=choices.back().player; ++i) {
+        for (int i=0; i<PLAYER_COUNT; ++i) {
             if (has_choice(i)) {
                 // TODO extract get_action(i)
+                int prev_player = PLAYER_COUNT;
                 for (auto it = choices.rbegin(); it != choices.rend(); it++) {
-                    if ((*it).player == i) {
+                    auto player = (*it).player;
+                    if (player >= prev_player) {
+                        ASSERT(false);  // no choice made for this player
+                    }
+                    if (player == i) {
                         actions[i] = (*it).action;
                         break;
                     }
+                    prev_player = player;
                 }
                 ENSURE(actions[i] > -1);
             }
