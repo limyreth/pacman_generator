@@ -12,6 +12,7 @@
 
 #include "ChoiceNode.h"
 #include "../model/Action.h"
+#include "../util/assertion.h"
 
 #include <boost/shared_ptr.hpp>
 using boost::shared_ptr;
@@ -31,7 +32,7 @@ namespace PACMAN {
          * Every ChoiceNode has an alpha_beta value. It is not initialised,
          * ChoiceTree promises not to do anything with it.
          */
-        class ChoiceTree
+        class ChoiceTree : public ASSERTION::Assertable
         {
         public:
             ChoiceTree(int max_depth, GameTree& tree) ;
@@ -60,8 +61,8 @@ namespace PACMAN {
             const GENERATOR::ChoiceNode& get(int depth) const;
             void set_alpha_beta(int alpha_beta);
 
-        private:
-            void invariants();
+        protected:
+            void invariants() const;
 
         private:
             const int max_depth;

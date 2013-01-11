@@ -10,8 +10,6 @@
 
 #include "Generator.h"
 
-#include "../util/assertion.h"
-
 using namespace PACMAN::MODEL;
 using namespace PACMAN::SPECIFICATION;
 
@@ -23,13 +21,13 @@ namespace PACMAN {
 Generator::Generator(ChoiceTree& tree) 
 :   choice_tree(tree)
 {
-    ASSERT_INVARIANTS();
+    INVARIANTS_ON_EXIT;
 }
 
 void Generator::run(int& best_score) {
+    INVARIANTS_ON_EXIT;
     auto best_path = minimax();
     best_score = choice_tree.get().alpha_beta;
-    ASSERT_INVARIANTS();
 }
 
 int Generator::get_alpha() const {
@@ -61,8 +59,7 @@ int Generator::get_beta(int depth) const {
 }
 
 void Generator::push_alpha_beta() {
-
-    ASSERT_INVARIANTS();
+    INVARIANTS_ON_EXIT;
 }
 
 /*
@@ -80,6 +77,7 @@ vector<Action> Generator::minimax() {
     bool search_complete = false;
     int child_action = -1; // the action used to get to the child we just examined
     while (!search_complete) {
+        INVARIANTS_ON_EXIT;
         auto& best_path = paths.at(choice_tree.get_depth());
         ASSERT(best_path.capacity() == choice_tree.get_max_depth() - choice_tree.get_depth());  // assert we reserved the right amount
 
@@ -127,15 +125,13 @@ vector<Action> Generator::minimax() {
                 }
             }
         }
-
-        ASSERT_INVARIANTS();
     }
 
     ENSURE(choice_tree.get_depth() == 0);
     return paths.at(0);
 }
 
-void Generator::invariants() {
+void Generator::invariants() const {
     // Invariant: the action field of all ancestors is valid and shows the path
     // to the current node
 }

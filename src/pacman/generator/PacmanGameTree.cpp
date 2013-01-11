@@ -15,7 +15,6 @@
 #include "../model/PacmanNodes.h"
 #include "../model/GhostNodes.h"
 #include "../Constants.h"
-#include "../util/assertion.h"
 
 using namespace PACMAN::MODEL;
 using namespace PACMAN::SPECIFICATION;
@@ -27,23 +26,24 @@ namespace PACMAN {
 PacmanGameTree::PacmanGameTree(int max_depth) 
 :   initialised(false)
 {
+    INVARIANTS_ON_EXIT;
     states.reserve(max_depth+1);  // Note: this is probably too much as sometimes multiple players need to move at the same time in the same tick
 
     states.emplace_back(PACMAN_NODES.get_spawn(), GHOST_NODES.get_spawns());
-    ASSERT_INVARIANTS();
 }
 
 int PacmanGameTree::init() {
+    INVARIANTS_ON_EXIT;
     // progress to initial choice
     int next_player = progress_game_until_choice(get_state());
     ASSERT(next_player > -1); // the game of pacman has choices
 
     initialised = true;
-    ASSERT_INVARIANTS();
     return next_player;
 }
 
 void PacmanGameTree::parent(const vector<ChoiceNode>& choices) {
+    INVARIANTS_ON_EXIT;
     REQUIRE(!states.empty());
     REQUIRE(choices.size() > 1);
 
@@ -53,17 +53,16 @@ void PacmanGameTree::parent(const vector<ChoiceNode>& choices) {
         states.pop_back();
     }
 
-    ASSERT_INVARIANTS();
 }
 
 int PacmanGameTree::child(const vector<ChoiceNode>& choices) {
+    INVARIANTS_ON_EXIT;
     REQUIRE(!states.empty());
 
     REQUIRE(choices.back().action < get_child_count(choices));
 
     const int next_player = progress_game_state(choices);
 
-    ASSERT_INVARIANTS();
     return next_player;
 }
 
@@ -118,6 +117,7 @@ int PacmanGameTree::get_first_undecided(int player) const {
  * Returns the player who has to make a choice, or -1 if game over
  */
 int PacmanGameTree::progress_game_state(const vector<ChoiceNode>& choices) {
+    INVARIANTS_ON_EXIT;
     REQUIRE(choices.back().action > -1);  // current player has chosen
 
     // sufficient choices made to proceed to next state?
@@ -158,7 +158,6 @@ int PacmanGameTree::progress_game_state(const vector<ChoiceNode>& choices) {
     
     ENSURE(get_state().is_game_over() || has_choice(next_player));
     ENSURE(!get_state().is_game_over() || next_player == -1);
-    ASSERT_INVARIANTS();
     return next_player;
 }
 
@@ -166,6 +165,7 @@ int PacmanGameTree::progress_game_state(const vector<ChoiceNode>& choices) {
  * Progress game state until game over or a player has a choice
  */
 int PacmanGameTree::progress_game_until_choice(GameState& state) {
+    INVARIANTS_ON_EXIT;
     int next_player = -1;
 
     // progress as far as possible
@@ -179,12 +179,11 @@ int PacmanGameTree::progress_game_until_choice(GameState& state) {
 
     ENSURE(get_state().is_game_over() || has_choice(next_player));
     ENSURE(!get_state().is_game_over() || next_player == -1);
-    ASSERT_INVARIANTS();
     return next_player;
 }
 
 
-void PacmanGameTree::invariants() {
+void PacmanGameTree::invariants() const {
     // Invariant: the action field of all ancestors is valid and shows the path
     // to the current node
 }

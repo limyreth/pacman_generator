@@ -12,7 +12,6 @@
 
 #include "ChoiceNode.h"
 #include "GameTree.h"
-#include "../util/assertion.h"
 
 namespace PACMAN {
 
@@ -23,19 +22,20 @@ ChoiceTree::ChoiceTree(int max_depth, GameTree& tree)
     tree(tree)
 {
     REQUIRE(max_depth >= 0);
+    INVARIANTS_ON_EXIT;
     choices.reserve(get_max_depth()+1);
     choices.emplace_back(ChoiceNode{-1, tree.init(), -1});
-    ASSERT_INVARIANTS();
 }
 
 int ChoiceTree::parent() {
+    INVARIANTS_ON_EXIT;
     tree.parent(choices);
     choices.pop_back();
-    ASSERT_INVARIANTS();
     return choices.back().action;
 }
 
 bool ChoiceTree::next_child() {
+    INVARIANTS_ON_EXIT;
     if (choices.back().action + 1 >= tree.get_child_count(choices)) {
         return false;
     }
@@ -43,7 +43,6 @@ bool ChoiceTree::next_child() {
     choices.back().action++;
     int player = tree.child(choices);
     choices.emplace_back(ChoiceNode{-1, player, -1});
-    ASSERT_INVARIANTS();
     return true;
 }
 
@@ -77,11 +76,11 @@ const GENERATOR::ChoiceNode& ChoiceTree::get(int depth) const {
 }
 
 void ChoiceTree::set_alpha_beta(int alpha_beta) {
+    INVARIANTS_ON_EXIT;
     choices.back().alpha_beta = alpha_beta;
-    ASSERT_INVARIANTS();
 }
 
-void ChoiceTree::invariants() {
+void ChoiceTree::invariants() const {
     INVARIANT(!choices.empty());
 }
 

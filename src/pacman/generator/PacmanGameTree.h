@@ -14,6 +14,7 @@
 #include "../model/Action.h"
 #include "../model/GameState.h"
 #include "../gui/NullUIHints.h"
+#include "../util/assertion.h"
 
 namespace PACMAN {
 
@@ -22,7 +23,7 @@ namespace PACMAN {
         /* 
          * Quite like a ChoiceTree, but doesn't keep track of choices made
          */
-        class PacmanGameTree : public GameTree
+        class PacmanGameTree : public GameTree, public ASSERTION::Assertable
         {
         public:
             PacmanGameTree(int max_depth);
@@ -33,8 +34,10 @@ namespace PACMAN {
             int get_child_count(const std::vector<ChoiceNode>& choices);
             int get_score();
 
+        protected:
+            void invariants() const;
+
         private:
-            void invariants();
             bool has_choice(int player) const;
             int get_first_undecided(int player) const;
             int progress_game_state(const std::vector<ChoiceNode>& choices);

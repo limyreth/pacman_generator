@@ -40,7 +40,6 @@
 #include "UIHints.h"
 #include "Action.h"
 #include "../Utility.h"
-#include "../util/assertion.h"
 #include "Node.h"
 #include <string.h>
 
@@ -75,6 +74,7 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns)
     vulnerable_ticks_left(-1),
     idler_ticks_left(0)
 {
+    INVARIANTS_ON_EXIT;
     REQUIRE(pacman_spawn);
 
     memcpy(foods, start_foods, sizeof(start_foods));
@@ -98,8 +98,6 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns)
     }
     // TODO we seem to have only 3 energizers, that's not right...
     ASSERT(food_count_ == food_count); // TODO might want asserts to throw exceptions and have them add some interesting output to display too
-
-    ASSERT_INVARIANTS();
 }
 
 /*
@@ -110,6 +108,7 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns)
 GameState::GameState(const Action* actions, const GameState* state, UIHints& uihints)
 :   GameState(*state)
 {
+    INVARIANTS_ON_EXIT;
     REQUIRE(!did_pacman_win());
     REQUIRE(!did_pacman_lose());
     REQUIRE(actions);
@@ -284,7 +283,6 @@ GameState::GameState(const Action* actions, const GameState* state, UIHints& uih
     ENSURE(lives <= state->lives);
     ENSURE(fruit_ticks_left == -1 || fruit_ticks_left == FRUIT_TICKS || fruit_ticks_left == state->fruit_ticks_left - 1);
     ENSURE(vulnerable_ticks_left == -1 || vulnerable_ticks_left == VULNERABLE_TICKS || vulnerable_ticks_left == state->vulnerable_ticks_left - 1);
-    ASSERT_INVARIANTS();
 }
 
 bool GameState::get_vulnerable_ghost_count() const {

@@ -19,7 +19,7 @@ namespace PACMAN {
 
         class Node;
 
-        class PlayerState
+        class PlayerState : public ASSERTION::Assertable
         {
         public:
             PlayerState();
@@ -36,9 +36,11 @@ namespace PACMAN {
 
             Action get_action_along_direction(Direction::Type direction) const;
 
+        protected:
+            void invariants() const;
+
         private:
             void move(double distance);
-            void invariants() const;
 
         private:
             FPoint pos;  // current position in pixels

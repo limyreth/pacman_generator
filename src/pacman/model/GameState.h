@@ -15,6 +15,7 @@
 #include "GhostState.h"
 #include "../specification/Food.h"
 #include "../Constants.h"
+#include "../util/assertion.h"
 
 #include <vector>
 
@@ -29,7 +30,7 @@ namespace PACMAN {
         class UIHints;
 
         // Each GameState shows the state at the begin/end of a tick
-        class GameState
+        class GameState : public ASSERTION::Assertable
         {
         public:
             GameState();
@@ -75,9 +76,10 @@ namespace PACMAN {
                 return foods;
             }
 
-        private:
+        protected:
             void invariants() const;
 
+        private:
             void resetLvl();
             void nextLvl();
 

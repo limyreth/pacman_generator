@@ -32,8 +32,8 @@ PlayerState::PlayerState(const Node* initial_node)
     origin(NULL),
     destination(initial_node)
 {
-    ENSURE(destination);
-    ASSERT_INVARIANTS();
+    INVARIANTS_ON_EXIT;
+    REQUIRE(initial_node);
 }
 
 /*
@@ -45,6 +45,7 @@ PlayerState::PlayerState(const Node* initial_node)
  * postcondition: legal_actions contains the legal actions for the next move.
  */
 void PlayerState::move(double distance_moved, Action next_action) {
+    INVARIANTS_ON_EXIT;
     REQUIRE(distance_moved >= 0.0);
     REQUIRE(next_action >= 0);
     REQUIRE(next_action < destination->get_neighbours().size());
@@ -69,11 +70,10 @@ void PlayerState::move(double distance_moved, Action next_action) {
         destination = destination->get_neighbours().at(next_action);
         move(distance_moved_towards_new_destination);
     }
-
-    ASSERT_INVARIANTS();
 }
 
 void PlayerState::move(double distance_moved) {
+    INVARIANTS_ON_EXIT;
     REQUIRE(distance_moved >= 0.0);
 
     FPoint direction = destination->get_location() - pos;
@@ -88,8 +88,6 @@ void PlayerState::move(double distance_moved) {
     else if (tpos.x >= MAP_WIDTH) {
         pos.x -= MAP_WIDTH * TILE_SIZE;
     }
-
-    ASSERT_INVARIANTS();
 }
 
 IPoint PlayerState::get_tile_pos() const {

@@ -11,6 +11,7 @@
 #pragma once
 
 #include "ChoiceTree.h"
+#include "../util/assertion.h"
 
 namespace PACMAN {
 
@@ -26,14 +27,16 @@ namespace PACMAN {
          *
          * Or we could improve the ordering...
          */
-        class Generator
+        class Generator : public ASSERTION::Assertable
         {
         public:
             Generator(ChoiceTree& tree);
             void run(int& best_score);
 
+        protected:
+            void invariants() const;
+
         private:
-            void invariants();
             int get_alpha() const;
             int get_alpha(int depth) const;
             int get_beta() const;
