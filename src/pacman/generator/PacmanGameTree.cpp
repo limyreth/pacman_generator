@@ -163,6 +163,7 @@ int PacmanGameTree::progress_game_state(const vector<ChoiceNode>& choices) {
         Action actions[PLAYER_COUNT] = {-1, -1, -1, -1, -1};
         for (int i=0; i<PLAYER_COUNT; ++i) {
             actions[i] = get_action(i, choices);
+            ASSERT(actions[i] >= 0);  // each player should have chosen by now
         }
 
         // proceed to next state
