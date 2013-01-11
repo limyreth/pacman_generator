@@ -17,6 +17,9 @@
 #include "model/GameState.h"
 #include "model/PacmanNodes.h"
 #include "model/GhostNodes.h"
+#include "generator/ChoiceTree.h"
+#include "generator/PacmanGameTree.h"
+#include "generator/Generator.h"
 #include "gui/GUI.h"
 #include "Log.h"
 #include "util/assertion.h"
@@ -55,12 +58,14 @@ int main( int argc, char** argv ) {
                 return 0;
             }
             else if (str == "--generate") {
-                /*const int MAX_CHOICES = 100;  // the max depth of choices to generate into
+                const int MAX_CHOICES = 100;  // the max depth of choices to generate into
 
-                GENERATOR::PacmanChoiceTree tree;
-                GENERATOR::Generator generator(tree);
+                GENERATOR::PacmanGameTree game_tree(MAX_CHOICES-1);
+                GENERATOR::ChoiceTree choice_tree(MAX_CHOICES-1, game_tree);
+                GENERATOR::Generator generator(choice_tree);
                 int best_score;
-                generator.run(best_score);*/
+                generator.run(best_score);
+
                 return 0;
             }
             else
