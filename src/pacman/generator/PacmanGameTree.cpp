@@ -16,6 +16,8 @@
 #include "../model/GhostNodes.h"
 #include "../Constants.h"
 
+#include <boost/scope_exit.hpp>
+
 using namespace PACMAN::MODEL;
 using namespace PACMAN::SPECIFICATION;
 using std::vector;
@@ -95,21 +97,23 @@ bool PacmanGameTree::has_choice(int player) const {
  * player: index of last player that has chosen
  */
 int PacmanGameTree::get_first_undecided(const int player) const {
-    REQUIRE(player >= 0);
+    REQUIRE(player >= -1);
     REQUIRE(player < PLAYER_COUNT);
 
     int undecided_player = player;
 
-    while (!has_choice(undecided_player)) {
+    BOOST_SCOPE_EXIT(&player, &undecided_player) {
+        ENSURE(undecided_player < PLAYER_COUNT);
+        ENSURE(undecided_player == -1 || undecided_player > player);
+    } BOOST_SCOPE_EXIT_END
+
+    do {
         ++undecided_player;
         if (undecided_player == PLAYER_COUNT) {
-            undecided_player = -1;
-            break;
+            return undecided_player = -1;
         }
-    }
+    } while (!has_choice(undecided_player));
 
-    ENSURE(undecided_player < PLAYER_COUNT);
-    ENSURE(undecided_player == -1 || undecided_player > player);
     return undecided_player;
 }
 
@@ -172,7 +176,7 @@ int PacmanGameTree::progress_game_state(const vector<ChoiceNode>& choices) {
 
         ASSERT(states.size() == old_states_size + 1);
     }
-    
+
     ENSURE(get_state().is_game_over() || has_choice(next_player));
     ENSURE(!get_state().is_game_over() || next_player == -1);
     return next_player;
@@ -187,7 +191,7 @@ int PacmanGameTree::progress_game_until_choice(GameState& state) {
 
     // progress as far as possible
     Action actions[PLAYER_COUNT] = {0, 0, 0, 0, 0};
-    while (!state.is_game_over() && (next_player = get_first_undecided(0)) == -1) {
+    while (!state.is_game_over() && (next_player = get_first_undecided(-1)) == -1) {
         state = GameState(actions, &state, uihints);
     }
 
