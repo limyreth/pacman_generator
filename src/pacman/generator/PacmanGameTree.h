@@ -56,6 +56,10 @@ namespace PACMAN {
             std::vector<MODEL::GameState> states;
             GUI::NullUIHints uihints;
             bool initialised; // true after call to ctor, false otherwise
+
+            // used solely for assertions
+            const int max_depth;
+            int depth;
         };
 
     }

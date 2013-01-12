@@ -26,7 +26,9 @@ namespace PACMAN {
     namespace GENERATOR {
 
 PacmanGameTree::PacmanGameTree(int max_depth) 
-:   initialised(false)
+:   initialised(false),
+    max_depth(max_depth),
+    depth(0)  // root level = depth 0
 {
     INVARIANTS_ON_EXIT;
     states.reserve(max_depth+1);  // Note: this is probably too much as sometimes multiple players need to move at the same time in the same tick
@@ -47,7 +49,7 @@ int PacmanGameTree::init() {
 
 void PacmanGameTree::parent(const vector<ChoiceNode>& choices) {
     INVARIANTS_ON_EXIT;
-    REQUIRE(choices.size() > 1);
+    REQUIRE(choices.size() == depth+1);
     REQUIRE(initialised);
 
     auto previous = choices.back();
@@ -56,11 +58,15 @@ void PacmanGameTree::parent(const vector<ChoiceNode>& choices) {
         states.pop_back();
     }
 
+    depth--;
 }
 
 int PacmanGameTree::child(const vector<ChoiceNode>& choices) {
     INVARIANTS_ON_EXIT;
     REQUIRE(initialised);
+
+    depth++;
+    REQUIRE(choices.size() == depth+1);
     REQUIRE(choices.back().action < get_child_count(choices));
 
     const int next_player = progress_game_state(choices);
@@ -201,7 +207,9 @@ int PacmanGameTree::progress_game_until_choice(GameState& state) {
 
 
 void PacmanGameTree::invariants() const {
-    REQUIRE(!states.empty());
+    INVARIANT(!states.empty());
+    INVARIANT(states.capacity() == max_depth + 1);
+    INVARIANT(states.size() <= depth + 1);
 }
 
 }}
