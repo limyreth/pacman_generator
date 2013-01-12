@@ -52,7 +52,7 @@ void PacmanGameTree::parent(const vector<ChoiceNode>& choices) {
 
     auto previous = choices.back();
 
-    if (choices.back().player >= (*(choices.end()-2)).player) {
+    if ((*(choices.rbegin()+1)).player >= choices.back().player) {
         states.pop_back();
     }
 
