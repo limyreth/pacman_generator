@@ -447,7 +447,7 @@ void MinimaxTests::test_1() {
     int best_score;
     generator.run(best_score);
     assert_equals(best_score, 11);
-    assert_equals(choice_tree.get_children_visited(), 36);  // if more is pruned, could be nice, but that's suspicious
+    assert_equals(game_tree.get_children_visited(), 36);  // if more is pruned, could be nice, but that's suspicious
 }
 
 }}

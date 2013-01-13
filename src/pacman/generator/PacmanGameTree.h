@@ -28,38 +28,25 @@ namespace PACMAN {
         public:
             PacmanGameTree(int max_depth);
 
-            int init();
-            void parent(const std::vector<ChoiceNode>& choices);
-            int child(const std::vector<ChoiceNode>& choices);
-            int get_child_count(const std::vector<ChoiceNode>& choices) const;
+            void parent();
+            void child(const std::vector<MODEL::Action>& actions);
+            MODEL::LegalActions get_legal_actions(int player) const;
             int get_score() const;
+            bool is_leaf() const;
 
         protected:
             void invariants() const;
 
         private:
-            bool has_choice(const MODEL::GameState&, int player) const;
-            int get_action(int player, const std::vector<ChoiceNode>& choices) const;
-            int get_first_undecided(const MODEL::GameState&, int player) const;
-            int progress_game_state(const std::vector<ChoiceNode>& choices);
-            int progress_game_until_choice(MODEL::GameState& state);
-
-            inline MODEL::GameState& get_state() {
-                return states.back();
-            }
-
-            inline const MODEL::GameState& get_state() const {
-                return states.back();
-            }
+            bool generate_actions(const MODEL::GameState& state, MODEL::Action* prev_actions, MODEL::Action* actions);
+            void progress_game_until_choice(MODEL::GameState& state, MODEL::Action* prev_actions);
 
         private:
             std::vector<MODEL::GameState> states;
             GUI::NullUIHints uihints;
-            bool initialised; // true after call to ctor, false otherwise
 
             // used solely for assertions
             const int max_depth;
-            int depth;
         };
 
     }

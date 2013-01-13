@@ -27,13 +27,6 @@ namespace PACMAN {
 
             int parent();
             bool next_child();
-
-            inline int get_children_visited() {
-                return children_visited;
-            }
-
-        private:
-            int children_visited; // if a child is visited twice, then it is counted twice = the number of calls to next_child that return true
         };
 
     }

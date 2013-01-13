@@ -13,41 +13,61 @@
 #include "ChoiceNode.h"
 #include "GameTree.h"
 
-namespace PACMAN {
+using namespace ::PACMAN::MODEL;
+using std::vector;
 
+namespace PACMAN {
     namespace GENERATOR {
 
-ChoiceTree::ChoiceTree(int max_depth, GameTree& tree) 
-:   max_depth(max_depth), 
+ChoiceTree::ChoiceTree(int max_choice_rounds, GameTree& tree) 
+:   max_depth(max_choice_rounds*PLAYER_COUNT), 
     tree(tree)
 {
     REQUIRE(max_depth >= 0);
     INVARIANTS_ON_EXIT;
     choices.reserve(get_max_depth()+1);
-    choices.emplace_back(ChoiceNode{-1, tree.init(), -1});
+    choices.emplace_back(ChoiceNode{-1, 0, -1});
 }
 
 int ChoiceTree::parent() {
     INVARIANTS_ON_EXIT;
-    tree.parent(choices);
     choices.pop_back();
+    if (choices.size() % PLAYER_COUNT == 0) {
+        tree.parent();
+    }
     return choices.back().action;
 }
 
 bool ChoiceTree::next_child() {
     INVARIANTS_ON_EXIT;
-    if (choices.back().action + 1 >= tree.get_child_count(choices)) {
+    auto legal_actions = tree.get_legal_actions(choices.back().player);
+    if (choices.back().action == -1 && legal_actions.count == 0) {
+        // repeat action of last round
+        choices.back().action = (*(choices.rbegin()+PLAYER_COUNT)).action;
+    }
+    else if (choices.back().action + 1 < legal_actions.count) {
+        choices.back().action++;
+    }
+    else {
         return false;
     }
 
-    choices.back().action++;
-    int player = tree.child(choices);
-    choices.emplace_back(ChoiceNode{-1, player, -1});
+    if (choices.size() % PLAYER_COUNT == 0) {
+        vector<Action> actions;
+        actions.reserve(PLAYER_COUNT);
+        for (auto it = choices.end() - PLAYER_COUNT; it != choices.end(); it++) {
+            actions.push_back((*it).action);
+        }
+        tree.child(actions);
+    }
+
+    choices.emplace_back(ChoiceNode{-1, (int)choices.size() % PLAYER_COUNT, -1});
+
     return true;
 }
 
 bool ChoiceTree::is_leaf() const {
-    return choices.back().player == -1 || get_depth() == get_max_depth();
+    return tree.is_leaf() || get_depth() == get_max_depth();
 }
 
 bool ChoiceTree::is_first_child() const {

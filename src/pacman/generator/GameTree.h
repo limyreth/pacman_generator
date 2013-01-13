@@ -11,6 +11,7 @@
 #pragma once
 
 #include <vector>
+#include "../model/Action.h"
 
 namespace PACMAN {
 
@@ -18,37 +19,34 @@ namespace PACMAN {
 
         struct ChoiceNode;
 
-        /* Quite like a ChoiceTree, but doesn't keep track of choices made
+        /* 
+         * A tree of game states, for a PLAYER_COUNT player game
          */
         class GameTree
         {
         public:
             /*
-             * Initialise
-             *
-             * Returns player who has to make a choice
-             */
-            virtual int init() = 0;
-
-            /*
              * Move to parent
              */
-            virtual void parent(const std::vector<ChoiceNode>& choices) = 0;
+            virtual void parent() = 0;
 
             /* 
-             * Move to children[choices.back().action]
+             * Move to child
              *
-             * choices = a path of choices to get to the child. I.e. back() is
-             * currently made choice, other elements are previous choices.
+             * actions: size() == PLAYER_COUNT
              *
-             * Returns the player who has to make a choice, or -1 if game over
+             * Returns false if game over
              */
-            virtual int child(const std::vector<ChoiceNode>& choices) = 0;
+            virtual void child(const std::vector<MODEL::Action>& actions) = 0;
 
-            virtual int get_child_count(const std::vector<ChoiceNode>& choices) const = 0;
+            virtual MODEL::LegalActions get_legal_actions(int player) const = 0;
 
-            // score of current game state
+            /*
+             * score of current game state
+             */
             virtual int get_score() const = 0;
+
+            virtual bool is_leaf() const = 0;
         };
 
     }

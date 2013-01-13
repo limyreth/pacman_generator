@@ -11,6 +11,7 @@
 #include "GameTree.h"
 #include "../generator/ChoiceNode.h"
 #include "../util/assertion.h"
+#include "../Constants.h"
 
 #include <iostream>
 
@@ -23,30 +24,45 @@ namespace PACMAN {
     namespace TEST {
 
 GameTree::GameTree(shared_ptr<TreeNode> root) 
-:   node(root)
+:   node(root),
+    children_visited(0)
 {
 }
 
-int GameTree::init() {
-    return node->player;
-}
-
-void GameTree::parent(const std::vector<ChoiceNode>& choices) {
+void GameTree::parent() {
     REQUIRE(node->parent != NULL);
     node = node->parent;
 }
 
-int GameTree::child(const std::vector<ChoiceNode>& choices) {
-    node = node->children.at(choices.back().action);
-    return node->player;
+void GameTree::child(const std::vector<MODEL::Action>& actions) {
+    REQUIRE(actions.size() == PLAYER_COUNT);
+    for (int player=0; player < PLAYER_COUNT; ++player) {
+        REQUIRE(actions[player] < get_legal_actions(player).count);
+    }
+
+    node = node->children.at(actions.at(node->player));
+    ++children_visited;
 }
 
-int GameTree::get_child_count(const std::vector<ChoiceNode>& choices) const {
-    return node->children.size();
+MODEL::LegalActions GameTree::get_legal_actions(int player) const {
+    MODEL::LegalActions legal_actions;
+    legal_actions.reverse_action = -1;
+
+    if (node->player == player) {
+        legal_actions.count = node->children.size();
+    } else {
+        legal_actions.count = 1;
+    }
+
+    return legal_actions;
 }
 
 int GameTree::get_score() const {
     return node->score;
+}
+
+bool GameTree::is_leaf() const {
+    return node->children.empty();
 }
 
 }}

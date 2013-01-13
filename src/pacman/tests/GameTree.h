@@ -37,13 +37,18 @@ namespace PACMAN {
         public:
             GameTree(shared_ptr<TreeNode> root) ;
 
-            int init();
-            void parent(const std::vector<GENERATOR::ChoiceNode>& choices);
-            int child(const std::vector<GENERATOR::ChoiceNode>& choices);
-            int get_child_count(const std::vector<GENERATOR::ChoiceNode>& choices) const;
+            void parent();
+            void child(const std::vector<MODEL::Action>& actions);
+            MODEL::LegalActions get_legal_actions(int player) const;
             int get_score() const;
+            bool is_leaf() const;
+
+            inline int get_children_visited() {
+                return children_visited;
+            }
 
         private:
+            int children_visited; // if a child is visited twice, then it is counted twice = the number of calls to next_child that return true
             shared_ptr<TreeNode> node;  // curent node, starts as root
         };
 

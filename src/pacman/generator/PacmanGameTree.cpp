@@ -26,189 +26,101 @@ namespace PACMAN {
     namespace GENERATOR {
 
 PacmanGameTree::PacmanGameTree(int max_depth) 
-:   initialised(false),
-    max_depth(max_depth),
-    depth(0)  // root level = depth 0
+:   max_depth(max_depth)
 {
     INVARIANTS_ON_EXIT;
     states.reserve(max_depth+1);  // Note: this is probably too much as sometimes multiple players need to move at the same time in the same tick
-}
-
-int PacmanGameTree::init() {
-    INVARIANTS_ON_EXIT;
 
     // progress to initial choice
     GameState state(PACMAN_NODES.get_spawn(), GHOST_NODES.get_spawns());
-    int next_player = progress_game_until_choice(state);
-    ASSERT(next_player > -1); // the game of pacman has choices
-
-    initialised = true;
-    return next_player;
+    Action prev_actions[PLAYER_COUNT] = {-1, -1, -1, -1, -1};  // no previous actions
+    progress_game_until_choice(state, prev_actions);
 }
 
-void PacmanGameTree::parent(const vector<ChoiceNode>& choices) {
+void PacmanGameTree::parent() {
     INVARIANTS_ON_EXIT;
-    REQUIRE(choices.size() == depth+1);
-    REQUIRE(initialised);
-
-    auto previous = choices.back();
-
-    if ((*(choices.rbegin()+1)).player >= choices.back().player) {
-        states.pop_back();
-    }
-
-    depth--;
+    states.pop_back();
     ENSURE(!states.empty());
 }
 
-int PacmanGameTree::child(const vector<ChoiceNode>& choices) {
+void PacmanGameTree::child(const vector<Action>& actions) {
     INVARIANTS_ON_EXIT;
-    REQUIRE(initialised);
+    REQUIRE(actions.size() == PLAYER_COUNT);
 
-    depth++;
-    REQUIRE(choices.size() == depth);
-    REQUIRE(choices.back().action < get_child_count(choices));
+    const int old_states_size = states.size();
 
-    const int next_player = progress_game_state(choices);
-    return next_player;
+    // proceed to next state
+    GameState state = states.back();
+    state = GameState(actions.data(), &state, uihints);
+
+    // proceed even further
+    auto copied_actions = actions;
+    progress_game_until_choice(state, copied_actions.data());
+
+    ENSURE(states.size() == old_states_size + 1);
+}
+
+bool PacmanGameTree::is_leaf() const {
+    return states.back().is_game_over();
 }
 
 int PacmanGameTree::get_score() const {
-    REQUIRE(initialised);
-    return get_state().get_score();
+    return states.back().get_score();
 }
 
-int PacmanGameTree::get_child_count(const vector<ChoiceNode>& choices) const {
-    REQUIRE(initialised);
-    return get_state().get_player(choices.back().player).get_legal_actions().count;
-}
-
-/*
- * Returns true if player has multiple legal actions to act upon the current state
- */
-bool PacmanGameTree::has_choice(const GameState& state, int player) const {
+LegalActions PacmanGameTree::get_legal_actions(int player) const {
     REQUIRE(player >= 0);
     REQUIRE(player < PLAYER_COUNT);
-    return state.get_player(player).get_legal_actions().count > 1;
-}
-/*
- * Returns first player that still needs to choose an action for next tick
- *
- * Returns -1 if no player has a choice.
- *
- * player: index of last player that has chosen
- */
-int PacmanGameTree::get_first_undecided(const GameState& state, int player) const {
-    REQUIRE(player >= -1);
-    REQUIRE(player < PLAYER_COUNT);
-
-    int undecided_player = player;
-
-    BOOST_SCOPE_EXIT(&player, &undecided_player) {
-        ENSURE(undecided_player < PLAYER_COUNT);
-        ENSURE(undecided_player == -1 || undecided_player > player);
-    } BOOST_SCOPE_EXIT_END
-
-    do {
-        ++undecided_player;
-        if (undecided_player == PLAYER_COUNT) {
-            return undecided_player = -1;
-        }
-    } while (!has_choice(state, undecided_player));
-
-    return undecided_player;
+    return states.back().get_player(player).get_legal_actions();
 }
 
 /*
- * Get action of desired_player for current round
+ * Tries to generate actions from prev_actions
  *
- * Returns -1 if no choice was made for the player
+ * actions: generated actions are stored here. Its original contents are ignored.
+ *
+ * Returns true if it succeeded, false if choices need to be made
  */
-int PacmanGameTree::get_action(int desired_player, const std::vector<ChoiceNode>& choices) const {
-    REQUIRE(desired_player >= 0);
-    REQUIRE(desired_player < PLAYER_COUNT);
+bool PacmanGameTree::generate_actions(const GameState& state, Action* prev_actions, Action* actions) {
+    REQUIRE(prev_actions != NULL);
+    REQUIRE(actions != NULL);
 
-    if (has_choice(get_state(), desired_player)) {
-        int prev_player = PLAYER_COUNT;
-        for (auto it = choices.rbegin(); it != choices.rend(); it++) {
-            auto player = (*it).player;
-            if (player >= prev_player) {
-                return -1;  // no choice made for this player
-            }
-            if (player == desired_player) {
-                return (*it).action;
-            }
-            prev_player = player;
+    for (int player=0; player < PLAYER_COUNT; ++player) {
+        auto legal_actions = state.get_player(player).get_legal_actions();
+        if (legal_actions.count == 0) {
+            REQUIRE(prev_actions[player] >= 0);
+            actions[player] = prev_actions[player];
+        } else if (legal_actions.count == 1) {
+            actions[player] = 0;
+        } else {
+            return false;
         }
     }
-    else {
-        return 0;
-    }
-    ASSERT(false);
-}
-
-/*
- * Progresses the game up til game over, or the next choice
- *
- * Returns the player who has to make a choice, or -1 if game over
- */
-int PacmanGameTree::progress_game_state(const vector<ChoiceNode>& choices) {
-    INVARIANTS_ON_EXIT;
-    REQUIRE(choices.back().action > -1);  // current player has chosen
-
-    // sufficient choices made to proceed to next state?
-    int next_player = get_first_undecided(get_state(), choices.back().player);
-
-    if (next_player == -1) {
-        const int old_states_size = states.size();
-        GameState state = get_state();
-
-        // get actions
-        Action actions[PLAYER_COUNT] = {-1, -1, -1, -1, -1};
-        for (int i=0; i<PLAYER_COUNT; ++i) {
-            actions[i] = get_action(i, choices);
-            ASSERT(actions[i] >= 0);  // each player should have chosen by now
-        }
-
-        // proceed to next state
-        state = GameState(actions, &state, uihints);
-
-        // proceed even further
-        next_player = progress_game_until_choice(state);
-
-        ASSERT(states.size() == old_states_size + 1);
-    }
-
-    ENSURE(get_state().is_game_over() || has_choice(get_state(), next_player));
-    ENSURE(!get_state().is_game_over() || next_player == -1);
-    return next_player;
+    return true;
 }
 
 /*
  * Progress game state until game over or a player has a choice
  */
-int PacmanGameTree::progress_game_until_choice(GameState& state) {
+void PacmanGameTree::progress_game_until_choice(GameState& state, Action* prev_actions) {
     INVARIANTS_ON_EXIT;
-    int next_player = -1;
+    REQUIRE(prev_actions != NULL);
 
     // progress as far as possible
-    Action actions[PLAYER_COUNT] = {0, 0, 0, 0, 0};
-    while (!state.is_game_over() && (next_player = get_first_undecided(state, -1)) == -1) {
+    Action other_actions[PLAYER_COUNT];
+    Action* actions = other_actions;
+    while (!state.is_game_over() && generate_actions(state, prev_actions, actions)) {
         state = GameState(actions, &state, uihints);
+        std::swap(prev_actions, actions);
     }
 
     // push state
     states.push_back(state);
-
-    ENSURE(get_state().is_game_over() || has_choice(get_state(), next_player));
-    ENSURE(!get_state().is_game_over() || next_player == -1);
-    return next_player;
 }
 
 
 void PacmanGameTree::invariants() const {
     INVARIANT(states.capacity() == max_depth + 1);
-    INVARIANT(states.size() <= depth + 1);
 }
 
 }}

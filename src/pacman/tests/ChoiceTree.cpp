@@ -22,8 +22,7 @@ namespace PACMAN {
     namespace TEST {
 
 ChoiceTree::ChoiceTree(int max_depth, GENERATOR::GameTree& tree) 
-:   GENERATOR::ChoiceTree(max_depth, tree),
-    children_visited(0)
+:   GENERATOR::ChoiceTree(max_depth, tree)
 {
 }
 
@@ -35,8 +34,7 @@ int ChoiceTree::parent() {
 bool ChoiceTree::next_child() {
     bool had_child = GENERATOR::ChoiceTree::next_child();
     if (had_child) {
-        ++children_visited;
-        cout << "next child at " << get_depth() << ", value " << get_score() << endl;
+        cout << "next child at " << get_depth()/5.0 << ", value " << get_score() << endl;
     }
     else {
         cout << "end" << endl;
