@@ -18,18 +18,19 @@
 #include "../Point.h"
 #include "../Constants.h"
 
-namespace PACMAN {
+using namespace ::PACMAN::MODEL;
+using namespace ::PACMAN::SPECIFICATION;
 
-    using namespace MODEL;
-    using namespace SPECIFICATION;
-
-    using GUI::NullUIHints;
-
-    namespace TEST {
-
+using ::PACMAN::GUI::NullUIHints;
 
 using std::cout;
 using std::endl;
+using std::vector;
+
+namespace PACMAN {
+    namespace TEST {
+
+
 
 Test::Test() 
 :   state(PACMAN_NODES.get_spawn(), GHOST_NODES.get_spawns())
@@ -49,8 +50,8 @@ int Test::move(int player_index, Direction::Type direction) {
     GameState original = state;
     int steps = 0;
 
-    Action actions[PLAYER_COUNT] = {0, 0, 0, 0, 0};
-    actions[player_index] = original.get_player(player_index).get_action_along_direction(direction);
+    vector<Action> actions(PLAYER_COUNT, 0);
+    actions.at(player_index) = original.get_player(player_index).get_action_along_direction(direction);
 
     while (original.get_player(player_index).get_tile_pos() == state.get_player(player_index).get_tile_pos()) {
         assert_equals(state.food_count, original.food_count);

@@ -34,6 +34,7 @@ using TEST::test;
 
 using std::string;
 using std::cout;
+using std::vector;
 
 int main( int argc, char** argv ) {
     std::string str="";
@@ -73,7 +74,7 @@ int main( int argc, char** argv ) {
         }
 
         // interactive mode
-        Action actions[PLAYER_COUNT] = {0, 0, 0, 0, 0};
+        const vector<Action> actions(PLAYER_COUNT, 0);
         MODEL::GameState state(PACMAN_NODES.get_spawn(), GHOST_NODES.get_spawns());
         GUI::GUI gui(state);
         shared_ptr<UIHints> uihints = gui.create_uihints();

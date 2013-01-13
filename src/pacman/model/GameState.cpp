@@ -105,13 +105,13 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns)
  *
  * State of the game 1 tick after `state`.
  */
-GameState::GameState(const Action* actions, const GameState& state, UIHints& uihints)
+GameState::GameState(const vector<Action>& actions, const GameState& state, UIHints& uihints)
 :   GameState(state)
 {
     INVARIANTS_ON_EXIT;
     REQUIRE(!did_pacman_win());
     REQUIRE(!did_pacman_lose());
-    REQUIRE(actions);
+    //REQUIRE(actions.size() == PLAYER_COUNT);
 
     /* Note: TODO split in functions to provide better overview of ordering
      *
@@ -207,7 +207,7 @@ GameState::GameState(const Action* actions, const GameState& state, UIHints& uih
                 player = &ghosts[ghost_i];
             }
 
-            player->move(FULL_SPEED * TILE_SIZE * speed_modifier, actions[i]);
+            player->move(FULL_SPEED * TILE_SIZE * speed_modifier, actions.at(i));
         }
     }
 
