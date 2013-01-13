@@ -34,7 +34,7 @@ PacmanGameTree::PacmanGameTree(int max_rounds)
 
     // progress to initial choice
     GameState state(PACMAN_NODES.get_spawn(), GHOST_NODES.get_spawns());
-    Action prev_actions[PLAYER_COUNT] = {-1, -1, -1, -1, -1};  // no previous actions
+    vector<Action> prev_actions(PLAYER_COUNT, -1);
     progress_game_until_choice(state, prev_actions);
 }
 
@@ -55,8 +55,7 @@ void PacmanGameTree::child(const vector<Action>& actions) {
     state = GameState(actions.data(), &state, uihints);
 
     // proceed even further
-    auto copied_actions = actions;
-    progress_game_until_choice(state, copied_actions.data());
+    progress_game_until_choice(state, actions);
 
     ENSURE(states.size() == old_states_size + 1);
 }
@@ -82,17 +81,17 @@ LegalActions PacmanGameTree::get_legal_actions(int player) const {
  *
  * Returns true if it succeeded, false if choices need to be made
  */
-bool PacmanGameTree::generate_actions(const GameState& state, Action* prev_actions, Action* actions) {
-    REQUIRE(prev_actions != NULL);
-    REQUIRE(actions != NULL);
+bool PacmanGameTree::generate_actions(const GameState& state, vector<Action>& prev_actions, vector<Action>& actions) const {
+    //REQUIRE(prev_actions.size() == PLAYER_COUNT);
 
+    actions.clear();
     for (int player=0; player < PLAYER_COUNT; ++player) {
         auto legal_actions = state.get_player(player).get_legal_actions();
         if (legal_actions.count == 0) {
             REQUIRE(prev_actions[player] >= 0);
-            actions[player] = prev_actions[player];
+            actions.push_back(prev_actions[player]);
         } else if (legal_actions.count == 1) {
-            actions[player] = 0;
+            actions.push_back(0);
         } else {
             return false;
         }
@@ -103,16 +102,16 @@ bool PacmanGameTree::generate_actions(const GameState& state, Action* prev_actio
 /*
  * Progress game state until game over or a player has a choice
  */
-void PacmanGameTree::progress_game_until_choice(GameState& state, Action* prev_actions) {
+void PacmanGameTree::progress_game_until_choice(GameState& state, vector<Action> prev_actions) {
     INVARIANTS_ON_EXIT;
-    REQUIRE(prev_actions != NULL);
+    REQUIRE(prev_actions.size() == PLAYER_COUNT);
 
     // progress as far as possible
-    Action other_actions[PLAYER_COUNT];
-    Action* actions = other_actions;
+    vector<Action> actions;
+    actions.reserve(PLAYER_COUNT);
     while (!state.is_game_over() && generate_actions(state, prev_actions, actions)) {
-        state = GameState(actions, &state, uihints);
-        std::swap(prev_actions, actions);
+        state = GameState(actions.data(), &state, uihints);
+        prev_actions.swap(actions);
     }
 
     // push state

@@ -38,8 +38,8 @@ namespace PACMAN {
             void invariants() const;
 
         private:
-            bool generate_actions(const MODEL::GameState& state, MODEL::Action* prev_actions, MODEL::Action* actions);
-            void progress_game_until_choice(MODEL::GameState& state, MODEL::Action* prev_actions);
+            bool generate_actions(const MODEL::GameState& state, std::vector<MODEL::Action>& prev_actions, std::vector<MODEL::Action>& actions) const;
+            void progress_game_until_choice(MODEL::GameState& state, std::vector<MODEL::Action> prev_actions);
 
         private:
             std::vector<MODEL::GameState> states;
