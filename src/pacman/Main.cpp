@@ -79,7 +79,7 @@ int main( int argc, char** argv ) {
         shared_ptr<UIHints> uihints = gui.create_uihints();
         while (gui.emptyMsgPump()) {
             gui.render();
-            state = GameState(actions, &state, *uihints);
+            state = GameState(actions, state, *uihints);
         }
 
         logtxt.print( "Shutdown" );

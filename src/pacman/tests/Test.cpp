@@ -64,7 +64,7 @@ int Test::move(int player_index, Direction::Type direction) {
             );
         }
 
-        state = GameState(actions, &state, uihints);
+        state = GameState(actions, state, uihints);
 
         ++steps;
     }

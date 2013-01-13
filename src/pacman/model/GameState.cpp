@@ -105,14 +105,13 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns)
  *
  * State of the game 1 tick after `state`.
  */
-GameState::GameState(const Action* actions, const GameState* state, UIHints& uihints)
-:   GameState(*state)
+GameState::GameState(const Action* actions, const GameState& state, UIHints& uihints)
+:   GameState(state)
 {
     INVARIANTS_ON_EXIT;
     REQUIRE(!did_pacman_win());
     REQUIRE(!did_pacman_lose());
     REQUIRE(actions);
-    REQUIRE(state);
 
     /* Note: TODO split in functions to provide better overview of ordering
      *
@@ -155,7 +154,7 @@ GameState::GameState(const Action* actions, const GameState* state, UIHints& uih
         // aw, too late, despawn fruit
         fruit_spawned = false;
     }
-    if (state->food_count == 70 || state->food_count == 170) {
+    if (state.food_count == 70 || state.food_count == 170) {
         // spawn a fruit
         ASSERT(!fruit_spawned);  // It is impossible for another fruit to spawn while a previous is still spawned (eating 100 dots should take long enough for this never to happen)
         fruit_spawned = true;
@@ -278,11 +277,11 @@ GameState::GameState(const Action* actions, const GameState* state, UIHints& uih
         ASSERT(idler_ticks_left == 0);
     }*/
 
-    ENSURE(state->food_count - food_count <= 1);
-    ENSURE(score >= state->score);
-    ENSURE(lives <= state->lives);
-    ENSURE(fruit_ticks_left == -1 || fruit_ticks_left == FRUIT_TICKS || fruit_ticks_left == state->fruit_ticks_left - 1);
-    ENSURE(vulnerable_ticks_left == -1 || vulnerable_ticks_left == VULNERABLE_TICKS || vulnerable_ticks_left == state->vulnerable_ticks_left - 1);
+    ENSURE(state.food_count - food_count <= 1);
+    ENSURE(score >= state.score);
+    ENSURE(lives <= state.lives);
+    ENSURE(fruit_ticks_left == -1 || fruit_ticks_left == FRUIT_TICKS || fruit_ticks_left == state.fruit_ticks_left - 1);
+    ENSURE(vulnerable_ticks_left == -1 || vulnerable_ticks_left == VULNERABLE_TICKS || vulnerable_ticks_left == state.vulnerable_ticks_left - 1);
 }
 
 bool GameState::get_vulnerable_ghost_count() const {
