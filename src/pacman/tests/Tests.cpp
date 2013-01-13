@@ -10,6 +10,7 @@
 
 #include "Tests.h"
 #include "MinimaxTests.h"
+#include "GeneratorTests.h"
 
 #include "Test.h"
 #include "util.h"
@@ -101,7 +102,8 @@ void test(int index) {
         test_ghosts_remain_normal_when_not_eating_energizer,
         test_pacman_movement_regular_speed_not_cornering,
         test_dot_eating_no_cornering,
-        MinimaxTests::test_1
+        MinimaxTests::test_1,
+        GeneratorTests::test_1
     };
     tests[index]();
 }

@@ -79,3 +79,8 @@ add_test(
     COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pacman_sdl --test 5
 )
 
+add_test(
+    NAME generator_1
+    COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pacman_sdl --test 6
+)
+
