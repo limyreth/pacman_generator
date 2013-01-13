@@ -23,7 +23,7 @@ namespace PACMAN {
         class ChoiceTree : public GENERATOR::ChoiceTree
         {
         public:
-            ChoiceTree(int max_depth, GENERATOR::GameTree& tree) ;
+            ChoiceTree(int max_choice_rounds, GENERATOR::GameTree& tree) ;
 
             int parent();
             bool next_child();
