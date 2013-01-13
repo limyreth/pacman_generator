@@ -88,8 +88,8 @@ bool PacmanGameTree::generate_actions(const GameState& state, vector<Action>& pr
     for (int player=0; player < PLAYER_COUNT; ++player) {
         auto legal_actions = state.get_player(player).get_legal_actions();
         if (legal_actions.count == 0) {
-            REQUIRE(prev_actions[player] >= 0);
-            actions.push_back(prev_actions[player]);
+            REQUIRE(prev_actions.at(player) >= 0);
+            actions.push_back(prev_actions.at(player));
         } else if (legal_actions.count == 1) {
             actions.push_back(0);
         } else {

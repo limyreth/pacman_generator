@@ -37,7 +37,7 @@ void GameTree::parent() {
 void GameTree::child(const std::vector<MODEL::Action>& actions) {
     REQUIRE(actions.size() == PLAYER_COUNT);
     for (int player=0; player < PLAYER_COUNT; ++player) {
-        REQUIRE(actions[player] < get_legal_actions(player).count);
+        REQUIRE(actions.at(player) < get_legal_actions(player).count);
     }
 
     node = node->children.at(actions.at(node->player));
