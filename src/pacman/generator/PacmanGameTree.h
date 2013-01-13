@@ -26,7 +26,7 @@ namespace PACMAN {
         class PacmanGameTree : public GameTree, public ASSERTION::Assertable
         {
         public:
-            PacmanGameTree(int max_depth);
+            PacmanGameTree(int max_rounds);
 
             void parent();
             void child(const std::vector<MODEL::Action>& actions);

@@ -25,8 +25,9 @@ using std::vector;
 namespace PACMAN {
     namespace GENERATOR {
 
-PacmanGameTree::PacmanGameTree(int max_depth) 
-:   max_depth(max_depth)
+// note: you may call child() max_rounds times without calling parent()
+PacmanGameTree::PacmanGameTree(int max_rounds)
+:   max_depth(max_rounds)
 {
     INVARIANTS_ON_EXIT;
     states.reserve(max_depth+1);  // Note: this is probably too much as sometimes multiple players need to move at the same time in the same tick
