@@ -170,11 +170,17 @@ double Nodes::get_branching_factor(const vector<Node*>& nodes) const {
     return branching_factor;
 }
 
+const Node* Nodes::load(std::istream& in, const std::vector<Node*>& nodes) const {
+    std::iterator_traits<vector<Node*>::iterator>::difference_type index;
+    read(in, index);
+    return nodes.at(index);
+}
+
 void Nodes::save(std::ostream& out, const Node* node, const std::vector<Node*>& nodes) const {
     auto it = std::find(nodes.begin(), nodes.end(), node);
     REQUIRE(it != nodes.end());
     ASSERT(std::distance(nodes.begin(), nodes.begin()) == 0); // TODO rm this line after a succesful run
-    write(out,  std::distance(nodes.begin(), it));
+    write(out, std::distance(nodes.begin(), it));
 }
 
     }

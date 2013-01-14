@@ -27,6 +27,7 @@ namespace PACMAN {
         {
         public:
             PacmanGameTree(int max_rounds);
+            PacmanGameTree(std::istream& in);
 
             void parent();
             void child(const std::vector<MODEL::Action>& actions);

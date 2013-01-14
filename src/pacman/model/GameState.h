@@ -34,6 +34,7 @@ namespace PACMAN {
         {
         public:
             GameState();
+            GameState(std::istream& in);
             GameState(const Node* pacman_spawn, const std::vector<Node*> ghost_spawns);
             GameState(const std::vector<Action>& actions, const GameState& state, UIHints& app);
 

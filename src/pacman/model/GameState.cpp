@@ -63,6 +63,23 @@ GameState::GameState()
 {
 }
 
+GameState::GameState(std::istream& in) {
+    pacman = PacmanState(in);
+    for (int i=0; i < GHOST_COUNT; ++i) {
+        ghosts[i] = GhostState(in);
+    }
+
+    read(in, foods);
+
+    read(in, food_count);
+    read(in, score);
+    read(in, lives);
+    read(in, fruit_spawned);
+    read(in, vulnerable_ticks_left);
+    read(in, fruit_ticks_left);
+    read(in, idler_ticks_left);
+}
+
 /**
  * Start new game
  */
@@ -338,12 +355,12 @@ void GameState::resetLvl() {	// vars and positions when pacman dies during level
 }
 
 void GameState::save(std::ostream& out) const {
-    // TODO be especially careful with pointers to nodes. Because they will be different on next run. Note, you could ENSURE that the generated Nodes is deterministically generated (which is the case). Then you can use indices. Be careful about the initial spawns though... Provide a PacmanNodes::to_id(node) and from_id, which has some deterministic way of doing it...
     for (int player=0; player < PLAYER_COUNT; ++player) {
         get_player(player).save(out);
     }
 
     write(out, foods);
+    ASSERT(sizeof(foods) > 15); // TODO if it succeeds to run once, rm this line
 
     write(out, food_count);
     write(out, score);

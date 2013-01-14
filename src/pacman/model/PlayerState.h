@@ -25,6 +25,7 @@ namespace PACMAN {
         public:
             PlayerState();
             PlayerState(const Node* initial_node);
+            PlayerState(std::istream& in, const Nodes&);
             void move(double distance, Action next_action);
             IPoint get_tile_pos() const;
 

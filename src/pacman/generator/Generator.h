@@ -31,6 +31,7 @@ namespace PACMAN {
         {
         public:
             Generator(ChoiceTree& tree);
+            Generator(std::istream& in, ChoiceTree& tree);
             void run(int& best_score);
             void save(std::ostream& out) const;
 

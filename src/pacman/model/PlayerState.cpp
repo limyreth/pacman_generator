@@ -39,6 +39,15 @@ PlayerState::PlayerState(const Node* initial_node)
     REQUIRE(initial_node);
 }
 
+PlayerState::PlayerState(std::istream& in, const Nodes& nodes) {
+    INVARIANTS_ON_EXIT;
+    read(in, pos.x);
+    read(in, pos.y);
+    read(in, must_repeat_previous_action);
+    origin = nodes.load(in);
+    destination = nodes.load(in);
+}
+
 /*
  * Move player distance_moved px towards destination, ...
  * 

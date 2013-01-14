@@ -40,6 +40,20 @@ PacmanGameTree::PacmanGameTree(int max_rounds)
     progress_game_until_choice(state, prev_actions);
 }
 
+PacmanGameTree::PacmanGameTree(std::istream& in)
+:   max_depth(-1)
+{
+    read(in, max_depth);
+    states.reserve(max_depth+1);
+
+    vector<GameState>::size_type size;
+    read(in, size);
+    for (int i=0; i < size; ++i) {
+        states.emplace_back(GameState(in));
+    }
+    ASSERT(states.size() == size);
+}
+
 void PacmanGameTree::parent() {
     INVARIANTS_ON_EXIT;
     states.pop_back();

@@ -31,6 +31,20 @@ ChoiceTree::ChoiceTree(int max_choice_rounds, GameTree& tree)
     choices.emplace_back(ChoiceNode{-1, 0, -1});
 }
 
+ChoiceTree::ChoiceTree(std::istream& in, GameTree& tree)
+:   max_depth(-1),
+    tree(tree)
+{
+    read(in, max_depth);
+    choices.reserve(get_max_depth()+1);
+
+    vector<ChoiceNode>::size_type size;
+    read(in, size);
+    choices.resize(size);
+
+    in.read((char*)choices.data(), choices.size() * sizeof(ChoiceNode));
+}
+
 int ChoiceTree::parent() {
     INVARIANTS_ON_EXIT;
     choices.pop_back();
@@ -103,8 +117,6 @@ void ChoiceTree::set_alpha_beta(int alpha_beta) {
 }
 
 void ChoiceTree::save(std::ostream& out) const {
-    tree.save(out);
-
     write(out, max_depth);
 
     write(out, choices.size());

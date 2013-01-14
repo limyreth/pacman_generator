@@ -35,7 +35,8 @@ namespace PACMAN {
         class ChoiceTree : public ASSERTION::Assertable
         {
         public:
-            ChoiceTree(int max_choice_rounds, GameTree& tree) ;
+            ChoiceTree(int max_choice_rounds, GameTree& tree);
+            ChoiceTree(std::istream& in, GameTree& tree);
 
             /*
              * Move current node pointer to parent

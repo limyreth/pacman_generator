@@ -32,6 +32,7 @@ namespace PACMAN {
             void draw(shared_ptr<SDL_Surface> buffer) const;
 
             virtual void save(std::ostream& out, const Node* node) const = 0;
+            virtual const Node* load(std::istream& in) const = 0;
 
         protected:
             std::vector<Node*> nodes;
@@ -39,6 +40,7 @@ namespace PACMAN {
             void ensure_valid(const std::vector<Node*>& nodes, const std::vector<Node*>& all_nodes) const;
             void ensure_valid(const Node* node, const std::vector<Node*>& all_nodes) const;
 
+            const Node* load(std::istream& in, const std::vector<Node*>& nodes) const;
             void save(std::ostream& out, const Node* node, const std::vector<Node*>& nodes) const;
 
             double get_branching_factor(const std::vector<Node*>& nodes) const;

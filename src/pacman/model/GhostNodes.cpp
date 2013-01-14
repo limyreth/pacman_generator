@@ -57,6 +57,18 @@ GhostNodes::~GhostNodes()
     }
 }
 
+const Node* GhostNodes::load(std::istream& in) const {
+    char choice;
+    read(in, choice);
+    if (choice == (char)1) {
+        return Nodes::load(in, spawns);
+    }
+    else {
+        ASSERT(choice == (char)2);
+        return Nodes::load(in, nodes);
+    }
+}
+
 void GhostNodes::save(std::ostream& out, const Node* node) const {
     REQUIRE(node);
     if (std::find(spawns.begin(), spawns.end(), node) != spawns.end()) {

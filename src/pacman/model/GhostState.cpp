@@ -26,6 +26,12 @@ GhostState::GhostState()
 {
 }
 
+GhostState::GhostState(std::istream& in) 
+:   PlayerState(in, GHOST_NODES)
+{
+    read(in, state);
+}
+
 GhostState::GhostState(const Node* initial_node)
 :   PlayerState(initial_node), state(NORMAL)
 {

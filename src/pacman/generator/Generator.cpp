@@ -34,6 +34,26 @@ Generator::Generator(ChoiceTree& tree)
     }
 }
 
+Generator::Generator(std::istream& in, ChoiceTree& tree) 
+:   choice_tree(tree),
+    paths(choice_tree.get_max_depth()+1)
+{
+    read(in, child_value);
+    read(in, child_action);
+    read(in, search_complete);
+
+    for (int depth=0; depth <= choice_tree.get_max_depth(); ++depth) {
+        paths.at(depth).reserve(choice_tree.get_max_depth() - depth);
+    }
+
+    for (auto path : paths) {
+        vector<Action>::size_type size;
+        read(in, size);
+        path.resize(size);
+        in.read((char*)path.data(), path.size() * sizeof(Action));
+    }
+}
+
 void Generator::run(int& best_score) {
     INVARIANTS_ON_EXIT;
     if (!search_complete) {
@@ -134,13 +154,10 @@ vector<Action> Generator::minimax() {
 
 void Generator::save(ostream& out) const {
     // TODO when saving must sync with end of loop iteration, and end that thread...
-    choice_tree.save(out);
-
     write(out, child_value);
     write(out, child_action);
     write(out, search_complete);
 
-    write(out, paths.size());
     for (auto path : paths) {
         write(out, path.size());
         out.write((const char*)path.data(), path.size() * sizeof(Action));
