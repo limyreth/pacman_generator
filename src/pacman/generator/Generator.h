@@ -32,6 +32,7 @@ namespace PACMAN {
         public:
             Generator(ChoiceTree& tree);
             void run(int& best_score);
+            void save(std::ostream& out) const;
 
         protected:
             void invariants() const;
@@ -48,6 +49,10 @@ namespace PACMAN {
 
         private:
             ChoiceTree& choice_tree;
+            std::vector<std::vector<MODEL::Action>> paths;
+            int child_value = -1;
+            int child_action = -1; // the action used to get to the child we just examined
+            bool search_complete = false;
         };
 
     }

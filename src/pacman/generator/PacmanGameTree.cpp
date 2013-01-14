@@ -15,12 +15,14 @@
 #include "../model/PacmanNodes.h"
 #include "../model/GhostNodes.h"
 #include "../Constants.h"
+#include "../util/serialization.h"
 
 #include <boost/scope_exit.hpp>
 
 using namespace PACMAN::MODEL;
 using namespace PACMAN::SPECIFICATION;
 using std::vector;
+using std::endl;
 
 namespace PACMAN {
     namespace GENERATOR {
@@ -118,6 +120,14 @@ void PacmanGameTree::progress_game_until_choice(GameState& state, vector<Action>
     states.push_back(state);
 }
 
+void PacmanGameTree::save(std::ostream& out) const {
+    write(out, max_depth);
+
+    write(out, states.size());
+    for (auto state : states) {
+        state.save(out);
+    }
+}
 
 void PacmanGameTree::invariants() const {
     INVARIANT(states.capacity() == max_depth + 1);

@@ -13,6 +13,7 @@
 #include "../Utility.h"
 #include "../Constants.h"
 #include "../specification/Walls.h"
+#include "../util/serialization.h"
 
 using std::vector;
 using std::cout;
@@ -53,6 +54,18 @@ GhostNodes::~GhostNodes()
 {
     for (auto node : spawns) {
         delete node;
+    }
+}
+
+void GhostNodes::save(std::ostream& out, const Node* node) const {
+    REQUIRE(node);
+    if (std::find(spawns.begin(), spawns.end(), node) != spawns.end()) {
+        write(out, (char)1);
+        Nodes::save(out, node, spawns);
+    }
+    else {
+        write(out, (char)2);
+        Nodes::save(out, node, nodes);
     }
 }
 

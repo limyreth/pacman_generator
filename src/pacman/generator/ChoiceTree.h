@@ -61,6 +61,8 @@ namespace PACMAN {
             const GENERATOR::ChoiceNode& get(int depth) const;
             void set_alpha_beta(int alpha_beta);
 
+            void save(std::ostream& out) const;
+
         protected:
             void invariants() const;
 

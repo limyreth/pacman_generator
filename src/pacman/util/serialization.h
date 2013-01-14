@@ -10,31 +10,11 @@
 
 #pragma once
 
-#include "PlayerState.h"
-
 namespace PACMAN {
-    namespace MODEL {
 
-        class GhostState : public PlayerState
-        {
-        public:
-            enum State : unsigned char {
-                NORMAL,
-                VULNERABLE,
-                DEAD
-            };
-
-        public:
-            GhostState();
-            GhostState(const Node* initial_node);
-
-            bool is_in_tunnel();
-
-            virtual void save(std::ostream& out) const;
-
-        public:
-            State state;
-        };
-
+    template <typename T>
+    void write(std::ostream& out, const T& what) {
+        out.write((const char*)&what, sizeof(T));
     }
+
 }

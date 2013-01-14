@@ -26,6 +26,8 @@ namespace PACMAN {
                 return spawn;
             }
 
+            void save(std::ostream& out, const Node* node) const;
+
         private:
             Node* spawn;
         };

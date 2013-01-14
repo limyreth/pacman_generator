@@ -42,6 +42,7 @@
 #include "../Utility.h"
 #include "Node.h"
 #include <string.h>
+#include "../util/serialization.h"
 
 namespace PACMAN {
     namespace MODEL {
@@ -336,5 +337,21 @@ void GameState::resetLvl() {	// vars and positions when pacman dies during level
     assert(false); // we're testing with lives==0 for now
 }
 
+void GameState::save(std::ostream& out) const {
+    // TODO be especially careful with pointers to nodes. Because they will be different on next run. Note, you could ENSURE that the generated Nodes is deterministically generated (which is the case). Then you can use indices. Be careful about the initial spawns though... Provide a PacmanNodes::to_id(node) and from_id, which has some deterministic way of doing it...
+    for (int player=0; player < PLAYER_COUNT; ++player) {
+        get_player(player).save(out);
     }
+
+    write(out, foods);
+
+    write(out, food_count);
+    write(out, score);
+    write(out, lives);
+    write(out, fruit_spawned);
+    write(out, vulnerable_ticks_left);
+    write(out, fruit_ticks_left);
+    write(out, idler_ticks_left);
 }
+
+}}

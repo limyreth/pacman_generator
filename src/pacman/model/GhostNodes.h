@@ -27,6 +27,8 @@ namespace PACMAN {
                 return spawns;
             }
 
+            void save(std::ostream& out, const Node* node) const;
+
         private:
             std::vector<Node*> spawns;
         };

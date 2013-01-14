@@ -21,6 +21,8 @@ namespace PACMAN {
         public:
             PacmanState();
             PacmanState(const Node* initial_node);
+
+            virtual void save(std::ostream& out) const;
         };
 
     }

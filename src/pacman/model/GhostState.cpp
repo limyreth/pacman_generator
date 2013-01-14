@@ -9,11 +9,15 @@
 
 
 #include "GhostState.h"
+#include "GhostNodes.h"
 #include "../Utility.h"
+#include "../util/serialization.h"
 
 // TODO dead ghost takes shortest path back to correct pen tile
 
 // TODO size enums to 1 byte
+
+using std::endl;
 
 namespace PACMAN {
     namespace MODEL {
@@ -29,6 +33,11 @@ GhostState::GhostState(const Node* initial_node)
 
 bool GhostState::is_in_tunnel() {
     return false; // TODO implement this damn it
+}
+
+void GhostState::save(std::ostream& out) const {
+    PlayerState::save(out, GHOST_NODES);
+    write(out, state);
 }
 
 // Note: this has little meaning other than that when it changes, a new action may be chosen (which is by crossing any grid line with offset half a tile)

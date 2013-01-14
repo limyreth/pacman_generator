@@ -37,6 +37,8 @@ namespace PACMAN {
             GameState(const Node* pacman_spawn, const std::vector<Node*> ghost_spawns);
             GameState(const std::vector<Action>& actions, const GameState& state, UIHints& app);
 
+            void save(std::ostream& out) const;
+
             bool get_vulnerable_ghost_count() const;
 
             inline int get_level() const {

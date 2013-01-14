@@ -12,9 +12,11 @@
 
 #include "ChoiceNode.h"
 #include "GameTree.h"
+#include "../util/serialization.h"
 
 using namespace ::PACMAN::MODEL;
 using std::vector;
+using std::endl;
 
 namespace PACMAN {
     namespace GENERATOR {
@@ -98,6 +100,15 @@ const GENERATOR::ChoiceNode& ChoiceTree::get(int depth) const {
 void ChoiceTree::set_alpha_beta(int alpha_beta) {
     INVARIANTS_ON_EXIT;
     choices.back().alpha_beta = alpha_beta;
+}
+
+void ChoiceTree::save(std::ostream& out) const {
+    tree.save(out);
+
+    write(out, max_depth);
+
+    write(out, choices.size());
+    out.write((const char*)choices.data(), choices.size() * sizeof(ChoiceNode));
 }
 
 void ChoiceTree::invariants() const {

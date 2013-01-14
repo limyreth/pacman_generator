@@ -9,6 +9,7 @@
 
 
 #include "PacmanState.h"
+#include "PacmanNodes.h"
 
 namespace PACMAN {
     namespace MODEL {
@@ -20,6 +21,10 @@ PacmanState::PacmanState()
 PacmanState::PacmanState(const Node* initial_node)
 :   PlayerState(initial_node)
 {
+}
+
+void PacmanState::save(std::ostream& out) const {
+    PlayerState::save(out, PACMAN_NODES);
 }
 
     }

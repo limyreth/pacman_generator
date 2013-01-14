@@ -9,24 +9,36 @@
 
 
 #include "Generator.h"
+#include "../util/serialization.h"
 
 using namespace PACMAN::MODEL;
 using namespace PACMAN::SPECIFICATION;
 
 using std::vector;
+using std::ostream;
+using std::endl;
 
 namespace PACMAN {
     namespace GENERATOR {
 
 Generator::Generator(ChoiceTree& tree) 
-:   choice_tree(tree)
+:   choice_tree(tree),
+    child_value(-1),
+    child_action(-1),
+    paths(choice_tree.get_max_depth()+1),
+    search_complete(false)
 {
     INVARIANTS_ON_EXIT;
+    for (int depth=0; depth <= choice_tree.get_max_depth(); ++depth) {
+        paths.at(depth).reserve(choice_tree.get_max_depth() - depth);
+    }
 }
 
 void Generator::run(int& best_score) {
     INVARIANTS_ON_EXIT;
-    auto best_path = minimax();
+    if (!search_complete) {
+        auto best_path = minimax();
+    }
     best_score = choice_tree.get().alpha_beta;
 }
 
@@ -64,14 +76,6 @@ int Generator::get_beta(int depth) const {
 vector<Action> Generator::minimax() {
     REQUIRE(choice_tree.get_depth() == 0);
 
-    vector<vector<Action>> paths(choice_tree.get_max_depth()+1);
-    for (int depth=0; depth <= choice_tree.get_max_depth(); ++depth) {
-        paths.at(depth).reserve(choice_tree.get_max_depth() - depth);
-    }
-
-    int child_value;
-    bool search_complete = false;
-    int child_action = -1; // the action used to get to the child we just examined
     while (!search_complete) {
         INVARIANTS_ON_EXIT;
         auto& best_path = paths.at(choice_tree.get_depth());
@@ -124,7 +128,23 @@ vector<Action> Generator::minimax() {
     }
 
     ENSURE(choice_tree.get_depth() == 0);
+    ENSURE(search_complete);
     return paths.at(0);
+}
+
+void Generator::save(ostream& out) const {
+    // TODO when saving must sync with end of loop iteration, and end that thread...
+    choice_tree.save(out);
+
+    write(out, child_value);
+    write(out, child_action);
+    write(out, search_complete);
+
+    write(out, paths.size());
+    for (auto path : paths) {
+        write(out, path.size());
+        out.write((const char*)path.data(), path.size() * sizeof(Action));
+    }
 }
 
 void Generator::invariants() const {

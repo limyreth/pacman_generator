@@ -47,6 +47,8 @@ namespace PACMAN {
             virtual int get_score() const = 0;
 
             virtual bool is_leaf() const = 0;
+
+            virtual void save(std::ostream& out) const = 0;
         };
 
     }

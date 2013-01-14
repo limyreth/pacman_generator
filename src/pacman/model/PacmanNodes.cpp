@@ -13,6 +13,7 @@
 #include "../Utility.h"
 #include "../Constants.h"
 #include "../specification/Walls.h"
+#include "../util/serialization.h"
 
 using std::vector;
 using std::cout;
@@ -75,6 +76,17 @@ PacmanNodes::PacmanNodes() {
 
 PacmanNodes::~PacmanNodes() {
     delete spawn;
+}
+
+void PacmanNodes::save(std::ostream& out, const Node* node) const {
+    REQUIRE(node);
+    if (node == spawn) {
+        write(out, (char)1);
+    }
+    else {
+        write(out, (char)2);
+        Nodes::save(out, node, nodes);
+    }
 }
 
     }

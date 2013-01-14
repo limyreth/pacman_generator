@@ -34,6 +34,8 @@ namespace PACMAN {
             int get_score() const;
             bool is_leaf() const;
 
+            void save(std::ostream& out) const;
+
         protected:
             void invariants() const;
 

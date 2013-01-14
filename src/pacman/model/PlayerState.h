@@ -18,6 +18,7 @@ namespace PACMAN {
     namespace MODEL {
 
         class Node;
+        class Nodes;
 
         class PlayerState : public ASSERTION::Assertable
         {
@@ -36,8 +37,11 @@ namespace PACMAN {
 
             Action get_action_along_direction(Direction::Type direction) const;
 
+            virtual void save(std::ostream& out) const = 0;
+
         protected:
             void invariants() const;
+            void save(std::ostream& out, const Nodes& nodes) const;
 
         private:
             void move(double distance);

@@ -10,12 +10,15 @@
 
 #include "PlayerState.h"
 #include "Node.h"
+#include "Nodes.h"
 #include "../Constants.h"
 #include "../Utility.h"
 #include "../util/assertion.h"
+#include "../util/serialization.h"
 #include <cmath>
 
 using std::min;
+using std::endl;
 
 namespace PACMAN {
     namespace MODEL {
@@ -144,6 +147,13 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
         }
     }
     return best_action;
+}
+
+void PlayerState::save(std::ostream& out, const Nodes& nodes) const {
+    write(out, pos);
+    write(out, must_repeat_previous_action);
+    nodes.save(out, origin);
+    nodes.save(out, destination);
 }
 
 void PlayerState::invariants() const {
