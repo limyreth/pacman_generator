@@ -12,8 +12,6 @@
 
 #include "ChoiceNode.h"
 #include "../model/GameState.h"
-#include "../model/PacmanNodes.h"
-#include "../model/GhostNodes.h"
 #include "../Constants.h"
 #include "../util/serialization.h"
 
@@ -35,7 +33,7 @@ PacmanGameTree::PacmanGameTree(int max_rounds)
     states.reserve(max_depth+1);  // Note: this is probably too much as sometimes multiple players need to move at the same time in the same tick
 
     // progress to initial choice
-    GameState state(PACMAN_NODES.get_spawn(), GHOST_NODES.get_spawns());
+    GameState state(GameState::new_game());
     vector<Action> prev_actions(PLAYER_COUNT, -1);
     progress_game_until_choice(state, prev_actions);
 }

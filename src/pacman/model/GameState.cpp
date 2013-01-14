@@ -43,6 +43,8 @@
 #include "Node.h"
 #include <string.h>
 #include "../util/serialization.h"
+#include "../model/PacmanNodes.h"
+#include "../model/GhostNodes.h"
 
 using namespace ::PACMAN::SPECIFICATION;
 
@@ -302,6 +304,10 @@ GameState::GameState(const vector<Action>& actions, const GameState& state, UIHi
     ENSURE(lives <= state.lives);
     ENSURE(fruit_ticks_left == -1 || fruit_ticks_left == FRUIT_TICKS || fruit_ticks_left == state.fruit_ticks_left - 1);
     ENSURE(vulnerable_ticks_left == -1 || vulnerable_ticks_left == VULNERABLE_TICKS || vulnerable_ticks_left == state.vulnerable_ticks_left - 1);
+}
+
+GameState GameState::new_game() {
+    return GameState(PACMAN_NODES.get_spawn(), GHOST_NODES.get_spawns());
 }
 
 bool GameState::get_vulnerable_ghost_count() const {

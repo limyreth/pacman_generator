@@ -35,8 +35,9 @@ namespace PACMAN {
         public:
             GameState();
             GameState(std::istream& in);
-            GameState(const Node* pacman_spawn, const std::vector<Node*> ghost_spawns);
             GameState(const std::vector<Action>& actions, const GameState& state, UIHints& app);
+
+            static GameState new_game();
 
             void save(std::ostream& out) const;
 
@@ -83,6 +84,8 @@ namespace PACMAN {
             void invariants() const;
 
         private:
+            GameState(const Node* pacman_spawn, const std::vector<Node*> ghost_spawns);
+
             void resetLvl();
             void nextLvl();
 

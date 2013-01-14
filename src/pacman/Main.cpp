@@ -15,8 +15,6 @@
 //////////////////////////////////////////////////////
 
 #include "model/GameState.h"
-#include "model/PacmanNodes.h"
-#include "model/GhostNodes.h"
 #include "generator/ChoiceTree.h"
 #include "generator/PacmanGameTree.h"
 #include "generator/Generator.h"
@@ -75,7 +73,7 @@ int main( int argc, char** argv ) {
 
         // interactive mode
         const vector<Action> actions(PLAYER_COUNT, 0);
-        MODEL::GameState state(PACMAN_NODES.get_spawn(), GHOST_NODES.get_spawns());
+        MODEL::GameState state(GameState::new_game());
         GUI::GUI gui(state);
         shared_ptr<UIHints> uihints = gui.create_uihints();
         while (gui.emptyMsgPump()) {

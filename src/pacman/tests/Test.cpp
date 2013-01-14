@@ -13,8 +13,6 @@
 #include "util.h"
 
 #include "../model/GameState.h"
-#include "../model/PacmanNodes.h"
-#include "../model/GhostNodes.h"
 #include "../Point.h"
 #include "../Constants.h"
 
@@ -31,7 +29,7 @@ namespace PACMAN {
     namespace TEST {
 
 Test::Test() 
-:   state(PACMAN_NODES.get_spawn(), GHOST_NODES.get_spawns())
+:   state(GameState::new_game())
 {
 }
 
