@@ -37,6 +37,8 @@ namespace PACMAN {
 
             void save(std::ostream& out) const;
 
+            bool operator==(const PacmanGameTree&) const;
+
         protected:
             void invariants() const;
 

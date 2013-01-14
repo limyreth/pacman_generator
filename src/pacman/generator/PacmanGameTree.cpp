@@ -142,6 +142,11 @@ void PacmanGameTree::save(std::ostream& out) const {
     }
 }
 
+bool PacmanGameTree::operator==(const PacmanGameTree& other) const {
+    return other.max_depth == max_depth &&
+        other.states == states;
+}
+
 void PacmanGameTree::invariants() const {
     INVARIANT(states.capacity() == max_depth + 1);
 }

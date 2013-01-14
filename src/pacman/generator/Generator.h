@@ -34,6 +34,7 @@ namespace PACMAN {
             Generator(std::istream& in, ChoiceTree& tree);
             void run(int& best_score);
             void save(std::ostream& out) const;
+            bool operator==(const Generator&) const;
 
         protected:
             void invariants() const;

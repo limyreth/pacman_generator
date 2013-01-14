@@ -165,11 +165,19 @@ void PlayerState::save(std::ostream& out, const Nodes& nodes) const {
     nodes.save(out, destination);
 }
 
+bool PlayerState::operator==(const PlayerState& o) const {
+    return o.pos == pos &&
+        o.origin == origin &&
+        o.destination == destination &&
+        o.must_repeat_previous_action == must_repeat_previous_action;
+}
+
 void PlayerState::invariants() const {
     INVARIANT(pos.x >= 0);
     INVARIANT(pos.y >= 0);
     INVARIANT(pos.x <= MAP_WIDTH * TILE_SIZE);
     INVARIANT(pos.y <= MAP_HEIGHT * TILE_SIZE);
+    INVARIANT(destination != NULL);
 }
 
 // Note: reversing direction between intersections is a legal action and a

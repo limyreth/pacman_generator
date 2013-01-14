@@ -81,7 +81,10 @@ PacmanNodes::~PacmanNodes() {
 const Node* PacmanNodes::load(std::istream& in) const {
     char choice;
     read(in, choice);
-    if (choice == (char)1) {
+    if (choice == (char)0) {
+        return NULL;
+    }
+    else if (choice == (char)1) {
         return spawn;
     }
     else {
@@ -91,8 +94,10 @@ const Node* PacmanNodes::load(std::istream& in) const {
 }
 
 void PacmanNodes::save(std::ostream& out, const Node* node) const {
-    REQUIRE(node);
-    if (node == spawn) {
+    if (node == NULL) {
+        write(out, (char)0);
+    }
+    else if (node == spawn) {
         write(out, (char)1);
     }
     else {

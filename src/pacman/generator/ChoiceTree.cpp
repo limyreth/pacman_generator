@@ -124,8 +124,14 @@ void ChoiceTree::save(std::ostream& out) const {
     out.write((const char*)choices.data(), choices.size() * sizeof(ChoiceNode));
 }
 
+bool ChoiceTree::operator==(const ChoiceTree& other) const {
+    return other.max_depth == max_depth &&
+        other.choices == choices;
+}
+
 void ChoiceTree::invariants() const {
     INVARIANT(!choices.empty());
+    INVARIANT(choices.capacity() == get_max_depth() + 1);
 }
 
 }}

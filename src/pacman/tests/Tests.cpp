@@ -103,7 +103,8 @@ void test(int index) {
         test_pacman_movement_regular_speed_not_cornering,
         test_dot_eating_no_cornering,
         MinimaxTests::test_1,
-        GeneratorTests::test_1
+        GeneratorTests::test_1,
+        GeneratorTests::test_save_load
     };
     tests[index]();
 }

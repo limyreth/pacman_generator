@@ -16,8 +16,19 @@
 #include "../generator/PacmanGameTree.h"
 #include "../generator/ChoiceTree.h"
 
+#include "../util/assertion.h"
+
+#include <sstream>
+
 using std::cout;
 using std::endl;
+using std::stringstream;
+
+using namespace ::PACMAN::MODEL;
+
+using ::PACMAN::GENERATOR::PacmanGameTree;
+using ::PACMAN::GENERATOR::ChoiceTree;
+using ::PACMAN::GENERATOR::Generator;
 
 namespace PACMAN {
     namespace TEST {
@@ -30,6 +41,58 @@ void GeneratorTests::test_1() {
     GENERATOR::Generator generator(choice_tree);
     int best_score;
     generator.run(best_score);
+}
+
+void GeneratorTests::test_save_load() {
+    // save load separate parts first
+
+    {
+        stringstream str;
+        auto state = GameState::new_game();
+        state.save(str);
+
+        GameState loaded_state(str);
+        ASSERT(loaded_state == state);
+    }
+
+    {
+        stringstream str;
+        PacmanGameTree tree(10);
+        tree.save(str);
+
+        PacmanGameTree loaded_tree(str);
+        ASSERT(loaded_tree == tree);
+    }
+
+    {
+        stringstream str;
+        PacmanGameTree game_tree(10);
+        ChoiceTree choice_tree(10, game_tree);
+        choice_tree.save(str);
+
+        ChoiceTree loaded_tree(str, game_tree);
+        ASSERT(loaded_tree == choice_tree);
+    }
+
+    {
+        stringstream str;
+        PacmanGameTree game_tree(10);
+        ChoiceTree choice_tree(10, game_tree);
+        Generator generator(choice_tree);
+        generator.save(str);
+
+        Generator loaded_generator(str, choice_tree);
+        ASSERT(loaded_generator == generator);
+    }
+
+    // now a running generator
+    // TODO
+    // stop immediately after starting
+    // then 50 ms later
+    // then 50 ms later
+    // then 50 ms later
+    // then 50 ms later
+    // done
 }
 
 }}

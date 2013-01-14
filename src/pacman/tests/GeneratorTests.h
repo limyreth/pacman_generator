@@ -17,6 +17,7 @@ namespace PACMAN {
         class GeneratorTests {
         public:
             static void test_1();
+            static void test_save_load();
         };
 
     }

@@ -43,6 +43,7 @@ namespace PACMAN {
         protected:
             void invariants() const;
             void save(std::ostream& out, const Nodes& nodes) const;
+            bool operator==(const PlayerState&) const;
 
         private:
             void move(double distance);

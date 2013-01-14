@@ -165,6 +165,13 @@ void Generator::save(ostream& out) const {
     }
 }
 
+bool Generator::operator==(const Generator& other) const {
+    return other.child_value == child_value &&
+        other.child_action == child_action &&
+        other.search_complete == search_complete &&
+        other.paths == paths;
+}
+
 void Generator::invariants() const {
     // Invariant: the action field of all ancestors is valid and shows the path
     // to the current node

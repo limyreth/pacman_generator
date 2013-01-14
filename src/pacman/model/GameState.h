@@ -40,6 +40,7 @@ namespace PACMAN {
             static GameState new_game();
 
             void save(std::ostream& out) const;
+            bool operator==(const GameState&) const;
 
             bool get_vulnerable_ghost_count() const;
 

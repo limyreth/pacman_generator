@@ -379,4 +379,29 @@ void GameState::save(std::ostream& out) const {
     write(out, idler_ticks_left);
 }
 
+bool GameState::operator==(const GameState& other) const {
+    if (other.pacman != pacman) {
+        return false;
+    }
+
+    for (int i=0; i < GHOST_COUNT; ++i) {
+        if (other.ghosts[i] != ghosts[i]) {
+            return false;
+        }
+    }
+
+    ASSERT(sizeof(foods) == MAP_WIDTH*MAP_HEIGHT*sizeof(Food::Type));
+    if (memcmp(other.foods, foods, sizeof(foods)) != 0) {
+        return false;
+    }
+
+    return other.food_count == food_count &&
+        other.score == score &&
+        other.lives == lives &&
+        other.fruit_spawned == fruit_spawned &&
+        other.vulnerable_ticks_left == vulnerable_ticks_left &&
+        other.fruit_ticks_left == fruit_ticks_left &&
+        other.idler_ticks_left == idler_ticks_left;
+}
+
 }}

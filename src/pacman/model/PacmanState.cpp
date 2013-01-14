@@ -32,4 +32,8 @@ void PacmanState::save(std::ostream& out) const {
     PlayerState::save(out, PACMAN_NODES);
 }
 
+bool PacmanState::operator==(const PacmanState& o) const {
+    return PlayerState::operator==(o);
+}
+
 }}

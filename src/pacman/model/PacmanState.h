@@ -24,6 +24,11 @@ namespace PACMAN {
             PacmanState(std::istream& in);
 
             virtual void save(std::ostream& out) const;
+            bool operator==(const PacmanState&) const;
+
+            bool operator!=(const PacmanState& o) const {
+                return !(*this == o);
+            }
         };
 
     }

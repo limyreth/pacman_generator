@@ -25,6 +25,12 @@ namespace PACMAN {
 
             // alpha or beta value. Depends on player.
             int alpha_beta;
+
+            bool operator==(const ChoiceNode& other) const {
+                return other.action == action &&
+                    other.player == player &&
+                    other.alpha_beta == alpha_beta;
+            }
         };
 
     }

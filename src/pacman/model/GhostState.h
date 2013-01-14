@@ -32,6 +32,11 @@ namespace PACMAN {
             bool is_in_tunnel();
 
             virtual void save(std::ostream& out) const;
+            bool operator==(const GhostState&) const;
+
+            bool operator!=(const GhostState& o) const {
+                return !(*this == o);
+            }
 
         public:
             State state;
