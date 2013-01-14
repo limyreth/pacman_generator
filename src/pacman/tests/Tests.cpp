@@ -108,5 +108,4 @@ void test(int index) {
     tests[index]();
 }
 
-    }
-}
+}}

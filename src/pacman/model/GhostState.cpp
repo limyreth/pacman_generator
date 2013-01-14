@@ -48,5 +48,4 @@ void GhostState::save(std::ostream& out) const {
 
 // Note: this has little meaning other than that when it changes, a new action may be chosen (which is by crossing any grid line with offset half a tile)
 
-    }
-}
+}}

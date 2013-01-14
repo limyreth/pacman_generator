@@ -20,6 +20,4 @@ void delay(unsigned int ms) {
     SDL_Delay(10*ms);  // 10* for easier debugging TODO rm again
 }
 
-
-    }
-}
+}}

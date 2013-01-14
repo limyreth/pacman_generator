@@ -18,7 +18,6 @@ using std::endl;
 using PACMAN::GENERATOR::ChoiceNode;
 
 namespace PACMAN {
-
     namespace TEST {
 
 ChoiceTree::ChoiceTree(int max_depth, GENERATOR::GameTree& tree) 

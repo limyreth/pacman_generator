@@ -44,5 +44,4 @@ void GUIHints::ate_energizer() {
     snd->play(7, 1);
 }
 
-    }
-}
+}}

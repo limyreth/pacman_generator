@@ -31,5 +31,4 @@ void scale_to_size(shared_ptr<SDL_Surface>& surface, double size) {
     surface.reset(zoomSurface(surface.get(), zoomx, zoomy, 0), SDL_FreeSurface);
 }
 
-    }
-}
+}}

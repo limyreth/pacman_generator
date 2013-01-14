@@ -18,5 +18,4 @@ Node::Node(FPoint location)
 {
 }
 
-    }
-}
+}}

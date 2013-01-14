@@ -15,10 +15,10 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
+using namespace ::PACMAN::SPECIFICATION;
+
 namespace PACMAN {
     namespace GUI {
-
-using namespace SPECIFICATION;
 
 void BckgrObj::Draw(int ix, int iy, int obj, int type, int alp) {
     SDL_Rect pos;
@@ -244,5 +244,4 @@ BckgrObj::BckgrObj( shared_ptr<SDL_Surface> buffer, int os)
 {
 }
 
-    }
-}
+}}

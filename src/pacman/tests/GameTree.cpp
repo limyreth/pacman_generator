@@ -20,7 +20,6 @@ using std::endl;
 using PACMAN::GENERATOR::ChoiceNode;
 
 namespace PACMAN {
-
     namespace TEST {
 
 GameTree::GameTree(shared_ptr<TreeNode> root) 

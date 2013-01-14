@@ -183,5 +183,4 @@ void PlayerState::invariants() const {
 // Reversing is usually not the best action though, so we return it as the last possible legal action (in hope of it getting pruned)
 // TODO might still want to allow a search without reversal though, as it'll probably be a lot quicker to find a solution, although we can't be sure that solution is perfect
 
-    }
-}
+}}

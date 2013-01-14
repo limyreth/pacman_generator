@@ -132,5 +132,4 @@ Pacman::Pacman(shared_ptr<SDL_Surface> buf, int os)
 {
 }
 
-    }
-}
+}}

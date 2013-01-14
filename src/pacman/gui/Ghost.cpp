@@ -16,10 +16,10 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
+using ::PACMAN::MODEL::GhostState;
+
 namespace PACMAN {
     namespace GUI {
-
-using MODEL::GhostState;
 
 void Ghost::Draw(int ix, int iy, int obj, int type) {
     SDL_Rect pos;
@@ -118,6 +118,4 @@ Ghost::Ghost(shared_ptr<SDL_Surface> buf, int os, std::string fn)
 {
 }
 
-
-    }
-}
+}}

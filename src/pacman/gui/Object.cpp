@@ -38,5 +38,4 @@ shared_ptr<SDL_Surface> Object::Rotate(shared_ptr<SDL_Surface> src, int angle, d
     return rotatedSurface;
 }
 
-    }
-}
+}}

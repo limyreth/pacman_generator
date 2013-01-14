@@ -183,5 +183,4 @@ void Nodes::save(std::ostream& out, const Node* node, const std::vector<Node*>& 
     write(out, std::distance(nodes.begin(), it));
 }
 
-    }
-}
+}}

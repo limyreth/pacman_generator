@@ -81,5 +81,4 @@ void GhostNodes::save(std::ostream& out, const Node* node) const {
     }
 }
 
-    }
-}
+}}

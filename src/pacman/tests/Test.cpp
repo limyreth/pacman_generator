@@ -30,8 +30,6 @@ using std::vector;
 namespace PACMAN {
     namespace TEST {
 
-
-
 Test::Test() 
 :   state(PACMAN_NODES.get_spawn(), GHOST_NODES.get_spawns())
 {
@@ -84,5 +82,4 @@ int Test::get_food_count() {
     return get_state()->food_count;
 }
 
-    }
-}
+}}

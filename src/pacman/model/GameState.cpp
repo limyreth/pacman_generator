@@ -44,16 +44,16 @@
 #include <string.h>
 #include "../util/serialization.h"
 
-namespace PACMAN {
-    namespace MODEL {
-
-using namespace SPECIFICATION;
+using namespace ::PACMAN::SPECIFICATION;
 
 using std::vector;
 using std::cout;
 using std::endl;
 
 using std::max;
+
+namespace PACMAN {
+    namespace MODEL {
 
 /**
  * Default ctor for use in collections. Don't use objects instantiated this

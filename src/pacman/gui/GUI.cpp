@@ -30,9 +30,9 @@
 
 #define PAC 1
 
-namespace PACMAN {
-    using namespace SPECIFICATION;
+using namespace ::PACMAN::SPECIFICATION;
 
+namespace PACMAN {
     namespace GUI {
 
 GUI::GUI(const MODEL::GameState& state)
@@ -256,5 +256,4 @@ shared_ptr<MODEL::UIHints> GUI::create_uihints() {
     return shared_ptr<MODEL::UIHints>(new GUIHints(snd));
 }
 
-    }
-}
+}}

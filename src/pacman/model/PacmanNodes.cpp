@@ -19,10 +19,10 @@ using std::vector;
 using std::cout;
 using std::endl;
 
+using ::PACMAN::SPECIFICATION::walls;
+
 namespace PACMAN {
     namespace MODEL {
-
-using SPECIFICATION::walls;
 
 const PacmanNodes PACMAN_NODES;
 
@@ -101,5 +101,4 @@ void PacmanNodes::save(std::ostream& out, const Node* node) const {
     }
 }
 
-    }
-}
+}}

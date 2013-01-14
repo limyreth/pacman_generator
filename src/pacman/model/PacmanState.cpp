@@ -32,5 +32,4 @@ void PacmanState::save(std::ostream& out) const {
     PlayerState::save(out, PACMAN_NODES);
 }
 
-    }
-}
+}}

@@ -13,10 +13,10 @@
 #include "../Log.h"
 #include <SDL/SDL_mixer.h>
 
+using std::string;
+
 namespace PACMAN {
     namespace GUI {
-
-using std::string;
 
 DefaultSounds::DefaultSounds() 
 :   on(true)
@@ -96,5 +96,4 @@ void DefaultSounds::play(int i, bool looped, int volume) {
     Mix_PlayChannel(i,snd[i].get(),loop);
 }
 
-    }
-}
+}}
