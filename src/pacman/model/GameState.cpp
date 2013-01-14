@@ -64,6 +64,8 @@ GameState::GameState()
 }
 
 GameState::GameState(std::istream& in) {
+    INVARIANTS_ON_EXIT;
+
     pacman = PacmanState(in);
     for (int i=0; i < GHOST_COUNT; ++i) {
         ghosts[i] = GhostState(in);

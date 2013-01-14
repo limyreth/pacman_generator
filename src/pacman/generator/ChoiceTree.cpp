@@ -35,6 +35,7 @@ ChoiceTree::ChoiceTree(std::istream& in, GameTree& tree)
 :   max_depth(-1),
     tree(tree)
 {
+    INVARIANTS_ON_EXIT;
     read(in, max_depth);
     choices.reserve(get_max_depth()+1);
 

@@ -38,6 +38,7 @@ Generator::Generator(std::istream& in, ChoiceTree& tree)
 :   choice_tree(tree),
     paths(choice_tree.get_max_depth()+1)
 {
+    INVARIANTS_ON_EXIT;
     read(in, child_value);
     read(in, child_action);
     read(in, search_complete);
