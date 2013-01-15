@@ -15,7 +15,7 @@ using namespace PACMAN::MODEL;
 using namespace PACMAN::SPECIFICATION;
 
 using std::vector;
-using std::ostream;
+using std::cout;
 using std::endl;
 
 namespace PACMAN {
@@ -164,10 +164,18 @@ void Generator::minimax() {
         }
     }
 
+    if (search_complete) {
+        cout << endl
+            << endl
+            << "Search complete!" << endl
+            << endl
+            << endl;
+    }
+
     ENSURE(!search_complete || choice_tree.get_depth() == 0);
 }
 
-void Generator::save(ostream& out) const {
+void Generator::save(std::ostream& out) const {
     // TODO when saving must sync with end of loop iteration, and end that thread...
     write(out, child_value);
     write(out, child_action);

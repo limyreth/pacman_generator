@@ -15,9 +15,7 @@
 //////////////////////////////////////////////////////
 
 #include "model/GameState.h"
-#include "generator/ChoiceTree.h"
-#include "generator/PacmanGameTree.h"
-#include "generator/Generator.h"
+#include "generator/generate.h"
 #include "gui/GUI.h"
 #include "Log.h"
 #include "util/assertion.h"
@@ -57,7 +55,7 @@ int main( int argc, char** argv ) {
                 return 0;
             }
             else if (str == "--generate") {
-                // TODO
+                GENERATOR::run_generate();
                 return 0;
             }
             else
