@@ -23,6 +23,7 @@
 
 using std::cout;
 using std::endl;
+using std::vector;
 
 using namespace PACMAN::MODEL;
 using namespace PACMAN::SPECIFICATION;
@@ -97,7 +98,7 @@ void test_dot_eating_no_cornering() {
 void test(int index) {
     typedef void (*TestFunc)();
 
-    TestFunc tests[] = {
+    vector<TestFunc> tests = {
         test_initial_game_state,
         test_ghosts_remain_normal_when_not_eating_energizer,
         test_pacman_movement_regular_speed_not_cornering,
@@ -106,7 +107,7 @@ void test(int index) {
         GeneratorTests::test_1,
         GeneratorTests::test_save_load
     };
-    tests[index]();
+    tests.at(index)();
 }
 
 }}
