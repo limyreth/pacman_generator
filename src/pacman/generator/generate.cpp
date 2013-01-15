@@ -10,18 +10,25 @@
 
 #include "generate.h"
 #include "GeneratorRun.h"
-#include <sstream>
+
+#include <fstream>
+#include <cstdlib>
+
+#include <sys/stat.h>
 
 using std::string;
 using std::cout;
 using std::cin;
 using std::endl;
+using std::ios;
 
 namespace PACMAN {
     namespace GENERATOR {
 
 void run_generate() {
     std::shared_ptr<GeneratorRun> run;
+    const string STATE_DIR = string(getenv("XDG_DATA_HOME")) + "/pacman_generator";
+    mkdir(STATE_DIR.c_str(), 0755);
 
     run.reset(new GeneratorRun);
     run->start();
@@ -35,8 +42,9 @@ void run_generate() {
             quit = true;
 
             cout << "Stopping generator" << endl;
-            std::stringstream str;
-            run->stop(str);
+            std::ofstream out(STATE_DIR + "/state", ios::out | ios::binary);
+            run->stop(out);
+            out.close();
             cout << "Stopped" << endl;
         }
         else {
