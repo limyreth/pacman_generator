@@ -62,8 +62,8 @@ int main( int argc, char** argv ) {
                 GENERATOR::PacmanGameTree game_tree(MAX_CHOICES-1);
                 GENERATOR::ChoiceTree choice_tree(MAX_CHOICES-1, game_tree);
                 GENERATOR::Generator generator(choice_tree);
-                int best_score;
-                generator.run(best_score);
+                generator.start();
+                generator.join();
 
                 return 0;
             }

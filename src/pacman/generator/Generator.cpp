@@ -26,6 +26,7 @@ Generator::Generator(ChoiceTree& tree)
     child_value(-1),
     child_action(-1),
     paths(choice_tree.get_max_depth()+1),
+    should_stop(false),
     search_complete(false)
 {
     INVARIANTS_ON_EXIT;
@@ -55,12 +56,29 @@ Generator::Generator(std::istream& in, ChoiceTree& tree)
     }
 }
 
-void Generator::run(int& best_score) {
+void Generator::start() {
     INVARIANTS_ON_EXIT;
+    REQUIRE(thread.get_id() == std::thread::id()); // Not already running; current thread invalid
     if (!search_complete) {
-        auto best_path = minimax();
+        thread = std::thread(&Generator::minimax, this);
     }
-    best_score = choice_tree.get().alpha_beta;
+}
+
+void Generator::stop() {
+    should_stop = true;
+}
+
+void Generator::join() {
+    thread.join();
+}
+
+int Generator::get_best_score() const {
+    REQUIRE(search_complete);
+    return choice_tree.get().alpha_beta;
+}
+const vector<Action>& Generator::get_best_path() const {
+    REQUIRE(search_complete);
+    return paths.at(0);
 }
 
 int Generator::get_alpha() const {
@@ -94,10 +112,11 @@ int Generator::get_beta(int depth) const {
 /*
  * Explore all choices of current choice node
  */
-vector<Action> Generator::minimax() {
+void Generator::minimax() {
     REQUIRE(choice_tree.get_depth() == 0);
+    REQUIRE(!should_stop);
 
-    while (!search_complete) {
+    while (!search_complete && !should_stop) {
         INVARIANTS_ON_EXIT;
         auto& best_path = paths.at(choice_tree.get_depth());
         ASSERT(best_path.capacity() == choice_tree.get_max_depth() - choice_tree.get_depth());  // assert we reserved the right amount
@@ -150,7 +169,6 @@ vector<Action> Generator::minimax() {
 
     ENSURE(choice_tree.get_depth() == 0);
     ENSURE(search_complete);
-    return paths.at(0);
 }
 
 void Generator::save(ostream& out) const {

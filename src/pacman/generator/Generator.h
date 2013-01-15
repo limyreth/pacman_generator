@@ -12,6 +12,7 @@
 
 #include "ChoiceTree.h"
 #include "../util/assertion.h"
+#include <thread>
 
 namespace PACMAN {
 
@@ -32,9 +33,19 @@ namespace PACMAN {
         public:
             Generator(ChoiceTree& tree);
             Generator(std::istream& in, ChoiceTree& tree);
-            void run(int& best_score);
             void save(std::ostream& out) const;
             bool operator==(const Generator&) const;
+            int get_best_score() const;
+            const std::vector<MODEL::Action>& get_best_path() const;
+
+            // start asynchronously
+            void start(); 
+
+            // tell thread to stop
+            void stop(); 
+
+            // wait for generator thread to stop/finish
+            void join();
 
         protected:
             void invariants() const;
@@ -47,14 +58,18 @@ namespace PACMAN {
 
             int translate(int i) const;
 
-            std::vector<MODEL::Action> minimax();
+            void minimax();
+
 
         private:
+            bool should_stop;
+            std::thread thread;
+
             ChoiceTree& choice_tree;
             std::vector<std::vector<MODEL::Action>> paths;
-            int child_value = -1;
-            int child_action = -1; // the action used to get to the child we just examined
-            bool search_complete = false;
+            int child_value;
+            int child_action; // the action used to get to the child we just examined
+            bool search_complete;
         };
 
     }

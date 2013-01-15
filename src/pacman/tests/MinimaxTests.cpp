@@ -445,8 +445,9 @@ void MinimaxTests::test_1() {
     ChoiceTree choice_tree(6, game_tree);
     GENERATOR::Generator generator(choice_tree);
     int best_score;
-    generator.run(best_score);
-    assert_equals(best_score, 11);
+    generator.start();
+    generator.join();
+    assert_equals(generator.get_best_score(), 11);
     assert_equals(game_tree.get_children_visited(), 36);  // if more is pruned, could be nice, but that's suspicious
 }
 

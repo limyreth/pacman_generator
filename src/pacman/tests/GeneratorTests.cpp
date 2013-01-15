@@ -39,8 +39,8 @@ void GeneratorTests::test_1() {
     GENERATOR::PacmanGameTree game_tree(max_rounds);
     GENERATOR::ChoiceTree choice_tree(max_rounds, game_tree);
     GENERATOR::Generator generator(choice_tree);
-    int best_score;
-    generator.run(best_score);
+    generator.start();
+    generator.join();
 }
 
 void GeneratorTests::test_save_load() {
