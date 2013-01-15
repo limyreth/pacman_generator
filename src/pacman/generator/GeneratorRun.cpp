@@ -9,6 +9,7 @@
 
 
 #include "GeneratorRun.h"
+#include "../Error.h"
 
 namespace PACMAN {
     namespace GENERATOR {
@@ -27,6 +28,9 @@ GeneratorRun::GeneratorRun(std::istream& in)
     choice_tree(in, game_tree),
     generator(in, choice_tree)
 {
+    if (in.fail()) {
+        throw_exception("Failed to read generator state");
+    }
 }
 
 void GeneratorRun::start() {
@@ -40,6 +44,10 @@ void GeneratorRun::stop(std::ostream& out) {
     game_tree.save(out);
     choice_tree.save(out);
     generator.save(out);
+    out.flush();
+    if (out.fail()) {
+        throw_exception("Failed to write generator state");
+    }
 }
 
 bool GeneratorRun::operator==(const GeneratorRun& o) const {
