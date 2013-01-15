@@ -105,7 +105,8 @@ void test(int index) {
         test_dot_eating_no_cornering,
         MinimaxTests::test_1,
         GeneratorTests::test_1,
-        GeneratorTests::test_save_load
+        GeneratorTests::test_save_load,
+        GeneratorTests::test_save_load_of_running_instance
     };
     tests.at(index)();
 }

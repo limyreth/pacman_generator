@@ -40,7 +40,6 @@ PacmanGameTree::PacmanGameTree(int max_rounds)
 }
 
 PacmanGameTree::PacmanGameTree(std::istream& in)
-:   max_depth(-1)
 {
     INVARIANTS_ON_EXIT;
     read(in, max_depth);

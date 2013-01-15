@@ -12,6 +12,7 @@
 
 #include "util.h"
 
+#include "../generator/GeneratorRun.h"
 #include "../generator/Generator.h"
 #include "../generator/PacmanGameTree.h"
 #include "../generator/ChoiceTree.h"
@@ -29,6 +30,7 @@ using namespace ::PACMAN::MODEL;
 using ::PACMAN::GENERATOR::PacmanGameTree;
 using ::PACMAN::GENERATOR::ChoiceTree;
 using ::PACMAN::GENERATOR::Generator;
+using ::PACMAN::GENERATOR::GeneratorRun;
 
 namespace PACMAN {
     namespace TEST {
@@ -84,15 +86,27 @@ void GeneratorTests::test_save_load() {
         Generator loaded_generator(str, choice_tree);
         ASSERT(loaded_generator == generator);
     }
+}
 
-    // now a running generator
-    // TODO
-    // stop immediately after starting
-    // then 50 ms later
-    // then 50 ms later
-    // then 50 ms later
-    // then 50 ms later
-    // done
+void GeneratorTests::test_save_load_of_running_instance() {
+    std::chrono::milliseconds duration(50);
+    shared_ptr<GeneratorRun> run(new GeneratorRun);
+
+    for (int i=0; i < 5; ++i) {
+        cout << i << endl;
+        run->start();
+
+        if (i > 0) {
+            std::this_thread::sleep_for(duration);
+        }
+
+        stringstream str;
+        run->stop(str);
+
+        shared_ptr<GeneratorRun> loaded_run(new GeneratorRun(str));
+        ASSERT(*loaded_run == *run);
+        run = loaded_run;
+    }
 }
 
 }}

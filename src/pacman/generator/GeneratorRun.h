@@ -10,15 +10,27 @@
 
 #pragma once
 
-namespace PACMAN {
-    namespace TEST {
+#include "../generator/Generator.h"
+#include "../generator/PacmanGameTree.h"
+#include "../generator/ChoiceTree.h"
 
-        // test entire generator subsystem
-        class GeneratorTests {
+namespace PACMAN {
+    namespace GENERATOR {
+
+        // a run generating pacman perfect solution
+        class GeneratorRun
+        {
         public:
-            static void test_1();
-            static void test_save_load();
-            static void test_save_load_of_running_instance();
+            GeneratorRun();
+            GeneratorRun(std::istream& in);
+            void start();
+            void stop(std::ostream& out);
+            bool operator==(const GeneratorRun&) const;
+
+        private:
+            PacmanGameTree game_tree;
+            ChoiceTree choice_tree;
+            Generator generator;
         };
 
     }

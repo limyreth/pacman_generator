@@ -57,14 +57,7 @@ int main( int argc, char** argv ) {
                 return 0;
             }
             else if (str == "--generate") {
-                const int MAX_CHOICES = 100;  // the max depth of choices to generate into
-
-                GENERATOR::PacmanGameTree game_tree(MAX_CHOICES-1);
-                GENERATOR::ChoiceTree choice_tree(game_tree);
-                GENERATOR::Generator generator(choice_tree);
-                generator.start();
-                generator.join();
-
+                // TODO
                 return 0;
             }
             else

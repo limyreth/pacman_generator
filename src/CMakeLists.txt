@@ -89,3 +89,8 @@ add_test(
     COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pacman_sdl --test 7
 )
 
+add_test(
+    NAME generator_save_load_of_running_instance
+    COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pacman_sdl --test 8
+)
+

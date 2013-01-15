@@ -48,7 +48,7 @@ Generator::Generator(std::istream& in, ChoiceTree& tree)
         paths.at(depth).reserve(choice_tree.get_max_depth() - depth);
     }
 
-    for (auto path : paths) {
+    for (auto& path : paths) {
         vector<Action>::size_type size;
         read(in, size);
         path.resize(size);
@@ -113,9 +113,6 @@ int Generator::get_beta(int depth) const {
  * Explore all choices of current choice node
  */
 void Generator::minimax() {
-    REQUIRE(choice_tree.get_depth() == 0);
-    REQUIRE(!should_stop);
-
     while (!search_complete && !should_stop) {
         INVARIANTS_ON_EXIT;
         auto& best_path = paths.at(choice_tree.get_depth());
@@ -167,8 +164,7 @@ void Generator::minimax() {
         }
     }
 
-    ENSURE(choice_tree.get_depth() == 0);
-    ENSURE(search_complete);
+    ENSURE(!search_complete || choice_tree.get_depth() == 0);
 }
 
 void Generator::save(ostream& out) const {
@@ -184,10 +180,21 @@ void Generator::save(ostream& out) const {
 }
 
 bool Generator::operator==(const Generator& other) const {
+    if (other.paths.size() != paths.size()) {
+        return false;
+    }
+
+    for (int i=0; i < paths.size(); ++i) {
+        auto& path = paths.at(i);
+        auto& opath = other.paths.at(i);
+        if (opath != path || opath.capacity() != path.capacity()) {
+            return false;
+        }
+    }
+
     return other.child_value == child_value &&
         other.child_action == child_action &&
-        other.search_complete == search_complete &&
-        other.paths == paths;
+        other.search_complete == search_complete;
 }
 
 void Generator::invariants() const {
