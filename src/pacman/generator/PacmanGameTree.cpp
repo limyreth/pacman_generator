@@ -29,6 +29,7 @@ namespace PACMAN {
 PacmanGameTree::PacmanGameTree(int max_rounds)
 :   max_depth(max_rounds)
 {
+    REQUIRE(max_depth >= 0);
     INVARIANTS_ON_EXIT;
     states.reserve(max_depth+1);  // Note: this is probably too much as sometimes multiple players need to move at the same time in the same tick
 
@@ -149,6 +150,11 @@ bool PacmanGameTree::operator==(const PacmanGameTree& other) const {
 
 void PacmanGameTree::invariants() const {
     INVARIANT(states.capacity() == max_depth + 1);
+}
+
+int PacmanGameTree::get_max_depth() const {
+    ENSURE(max_depth >= 0);
+    return max_depth;
 }
 
 }}

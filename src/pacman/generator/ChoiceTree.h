@@ -35,8 +35,9 @@ namespace PACMAN {
         class ChoiceTree : public ASSERTION::Assertable
         {
         public:
-            ChoiceTree(int max_choice_rounds, GameTree& tree);
+            ChoiceTree(GameTree& tree);
             ChoiceTree(std::istream& in, GameTree& tree);
+            virtual ~ChoiceTree() {}
 
             /*
              * Move current node pointer to parent
@@ -70,7 +71,6 @@ namespace PACMAN {
             void invariants() const;
 
         private:
-            const int max_depth;
             GameTree& tree;
             std::vector<GENERATOR::ChoiceNode> choices;  // 2D array of [round][player]
         };

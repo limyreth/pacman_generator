@@ -20,9 +20,6 @@ namespace PACMAN {
 
     namespace GENERATOR {
 
-        /* 
-         * Quite like a ChoiceTree, but doesn't keep track of choices made
-         */
         class PacmanGameTree : public GameTree, public ASSERTION::Assertable
         {
         public:
@@ -34,6 +31,7 @@ namespace PACMAN {
             MODEL::LegalActions get_legal_actions(int player) const;
             int get_score() const;
             bool is_leaf() const;
+            int get_max_depth() const;
 
             void save(std::ostream& out) const;
 
@@ -49,8 +47,6 @@ namespace PACMAN {
         private:
             std::vector<MODEL::GameState> states;
             GUI::NullUIHints uihints;
-
-            // used solely for assertions
             const int max_depth;
         };
 

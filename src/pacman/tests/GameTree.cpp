@@ -22,9 +22,10 @@ using PACMAN::GENERATOR::ChoiceNode;
 namespace PACMAN {
     namespace TEST {
 
-GameTree::GameTree(shared_ptr<TreeNode> root) 
+GameTree::GameTree(int max_rounds, shared_ptr<TreeNode> root) 
 :   node(root),
-    children_visited(0)
+    children_visited(0),
+    max_depth(max_rounds)
 {
 }
 
@@ -66,6 +67,10 @@ bool GameTree::is_leaf() const {
 
 void GameTree::save(std::ostream& out) const {
     REQUIRE(false);
+}
+
+int GameTree::get_max_depth() const {
+    return max_depth;
 }
 
 }}

@@ -441,8 +441,8 @@ shared_ptr<TreeNode> MinimaxTests::build_tree() {
 
 void MinimaxTests::test_1() {
     auto root = build_tree();
-    GameTree game_tree(root);
-    ChoiceTree choice_tree(6, game_tree);
+    GameTree game_tree(6, root);
+    ChoiceTree choice_tree(game_tree);
     GENERATOR::Generator generator(choice_tree);
     int best_score;
     generator.start();

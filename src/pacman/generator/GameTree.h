@@ -49,6 +49,11 @@ namespace PACMAN {
             virtual bool is_leaf() const = 0;
 
             virtual void save(std::ostream& out) const = 0;
+
+            /*
+             * Get inclusive max depth (of subsequent rounds played)
+             */
+            virtual int get_max_depth() const = 0;
         };
 
     }

@@ -21,22 +21,18 @@ using std::endl;
 namespace PACMAN {
     namespace GENERATOR {
 
-ChoiceTree::ChoiceTree(int max_choice_rounds, GameTree& tree) 
-:   max_depth(max_choice_rounds*PLAYER_COUNT), 
-    tree(tree)
+ChoiceTree::ChoiceTree(GameTree& tree) 
+:   tree(tree)
 {
-    REQUIRE(max_depth >= 0);
     INVARIANTS_ON_EXIT;
     choices.reserve(get_max_depth()+1);
     choices.emplace_back(ChoiceNode{-1, 0, -1});
 }
 
 ChoiceTree::ChoiceTree(std::istream& in, GameTree& tree)
-:   max_depth(-1),
-    tree(tree)
+:   tree(tree)
 {
     INVARIANTS_ON_EXIT;
-    read(in, max_depth);
     choices.reserve(get_max_depth()+1);
 
     vector<ChoiceNode>::size_type size;
@@ -101,7 +97,9 @@ int ChoiceTree::get_depth() const {
 }
 
 int ChoiceTree::get_max_depth() const {
-    return max_depth;
+    int retval = tree.get_max_depth() * PLAYER_COUNT;
+    ENSURE(retval >= 0);
+    return retval;
 }
 
 const GENERATOR::ChoiceNode& ChoiceTree::get() const {
@@ -118,15 +116,12 @@ void ChoiceTree::set_alpha_beta(int alpha_beta) {
 }
 
 void ChoiceTree::save(std::ostream& out) const {
-    write(out, max_depth);
-
     write(out, choices.size());
     out.write((const char*)choices.data(), choices.size() * sizeof(ChoiceNode));
 }
 
 bool ChoiceTree::operator==(const ChoiceTree& other) const {
-    return other.max_depth == max_depth &&
-        other.choices == choices;
+    return other.choices == choices;
 }
 
 void ChoiceTree::invariants() const {
