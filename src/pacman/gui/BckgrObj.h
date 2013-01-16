@@ -18,6 +18,7 @@ using boost::shared_ptr;
 
 class SDL_Surface;
 
+// There are only 9, index 0 used to be background but is now no longer used
 #define NUMOFMAPTEX 10
 
 namespace PACMAN {

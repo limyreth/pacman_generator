@@ -57,7 +57,7 @@ void BckgrObj::Draw(const int* walls, const Foods foods) {
 
     objcounter = 0;
 
-    SDL_BlitSurface(mapEl[0].get(), NULL, buf.get(), NULL);
+    SDL_FillRect(buf.get(), NULL, 0);
 
     //DRAW FIELD
     for (j=0;j<height;j++) {
@@ -197,7 +197,7 @@ void BckgrObj::LoadTextures(std::string path) {
     for (i=0;i<NUMOFMAPTEX;i++)
         num[i]='0'+i;
 
-    for (i=0;i<NUMOFMAPTEX;i++) {
+    for (i=1;i<NUMOFMAPTEX;i++) {
         mapEl[i].reset(IMG_Load((path + "m" + num[i] + ".png").c_str()), SDL_FreeSurface);
         if ( mapEl[i] == NULL )
             throw_exception(num[i] + "Failed to load map texture");
