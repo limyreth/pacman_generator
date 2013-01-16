@@ -19,8 +19,6 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_gfxPrimitives.h>
 
-static_assert(PLAYER_SIZE < 2.0 * TILE_SIZE, "Node map requires this");
-
 using std::vector;
 using std::endl;
 

@@ -12,6 +12,7 @@
 #include "../Error.h"
 #include "Draw.h"
 #include "../Log.h"
+#include "../Utility.h"
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
@@ -25,15 +26,14 @@ void BckgrObj::Draw(int ix, int iy, int obj, int type, int alp) {
 
     pos.x=ix;
     pos.y=iy;
-    pos.h=pos.w=20;
+    pos.h=pos.w=TILE_SIZE;
 
     if (type == 1) {
         SDL_SetAlpha(objEl[obj].get(),SDL_SRCALPHA|SDL_RLEACCEL,alp);
         SDL_BlitSurface(objEl[obj].get(),NULL,buf.get(),&pos);
     }
     else {
-        SDL_SetAlpha(mapEl[obj].get(),SDL_SRCALPHA|SDL_RLEACCEL,alp);
-        SDL_BlitSurface(mapEl[obj].get(),NULL,buf.get(),&pos);
+        assert(false);
     }
 }
 
@@ -46,131 +46,32 @@ void BckgrObj::setFruitAlpha(int a) {
 }
 
 void BckgrObj::Draw(const int* walls, const Foods foods) {
-    int height,
-        width,
-        i,
-        j;
+    int i, j;
     SDL_Rect pos;
-
-    height = MAP_HEIGHT;
-    width = MAP_WIDTH;
 
     objcounter = 0;
 
     SDL_FillRect(buf.get(), NULL, 0);
 
-    //DRAW FIELD
-    for (j=0;j<height;j++) {
-        for (i=0; i<width; i++) {
+    // DRAW MAP
+    SDL_SetAlpha(map.get(), SDL_SRCALPHA | SDL_RLEACCEL, alpha);
+    SDL_BlitSurface(map.get(), NULL, buf.get(), NULL);
+
+    // DRAW OBJECTS
+    for (j=0;j<MAP_HEIGHT;j++) {
+        for (i=0; i<MAP_WIDTH; i++) {
 
             pos.x=i*TILE_SIZE;
             pos.y=j*TILE_SIZE;
-            pos.h=20;
-            pos.w=20;
+            pos.h=TILE_SIZE;
+            pos.w=TILE_SIZE;
 
-            if (walls[j*width+i]==1	&&	// horizontal line
-                ( walls[j*width+i+1] != 0 || i == width-1 ) &&
-                ( walls[j*width+i-1] != 0 || i == 0 ) ) {
-                SDL_SetAlpha(mapEl[1].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
-                SDL_BlitSurface(mapEl[1].get(), NULL, buf.get(), &pos );
-            }
-
-            else if (walls[j*width+i]==1)	{	// vertical line
-                SDL_SetAlpha(mapElRot[1][0].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
-                SDL_BlitSurface(mapElRot[1][0].get(), NULL, buf.get(), &pos);
-            }
-
-            else if (walls[j*width+i]==2 &&		//ghost door
-                     walls[j*width+i + 1] != 0 &&
-                     walls[j*width+i - 1] != 0) {
-                SDL_SetAlpha(mapEl[2].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
-                SDL_BlitSurface(mapEl[2].get(), NULL, buf.get(), &pos);
-            }
-            else if (walls[j*width+i]==2)	{	// vertical ghost door
-                SDL_SetAlpha(mapElRot[2][0].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
-                SDL_BlitSurface(mapElRot[2][0].get(), NULL, buf.get(), &pos);
-            }
-
-            else if (walls[j*width+i]==3) {		//upper left corner
-                SDL_SetAlpha(mapEl[3].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
-                SDL_BlitSurface(mapEl[3].get(), NULL, buf.get(), &pos);
-            }
-            else if (walls[j*width+i]==4) {		// upper right corner
-                SDL_SetAlpha(mapEl[4].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
-                SDL_BlitSurface(mapEl[4].get(), NULL, buf.get(), &pos);
-            }
-            else if (walls[j*width+i]==5) {		// lower  right corner
-                SDL_SetAlpha(mapEl[5].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
-                SDL_BlitSurface(mapEl[5].get(), NULL, buf.get(), &pos);
-            }
-            else if (walls[j*width+i]==6) {		// lower left corner
-                SDL_SetAlpha(mapEl[6].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
-                SDL_BlitSurface(mapEl[6].get(), NULL, buf.get(), &pos);
-            }
-
-            else if (walls[j*width+i]==7 && 		// left T
-                     ( walls[j*width+i-1]==0 || i == 0 ) ) {
-                SDL_SetAlpha(mapEl[7].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
-                SDL_BlitSurface(mapEl[7].get(), NULL, buf.get(), &pos);
-            }
-            else if (walls[j*width+i]==7)	{	// upside down T
-                SDL_SetAlpha(mapElRot[7][0].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
-                SDL_BlitSurface(mapElRot[7][0].get(), NULL, buf.get(), &pos);
-            }
-            else if (walls[j*width+i]==8 &&		// right T
-                     ( walls[j*width+i+1]==0 || i == width-1 ) ) {
-                SDL_SetAlpha(mapEl[8].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
-                SDL_BlitSurface(mapEl[8].get(), NULL, buf.get(), &pos);
-            }
-            else if (walls[j*width+i]==8)	{	// upright T
-                SDL_SetAlpha(mapElRot[8][0].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
-                SDL_BlitSurface(mapElRot[8][0].get(), NULL, buf.get(), &pos);
-            }
-
-            else if (walls[j*width+i]==9 &&
-                     walls[j*width+i-1] != 0 &&
-                     walls[j*width+i-1] != 2 &&
-                     i > 0 )	 {//right stub
-                SDL_SetAlpha(mapEl[9].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
-                SDL_BlitSurface(mapEl[9].get(), NULL, buf.get(), &pos);
-            }
-            else if (walls[j*width+i]==9 &&
-                     walls[j*width+i+1] != 0 &&
-                     walls[j*width+i+1] != 2 &&
-                     i < width-1) {	// left stub
-                SDL_SetAlpha(mapElRot[9][1].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
-                SDL_BlitSurface(mapElRot[9][1].get(), NULL, buf.get(), &pos);
-            }
-            else if (walls[j*width+i]==9 &&
-                     walls[(j+1)*width+i] != 0 &&
-                     walls[(j+1)*width+i] != 2 &&
-                     j < height -1) {	// upper stub
-                SDL_SetAlpha(mapElRot[9][0].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
-                SDL_BlitSurface(mapElRot[9][0].get(), NULL, buf.get(), &pos);
-            }
-            else if (walls[j*width+i]==9)	{// lower stub
-                SDL_SetAlpha(mapElRot[9][2].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
-                SDL_BlitSurface(mapElRot[9][2].get(), NULL, buf.get(), &pos);
-            }
-        }
-    }
-
-    //DRAW OBJECTS
-
-    for (j=0;j<height;j++) {
-        for (i=0; i<width; i++) {
-
-            pos.x=i*TILE_SIZE; // +10 are needed for correct placement
-            pos.y=j*TILE_SIZE;
-            pos.h=20;
-            pos.w=20;
-
-            if (foods[j*width+i]==Food::DOT) {
+            if (foods[j*MAP_WIDTH+i]==Food::DOT) {
                 SDL_SetAlpha(objEl[1].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
                 SDL_BlitSurface(objEl[1].get(), NULL, buf.get(), &pos);
                 objcounter++;
             }
-            else if (foods[j*width+i]==Food::ENERGIZER) {
+            else if (foods[j*MAP_WIDTH+i]==Food::ENERGIZER) {
                 SDL_SetAlpha(objEl[2].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
                 SDL_BlitSurface(objEl[2].get(), NULL, buf.get(), &pos);
                 objcounter++;
@@ -189,42 +90,29 @@ void BckgrObj::Draw(const int* walls, const Foods foods) {
 #define BACKGROUND_TEXTURE_ID 0
 
 void BckgrObj::LoadTextures(std::string path) {
-
-    int i;
-    std::string num[NUMOFMAPTEX];
     SDL_PixelFormat *fmt;
 
-    for (i=0;i<NUMOFMAPTEX;i++)
-        num[i]='0'+i;
-
-    for (i=1;i<NUMOFMAPTEX;i++) {
-        mapEl[i].reset(IMG_Load((path + "m" + num[i] + ".png").c_str()), SDL_FreeSurface);
-        if ( mapEl[i] == NULL )
-            throw_exception(num[i] + "Failed to load map texture");
+    {
+        // load map sprite
+        map.reset(IMG_Load((path + "map.png").c_str()), SDL_FreeSurface);
+        if (map == NULL )
+            throw_exception("Failed to load map texture");
 
         //get pixel format from surface
-        fmt=mapEl[i]->format;
+        fmt = map->format;
 
         //set the transparent color key to RGB 255 0 255
-        SDL_SetColorKey(mapEl[i].get(),SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(fmt,255,0,255));
+        SDL_SetColorKey(map.get(), SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(fmt,255,0,255));
 
-        // scale to tile size
-        if (i != BACKGROUND_TEXTURE_ID) {
-            scale_to_size(mapEl[i], TILE_SIZE);
-        }
-
-        for (int j=0;j<3;j++) {
-            mapElRot[i][j]=Rotate(mapEl[i],(j+1)*90);
-        }
+        // scale to fit
+        scale_to_size(map, MAP_WIDTH * TILE_SIZE, MAP_HEIGHT * TILE_SIZE);
     }
-    for (i=1;i<5;i++) {
-        if (i == 4) {
-            continue;
-        }
 
-        objEl[i].reset(IMG_Load((path + "o" + num[i] + ".png").c_str()), SDL_FreeSurface);
+    // object sprites
+    for (int i=1; i<4; i++) {
+        objEl[i].reset(IMG_Load((path + "o" + to_string(i) + ".png").c_str()), SDL_FreeSurface);
         if ( objEl[i] == NULL )
-            throw_exception(num[i] + "Failed to load object texture");
+            throw_exception(to_string(i) + "Failed to load object texture");
 
         //get pixel format from surface
         fmt=objEl[i]->format;

@@ -41,7 +41,8 @@ namespace PACMAN {
 
 // note: namespaces have no effect on defines, because preprocessor doesn't understand C++
 
-#define TILE_SIZE 20
+// pixel size of a tile, is best kept as a multiple of 8
+extern const int TILE_SIZE;
 
 // map sizes in tiles
 #define MAP_WIDTH 28

@@ -18,12 +18,6 @@ using boost::shared_ptr;
 
 class SDL_Surface;
 
-// There are less, 
-// mapEl[0] used to be background but is now no longer used; it's always black
-#define NUMOFMAPTEX 10
-
-// objEl[4] is empty; used to be boost boot, but that was removed
-
 namespace PACMAN {
     namespace GUI {
 
@@ -51,9 +45,8 @@ namespace PACMAN {
 
         private:
             shared_ptr<SDL_Surface>
-                    mapEl[NUMOFMAPTEX],
-                    objEl[NUMOFMAPTEX],
-                    mapElRot[NUMOFMAPTEX][3];
+                    map,
+                    objEl[3];
 
             int
                     objcounter,

@@ -24,8 +24,12 @@ namespace PACMAN {
  */
 
 void scale_to_size(shared_ptr<SDL_Surface>& surface, double size) {
-    double zoomx = (double) size / surface->w;
-    double zoomy = (double) size / surface->h;
+    scale_to_size(surface, size, size);
+}
+
+void scale_to_size(shared_ptr<SDL_Surface>& surface, double sizex, double sizey) {
+    double zoomx = (double) sizex / surface->w;
+    double zoomy = (double) sizey / surface->h;
     int dw, dh;
     zoomSurfaceSize(surface->w, surface->h, zoomx, zoomy, &dw, &dh);
     surface.reset(zoomSurface(surface.get(), zoomx, zoomy, 0), SDL_FreeSurface);

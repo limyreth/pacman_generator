@@ -17,8 +17,7 @@ class SDL_Surface;
 
 namespace PACMAN {
     namespace GUI {
-
         void scale_to_size(shared_ptr<SDL_Surface>& surface, double size);
-
+        void scale_to_size(shared_ptr<SDL_Surface>& surface, double sizex, double sizey);
     }
 }

@@ -32,3 +32,4 @@ namespace PACMAN {
     }
 }
 
+const int TILE_SIZE = 20;
