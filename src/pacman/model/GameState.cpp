@@ -25,6 +25,13 @@
  * - Original tile size was 8 px, pacman size 10x11 px, ghost size 14x25. 
  *   Simplification: pacman size = ghost size = 0.8 * 2 * tile_size.
  *   Sizes should be relatively correct
+ * - cornering: pacman can start his turn earlier. As early as when pacman's
+ *   bounds touch the intersection tile's bounds. When cornering, pacman will
+ *   briefly move through the wall tile neighbouring the intersection. While
+ *   doing so, pacman's tile pos is that of the intersection tile, not that of
+ *   the wall. This works for lvl1 speeds (player's pixel pos will enter the
+ *   wall tile, even at highest speed; the distance spent in the wall tile is
+ *   about 0.42 * tile_size).
  *
  * In our case we'll start with 1 life. Later we'll add more lifes, but first let's solve the simpler problem
  *
