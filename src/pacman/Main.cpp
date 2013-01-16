@@ -63,12 +63,16 @@ int main( int argc, char** argv ) {
         }
 
         // interactive mode
-        const vector<Action> actions(PLAYER_COUNT, 0);
+        vector<Action> actions(PLAYER_COUNT, 0);
         MODEL::GameState state(GameState::new_game());
         GUI::GUI gui(state);
         shared_ptr<UIHints> uihints = gui.create_uihints();
         while (gui.emptyMsgPump()) {
             gui.render();
+            auto& pacman = state.get_player(0);
+            if (pacman.get_legal_actions().count > 0) {
+                actions.at(0) = pacman.get_action_along_direction(gui.get_preferred_direction());
+            }
             state = GameState(actions, state, *uihints);
         }
 

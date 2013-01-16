@@ -13,6 +13,8 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
 
+#include "../Directions.h"
+
 #include <boost/shared_ptr.hpp>
 using boost::shared_ptr;
 
@@ -40,6 +42,7 @@ namespace PACMAN {
             shared_ptr<MODEL::UIHints> create_uihints();
             void render();
             bool emptyMsgPump();
+            Direction::Type get_preferred_direction(); // direction the user wants to go in
 
         private:
             void InitApp();
@@ -58,6 +61,7 @@ namespace PACMAN {
             void toggleSound();
 
         private:
+            Direction::Type preferred_direction;
             const MODEL::GameState& state;
 
             shared_ptr<SDL_Surface> screen;

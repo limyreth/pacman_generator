@@ -38,7 +38,8 @@ namespace PACMAN {
 GUI::GUI(const MODEL::GameState& state)
 :   counter(0),
     showfps(false),
-    state(state)
+    state(state),
+    preferred_direction(Direction::NORTH)
 {
     InitApp();
     InitWindow();
@@ -141,12 +142,31 @@ bool GUI::emptyMsgPump() {
         switch(ev.type) {
         case SDL_KEYDOWN:
             switch (ev.key.keysym.sym ) {
+
             case SDLK_ESCAPE:
             case SDLK_q:
                 return false;
+
             case SDLK_f:
                 toggleFps();
                 break;
+
+            case SDLK_UP:
+                preferred_direction = Direction::NORTH;
+                break;
+
+            case SDLK_RIGHT:
+                preferred_direction = Direction::EAST;
+                break;
+
+            case SDLK_DOWN:
+                preferred_direction = Direction::SOUTH;
+                break;
+
+            case SDLK_LEFT:
+                preferred_direction = Direction::WEST;
+                break;
+
             default:
                 break;
             }
@@ -156,6 +176,10 @@ bool GUI::emptyMsgPump() {
         }
     }
     return true;
+}
+
+Direction::Type GUI::get_preferred_direction() {
+    return preferred_direction;
 }
 
 void GUI::toggleSound() {
