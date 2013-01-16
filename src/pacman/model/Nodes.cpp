@@ -34,7 +34,7 @@ Nodes::Nodes()
     for (int x=0; x < MAP_WIDTH; ++x) {
         for (int y=0; y < MAP_HEIGHT; ++y) {
             int center = at(x, y);
-            if (walls[center] == 0) {
+            if (!walls[center]) {
                 // skip ghost pen tiles
                 if (x >= 11 && x <= 16 && y >= 13 && y <= 15) {
                     continue;

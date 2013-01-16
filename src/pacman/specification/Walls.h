@@ -13,7 +13,7 @@
 namespace PACMAN {
     namespace SPECIFICATION {
 
-        extern const int walls[];
+        extern const bool walls[];
 
     }
 }

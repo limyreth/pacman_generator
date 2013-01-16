@@ -33,8 +33,8 @@ PacmanNodes::PacmanNodes() {
             if (!node)
                 continue; 
             // if we are intersection/corner
-            if ((walls[at_wrap(x-1,y)] == 0 || walls[at_wrap(x+1,y)] == 0)  // a free tile along x-axis
-                    && (walls[at(x, y-1)] == 0 || walls[at(x, y+1)]) == 0)  // and a free tile along the y-axis
+            if ((walls[at_wrap(x-1,y)] || !walls[at_wrap(x+1,y)])  // a free tile along x-axis
+                    && (!walls[at(x, y-1)] || walls[at(x, y+1)])== false )  // and a free tile along the y-axis
             {
                 assert(node->neighbours.size() >= 2); // intersection has at least 2 neighbours
                 for (auto neighbour : node->neighbours) {
