@@ -182,7 +182,6 @@ GameState::GameState(const vector<Action>& actions, const GameState& state, UIHi
     {
         double speed_modifier;
 
-        
         for (int i=0; i<PLAYER_COUNT; i++) {
             PlayerState* player;
             if (i == 0) {
@@ -230,9 +229,6 @@ GameState::GameState(const vector<Action>& actions, const GameState& state, UIHi
     ///////////////////////////////////////////
     // Handle collisions
     ///////////////////////////////////////////
-
-    // Note: An action that leads to colliding with a wall is illegal, so we needn't check for that.
-    // TODO what about movement rounding errors though, won't that push us into walls and such?
 
     auto pacman_tpos = pacman.get_tile_pos();
     for (auto& ghost : ghosts) {
