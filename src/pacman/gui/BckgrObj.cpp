@@ -218,6 +218,10 @@ void BckgrObj::LoadTextures(std::string path) {
         }
     }
     for (i=1;i<5;i++) {
+        if (i == 4) {
+            continue;
+        }
+
         objEl[i].reset(IMG_Load((path + "o" + num[i] + ".png").c_str()), SDL_FreeSurface);
         if ( objEl[i] == NULL )
             throw_exception(num[i] + "Failed to load object texture");
