@@ -106,20 +106,6 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns)
     for (int i=0; i<GHOST_COUNT; ++i) {
         ghosts[i] = GhostState(ghost_spawns.at(i));
     }
-
-    // TODO once debug is over, comment this check
-    int food_count_ = 0;
-    for (int y=0; y<MAP_HEIGHT; ++y) {
-        for (int x=0; x<MAP_WIDTH; ++x) {
-            int food_index = y*MAP_WIDTH + x;
-            //this->foods[food_index] = foods[food_index] == 1;
-            if (this->foods[food_index] != Food::NONE) {
-                ++food_count_;
-            }
-        }
-    }
-    // TODO we seem to have only 3 energizers, that's not right...
-    ASSERT(food_count_ == food_count); // TODO might want asserts to throw exceptions and have them add some interesting output to display too
 }
 
 /*

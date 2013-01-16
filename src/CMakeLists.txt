@@ -55,6 +55,11 @@ target_link_libraries(pacman_sdl
 enable_testing()
 
 add_test(
+    NAME start_foods
+    COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pacman_sdl --test 9
+)
+
+add_test(
     NAME initial_game_state
     COMMAND pacman_sdl --test 1
 )

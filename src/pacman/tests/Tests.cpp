@@ -31,6 +31,24 @@ using namespace PACMAN::SPECIFICATION;
 namespace PACMAN {
     namespace TEST {
 
+void test_start_foods() {
+    // validate a part of requirements: start_foods
+    int dot_count = 0;
+    int energizer_count = 0;
+    for (int y=0; y<MAP_HEIGHT; ++y) {
+        for (int x=0; x<MAP_WIDTH; ++x) {
+            int food_index = y*MAP_WIDTH + x;
+            if (start_foods[food_index] == Food::DOT) {
+                ++dot_count;
+            }
+            if (start_foods[food_index] == Food::ENERGIZER) {
+                ++energizer_count;
+            }
+        }
+    }
+    ASSERT(dot_count == 240);
+    ASSERT(energizer_count == 4);
+}
 
 void test_initial_game_state() {
     Test test;
@@ -106,7 +124,8 @@ void test(int index) {
         MinimaxTests::test_1,
         GeneratorTests::test_1,
         GeneratorTests::test_save_load,
-        GeneratorTests::test_save_load_of_running_instance
+        GeneratorTests::test_save_load_of_running_instance,
+        test_start_foods
     };
     tests.at(index)();
 }
