@@ -35,11 +35,13 @@ using namespace ::PACMAN::SPECIFICATION;
 namespace PACMAN {
     namespace GUI {
 
-GUI::GUI(const MODEL::GameState& state)
+GUI::GUI(const MODEL::GameState& state, bool show_pacman_nodes, bool show_ghost_nodes)
 :   counter(0),
     showfps(false),
     state(state),
-    preferred_direction(Direction::NORTH)
+    preferred_direction(Direction::NORTH),
+    show_pacman_nodes(show_pacman_nodes),
+    show_ghost_nodes(show_ghost_nodes)
 {
     InitApp();
     InitWindow();
@@ -222,8 +224,12 @@ void GUI::renderNormal() {
     SDL_BlitSurface(txt.get(),NULL,screen.get(),&scorebox);
 
     // draw node map
-    //PACMAN_NODES.draw(screen);
-    //GHOST_NODES.draw(screen);
+    if (show_pacman_nodes) {
+        MODEL::PACMAN_NODES.draw(screen);
+    }
+    if (show_ghost_nodes) {
+        MODEL::GHOST_NODES.draw(screen);
+    }
 }
 
 std::string GUI::getFPS() {
