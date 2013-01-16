@@ -39,7 +39,7 @@ namespace PACMAN {
             int animcounter;
 
             shared_ptr<SDL_Surface>
-                    ghostEl[5];
+                    ghostEl[4];
 
             std::string
                     filename;
