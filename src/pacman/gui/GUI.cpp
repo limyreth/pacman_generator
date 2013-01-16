@@ -203,7 +203,7 @@ void GUI::renderNormal() {
     col.r = col.g = col.b = 255;
 
     // DRAW FIELD + SPRITES
-    ((BckgrObj*)objects[0])->Draw(walls, state.get_foods());
+    ((BckgrObj*)objects[0])->Draw(state.get_foods());
     ((Pacman*)objects[1])->Draw((const MODEL::PacmanState&)state.get_player(0));
     for (int i=0; i<GHOST_COUNT; ++i) {
         ((Ghost*)objects[i+2])->Draw((const MODEL::GhostState&)state.get_player(i+1));

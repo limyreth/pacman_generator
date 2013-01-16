@@ -45,7 +45,7 @@ void BckgrObj::setFruitAlpha(int a) {
     fruitalpha = a;
 }
 
-void BckgrObj::Draw(const int* walls, const Foods foods) {
+void BckgrObj::Draw(const Foods foods) {
     int i, j;
     SDL_Rect pos;
 
