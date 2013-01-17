@@ -175,6 +175,27 @@ const Node* Nodes::load(std::istream& in, const std::vector<Node*>& nodes) const
     return nodes.at(index);
 }
 
+void Nodes::eliminate(int x, int y) {
+    auto node = nodes.at(at(x, y));
+    REQUIRE(node);
+    for (auto neighbour : node->neighbours) {
+        // Link neighbours to each other
+        for (auto n : node->neighbours) {
+            if (n != neighbour) {
+                neighbour->neighbours.push_back(n);
+            }
+        }
+
+        // remove node from neigbour's list
+        auto& vec = neighbour->neighbours;
+        vec.erase(std::find(vec.begin(), vec.end(), node));
+    }
+
+    // remove node
+    nodes.at(at(x, y)) = NULL;
+    delete node;
+}
+
 void Nodes::save(std::ostream& out, const Node* node, const std::vector<Node*>& nodes) const {
     auto it = std::find(nodes.begin(), nodes.end(), node);
     REQUIRE(it != nodes.end());
