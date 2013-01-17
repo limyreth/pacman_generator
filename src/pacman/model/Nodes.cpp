@@ -150,9 +150,9 @@ void Nodes::draw(shared_ptr<SDL_Surface> screen, const Node* node, uint32_t node
     }
 
     SDL_Rect r;
-    r.w = r.h = 3;
-    r.x = (int)node->location.x;
-    r.y = (int)node->location.y;
+    r.w = r.h = 5;
+    r.x = (int)node->location.x - 2;
+    r.y = (int)node->location.y - 2;
     SDL_FillRect(screen.get(), &r, node_color);
 }
 
