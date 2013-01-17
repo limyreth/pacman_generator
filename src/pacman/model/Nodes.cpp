@@ -132,27 +132,28 @@ void Nodes::ensure_valid(const Node* node, const vector<Node*>& all_nodes) const
     }
 }
 
-void Nodes::draw(shared_ptr<SDL_Surface> screen) const {
+void Nodes::draw(shared_ptr<SDL_Surface> screen, const std::vector<Node*>& nodes, uint32_t node_color, uint32_t edge_color) const {
     for (auto node : nodes) {
         if (!node)
             continue;
 
-        for (auto neighbour : node->neighbours) {
-            int retval = lineColor(screen.get(), (int)node->location.x, (int)node->location.y, (int)neighbour->location.x, (int)neighbour->location.y, 0xFF000077);// Uint32
-            ASSERT(retval == 0);
-        }
+        draw(screen, node, node_color, edge_color);
+    }
+}
+
+void Nodes::draw(shared_ptr<SDL_Surface> screen, const Node* node, uint32_t node_color, uint32_t edge_color) const {
+    REQUIRE(node);
+
+    for (auto neighbour : node->neighbours) {
+        int retval = lineColor(screen.get(), (int)node->location.x, (int)node->location.y, (int)neighbour->location.x, (int)neighbour->location.y, edge_color);
+        ASSERT(retval == 0);
     }
 
     SDL_Rect r;
     r.w = r.h = 3;
-    for (auto node : nodes) {
-        if (!node)
-            continue;
-
-        r.x = (int)node->location.x;
-        r.y = (int)node->location.y;
-        SDL_FillRect(screen.get(), &r, 0x00FF00);
-    }
+    r.x = (int)node->location.x;
+    r.y = (int)node->location.y;
+    SDL_FillRect(screen.get(), &r, node_color);
 }
 
 double Nodes::get_branching_factor(const vector<Node*>& nodes) const {

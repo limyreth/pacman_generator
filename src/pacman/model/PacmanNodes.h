@@ -26,6 +26,7 @@ namespace PACMAN {
                 return spawn;
             }
 
+            void draw(shared_ptr<SDL_Surface> buffer) const;
             void save(std::ostream& out, const Node* node) const;
             const Node* load(std::istream& in) const;
 

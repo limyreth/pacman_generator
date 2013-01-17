@@ -86,4 +86,9 @@ void GhostNodes::save(std::ostream& out, const Node* node) const {
     }
 }
 
+void GhostNodes::draw(shared_ptr<SDL_Surface> buffer) const {
+    Nodes::draw(buffer, nodes, 0xFF0000, 0xFF000077);
+    Nodes::draw(buffer, spawns, 0x0000FF, 0x0000FFFF);
+}
+
 }}

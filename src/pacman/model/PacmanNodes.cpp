@@ -106,4 +106,9 @@ void PacmanNodes::save(std::ostream& out, const Node* node) const {
     }
 }
 
+void PacmanNodes::draw(shared_ptr<SDL_Surface> buffer) const {
+    Nodes::draw(buffer, nodes, 0xFF0000, 0xFF000077);
+    Nodes::draw(buffer, spawn, 0x0000FF, 0x0000FFFF);
+}
+
 }}
