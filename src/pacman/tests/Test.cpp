@@ -65,7 +65,9 @@ int Test::move(int player_index, Direction::Type direction) {
             actions.at(player_index) = player.get_action_along_direction(direction);
         }
 
-        state = GameState(actions, state, uihints);
+        auto new_state = GameState(state, uihints);
+        new_state.act(actions, state, uihints);
+        state = new_state;
 
         ++steps;
     }

@@ -108,6 +108,8 @@ GameState::GameState(std::istream& in) {
     read(in, idler_ticks_left);
     read(in, ate_energizer);
     read(in, triggered_fruit_spawn);
+
+    ensure_final_state();
 }
 
 /**
@@ -122,7 +124,8 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns)
     vulnerable_ticks_left(-1),
     idler_ticks_left(0),
     ate_energizer(false),
-    triggered_fruit_spawn(false)
+    triggered_fruit_spawn(false),
+    final_state(true)
 {
     INVARIANTS_ON_EXIT;
     REQUIRE(pacman_spawn);
@@ -134,6 +137,8 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns)
     for (int i=0; i<GHOST_COUNT; ++i) {
         ghosts[i] = GhostState(ghost_spawns.at(i));
     }
+
+    ensure_final_state();
 }
 
 /*
@@ -141,13 +146,14 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns)
  *
  * State of the game 1 tick after `state`.
  */
-GameState::GameState(const vector<Action>& actions, const GameState& state, UIHints& uihints)
+GameState::GameState(const GameState& state, UIHints& uihints)
 :   GameState(state)
 {
     INVARIANTS_ON_EXIT;
-    REQUIRE(!did_pacman_win());
-    REQUIRE(!did_pacman_lose());
-    //REQUIRE(actions.size() == PLAYER_COUNT);
+    REQUIRE(!state.did_pacman_win());
+    REQUIRE(!state.did_pacman_lose());
+
+    final_state = false;
 
     /* Note: TODO split in functions to provide better overview of ordering
      *
@@ -247,14 +253,23 @@ GameState::GameState(const vector<Action>& actions, const GameState& state, UIHi
                 player = &ghosts[ghost_i];
             }
 
-            double movement_excess = player->move(FULL_SPEED * TILE_SIZE * speed_modifier);
-            if (movement_excess > 0.0) {
-                player->act(actions.at(i));
-                player->move(movement_excess);
-            }
+            movement_excess[i] = player->move(FULL_SPEED * TILE_SIZE * speed_modifier);
         }
     }
+}
 
+void GameState::act(const vector<Action>& actions, const GameState& state, UIHints& uihints) {
+    INVARIANTS_ON_EXIT;
+    //REQUIRE(actions.size() == PLAYER_COUNT);
+
+    // finish movement
+    for (int i=0; i < PLAYER_COUNT; ++i) {
+        auto& player = get_player_(i);
+        if (movement_excess[i] > 0.0) {
+            player.act(actions.at(i));
+            player.move(movement_excess[i]);
+        }
+    }
 
     ///////////////////////////////////////////
     // Handle collisions
@@ -318,6 +333,9 @@ GameState::GameState(const vector<Action>& actions, const GameState& state, UIHi
     unsigned int food_eaten = MAX_FOOD_COUNT - food_count;
     triggered_fruit_spawn = food_count != state.food_count && (food_eaten == 70 || food_eaten == 170);
     
+    final_state = true;
+
+    ensure_final_state();
     ENSURE(state.food_count - food_count <= 1);
     ENSURE(score >= state.score);
     ENSURE(lives <= state.lives);
@@ -326,6 +344,10 @@ GameState::GameState(const vector<Action>& actions, const GameState& state, UIHi
             (fruit_spawned && (fruit_ticks_left == FRUIT_TICKS - 1 || fruit_ticks_left == state.fruit_ticks_left - 1)));
     ENSURE(state.ate_energizer == (vulnerable_ticks_left == VULNERABLE_TICKS - 1));
     ENSURE(vulnerable_ticks_left == -1 || state.ate_energizer || vulnerable_ticks_left == state.vulnerable_ticks_left - 1);
+}
+
+void GameState::ensure_final_state() {
+    ENSURE(foods[at(pacman.get_tile_pos())] == Food::NONE || did_pacman_lose());
 }
 
 GameState GameState::new_game() {
@@ -372,8 +394,6 @@ void GameState::invariants() const {
 
     INVARIANT(idler_ticks_left >= 0);
     INVARIANT(idler_ticks_left <= 3);
-
-    INVARIANT(foods[at(pacman.get_tile_pos())] == Food::NONE || did_pacman_lose());
 }
 
 void GameState::nextLvl() {

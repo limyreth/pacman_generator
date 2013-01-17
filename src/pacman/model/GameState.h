@@ -35,12 +35,16 @@ namespace PACMAN {
         public:
             GameState();
             GameState(std::istream& in);
-            GameState(const std::vector<Action>& actions, const GameState& state, UIHints& app);
+            GameState(const GameState& state, UIHints& app);
+
+            void act(const std::vector<Action>& actions, const GameState& state, UIHints& app);
 
             static GameState new_game();
 
             void save(std::ostream& out) const;
             bool operator==(const GameState&) const;
+
+            // Note: behaviour of accessors is implementation specific when in an intermediate state
 
             bool get_vulnerable_ghost_count() const;
 
@@ -82,6 +86,7 @@ namespace PACMAN {
             }
 
             inline const SPECIFICATION::Foods& get_foods() const {
+                REQUIRE(final_state);
                 return foods;
             }
 
@@ -90,6 +95,17 @@ namespace PACMAN {
 
         private:
             GameState(const Node* pacman_spawn, const std::vector<Node*> ghost_spawns);
+
+            void ensure_final_state();
+
+            inline PlayerState& get_player_(int index) {
+                if (index == 0) {
+                    return pacman;
+                }
+                else {
+                    return ghosts[index-1];
+                }
+            }
 
             void resetLvl();
             void nextLvl();
@@ -117,6 +133,10 @@ namespace PACMAN {
             int vulnerable_ticks_left;  // how many more ticks ( / successing game states) ghosts will be vulnerable
             int fruit_ticks_left;  // amount of ticks left til fruit disappears
             int idler_ticks_left;  // ticks left til pacman gets off his lazy ass and starts moving again (pacman rests after eating dot or energizer)
+
+            bool final_state;  // whether we are in a final or intermediate state
+
+            double movement_excess[PLAYER_COUNT];  // TODO this is only intermediate state
 
             friend class PACMAN::TEST::Test;
         };

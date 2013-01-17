@@ -67,7 +67,9 @@ void PacmanGameTree::child(const vector<Action>& actions) {
 
     // proceed to next state
     GameState state = states.back();
-    state = GameState(actions, state, uihints);
+    auto new_state = GameState(state, uihints);
+    new_state.act(actions, state, uihints);
+    state = new_state;
 
     // proceed even further
     progress_game_until_choice(state, actions);
@@ -125,7 +127,10 @@ void PacmanGameTree::progress_game_until_choice(GameState& state, vector<Action>
     vector<Action> actions;
     actions.reserve(PLAYER_COUNT);
     while (!state.is_game_over() && generate_actions(state, prev_actions, actions)) {
-        state = GameState(actions, state, uihints);
+        auto new_state = GameState(state, uihints);
+        new_state.act(actions, state, uihints);
+        state = new_state;
+
         prev_actions.swap(actions);
     }
 
