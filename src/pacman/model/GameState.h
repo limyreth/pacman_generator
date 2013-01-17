@@ -44,6 +44,10 @@ namespace PACMAN {
 
             bool get_vulnerable_ghost_count() const;
 
+            inline bool is_fruit_spawned() const {
+                return fruit_spawned;
+            }
+
             inline int get_level() const {
                 return 1;
             }

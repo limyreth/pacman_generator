@@ -11,6 +11,7 @@
 #pragma once
 
 #include <string>
+#include "Point.h"
 
 namespace PACMAN {
     namespace SPECIFICATION {
@@ -33,6 +34,9 @@ namespace PACMAN {
 
         // initial food count of start_foods, which is also the max
         extern const unsigned int MAX_FOOD_COUNT;
+        extern const IPoint FRUIT_LEFT_TPOS;
+        extern const IPoint FRUIT_RIGHT_TPOS;
+        extern const FPoint FRUIT_POS;
     }
 
     namespace GUI {

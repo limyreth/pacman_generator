@@ -27,6 +27,10 @@ namespace PACMAN {
         const double FULL_SPEED = 9.5 / TICK_RATE;
 
         const unsigned int MAX_FOOD_COUNT = 244u;
+
+        const IPoint FRUIT_LEFT_TPOS(13, 17);
+        const IPoint FRUIT_RIGHT_TPOS(14, 17);
+        const FPoint FRUIT_POS(14 * TILE_SIZE, 17.5 * TILE_SIZE);
     }
 
     namespace GUI {

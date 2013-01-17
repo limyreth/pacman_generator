@@ -13,7 +13,6 @@
 #include "Draw.h"
 #include "../Log.h"
 #include "../Utility.h"
-#include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
 using namespace ::PACMAN::SPECIFICATION;
@@ -21,14 +20,19 @@ using namespace ::PACMAN::SPECIFICATION;
 namespace PACMAN {
     namespace GUI {
 
+BckgrObj::BckgrObj( shared_ptr<SDL_Surface> buffer, int os)
+    :	Object(buffer, os)
+{
+    fruit_pos.w = fruit_pos.h = PLAYER_SIZE;
+    fruit_pos.x = FRUIT_POS.x - fruit_pos.w / 2.0;
+    fruit_pos.y = FRUIT_POS.y - fruit_pos.h / 2.0;
+}
+
 void BckgrObj::Draw(int ix, int iy, int obj, int type) {
     assert(false);
 }
 
-void BckgrObj::Draw(const Foods foods) {
-    int i, j;
-    SDL_Rect pos;
-
+void BckgrObj::Draw(const Foods foods, bool fruit_spawned) {
     SDL_FillRect(buf.get(), NULL, 0);
 
     // DRAW MAP
@@ -36,9 +40,10 @@ void BckgrObj::Draw(const Foods foods) {
     SDL_BlitSurface(map.get(), NULL, buf.get(), NULL);
 
     // DRAW OBJECTS
-    for (j=0;j<MAP_HEIGHT;j++) {
-        for (i=0; i<MAP_WIDTH; i++) {
+    for (int j=0;j<MAP_HEIGHT;j++) {
+        for (int i=0; i<MAP_WIDTH; i++) {
 
+            SDL_Rect pos;
             pos.x=i*TILE_SIZE;
             pos.y=j*TILE_SIZE;
             pos.h=TILE_SIZE;
@@ -52,14 +57,12 @@ void BckgrObj::Draw(const Foods foods) {
                 SDL_SetAlpha(objEl[1].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
                 SDL_BlitSurface(objEl[1].get(), NULL, buf.get(), &pos);
             }
-            /*else if (foods[j*width+i]==3 && specialspawned && !specialeaten) {	// fruit TODO
-                SDL_SetAlpha(objEl[2].get(),SDL_SRCALPHA,fruitalpha);
-                SDL_BlitSurface(objEl[2].get(), NULL, buf.get(), &pos);
-            }*/
         }
     }
-
-
+    if (fruit_spawned) {
+        SDL_SetAlpha(objEl[2].get(), SDL_SRCALPHA, 255);
+        SDL_BlitSurface(objEl[2].get(), NULL, buf.get(), &fruit_pos);
+    }
 }
 
 void BckgrObj::LoadTextures(std::string path) {
@@ -94,15 +97,15 @@ void BckgrObj::LoadTextures(std::string path) {
         SDL_SetColorKey(objEl[i].get(),SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(fmt,255,0,255));
 
         // scale it to tile size
-        scale_to_size(objEl[i], TILE_SIZE);
+        if (i != 2) {
+            scale_to_size(objEl[i], TILE_SIZE);
+        }
+        else {
+            scale_to_size(objEl[i], PLAYER_SIZE);
+        }
     }
 
     logtxt.print("Field textures loaded");
-}
-
-BckgrObj::BckgrObj( shared_ptr<SDL_Surface> buffer, int os)
-    :	Object(buffer, os)
-{
 }
 
 }}

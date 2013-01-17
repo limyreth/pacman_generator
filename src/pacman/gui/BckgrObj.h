@@ -13,6 +13,8 @@
 #include "Object.h"
 #include "../specification/Food.h"
 
+#include <SDL/SDL.h>
+
 #include <boost/shared_ptr.hpp>
 using boost::shared_ptr;
 
@@ -27,7 +29,7 @@ namespace PACMAN {
         public:
             BckgrObj(shared_ptr<SDL_Surface> buffer, int os);
 
-            void Draw(const SPECIFICATION::Foods foods);
+            void Draw(const SPECIFICATION::Foods foods, bool fruit_spawned);
             void Draw(int ix, int iy, int obj=3, int type=1);
 
             virtual void reset( int ix, int iy) { ix = iy; };   /* avoid compiler warnings */
@@ -39,6 +41,8 @@ namespace PACMAN {
             shared_ptr<SDL_Surface>
                     map,
                     objEl[3];
+
+            SDL_Rect fruit_pos;
         };
 
     }
