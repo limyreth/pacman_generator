@@ -36,6 +36,7 @@ int main( int argc, char** argv ) {
     std::string str="";
     bool show_pacman_nodes = false;
     bool show_ghost_nodes = false;
+    bool show_food = true;
 
     try {
         logtxt.setFilename(".pacman_sdl");
@@ -66,6 +67,9 @@ int main( int argc, char** argv ) {
             else if (str == "--show-ghost-nodes") {
                 show_ghost_nodes = true;
             }
+            else if (str == "--hide-food") {
+                show_food = false;
+            }
             else
                 std::cerr << "unrecognized commandline option\n";
         }
@@ -73,7 +77,7 @@ int main( int argc, char** argv ) {
         // interactive mode
         vector<Action> actions(PLAYER_COUNT, 0);
         MODEL::GameState state(GameState::new_game());
-        GUI::GUI gui(state, show_pacman_nodes, show_ghost_nodes);
+        GUI::GUI gui(state, show_pacman_nodes, show_ghost_nodes, show_food);
         shared_ptr<UIHints> uihints = gui.create_uihints();
         while (gui.emptyMsgPump()) {
             gui.render();

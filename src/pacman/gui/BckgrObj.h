@@ -29,7 +29,7 @@ namespace PACMAN {
         public:
             BckgrObj(shared_ptr<SDL_Surface> buffer, int os);
 
-            void Draw(const SPECIFICATION::Foods foods, bool fruit_spawned);
+            void Draw(const SPECIFICATION::Foods foods, bool fruit_spawned, bool show_food);
             void Draw(int ix, int iy, int obj=3, int type=1);
 
             virtual void reset( int ix, int iy) { ix = iy; };   /* avoid compiler warnings */

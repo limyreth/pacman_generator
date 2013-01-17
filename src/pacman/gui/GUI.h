@@ -36,7 +36,7 @@ namespace PACMAN {
         class GUI
         {
         public:
-            GUI(const MODEL::GameState& state, bool show_pacman_nodes, bool show_ghost_nodes);
+            GUI(const MODEL::GameState& state, bool show_pacman_nodes, bool show_ghost_nodes, bool show_food);
             ~GUI();
 
             shared_ptr<MODEL::UIHints> create_uihints();
@@ -90,6 +90,7 @@ namespace PACMAN {
             bool showfps;
             bool show_pacman_nodes;
             bool show_ghost_nodes;
+            bool show_food;
         };
 
     }

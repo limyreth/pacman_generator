@@ -32,7 +32,7 @@ void BckgrObj::Draw(int ix, int iy, int obj, int type) {
     assert(false);
 }
 
-void BckgrObj::Draw(const Foods foods, bool fruit_spawned) {
+void BckgrObj::Draw(const Foods foods, bool fruit_spawned, bool show_food) {
     SDL_FillRect(buf.get(), NULL, 0);
 
     // DRAW MAP
@@ -48,11 +48,13 @@ void BckgrObj::Draw(const Foods foods, bool fruit_spawned) {
             pos.h=TILE_SIZE;
             pos.w=TILE_SIZE;
 
-            if (foods[j*MAP_WIDTH+i]==Food::DOT) {
-                SDL_BlitSurface(objEl[0].get(), NULL, buf.get(), &pos);
-            }
-            else if (foods[j*MAP_WIDTH+i]==Food::ENERGIZER) {
-                SDL_BlitSurface(objEl[1].get(), NULL, buf.get(), &pos);
+            if (show_food) {
+                if (foods[j*MAP_WIDTH+i]==Food::DOT) {
+                    SDL_BlitSurface(objEl[0].get(), NULL, buf.get(), &pos);
+                }
+                else if (foods[j*MAP_WIDTH+i]==Food::ENERGIZER) {
+                    SDL_BlitSurface(objEl[1].get(), NULL, buf.get(), &pos);
+                }
             }
         }
     }
