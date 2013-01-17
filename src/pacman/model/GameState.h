@@ -108,6 +108,7 @@ namespace PACMAN {
 
             bool fruit_spawned;
             bool ate_energizer;
+            bool triggered_fruit_spawn; // an action was performed which will cause fruit to spawn next tick
 
             int vulnerable_ticks_left;  // how many more ticks ( / successing game states) ghosts will be vulnerable
             int fruit_ticks_left;  // amount of ticks left til fruit disappears

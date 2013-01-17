@@ -25,6 +25,8 @@ namespace PACMAN {
         const int VULNERABLE_TICKS = 6 * TICK_RATE;
         const int FRUIT_TICKS = 10 * TICK_RATE;
         const double FULL_SPEED = 9.5 / TICK_RATE;
+
+        const unsigned int MAX_FOOD_COUNT = 244u;
     }
 
     namespace GUI {

@@ -30,6 +30,9 @@ namespace PACMAN {
         extern const int FRUIT_TICKS;
         // 100% speed expressed in tiles per tick.
         extern const double FULL_SPEED;
+
+        // initial food count of start_foods, which is also the max
+        extern const unsigned int MAX_FOOD_COUNT;
     }
 
     namespace GUI {
