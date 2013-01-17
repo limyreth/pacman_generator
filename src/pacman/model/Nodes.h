@@ -37,6 +37,7 @@ namespace PACMAN {
             std::vector<Node*> nodes;
 
             void eliminate(int x, int y);
+            void eliminate_redundant_nodes();
 
             void draw(shared_ptr<SDL_Surface> screen, const std::vector<Node*>& nodes, uint32_t node_color, uint32_t edge_color) const;
             void draw(shared_ptr<SDL_Surface> screen, const Node* node, uint32_t node_color, uint32_t edge_color) const;

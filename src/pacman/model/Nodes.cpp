@@ -175,6 +175,77 @@ const Node* Nodes::load(std::istream& in, const std::vector<Node*>& nodes) const
     return nodes.at(index);
 }
 
+/*
+ * Merges nodes where the player has no real choice when reversal is not allowed
+ *
+ * Note: this limits the ability of players to reverse. So don't use this if
+ * you do want to allow them to reverse (often).
+ */
+void Nodes::eliminate_redundant_nodes() {
+    // merge by column
+    for (int x=0; x < MAP_WIDTH; ++x) {
+        Node* head = NULL; // head of the mergeable train of nodes
+        Node* mid = NULL; // either a mid part of the train, but turn out to be a tail
+        for (int y=0; y < MAP_HEIGHT; ++y) {
+            auto node = nodes[at(x, y)];
+
+            if (!node) {
+                head = NULL;
+                mid = NULL;  // mid was actually a tail
+            }
+            else if (head == NULL || node->neighbours.size() > 2) {
+                head = node;
+                if (mid) {
+                    // new head is also the tail of the previous train
+                    eliminate(x, y-1);
+                    mid = NULL;
+                }
+            }
+            else if (head) {
+                if (mid) {
+                    eliminate(x, y-1);
+                }
+                mid = node;
+            }
+        }
+    }
+
+    // merge by row (copy past ftw)
+    for (int y=0; y < MAP_HEIGHT; ++y) {
+        Node* head = NULL; // head of the mergeable train of nodes
+        Node* mid = NULL; // either a mid part of the train, but turn out to be a tail
+        for (int x=0; x < MAP_WIDTH; ++x) {
+            auto node = nodes[at(x, y)];
+
+            if (!node) {
+                head = NULL;
+                mid = NULL;  // mid was actually a tail
+            }
+            else if (head == NULL || node->neighbours.size() > 2) {
+                head = node;
+                if (mid) {
+                    // new head is also the tail of the previous train
+                    eliminate(x-1, y);
+                    mid = NULL;
+                }
+            }
+            else if (head) {
+                if (mid) {
+                    eliminate(x-1, y);
+                }
+                mid = node;
+            }
+        }
+    }
+
+    // eliminate the 2 ends of the tunnel (as they wrap)
+    eliminate(0, 14);
+    eliminate(MAP_WIDTH-1, 14);
+
+    
+    ensure_valid(nodes, nodes);
+}
+
 void Nodes::eliminate(int x, int y) {
     auto node = nodes.at(at(x, y));
     REQUIRE(node);

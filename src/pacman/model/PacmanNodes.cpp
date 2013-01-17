@@ -49,6 +49,8 @@ PacmanNodes::PacmanNodes() {
         }
     }
 
+    eliminate_redundant_nodes();
+
     // create pacman spawn
     spawn = new Node(FPoint(14, 23.5) * TILE_SIZE);
     spawn->neighbours.push_back(nodes.at(at(14, 23))); // Note: symmetrical map, just going to the right is fine
