@@ -36,14 +36,10 @@ namespace PACMAN {
 
             void LoadTextures(std::string path);
 
-            int getObjCount() {	return objcounter;	}
-
         private:
             shared_ptr<SDL_Surface>
                     map,
                     objEl[3];
-
-            int objcounter;
         };
 
     }
