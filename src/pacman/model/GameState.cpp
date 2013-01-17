@@ -89,6 +89,7 @@ GameState::GameState(std::istream& in) {
     read(in, vulnerable_ticks_left);
     read(in, fruit_ticks_left);
     read(in, idler_ticks_left);
+    read(in, ate_energizer);
 }
 
 /**
@@ -101,7 +102,8 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns)
     fruit_spawned(false),
     fruit_ticks_left(-1),
     vulnerable_ticks_left(-1),
-    idler_ticks_left(0)
+    idler_ticks_left(0),
+    ate_energizer(false)
 {
     INVARIANTS_ON_EXIT;
     REQUIRE(pacman_spawn);
@@ -143,8 +145,12 @@ GameState::GameState(const vector<Action>& actions, const GameState& state, UIHi
      * be maintained as perfect play *might* differ because of it.
      */
 
+    ate_energizer = false;
+
     // Vulnerable timing
-    if (vulnerable_ticks_left == VULNERABLE_TICKS) {
+    if (state.ate_energizer) {
+        vulnerable_ticks_left = VULNERABLE_TICKS;
+
         // Ghosts become vulnerable in this tick
         for (auto& ghost : ghosts) {
             if (ghost.state == GhostState::NORMAL) {
@@ -272,9 +278,8 @@ GameState::GameState(const vector<Action>& actions, const GameState& state, UIHi
         --food_count;
         score += 50;
 
+        ate_energizer = true;
         uihints.ate_energizer();
-
-        vulnerable_ticks_left = VULNERABLE_TICKS;
 
         ASSERT(idler_ticks_left == 0);
         idler_ticks_left = 3;  // pacman can't move for 3 ticks after eating a dot
@@ -292,7 +297,8 @@ GameState::GameState(const vector<Action>& actions, const GameState& state, UIHi
     ENSURE(score >= state.score);
     ENSURE(lives <= state.lives);
     ENSURE(fruit_ticks_left == -1 || fruit_ticks_left == FRUIT_TICKS || fruit_ticks_left == state.fruit_ticks_left - 1);
-    ENSURE(vulnerable_ticks_left == -1 || vulnerable_ticks_left == VULNERABLE_TICKS || vulnerable_ticks_left == state.vulnerable_ticks_left - 1);
+    ENSURE(state.ate_energizer == (vulnerable_ticks_left == VULNERABLE_TICKS - 1));
+    ENSURE(vulnerable_ticks_left == -1 || state.ate_energizer || vulnerable_ticks_left == state.vulnerable_ticks_left - 1);
 }
 
 GameState GameState::new_game() {
@@ -366,6 +372,7 @@ void GameState::save(std::ostream& out) const {
     write(out, vulnerable_ticks_left);
     write(out, fruit_ticks_left);
     write(out, idler_ticks_left);
+    write(out, ate_energizer);
 }
 
 bool GameState::operator==(const GameState& other) const {
@@ -390,7 +397,8 @@ bool GameState::operator==(const GameState& other) const {
         other.fruit_spawned == fruit_spawned &&
         other.vulnerable_ticks_left == vulnerable_ticks_left &&
         other.fruit_ticks_left == fruit_ticks_left &&
-        other.idler_ticks_left == idler_ticks_left;
+        other.idler_ticks_left == idler_ticks_left &&
+        other.ate_energizer == ate_energizer;
 }
 
 }}

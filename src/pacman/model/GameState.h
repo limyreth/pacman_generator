@@ -107,9 +107,8 @@ namespace PACMAN {
             int lives;
 
             bool fruit_spawned;
+            bool ate_energizer;
 
-            // Note: used solely for timers, don't try to deduce any more meaning from them; that'd be confusing
-            // E.g. fruit_ticks_left == 0 && fruit_spawned, can happen (it means this was the last fruit tick)
             int vulnerable_ticks_left;  // how many more ticks ( / successing game states) ghosts will be vulnerable
             int fruit_ticks_left;  // amount of ticks left til fruit disappears
             int idler_ticks_left;  // ticks left til pacman gets off his lazy ass and starts moving again (pacman rests after eating dot or energizer)
