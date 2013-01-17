@@ -31,7 +31,7 @@ PlayerState::PlayerState()
 
 PlayerState::PlayerState(const Node* initial_node) 
 :   pos(initial_node->get_location()), 
-    must_repeat_previous_action(false),
+    must_repeat_previous_action(-1),
     origin(NULL),
     destination(initial_node)
 {
@@ -51,58 +51,49 @@ PlayerState::PlayerState(std::istream& in, const Nodes& nodes) {
 /*
  * Move player distance_moved px towards destination, ...
  * 
- * If destination reached, pick new one by next_action.
- *
- * precondition: next_action is one of previously acquired legal_actions
- * postcondition: legal_actions contains the legal actions for the next move.
+ * Returns movement excess (>0 if destination reached)
  */
-void PlayerState::move(double distance_moved, Action next_action) {
+double PlayerState::move(double distance_moved) {
     INVARIANTS_ON_EXIT;
     REQUIRE(distance_moved >= 0.0);
-    REQUIRE(next_action >= 0);
-    REQUIRE(next_action < destination->get_neighbours().size());
 
     FPoint direction = destination->get_location() - pos;
     double distance_moved_towards_destination = min(direction.length(), distance_moved);
-    double distance_moved_towards_new_destination = distance_moved - distance_moved_towards_destination;
+    double movement_excess = distance_moved - distance_moved_towards_destination;
 
     // move towards destination
     if (distance_moved_towards_destination > 0.0) {
-        must_repeat_previous_action = true;
-        move(distance_moved_towards_destination);
+        must_repeat_previous_action++;
+
+        FPoint direction = destination->get_location() - pos;
+        direction.normalise();
+        pos += direction * distance_moved_towards_destination;
+
+        // wrap screen when hitting left/right edge of tunnel
+        auto tpos = get_tile_pos();
+        if (tpos.x < 0) {
+            pos.x = MAP_WIDTH * TILE_SIZE - pos.x;
+        }
+        else if (tpos.x >= MAP_WIDTH) {
+            pos.x -= MAP_WIDTH * TILE_SIZE;
+        }
     }
 
-    // if movement left, pick new destination and move towards that as well
-    if (distance_moved_towards_new_destination > 0.0) {
-        must_repeat_previous_action = false;
-
-        // destination reached
-        // consume the next action
-        auto new_destination = destination->get_neighbours().at(next_action);
-        ASSERT(new_destination != origin);  // One may never reverse
-        origin = destination;
-        destination = new_destination;
-
-        move(distance_moved_towards_new_destination);
-    }
+    return movement_excess;
 }
 
-void PlayerState::move(double distance_moved) {
-    INVARIANTS_ON_EXIT;
-    REQUIRE(distance_moved >= 0.0);
+void PlayerState::act(Action action) {
+    REQUIRE(action >= 0);
+    //REQUIRE(action < get_legal_actions().count);  //TODO enable when choices are done now, we are currently already showing legal actions for a next thing...
 
-    FPoint direction = destination->get_location() - pos;
-    direction.normalise();
-    pos += direction * distance_moved;
+    must_repeat_previous_action = -2;
 
-    // wrap screen when hitting left/right edge of tunnel
-    auto tpos = get_tile_pos();
-    if (tpos.x < 0) {
-        pos.x = MAP_WIDTH * TILE_SIZE - pos.x;
-    }
-    else if (tpos.x >= MAP_WIDTH) {
-        pos.x -= MAP_WIDTH * TILE_SIZE;
-    }
+    // destination reached
+    // consume the next action
+    auto new_destination = destination->get_neighbours().at(action);
+    ASSERT(new_destination != origin);  // One may never reverse
+    origin = destination;
+    destination = new_destination;
 }
 
 IPoint PlayerState::get_tile_pos() const {
@@ -112,7 +103,7 @@ IPoint PlayerState::get_tile_pos() const {
 
 LegalActions PlayerState::get_legal_actions() const {
     LegalActions legal_actions;
-    if (must_repeat_previous_action) {
+    if (must_repeat_previous_action >= 0) {
         legal_actions.count = 0;
         legal_actions.reverse_action = -1;
     }

@@ -26,7 +26,8 @@ namespace PACMAN {
             PlayerState();
             PlayerState(const Node* initial_node);
             PlayerState(std::istream& in, const Nodes&);
-            void move(double distance, Action next_action);
+            double move(double distance);
+            void act(Action action);
             virtual IPoint get_tile_pos() const;
 
             inline FPoint get_pixel_pos() const {
@@ -47,13 +48,10 @@ namespace PACMAN {
             bool operator==(const PlayerState&) const;
 
         private:
-            void move(double distance);
-
-        private:
             FPoint pos;  // current position in pixels
             const Node* origin;  // we come from this node
             const Node* destination;  // we are moving towards this node
-            bool must_repeat_previous_action;
+            int must_repeat_previous_action;
         };
 
     }
