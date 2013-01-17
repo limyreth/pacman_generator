@@ -46,6 +46,10 @@
  *   wall tile, even at highest speed; the distance spent in the wall tile is
  *   about 0.42 * tile_size).
  *
+ * - Players are not allowed to reverse, unless in 2 cases: as pacman,
+ *   immediately after having eaten fruit; as any player, immediately after
+ *   pacman eats an energizer
+ *
  * In our case we'll start with 1 life. Later we'll add more lifes, but first let's solve the simpler problem
  *
  * The above rules only apply to level 1, I'm assuming pacman won't make it through the first level.

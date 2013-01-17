@@ -78,8 +78,11 @@ void PlayerState::move(double distance_moved, Action next_action) {
 
         // destination reached
         // consume the next action
+        auto new_destination = destination->get_neighbours().at(next_action);
+        ASSERT(new_destination != origin);  // One may never reverse
         origin = destination;
-        destination = destination->get_neighbours().at(next_action);
+        destination = new_destination;
+
         move(distance_moved_towards_new_destination);
     }
 }
