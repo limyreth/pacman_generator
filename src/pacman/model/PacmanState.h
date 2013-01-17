@@ -23,6 +23,7 @@ namespace PACMAN {
             PacmanState(const Node* initial_node);
             PacmanState(std::istream& in);
 
+            virtual IPoint get_tile_pos() const;
             virtual void save(std::ostream& out) const;
             bool operator==(const PacmanState&) const;
 

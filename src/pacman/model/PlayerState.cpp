@@ -11,17 +11,13 @@
 #include "PlayerState.h"
 #include "Node.h"
 #include "Nodes.h"
-#include "../specification/Walls.h"
 #include "../Constants.h"
-#include "../Utility.h"
 #include "../util/assertion.h"
 #include "../util/serialization.h"
 #include <cmath>
 
 using std::min;
 using std::endl;
-
-using ::PACMAN::SPECIFICATION::walls;
 
 namespace PACMAN {
     namespace MODEL {
@@ -107,19 +103,6 @@ void PlayerState::move(double distance_moved) {
 
 IPoint PlayerState::get_tile_pos() const {
     IPoint tile_pos(pos.x / TILE_SIZE, pos.y / TILE_SIZE);
-
-    // special case: see cornering
-    if (walls[at(tile_pos)]) {
-        // find the closest intersection tile:
-        // find which quadrant of the wall tile we're in. Upper left = (0, 0), lower right quadrant = (1, 1)
-         int x = (pos.x - tile_pos.x * TILE_SIZE) / (TILE_SIZE / 2.0);
-         int y = (pos.y - tile_pos.y * TILE_SIZE) / (TILE_SIZE / 2.0);
-
-         tile_pos.x += x == 0 ? -1 : 1;
-         tile_pos.y += y == 0 ? -1 : 1;
-         ASSERT(!walls[at(tile_pos)]);
-    }
-
     return tile_pos;
 }
 
@@ -195,6 +178,10 @@ void PlayerState::invariants() const {
     INVARIANT(pos.x <= MAP_WIDTH * TILE_SIZE);
     INVARIANT(pos.y <= MAP_HEIGHT * TILE_SIZE);
     INVARIANT(destination != NULL);
+}
+
+const FPoint& PlayerState::get_pos() const {
+    return pos;
 }
 
 // Note: reversing direction between intersections is a legal action and a

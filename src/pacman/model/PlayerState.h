@@ -27,7 +27,7 @@ namespace PACMAN {
             PlayerState(const Node* initial_node);
             PlayerState(std::istream& in, const Nodes&);
             void move(double distance, Action next_action);
-            IPoint get_tile_pos() const;
+            virtual IPoint get_tile_pos() const;
 
             inline FPoint get_pixel_pos() const {
                 return pos;
@@ -41,6 +41,7 @@ namespace PACMAN {
             virtual void save(std::ostream& out) const = 0;
 
         protected:
+            const FPoint& get_pos() const;
             void invariants() const;
             void save(std::ostream& out, const Nodes& nodes) const;
             bool operator==(const PlayerState&) const;
