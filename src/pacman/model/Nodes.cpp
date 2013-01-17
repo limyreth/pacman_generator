@@ -241,7 +241,6 @@ void Nodes::eliminate_redundant_nodes() {
     // eliminate the 2 ends of the tunnel (as they wrap)
     eliminate(0, 14);
     eliminate(MAP_WIDTH-1, 14);
-
     
     ensure_valid(nodes, nodes);
 }

@@ -27,6 +27,8 @@ const GhostNodes GHOST_NODES;
 GhostNodes::GhostNodes() 
 :   spawns(GHOST_COUNT)
 {
+    eliminate_redundant_nodes();
+
     // ghost pen nodes
     spawns.at(GHOST_BLINKY) = new Node(FPoint(14, 11.5) * TILE_SIZE);
     spawns.at(GHOST_PINKY) = new Node(FPoint(14, 14) * TILE_SIZE);
@@ -36,8 +38,8 @@ GhostNodes::GhostNodes()
     spawns.at(GHOST_INKY)->neighbours.push_back(spawns.at(GHOST_PINKY));
     spawns.at(GHOST_CLYDE)->neighbours.push_back(spawns.at(GHOST_PINKY));
     spawns.at(GHOST_PINKY)->neighbours.push_back(spawns.at(GHOST_BLINKY));
-    spawns.at(GHOST_BLINKY)->neighbours.push_back(nodes.at(at(13, 11)));
-    spawns.at(GHOST_BLINKY)->neighbours.push_back(nodes.at(at(14, 11)));
+    spawns.at(GHOST_BLINKY)->neighbours.push_back(nodes.at(at(12, 11)));
+    spawns.at(GHOST_BLINKY)->neighbours.push_back(nodes.at(at(15, 11)));
 
     ensure_valid(nodes, nodes);
     vector<Node*> all_nodes;
