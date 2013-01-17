@@ -47,7 +47,6 @@ int Test::move(int player_index, Direction::Type direction) {
     int steps = 0;
 
     vector<Action> actions(PLAYER_COUNT, 0);
-    actions.at(player_index) = original.get_player(player_index).get_action_along_direction(direction);
 
     while (original.get_player(player_index).get_tile_pos() == state.get_player(player_index).get_tile_pos()) {
         assert_equals(state.food_count, original.food_count);
@@ -59,6 +58,11 @@ int Test::move(int player_index, Direction::Type direction) {
                 ((GhostState&)state.get_player(i+1)).state,
                 ((GhostState&)original.get_player(i+1)).state
             );
+        }
+
+        auto& player = state.get_player(player_index);
+        if (player.get_legal_actions().count > 0) {
+            actions.at(player_index) = player.get_action_along_direction(direction);
         }
 
         state = GameState(actions, state, uihints);

@@ -17,6 +17,7 @@
 #include <cmath>
 
 using std::min;
+using std::cout;
 using std::endl;
 
 namespace PACMAN {
