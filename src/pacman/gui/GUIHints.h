@@ -29,6 +29,7 @@ namespace PACMAN {
             void ate_energizer();
             void ate_ghost();
             void ate_pacman();
+            void ate_fruit();
             void ghosts_no_longer_vulnerable();
 
         private:

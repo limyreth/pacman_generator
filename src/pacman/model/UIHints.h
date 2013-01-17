@@ -24,6 +24,7 @@ namespace PACMAN {
             virtual void ate_energizer() = 0;
             virtual void ate_ghost() = 0;
             virtual void ate_pacman() = 0;
+            virtual void ate_fruit() = 0;
             virtual void ghosts_no_longer_vulnerable() = 0;
         };
 

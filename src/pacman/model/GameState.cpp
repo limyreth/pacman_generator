@@ -279,7 +279,6 @@ GameState::GameState(const vector<Action>& actions, const GameState& state, UIHi
     // collide with food
     int food_index = at(pacman_tpos);
     if (foods[food_index] == Food::DOT) {
-        // eat small dot
         foods[food_index] = Food::NONE;
         --food_count;
         score += 10;
@@ -300,14 +299,13 @@ GameState::GameState(const vector<Action>& actions, const GameState& state, UIHi
         ASSERT(idler_ticks_left == 0);
         idler_ticks_left = 3;  // pacman can't move for 3 ticks after eating a dot
     }
-    /*else if (fruit_spawned && foods[food_index] == 3) { // TODO fix
-        // eat fruit
+    else if (fruit_spawned && (pacman_tpos == FRUIT_LEFT_TPOS || pacman_tpos == FRUIT_RIGHT_TPOS)) {
         score += get_fruit_score();
-        ate_fruit
-        app.getSnd()->play(5, 0);
+        uihints.ate_fruit();
         fruit_spawned = false;
+        fruit_ticks_left = -1;
         ASSERT(idler_ticks_left == 0);
-    }*/ 
+    }
 
     unsigned int food_eaten = MAX_FOOD_COUNT - food_count;
     triggered_fruit_spawn = food_count != state.food_count && (food_eaten == 70 || food_eaten == 170);
@@ -316,7 +314,8 @@ GameState::GameState(const vector<Action>& actions, const GameState& state, UIHi
     ENSURE(score >= state.score);
     ENSURE(lives <= state.lives);
     ENSURE(state.triggered_fruit_spawn == (fruit_ticks_left == FRUIT_TICKS - 1));
-    ENSURE(fruit_ticks_left == -1 || fruit_ticks_left == FRUIT_TICKS - 1 || fruit_ticks_left == state.fruit_ticks_left - 1);
+    ENSURE((!fruit_spawned && fruit_ticks_left == -1) || 
+            (fruit_spawned && (fruit_ticks_left == FRUIT_TICKS - 1 || fruit_ticks_left == state.fruit_ticks_left - 1)));
     ENSURE(state.ate_energizer == (vulnerable_ticks_left == VULNERABLE_TICKS - 1));
     ENSURE(vulnerable_ticks_left == -1 || state.ate_energizer || vulnerable_ticks_left == state.vulnerable_ticks_left - 1);
 }

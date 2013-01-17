@@ -44,4 +44,8 @@ void GUIHints::ate_energizer() {
     snd->play(7, 1);
 }
 
+void GUIHints::ate_fruit() {
+    snd->play(5, 0);
+}
+
 }}
