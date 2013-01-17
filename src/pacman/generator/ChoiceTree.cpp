@@ -58,11 +58,17 @@ bool ChoiceTree::next_child() {
         // repeat action of last round
         choices.back().action = (*(choices.rbegin()+PLAYER_COUNT)).action;
     }
-    else if (choices.back().action + 1 < legal_actions.count) {
-        choices.back().action++;
-    }
     else {
-        return false;
+        Action next_action = choices.back().action + 1;
+        if (next_action == legal_actions.reverse_action) {
+            ++next_action;
+        }
+        if (next_action < legal_actions.count) {
+            choices.back().action = next_action;
+        }
+        else {
+            return false;
+        }
     }
 
     if (choices.size() % PLAYER_COUNT == 0) {

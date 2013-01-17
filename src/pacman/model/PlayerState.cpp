@@ -132,6 +132,7 @@ LegalActions PlayerState::get_legal_actions() const {
         ENSURE(legal_actions.count > 0);
     }
     ENSURE(legal_actions.count <= MAX_ACTION_COUNT);
+    ENSURE(legal_actions.count > 0 || legal_actions.reverse_action == -1);
     return legal_actions;
 }
 
