@@ -27,7 +27,6 @@ void Ghost::Draw(int ix, int iy, int obj, int type) {
     pos.x = ix;
     pos.y = iy;
 
-    SDL_SetAlpha(ghostEl[0].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
     SDL_BlitSurface(ghostEl[0].get(),NULL,buf.get(),&pos);
 }
 
@@ -44,23 +43,19 @@ void Ghost::Draw(const MODEL::GhostState& current) {
     pos.y = real_pos.y - PLAYER_SIZE/2;
 
     if (current.state == GhostState::NORMAL) {
-        SDL_SetAlpha(ghostEl[0].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
         SDL_BlitSurface(ghostEl[0].get(),NULL,buf.get(),&pos);
     }
 
     else if (current.state == GhostState::VULNERABLE) {
-        SDL_SetAlpha(ghostEl[1].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
         SDL_BlitSurface(ghostEl[1].get(),NULL,buf.get(),&pos);
     }
 
     /*else if (current.state == GhostState::WARNING) {
         if ( !paused ) animcounter++;
         if (animcounter%30 < 15) {
-            SDL_SetAlpha(ghostEl[2].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
             SDL_BlitSurface(ghostEl[2].get(),NULL,buf.get(),&pos);
         }
         else {
-            SDL_SetAlpha(ghostEl[1].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
             SDL_BlitSurface(ghostEl[1].get(),NULL,buf.get(),&pos);
         }
     }*/

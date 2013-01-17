@@ -25,7 +25,6 @@ void Pacman::Draw(int ix, int iy, int obj, int type) {
     pos.x=ix;
     pos.y=iy;
 
-    SDL_SetAlpha(pacEl[3].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
     SDL_BlitSurface(pacEl[3].get(),NULL,buf.get(),&pos);
 }
 
@@ -67,23 +66,18 @@ void Pacman::Draw(const MODEL::PacmanState state) {
     int dx = 0;
     int dy = 0;
     if (dx == 1 && dy == 0) {	//right
-        SDL_SetAlpha(pacEl[i].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
         SDL_BlitSurface(pacEl[i].get(),NULL,buf.get(),&pos);
     }
     else if (dx == -1 && dy == 0) {	//left
-        SDL_SetAlpha(pacElRot[i][1].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
         SDL_BlitSurface(pacElRot[i][1].get(),NULL,buf.get(),&pos);
     }
     else if (dx == 0 && dy == -1) {	//up
-        SDL_SetAlpha(pacElRot[i][2].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
         SDL_BlitSurface(pacElRot[i][2].get(),NULL,buf.get(),&pos);
     }
     else if (dx == 0 && dy == 1) {	//down
-        SDL_SetAlpha(pacElRot[i][0].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
         SDL_BlitSurface(pacElRot[i][0].get(),NULL,buf.get(),&pos);
     }
     else if (dx == 0 && dy == 0) {	//init position
-        SDL_SetAlpha(pacEl[i].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
         SDL_BlitSurface(pacEl[i].get(),NULL,buf.get(),&pos);
     }
 

@@ -36,7 +36,6 @@ void BckgrObj::Draw(const Foods foods, bool fruit_spawned) {
     SDL_FillRect(buf.get(), NULL, 0);
 
     // DRAW MAP
-    SDL_SetAlpha(map.get(), SDL_SRCALPHA | SDL_RLEACCEL, alpha);
     SDL_BlitSurface(map.get(), NULL, buf.get(), NULL);
 
     // DRAW OBJECTS
@@ -50,17 +49,14 @@ void BckgrObj::Draw(const Foods foods, bool fruit_spawned) {
             pos.w=TILE_SIZE;
 
             if (foods[j*MAP_WIDTH+i]==Food::DOT) {
-                SDL_SetAlpha(objEl[0].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
                 SDL_BlitSurface(objEl[0].get(), NULL, buf.get(), &pos);
             }
             else if (foods[j*MAP_WIDTH+i]==Food::ENERGIZER) {
-                SDL_SetAlpha(objEl[1].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
                 SDL_BlitSurface(objEl[1].get(), NULL, buf.get(), &pos);
             }
         }
     }
     if (fruit_spawned) {
-        SDL_SetAlpha(objEl[2].get(), SDL_SRCALPHA, 255);
         SDL_BlitSurface(objEl[2].get(), NULL, buf.get(), &fruit_pos);
     }
 }

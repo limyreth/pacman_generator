@@ -26,15 +26,13 @@ namespace PACMAN {
             Object(shared_ptr<SDL_Surface> buffer, int os )
             :	buf(buffer),
                     offset(os),
-                    paused(true),
-                    alpha(255)
+                    paused(true)
             {
             }
 
             virtual ~Object() {}
 
             void setPaused(bool b) { paused = b; }
-            void setAlpha(int a) { alpha = a; }
 
             virtual void Draw(int ix, int iy, int obj=3, int type=1)=0;
             virtual void LoadTextures(std::string path)=0;
@@ -49,9 +47,6 @@ namespace PACMAN {
 
             bool
                     paused;
-
-            int
-                    alpha;
         };
 
     }
