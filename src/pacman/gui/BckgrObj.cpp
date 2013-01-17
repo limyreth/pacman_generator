@@ -21,24 +21,8 @@ using namespace ::PACMAN::SPECIFICATION;
 namespace PACMAN {
     namespace GUI {
 
-void BckgrObj::Draw(int ix, int iy, int obj, int type, int alp) {
-    SDL_Rect pos;
-
-    pos.x=ix;
-    pos.y=iy;
-    pos.h=pos.w=TILE_SIZE;
-
-    if (type == 1) {
-        SDL_SetAlpha(objEl[obj].get(),SDL_SRCALPHA|SDL_RLEACCEL,alp);
-        SDL_BlitSurface(objEl[obj].get(),NULL,buf.get(),&pos);
-    }
-    else {
-        assert(false);
-    }
-}
-
 void BckgrObj::Draw(int ix, int iy, int obj, int type) {
-    Draw(ix,iy,obj,type,255);
+    assert(false);
 }
 
 void BckgrObj::Draw(const Foods foods) {

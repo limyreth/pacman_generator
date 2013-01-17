@@ -29,7 +29,6 @@ namespace PACMAN {
 
             void Draw(const SPECIFICATION::Foods foods);
             void Draw(int ix, int iy, int obj=3, int type=1);
-            void Draw(int ix, int iy, int obj, int type, int alp);
 
             virtual void reset( int ix, int iy) { ix = iy; };   /* avoid compiler warnings */
             virtual void Update(int time) { time = 0; };        /* avoid compiler warnings */
