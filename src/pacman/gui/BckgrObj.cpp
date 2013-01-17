@@ -63,18 +63,18 @@ void BckgrObj::Draw(const Foods foods) {
             pos.w=TILE_SIZE;
 
             if (foods[j*MAP_WIDTH+i]==Food::DOT) {
+                SDL_SetAlpha(objEl[0].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
+                SDL_BlitSurface(objEl[0].get(), NULL, buf.get(), &pos);
+                objcounter++;
+            }
+            else if (foods[j*MAP_WIDTH+i]==Food::ENERGIZER) {
                 SDL_SetAlpha(objEl[1].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
                 SDL_BlitSurface(objEl[1].get(), NULL, buf.get(), &pos);
                 objcounter++;
             }
-            else if (foods[j*MAP_WIDTH+i]==Food::ENERGIZER) {
-                SDL_SetAlpha(objEl[2].get(),SDL_SRCALPHA|SDL_RLEACCEL,alpha);
-                SDL_BlitSurface(objEl[2].get(), NULL, buf.get(), &pos);
-                objcounter++;
-            }
             /*else if (foods[j*width+i]==3 && specialspawned && !specialeaten) {	// fruit TODO
-                SDL_SetAlpha(objEl[3].get(),SDL_SRCALPHA,fruitalpha);
-                SDL_BlitSurface(objEl[3].get(), NULL, buf.get(), &pos);
+                SDL_SetAlpha(objEl[2].get(),SDL_SRCALPHA,fruitalpha);
+                SDL_BlitSurface(objEl[2].get(), NULL, buf.get(), &pos);
                 objcounter++;
             }*/
         }
@@ -103,7 +103,7 @@ void BckgrObj::LoadTextures(std::string path) {
     }
 
     // object sprites
-    for (int i=1; i<4; i++) {
+    for (int i=0; i<3; i++) {
         objEl[i].reset(IMG_Load((path + "o" + to_string(i) + ".png").c_str()), SDL_FreeSurface);
         if ( objEl[i] == NULL )
             throw_exception(to_string(i) + "Failed to load object texture");
