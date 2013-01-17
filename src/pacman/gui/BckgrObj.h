@@ -36,25 +36,14 @@ namespace PACMAN {
 
             void LoadTextures(std::string path);
 
-            void setSpecialSpawned(bool b) {specialspawned = b;	}
-            void setSpecialEaten(bool b) {specialeaten = b;	}
-
             int getObjCount() {	return objcounter;	}
-
-            void setFruitAlpha(int a);
 
         private:
             shared_ptr<SDL_Surface>
                     map,
                     objEl[3];
 
-            int
-                    objcounter,
-                    fruitalpha;
-
-            bool
-                    specialspawned,
-                    specialeaten;
+            int objcounter;
         };
 
     }

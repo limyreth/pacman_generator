@@ -41,10 +41,6 @@ void BckgrObj::Draw(int ix, int iy, int obj, int type) {
     Draw(ix,iy,obj,type,255);
 }
 
-void BckgrObj::setFruitAlpha(int a) {
-    fruitalpha = a;
-}
-
 void BckgrObj::Draw(const Foods foods) {
     int i, j;
     SDL_Rect pos;
@@ -87,8 +83,6 @@ void BckgrObj::Draw(const Foods foods) {
 
 }
 
-#define BACKGROUND_TEXTURE_ID 0
-
 void BckgrObj::LoadTextures(std::string path) {
     SDL_PixelFormat *fmt;
 
@@ -129,10 +123,7 @@ void BckgrObj::LoadTextures(std::string path) {
 
 BckgrObj::BckgrObj( shared_ptr<SDL_Surface> buffer, int os)
     :	Object( buffer, os),
-    objcounter(0),
-    fruitalpha(255),
-    specialspawned(false),
-    specialeaten(false)
+    objcounter(0)
 {
 }
 
