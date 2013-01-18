@@ -29,7 +29,8 @@ namespace PACMAN {
     namespace TEST {
 
 Test::Test() 
-:   state(GameState::new_game())
+:   state(GameState::new_game()),
+    is_initial(true)
 {
 }
 
@@ -43,10 +44,20 @@ Test::Test()
  * Returns steps taken
  */
 int Test::move(int player_index, Direction::Type direction) {
-    GameState original = state;
     int steps = 0;
-
     vector<Action> actions(PLAYER_COUNT, 0);
+
+    if (is_initial) {
+        is_initial = false;
+
+        auto& player = state.get_player(player_index);
+        if (player.get_legal_actions().count > 0) {
+            actions.at(player_index) = player.get_action_along_direction(direction);
+        }
+        state.act(actions, state, uihints);
+    }
+
+    GameState original = state;
 
     while (original.get_player(player_index).get_tile_pos() == state.get_player(player_index).get_tile_pos()) {
         assert_equals(state.food_count, original.food_count);
@@ -60,16 +71,16 @@ int Test::move(int player_index, Direction::Type direction) {
             );
         }
 
-        auto& player = state.get_player(player_index);
+        auto new_state = GameState(state, uihints);
+        auto& player = new_state.get_player(player_index);
         if (player.get_legal_actions().count > 0) {
             actions.at(player_index) = player.get_action_along_direction(direction);
         }
-
-        auto new_state = GameState(state, uihints);
         new_state.act(actions, state, uihints);
         state = new_state;
 
         ++steps;
+        cout << steps << endl;
     }
 
     return steps;

@@ -41,11 +41,12 @@ namespace PACMAN {
             void invariants() const;
 
         private:
-            bool generate_actions(const MODEL::GameState& state, std::vector<MODEL::Action>& prev_actions, std::vector<MODEL::Action>& actions) const;
-            void progress_game_until_choice(MODEL::GameState& state, std::vector<MODEL::Action> prev_actions);
+            bool generate_actions(const MODEL::GameState& state, std::vector<MODEL::Action>& actions) const;
+            void progress_game_until_choice(MODEL::GameState& state);
 
         private:
             std::vector<MODEL::GameState> states;
+            std::vector<MODEL::GameState> intermediate_states;
             GUI::NullUIHints uihints;
             int max_depth;
         };

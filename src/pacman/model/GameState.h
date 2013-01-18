@@ -86,7 +86,6 @@ namespace PACMAN {
             }
 
             inline const SPECIFICATION::Foods& get_foods() const {
-                REQUIRE(final_state);
                 return foods;
             }
 
@@ -133,8 +132,6 @@ namespace PACMAN {
             int vulnerable_ticks_left;  // how many more ticks ( / successing game states) ghosts will be vulnerable
             int fruit_ticks_left;  // amount of ticks left til fruit disappears
             int idler_ticks_left;  // ticks left til pacman gets off his lazy ass and starts moving again (pacman rests after eating dot or energizer)
-
-            bool final_state;  // whether we are in a final or intermediate state
 
             double movement_excess[PLAYER_COUNT];  // TODO this is only intermediate state
 

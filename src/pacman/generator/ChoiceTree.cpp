@@ -54,9 +54,8 @@ int ChoiceTree::parent() {
 bool ChoiceTree::next_child() {
     INVARIANTS_ON_EXIT;
     auto legal_actions = tree.get_legal_actions(choices.back().player);
-    if (choices.back().action == -1 && legal_actions.count == 0) {
-        // repeat action of last round
-        choices.back().action = (*(choices.rbegin()+PLAYER_COUNT)).action;
+    if (legal_actions.count == 0 && is_first_child()) {
+        choices.back().action = 99;  // set to random value >-1 because that's how we encode that this is no longer the first child
     }
     else {
         Action next_action = choices.back().action + 1;

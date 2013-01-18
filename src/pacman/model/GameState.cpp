@@ -98,6 +98,7 @@ GameState::GameState(std::istream& in) {
     }
 
     read(in, foods);
+    read(in, movement_excess);
 
     read(in, food_count);
     read(in, score);
@@ -108,8 +109,6 @@ GameState::GameState(std::istream& in) {
     read(in, idler_ticks_left);
     read(in, ate_energizer);
     read(in, triggered_fruit_spawn);
-
-    ensure_final_state();
 }
 
 /**
@@ -124,8 +123,7 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns)
     vulnerable_ticks_left(-1),
     idler_ticks_left(0),
     ate_energizer(false),
-    triggered_fruit_spawn(false),
-    final_state(true)
+    triggered_fruit_spawn(false)
 {
     INVARIANTS_ON_EXIT;
     REQUIRE(pacman_spawn);
@@ -138,7 +136,9 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns)
         ghosts[i] = GhostState(ghost_spawns.at(i));
     }
 
-    ensure_final_state();
+    for (int i=0; i < PLAYER_COUNT; ++i) {
+        movement_excess[i] = 0.0;
+    }
 }
 
 /*
@@ -152,8 +152,6 @@ GameState::GameState(const GameState& state, UIHints& uihints)
     INVARIANTS_ON_EXIT;
     REQUIRE(!state.did_pacman_win());
     REQUIRE(!state.did_pacman_lose());
-
-    final_state = false;
 
     /* Note: TODO split in functions to provide better overview of ordering
      *
@@ -258,6 +256,9 @@ GameState::GameState(const GameState& state, UIHints& uihints)
     }
 }
 
+/*
+ * actions may contain invalid actions if the respective player won't act this tick
+ */
 void GameState::act(const vector<Action>& actions, const GameState& state, UIHints& uihints) {
     INVARIANTS_ON_EXIT;
     //REQUIRE(actions.size() == PLAYER_COUNT);
@@ -265,7 +266,7 @@ void GameState::act(const vector<Action>& actions, const GameState& state, UIHin
     // finish movement
     for (int i=0; i < PLAYER_COUNT; ++i) {
         auto& player = get_player_(i);
-        if (movement_excess[i] > 0.0) {
+        if (movement_excess[i] >= 0.0) {
             player.act(actions.at(i));
             player.move(movement_excess[i]);
         }
@@ -333,8 +334,6 @@ void GameState::act(const vector<Action>& actions, const GameState& state, UIHin
     unsigned int food_eaten = MAX_FOOD_COUNT - food_count;
     triggered_fruit_spawn = food_count != state.food_count && (food_eaten == 70 || food_eaten == 170);
     
-    final_state = true;
-
     ensure_final_state();
     ENSURE(state.food_count - food_count <= 1);
     ENSURE(score >= state.score);
@@ -410,7 +409,7 @@ void GameState::save(std::ostream& out) const {
     }
 
     write(out, foods);
-    ASSERT(sizeof(foods) > 15); // TODO if it succeeds to run once, rm this line
+    write(out, movement_excess);
 
     write(out, food_count);
     write(out, score);
@@ -434,9 +433,14 @@ bool GameState::operator==(const GameState& other) const {
         }
     }
 
-    ASSERT(sizeof(foods) == MAP_WIDTH*MAP_HEIGHT*sizeof(Food::Type));
     if (memcmp(other.foods, foods, sizeof(foods)) != 0) {
         return false;
+    }
+
+    for (int i=0; i < PLAYER_COUNT; ++i) {
+        if (other.movement_excess[i] != movement_excess[i]) {
+            return false;
+        }
     }
 
     return other.food_count == food_count &&

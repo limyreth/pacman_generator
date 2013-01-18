@@ -76,19 +76,22 @@ int main( int argc, char** argv ) {
 
         // interactive mode
         vector<Action> actions(PLAYER_COUNT, 0);
-        MODEL::GameState state(GameState::new_game());
+        MODEL::GameState state = GameState::new_game();
         GUI::GUI gui(state, show_pacman_nodes, show_ghost_nodes, show_food);
         shared_ptr<UIHints> uihints = gui.create_uihints();
+
+        auto new_state = state;
         while (gui.emptyMsgPump()) {
-            gui.render();
-            auto& pacman = state.get_player(0);
+            auto& pacman = new_state.get_player(0);
             if (pacman.get_legal_actions().count > 0) {
                 actions.at(0) = pacman.get_action_along_direction(gui.get_preferred_direction());
             }
-
-            auto new_state = GameState(state, *uihints);
             new_state.act(actions, state, *uihints);
+
             state = new_state;
+            gui.render();
+
+            new_state = GameState(state, *uihints);
         }
 
         logtxt.print( "Shutdown" );

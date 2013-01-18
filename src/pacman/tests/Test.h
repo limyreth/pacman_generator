@@ -37,6 +37,7 @@ namespace PACMAN {
         private:
             MODEL::GameState state;
             GUI::NullUIHints uihints;
+            bool is_initial;
         };
 
     }

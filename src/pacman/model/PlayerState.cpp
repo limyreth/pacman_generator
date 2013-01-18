@@ -31,7 +31,6 @@ PlayerState::PlayerState()
 
 PlayerState::PlayerState(const Node* initial_node) 
 :   pos(initial_node->get_location()), 
-    must_repeat_previous_action(-1),
     origin(NULL),
     destination(initial_node)
 {
@@ -43,7 +42,6 @@ PlayerState::PlayerState(std::istream& in, const Nodes& nodes) {
     INVARIANTS_ON_EXIT;
     read(in, pos.x);
     read(in, pos.y);
-    read(in, must_repeat_previous_action);
     origin = nodes.load(in);
     destination = nodes.load(in);
 }
@@ -56,37 +54,32 @@ PlayerState::PlayerState(std::istream& in, const Nodes& nodes) {
 double PlayerState::move(double distance_moved) {
     INVARIANTS_ON_EXIT;
     REQUIRE(distance_moved >= 0.0);
+    REQUIRE(!has_reached_destination());
 
     FPoint direction = destination->get_location() - pos;
     double distance_moved_towards_destination = min(direction.length(), distance_moved);
-    double movement_excess = distance_moved - distance_moved_towards_destination;
+    double movement_excess = distance_moved - direction.length();
 
     // move towards destination
-    if (distance_moved_towards_destination > 0.0) {
-        must_repeat_previous_action++;
+    direction.normalise();
+    pos += direction * distance_moved_towards_destination;
 
-        FPoint direction = destination->get_location() - pos;
-        direction.normalise();
-        pos += direction * distance_moved_towards_destination;
-
-        // wrap screen when hitting left/right edge of tunnel
-        auto tpos = get_tile_pos();
-        if (tpos.x < 0) {
-            pos.x = MAP_WIDTH * TILE_SIZE - pos.x;
-        }
-        else if (tpos.x >= MAP_WIDTH) {
-            pos.x -= MAP_WIDTH * TILE_SIZE;
-        }
+    // wrap screen when hitting left/right edge of tunnel
+    auto tpos = get_tile_pos();
+    if (tpos.x < 0) {
+        pos.x = MAP_WIDTH * TILE_SIZE - pos.x;
+    }
+    else if (tpos.x >= MAP_WIDTH) {
+        pos.x -= MAP_WIDTH * TILE_SIZE;
     }
 
+    ENSURE(has_reached_destination() == (movement_excess >= 0.0));
     return movement_excess;
 }
 
 void PlayerState::act(Action action) {
     REQUIRE(action >= 0);
-    //REQUIRE(action < get_legal_actions().count);  //TODO enable when choices are done now, we are currently already showing legal actions for a next thing...
-
-    must_repeat_previous_action = -2;
+    REQUIRE(action < get_legal_actions().count);
 
     // destination reached
     // consume the next action
@@ -94,6 +87,12 @@ void PlayerState::act(Action action) {
     ASSERT(new_destination != origin);  // One may never reverse
     origin = destination;
     destination = new_destination;
+
+    ENSURE(!has_reached_destination());
+}
+
+bool PlayerState::has_reached_destination() const {
+    return pos == destination->get_location();
 }
 
 IPoint PlayerState::get_tile_pos() const {
@@ -103,7 +102,7 @@ IPoint PlayerState::get_tile_pos() const {
 
 LegalActions PlayerState::get_legal_actions() const {
     LegalActions legal_actions;
-    if (must_repeat_previous_action >= 0) {
+    if (!has_reached_destination()) {
         legal_actions.count = 0;
         legal_actions.reverse_action = -1;
     }
@@ -119,9 +118,8 @@ LegalActions PlayerState::get_legal_actions() const {
                 }
             }
         }
-
-        ENSURE(legal_actions.count > 0);
     }
+    ENSURE(has_reached_destination() == (legal_actions.count > 0));
     ENSURE(legal_actions.count <= MAX_ACTION_COUNT);
     ENSURE(legal_actions.count > 0 || legal_actions.reverse_action == -1);
     return legal_actions;
@@ -156,7 +154,6 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
 
 void PlayerState::save(std::ostream& out, const Nodes& nodes) const {
     write(out, pos);
-    write(out, must_repeat_previous_action);
     nodes.save(out, origin);
     nodes.save(out, destination);
 }
@@ -164,8 +161,7 @@ void PlayerState::save(std::ostream& out, const Nodes& nodes) const {
 bool PlayerState::operator==(const PlayerState& o) const {
     return o.pos == pos &&
         o.origin == origin &&
-        o.destination == destination &&
-        o.must_repeat_previous_action == must_repeat_previous_action;
+        o.destination == destination;
 }
 
 void PlayerState::invariants() const {

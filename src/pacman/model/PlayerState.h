@@ -48,10 +48,12 @@ namespace PACMAN {
             bool operator==(const PlayerState&) const;
 
         private:
+            bool has_reached_destination() const;
+
+        private:
             FPoint pos;  // current position in pixels
             const Node* origin;  // we come from this node
             const Node* destination;  // we are moving towards this node
-            int must_repeat_previous_action;
         };
 
     }
