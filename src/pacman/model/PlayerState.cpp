@@ -145,7 +145,12 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
 
     double best_dot_prod = -1.0; // worst = -1, best = 1
     Action best_action = -1;
+    auto reverse_action = get_reverse_action();
     for (int i=0; i < destination->get_neighbours().size(); ++i) {
+        if (i == reverse_action) {
+            continue;
+        }
+
         auto dir = destination->get_neighbours()[i]->get_location() - destination->get_location();
         dir.normalise();
 
@@ -157,6 +162,10 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
             best_action = i;
             best_dot_prod = dot_prod;
         }
+    }
+
+    if (reverse_action >= 0 && best_action > reverse_action) {
+        --best_action;
     }
     return best_action;
 }
