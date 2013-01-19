@@ -16,6 +16,7 @@
 #include "../generator/Generator.h"
 #include "../generator/PacmanGameTree.h"
 #include "../generator/ChoiceTree.h"
+#include "../model/IntermediateGameState.h"
 
 #include "../util/assertion.h"
 
@@ -50,7 +51,7 @@ void GeneratorTests::test_save_load() {
 
     {
         stringstream str;
-        auto state = GameState::new_game();
+        auto state = IntermediateGameState::new_game().get_predecessor();
         state.save(str);
 
         GameState loaded_state(str);

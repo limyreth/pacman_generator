@@ -28,6 +28,7 @@ namespace PACMAN {
     namespace MODEL {
 
         class UIHints;
+        class IntermediateGameState;
 
         // Each GameState shows the state at the begin/end of a tick
         class GameState : public ASSERTION::Assertable
@@ -35,14 +36,16 @@ namespace PACMAN {
         public:
             GameState();
             GameState(std::istream& in);
-            GameState(const GameState& state, UIHints& app);
+            GameState(const GameState& state, UIHints&, double movement_excess[]);
+            GameState(const Node* pacman_spawn, const std::vector<Node*> ghost_spawns);
 
-            void act(const std::vector<Action>& actions, const GameState& state, UIHints& app);
-
-            static GameState new_game();
+            void act(const std::vector<Action>& actions, const GameState& state, UIHints&, const double movement_excess[]);
 
             void save(std::ostream& out) const;
             bool operator==(const GameState&) const;
+            bool operator!=(const GameState& o) const {
+                return !(o == *this);
+            }
 
             // Note: behaviour of accessors is implementation specific when in an intermediate state
 
@@ -93,8 +96,6 @@ namespace PACMAN {
             void invariants() const;
 
         private:
-            GameState(const Node* pacman_spawn, const std::vector<Node*> ghost_spawns);
-
             void ensure_final_state();
 
             inline PlayerState& get_player_(int index) {
@@ -132,8 +133,6 @@ namespace PACMAN {
             int vulnerable_ticks_left;  // how many more ticks ( / successing game states) ghosts will be vulnerable
             int fruit_ticks_left;  // amount of ticks left til fruit disappears
             int idler_ticks_left;  // ticks left til pacman gets off his lazy ass and starts moving again (pacman rests after eating dot or energizer)
-
-            double movement_excess[PLAYER_COUNT];  // TODO this is only intermediate state
 
             friend class PACMAN::TEST::Test;
         };

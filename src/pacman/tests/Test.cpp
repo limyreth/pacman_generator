@@ -12,7 +12,7 @@
 
 #include "util.h"
 
-#include "../model/GameState.h"
+#include "../model/IntermediateGameState.h"
 #include "../Point.h"
 #include "../Constants.h"
 
@@ -29,8 +29,7 @@ namespace PACMAN {
     namespace TEST {
 
 Test::Test() 
-:   state(GameState::new_game()),
-    is_initial(true)
+:   state(IntermediateGameState::new_game())
 {
 }
 
@@ -47,40 +46,30 @@ int Test::move(int player_index, Direction::Type direction) {
     int steps = 0;
     vector<Action> actions(PLAYER_COUNT, 0);
 
-    if (is_initial) {
-        is_initial = false;
+    GameState original = state.get_predecessor();
+
+    auto current = state.get_predecessor();
+    while (original.get_player(player_index).get_tile_pos() == current.get_player(player_index).get_tile_pos()) {
+        assert_equals(current.food_count, original.food_count);
+        assert_equals(current.lives, original.lives);
+        assert_equals(current.score, original.score);
+
+        for (int i=0; i < GHOST_COUNT; ++i) {
+            assert_equals(
+                ((GhostState&)current.get_player(i+1)).state,
+                ((GhostState&)original.get_player(i+1)).state
+            );
+        }
 
         auto& player = state.get_player(player_index);
         if (player.get_legal_actions().count > 0) {
             actions.at(player_index) = player.get_action_along_direction(direction);
         }
-        state.act(actions, state, uihints);
-    }
-
-    GameState original = state;
-
-    while (original.get_player(player_index).get_tile_pos() == state.get_player(player_index).get_tile_pos()) {
-        assert_equals(state.food_count, original.food_count);
-        assert_equals(state.lives, original.lives);
-        assert_equals(state.score, original.score);
-
-        for (int i=0; i < GHOST_COUNT; ++i) {
-            assert_equals(
-                ((GhostState&)state.get_player(i+1)).state,
-                ((GhostState&)original.get_player(i+1)).state
-            );
-        }
-
-        auto new_state = GameState(state, uihints);
-        auto& player = new_state.get_player(player_index);
-        if (player.get_legal_actions().count > 0) {
-            actions.at(player_index) = player.get_action_along_direction(direction);
-        }
-        new_state.act(actions, state, uihints);
-        state = new_state;
+        auto successor = state.act(actions, uihints);
+        state = IntermediateGameState(successor, uihints);
+        current = state.get_predecessor();
 
         ++steps;
-        cout << steps << endl;
     }
 
     return steps;
@@ -95,6 +84,10 @@ void Test::directions_to_actions(Direction::Type pacman, Direction::Type blinky,
 
 int Test::get_food_count() {
     return get_state()->food_count;
+}
+
+const GameState* Test::get_state() {
+    return &state.get_predecessor();
 }
 
 }}

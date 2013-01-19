@@ -76,7 +76,7 @@ void test_ghosts_remain_normal_when_not_eating_energizer() {
 void test_pacman_movement_regular_speed_not_cornering() {
     Test test;
 
-    assert_equals(test.move(0, Direction::EAST), (int)ceil(1 /*tile*/ / (FULL_SPEED * NORMAL_PACMAN_SPEED)));
+    assert_equals(test.move(0, Direction::EAST), (int)ceil(1 /*tile*/ / (FULL_SPEED * NORMAL_PACMAN_SPEED)) +1); // +1 because the first tick is a tick for the initial game state to tell players what to do, actual movement starts from the second tick onwards
     auto tile_pos = test.get_state()->get_player(0).get_tile_pos();
     assert_equals(tile_pos, IPoint(15, 23));
 

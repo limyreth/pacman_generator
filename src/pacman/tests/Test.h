@@ -11,7 +11,7 @@
 #pragma once
 
 #include "../Directions.h"
-#include "../model/GameState.h"
+#include "../model/IntermediateGameState.h"
 #include "../model/Action.h"
 #include "../gui/NullUIHints.h"
 
@@ -30,14 +30,11 @@ namespace PACMAN {
 
             int get_food_count();
 
-            inline MODEL::GameState* get_state() {
-                return &state;
-            }
+            const MODEL::GameState* get_state();
 
         private:
-            MODEL::GameState state;
+            MODEL::IntermediateGameState state;
             GUI::NullUIHints uihints;
-            bool is_initial;
         };
 
     }

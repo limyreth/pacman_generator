@@ -67,8 +67,6 @@
 #include "Node.h"
 #include <string.h>
 #include "../util/serialization.h"
-#include "../model/PacmanNodes.h"
-#include "../model/GhostNodes.h"
 
 using namespace ::PACMAN::SPECIFICATION;
 
@@ -98,7 +96,6 @@ GameState::GameState(std::istream& in) {
     }
 
     read(in, foods);
-    read(in, movement_excess);
 
     read(in, food_count);
     read(in, score);
@@ -135,10 +132,6 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns)
     for (int i=0; i<GHOST_COUNT; ++i) {
         ghosts[i] = GhostState(ghost_spawns.at(i));
     }
-
-    for (int i=0; i < PLAYER_COUNT; ++i) {
-        movement_excess[i] = 0.0;
-    }
 }
 
 /*
@@ -146,7 +139,7 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns)
  *
  * State of the game 1 tick after `state`.
  */
-GameState::GameState(const GameState& state, UIHints& uihints)
+GameState::GameState(const GameState& state, UIHints& uihints, double movement_excess[])
 :   GameState(state)
 {
     INVARIANTS_ON_EXIT;
@@ -259,7 +252,7 @@ GameState::GameState(const GameState& state, UIHints& uihints)
 /*
  * actions may contain invalid actions if the respective player won't act this tick
  */
-void GameState::act(const vector<Action>& actions, const GameState& state, UIHints& uihints) {
+void GameState::act(const vector<Action>& actions, const GameState& state, UIHints& uihints, const double movement_excess[]) {
     INVARIANTS_ON_EXIT;
     //REQUIRE(actions.size() == PLAYER_COUNT);
 
@@ -349,10 +342,6 @@ void GameState::ensure_final_state() {
     ENSURE(foods[at(pacman.get_tile_pos())] == Food::NONE || did_pacman_lose());
 }
 
-GameState GameState::new_game() {
-    return GameState(PACMAN_NODES.get_spawn(), GHOST_NODES.get_spawns());
-}
-
 bool GameState::get_vulnerable_ghost_count() const {
     int count = 0;
     for (auto ghost : ghosts) {
@@ -409,7 +398,6 @@ void GameState::save(std::ostream& out) const {
     }
 
     write(out, foods);
-    write(out, movement_excess);
 
     write(out, food_count);
     write(out, score);
@@ -435,12 +423,6 @@ bool GameState::operator==(const GameState& other) const {
 
     if (memcmp(other.foods, foods, sizeof(foods)) != 0) {
         return false;
-    }
-
-    for (int i=0; i < PLAYER_COUNT; ++i) {
-        if (other.movement_excess[i] != movement_excess[i]) {
-            return false;
-        }
     }
 
     return other.food_count == food_count &&

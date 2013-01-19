@@ -12,7 +12,7 @@
 
 #include "GameTree.h"
 #include "../model/Action.h"
-#include "../model/GameState.h"
+#include "../model/IntermediateGameState.h"
 #include "../gui/NullUIHints.h"
 #include "../util/assertion.h"
 
@@ -41,12 +41,11 @@ namespace PACMAN {
             void invariants() const;
 
         private:
-            bool generate_actions(const MODEL::GameState& state, std::vector<MODEL::Action>& actions) const;
-            void progress_game_until_choice(MODEL::GameState& state);
+            bool generate_actions(const MODEL::IntermediateGameState& state, std::vector<MODEL::Action>& actions) const;
+            void progress_game_until_choice(MODEL::IntermediateGameState& state);
 
         private:
-            std::vector<MODEL::GameState> states;
-            std::vector<MODEL::GameState> intermediate_states;
+            std::vector<MODEL::IntermediateGameState> states;
             GUI::NullUIHints uihints;
             int max_depth;
         };
