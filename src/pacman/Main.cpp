@@ -14,7 +14,7 @@
 // ported to linux with attempt at crossplatform compatibility
 //////////////////////////////////////////////////////
 
-#include "model/IntermediateGameState.h"
+#include "model/Game.h"
 #include "generator/generate.h"
 #include "gui/GUI.h"
 #include "Log.h"
@@ -75,18 +75,12 @@ int main( int argc, char** argv ) {
         }
 
         // interactive mode
-        vector<Action> actions(PLAYER_COUNT, 0);
-        MODEL::IntermediateGameState state = IntermediateGameState::new_game();
-        GUI::GUI gui(state.get_predecessor(), show_pacman_nodes, show_ghost_nodes, show_food);
+        MODEL::Game game(0);
+        GUI::GUI gui(game.get_state(), show_pacman_nodes, show_ghost_nodes, show_food);
         shared_ptr<UIHints> uihints = gui.create_uihints();
 
         while (gui.emptyMsgPump()) {
-            auto& pacman = state.get_player(0);
-            if (pacman.get_legal_actions().count > 0) {
-                actions.at(0) = pacman.get_action_along_direction(gui.get_preferred_direction());
-            }
-            state = state.act(actions, *uihints);
-
+            game.act(gui.get_preferred_direction(), *uihints);
             gui.render();
         }
 
