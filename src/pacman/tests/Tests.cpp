@@ -51,7 +51,7 @@ void test_start_foods() {
 }
 
 void test_initial_game_state() {
-    Test test;
+    Test test(0);
     auto state = test.get_state();
 
     // start positions
@@ -69,32 +69,32 @@ void test_initial_game_state() {
 }
 
 void test_ghosts_remain_normal_when_not_eating_energizer() {
-    Test test;
-    test.move(1, Direction::ANY);
+    Test test(1);
+    test.move(Direction::ANY);
 }
 
 void test_pacman_movement_regular_speed_not_cornering() {
-    Test test;
+    Test test(0);
 
-    assert_equals(test.move(0, Direction::EAST), (int)ceil(1 /*tile*/ / (FULL_SPEED * NORMAL_PACMAN_SPEED)) +1); // +1 because the first tick is a tick for the initial game state to tell players what to do, actual movement starts from the second tick onwards
+    assert_equals(test.move(Direction::EAST), (int)ceil(1 /*tile*/ / (FULL_SPEED * NORMAL_PACMAN_SPEED)) +1); // +1 because the first tick is a tick for the initial game state to tell players what to do, actual movement starts from the second tick onwards
     auto tile_pos = test.get_state()->get_player(0).get_tile_pos();
     assert_equals(tile_pos, IPoint(15, 23));
 
     // check we are really moving east
-    test.move(0, Direction::EAST);
+    test.move(Direction::EAST);
     tile_pos = test.get_state()->get_player(0).get_tile_pos();
     assert_equals(tile_pos, IPoint(16, 23));
 }
 
 void test_dot_eating_no_cornering() {
-    Test test;
+    Test test(0);
 
     int start_food = test.get_food_count();
-    test.move(0, Direction::EAST);
+    test.move(Direction::EAST);
     assert_equals(test.get_food_count(), start_food-1);
 
     // should take 1 step longer because pacman idles 1 tick after eating a dot
-    assert_equals(test.move(0, Direction::EAST), 1 + (int)ceil(1 /*tile*/ / (FULL_SPEED * NORMAL_PACMAN_SPEED)));
+    assert_equals(test.move(Direction::EAST), 1 + (int)ceil(1 /*tile*/ / (FULL_SPEED * NORMAL_PACMAN_SPEED)));
     assert_equals(test.get_food_count(), start_food-2);
 }
 

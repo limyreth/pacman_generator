@@ -11,7 +11,7 @@
 #pragma once
 
 #include "../Directions.h"
-#include "../model/IntermediateGameState.h"
+#include "../model/Game.h"
 #include "../model/Action.h"
 #include "../gui/NullUIHints.h"
 
@@ -24,8 +24,8 @@ namespace PACMAN {
 
         class Test {
         public:
-            Test();
-            int move(int player_index, Direction::Type direction);
+            Test(int player_index);
+            int move(Direction::Type direction);
             void directions_to_actions(Direction::Type pacman, Direction::Type blinky, Direction::Type pinky, Direction::Type inky, Direction::Type clyde, MODEL::Action* actions);
 
             int get_food_count();
@@ -33,7 +33,8 @@ namespace PACMAN {
             const MODEL::GameState* get_state();
 
         private:
-            MODEL::IntermediateGameState state;
+            int player_index;
+            MODEL::Game game;
             GUI::NullUIHints uihints;
         };
 

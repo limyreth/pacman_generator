@@ -28,8 +28,9 @@ using std::vector;
 namespace PACMAN {
     namespace TEST {
 
-Test::Test() 
-:   state(IntermediateGameState::new_game())
+Test::Test(int player_index)
+:   game(player_index),
+    player_index(player_index)
 {
 }
 
@@ -42,13 +43,13 @@ Test::Test()
  *
  * Returns steps taken
  */
-int Test::move(int player_index, Direction::Type direction) {
+int Test::move(Direction::Type direction) {
     int steps = 0;
     vector<Action> actions(PLAYER_COUNT, 0);
 
-    GameState original = state.get_predecessor();
+    GameState original = game.get_state();
 
-    auto current = state.get_predecessor();
+    auto current = game.get_state();
     while (original.get_player(player_index).get_tile_pos() == current.get_player(player_index).get_tile_pos()) {
         assert_equals(current.food_count, original.food_count);
         assert_equals(current.lives, original.lives);
@@ -61,12 +62,8 @@ int Test::move(int player_index, Direction::Type direction) {
             );
         }
 
-        auto& player = state.get_player(player_index);
-        if (player.get_legal_actions().count > 0) {
-            actions.at(player_index) = player.get_action_along_direction(direction);
-        }
-        state = state.act(actions, uihints);
-        current = state.get_predecessor();
+        game.act(direction, uihints);
+        current = game.get_state();
 
         ++steps;
     }
@@ -79,7 +76,7 @@ int Test::get_food_count() {
 }
 
 const GameState* Test::get_state() {
-    return &state.get_predecessor();
+    return &game.get_state();
 }
 
 }}
