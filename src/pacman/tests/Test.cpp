@@ -74,13 +74,6 @@ int Test::move(int player_index, Direction::Type direction) {
     return steps;
 }
 
-void Test::directions_to_actions(Direction::Type pacman, Direction::Type blinky, Direction::Type pinky, Direction::Type inky, Direction::Type clyde, Action* actions) {
-    Direction::Type directions[PLAYER_COUNT] = {pacman, blinky, pinky, inky, clyde};
-    for (int i=0; i<PLAYER_COUNT; ++i) {
-        actions[i] = state.get_player(i).get_action_along_direction(directions[i]);
-    }
-}
-
 int Test::get_food_count() {
     return get_state()->food_count;
 }
