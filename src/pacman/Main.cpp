@@ -85,8 +85,7 @@ int main( int argc, char** argv ) {
             if (pacman.get_legal_actions().count > 0) {
                 actions.at(0) = pacman.get_action_along_direction(gui.get_preferred_direction());
             }
-            auto successor = state.act(actions, *uihints);
-            state = IntermediateGameState(successor, *uihints);
+            state = state.act(actions, *uihints);
 
             gui.render();
         }

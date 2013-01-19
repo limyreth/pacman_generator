@@ -31,7 +31,7 @@ namespace PACMAN {
             static IntermediateGameState new_game();
 
             void save(std::ostream& out) const;
-            GameState act(const std::vector<Action>& actions, UIHints&) const;
+            IntermediateGameState act(const std::vector<Action>& actions, UIHints&) const;
             bool operator==(const IntermediateGameState&) const;
             bool operator!=(const IntermediateGameState& o) const {
                 return !(o == *this);

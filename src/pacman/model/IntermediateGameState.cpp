@@ -65,10 +65,12 @@ bool IntermediateGameState::operator==(const IntermediateGameState& o) const {
         o.successor == successor;
 }
 
-GameState IntermediateGameState::act(const std::vector<Action>& actions, UIHints& uihints) const {
+IntermediateGameState IntermediateGameState::act(const std::vector<Action>& actions, UIHints& uihints) const {
     auto copy = successor;
     copy.act(actions, predecessor, uihints, movement_excess);
-    return copy;
+
+    IntermediateGameState next_intermediate(copy, uihints);
+    return next_intermediate;
 }
 
 }}

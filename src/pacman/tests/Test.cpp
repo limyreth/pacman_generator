@@ -65,8 +65,7 @@ int Test::move(int player_index, Direction::Type direction) {
         if (player.get_legal_actions().count > 0) {
             actions.at(player_index) = player.get_action_along_direction(direction);
         }
-        auto successor = state.act(actions, uihints);
-        state = IntermediateGameState(successor, uihints);
+        state = state.act(actions, uihints);
         current = state.get_predecessor();
 
         ++steps;
