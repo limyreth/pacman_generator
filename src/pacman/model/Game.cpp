@@ -32,7 +32,7 @@ void Game::act(Direction::Type direction, UIHints& uihints) {
     vector<Action> actions(PLAYER_COUNT, 0);
 
     auto& player = state.get_player(player_index);
-    if (player.get_legal_actions().count > 0) {
+    if (player.get_action_count() > 0) {
         actions.at(player_index) = player.get_action_along_direction(direction);
     }
 

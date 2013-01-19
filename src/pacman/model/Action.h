@@ -20,10 +20,5 @@ namespace PACMAN {
 
         typedef char Action;
 
-        struct LegalActions {
-            unsigned char count; // legal actions are [0, count-1]. If count==0, only the previously given action is legal.
-            Action reverse_action;  // which action is the reverse action, -1 if none
-        };
-
     }
 }

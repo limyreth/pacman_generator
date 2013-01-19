@@ -53,9 +53,4 @@ namespace PACMAN {
         return str.str();
     }
 
-    inline void print_legal_actions(MODEL::LegalActions legal_actions) {
-        std::cout << (int)legal_actions.count << ", " << (int)legal_actions.reverse_action;
-        std::cout << std::endl;
-    }
-
 }

@@ -79,7 +79,12 @@ double PlayerState::move(double distance_moved) {
 
 void PlayerState::act(Action action) {
     REQUIRE(action >= 0);
-    REQUIRE(action < get_legal_actions().count);
+    REQUIRE(action < get_action_count());
+
+    auto reverse_action = get_reverse_action();
+    if (reverse_action >= 0 && action >= reverse_action) {
+        ++action;
+    }
 
     // destination reached
     // consume the next action
@@ -100,29 +105,33 @@ IPoint PlayerState::get_tile_pos() const {
     return tile_pos;
 }
 
-LegalActions PlayerState::get_legal_actions() const {
-    LegalActions legal_actions;
+unsigned char PlayerState::get_action_count() const {
     if (!has_reached_destination()) {
-        legal_actions.count = 0;
-        legal_actions.reverse_action = -1;
+        return 0;
     }
     else {
-        legal_actions.count = destination->get_neighbours().size();
+        unsigned char count = destination->get_neighbours().size();
+        if (get_reverse_action() >= 0) {
+            return count -1;
+        }
+        else {
+            return count;
+        }
+    }
+}
 
-        legal_actions.reverse_action = -1;
-        if (origin) {
-            for (Action i=0; i < destination->get_neighbours().size(); ++i) {
-                if (origin == destination->get_neighbours().at(i)) {
-                    legal_actions.reverse_action = i;
-                    break;
-                }
+/*
+ * Returns Action if found, -1 if none
+ */
+Action PlayerState::get_reverse_action() const {
+    if (origin) {
+        for (Action i=0; i < destination->get_neighbours().size(); ++i) {
+            if (origin == destination->get_neighbours().at(i)) {
+                return i;
             }
         }
     }
-    ENSURE(has_reached_destination() == (legal_actions.count > 0));
-    ENSURE(legal_actions.count <= MAX_ACTION_COUNT);
-    ENSURE(legal_actions.count > 0 || legal_actions.reverse_action == -1);
-    return legal_actions;
+    return -1;
 }
 
 /*

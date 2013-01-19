@@ -53,16 +53,13 @@ int ChoiceTree::parent() {
 
 bool ChoiceTree::next_child() {
     INVARIANTS_ON_EXIT;
-    auto legal_actions = tree.get_legal_actions(choices.back().player);
-    if (legal_actions.count == 0 && is_first_child()) {
+    auto action_count = tree.get_action_count(choices.back().player);
+    if (action_count == 0 && is_first_child()) {
         choices.back().action = 99;  // set to random value >-1 because that's how we encode that this is no longer the first child
     }
     else {
         Action next_action = choices.back().action + 1;
-        if (next_action == legal_actions.reverse_action) {
-            ++next_action;
-        }
-        if (next_action < legal_actions.count) {
+        if (next_action < action_count) {
             choices.back().action = next_action;
         }
         else {

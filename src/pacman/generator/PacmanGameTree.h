@@ -28,7 +28,7 @@ namespace PACMAN {
 
             void parent();
             void child(const std::vector<MODEL::Action>& actions);
-            MODEL::LegalActions get_legal_actions(int player) const;
+            unsigned char get_action_count(int player) const;
             int get_score() const;
             bool is_leaf() const;
             int get_max_depth() const;

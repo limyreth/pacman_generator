@@ -82,10 +82,10 @@ int PacmanGameTree::get_score() const {
     return states.back().get_predecessor().get_score();
 }
 
-LegalActions PacmanGameTree::get_legal_actions(int player) const {
+unsigned char PacmanGameTree::get_action_count(int player) const {
     REQUIRE(player >= 0);
     REQUIRE(player < PLAYER_COUNT);
-    return states.back().get_player(player).get_legal_actions();
+    return states.back().get_player(player).get_action_count();
 }
 
 /*
@@ -98,17 +98,9 @@ LegalActions PacmanGameTree::get_legal_actions(int player) const {
 bool PacmanGameTree::generate_actions(const IntermediateGameState& state, vector<Action>& actions) const {
     actions.clear();
     for (int player=0; player < PLAYER_COUNT; ++player) {
-        auto legal_actions = state.get_player(player).get_legal_actions();
-        if (legal_actions.count <= 1) {
+        auto action_count = state.get_player(player).get_action_count();
+        if (action_count <= 1) {
             actions.push_back(0);
-        }
-        else if (legal_actions.count == 2 && legal_actions.reverse_action >= 0) {
-            if (legal_actions.reverse_action == 1) {
-                actions.push_back(0);
-            }
-            else {
-                actions.push_back(1);
-            }
         }
         else {
             return false;

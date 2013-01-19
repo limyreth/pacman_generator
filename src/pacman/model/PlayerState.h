@@ -34,8 +34,12 @@ namespace PACMAN {
                 return pos;
             }
 
-            // what are legal next actions to a next move() call
-            LegalActions get_legal_actions() const;
+            /*
+             * the count of valid actions for a call to act()
+             *
+             * Valid actions are 0 <= action <= count
+             */
+            unsigned char get_action_count() const;
 
             Action get_action_along_direction(Direction::Type direction) const;
 
@@ -48,6 +52,7 @@ namespace PACMAN {
             bool operator==(const PlayerState&) const;
 
         private:
+            Action get_reverse_action() const;
             bool has_reached_destination() const;
 
         private:
