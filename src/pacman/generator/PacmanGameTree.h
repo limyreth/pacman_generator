@@ -23,9 +23,10 @@ namespace PACMAN {
         class PacmanGameTree : public GameTree, public ASSERTION::Assertable
         {
         public:
-            PacmanGameTree(int max_rounds);
+            PacmanGameTree();
             PacmanGameTree(std::istream& in);
 
+            void init(unsigned int max_rounds);
             void parent();
             void child(const std::vector<MODEL::Action>& actions);
             unsigned char get_action_count(int player) const;
@@ -47,7 +48,7 @@ namespace PACMAN {
         private:
             std::vector<MODEL::IntermediateGameState> states;
             GUI::NullUIHints uihints;
-            int max_depth;
+            unsigned int max_depth;
         };
 
     }

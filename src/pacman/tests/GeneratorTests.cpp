@@ -38,9 +38,9 @@ namespace PACMAN {
 
 void GeneratorTests::test_1() {
     // run for small amount of rounds without crashing or looping infinitely
-    const int max_rounds = 10;
-    GENERATOR::PacmanGameTree game_tree(max_rounds);
-    GENERATOR::ChoiceTree choice_tree(game_tree);
+    const int max_choices = 10;
+    GENERATOR::PacmanGameTree game_tree;
+    GENERATOR::ChoiceTree choice_tree(game_tree, max_choices);
     GENERATOR::Generator generator(choice_tree);
     generator.start();
     generator.join();
@@ -60,7 +60,8 @@ void GeneratorTests::test_save_load() {
 
     {
         stringstream str;
-        PacmanGameTree tree(10);
+        PacmanGameTree tree;
+        tree.init(10);
         tree.save(str);
 
         PacmanGameTree loaded_tree(str);
@@ -69,8 +70,8 @@ void GeneratorTests::test_save_load() {
 
     {
         stringstream str;
-        PacmanGameTree game_tree(10);
-        ChoiceTree choice_tree(game_tree);
+        PacmanGameTree game_tree;
+        ChoiceTree choice_tree(game_tree, 10);
         choice_tree.save(str);
 
         ChoiceTree loaded_tree(str, game_tree);
@@ -79,8 +80,8 @@ void GeneratorTests::test_save_load() {
 
     {
         stringstream str;
-        PacmanGameTree game_tree(10);
-        ChoiceTree choice_tree(game_tree);
+        PacmanGameTree game_tree;
+        ChoiceTree choice_tree(game_tree, 10);
         Generator generator(choice_tree);
         generator.save(str);
 

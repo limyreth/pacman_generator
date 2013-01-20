@@ -35,8 +35,9 @@ namespace PACMAN {
         class GameTree : public GENERATOR::GameTree
         {
         public:
-            GameTree(int max_rounds, shared_ptr<TreeNode> root) ;
+            GameTree(shared_ptr<TreeNode> root) ;
 
+            void init(unsigned int max_rounds);
             void parent();
             void child(const std::vector<MODEL::Action>& actions);
             unsigned char get_action_count(int player) const;
@@ -53,7 +54,7 @@ namespace PACMAN {
         private:
             int children_visited; // if a child is visited twice, then it is counted twice = the number of calls to next_child that return true
             shared_ptr<TreeNode> node;  // curent node, starts as root
-            int max_depth;
+            unsigned int max_depth;
         };
 
     }

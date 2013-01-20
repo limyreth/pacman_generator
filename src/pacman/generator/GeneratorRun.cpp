@@ -14,11 +14,10 @@
 namespace PACMAN {
     namespace GENERATOR {
 
-static const int DEFAULT_MAX_ROUNDS = 100;  // TODO set non-random number; may want to revert back to max choices later, as that's easier to estimate. You could keep count of things in ChoiceTree
+static const int DEFAULT_MAX_CHOICES = 100;  // TODO set non-random number
 
 GeneratorRun::GeneratorRun() 
-:   game_tree(DEFAULT_MAX_ROUNDS),
-    choice_tree(game_tree),
+:   choice_tree(game_tree, DEFAULT_MAX_CHOICES),
     generator(choice_tree)
 {
 }

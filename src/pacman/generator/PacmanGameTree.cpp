@@ -25,16 +25,8 @@ using std::endl;
 namespace PACMAN {
     namespace GENERATOR {
 
-// note: you may call child() max_rounds times without calling parent()
-PacmanGameTree::PacmanGameTree(int max_rounds)
-:   max_depth(max_rounds)
+PacmanGameTree::PacmanGameTree()
 {
-    REQUIRE(max_depth >= 0);
-    INVARIANTS_ON_EXIT;
-    states.reserve(max_depth+1);  // Note: this is probably too much as sometimes multiple players need to move at the same time in the same tick
-
-    // progress to initial choice
-    states.emplace_back(IntermediateGameState::new_game());
 }
 
 PacmanGameTree::PacmanGameTree(std::istream& in)
@@ -52,6 +44,15 @@ PacmanGameTree::PacmanGameTree(std::istream& in)
         }
         ASSERT(states.size() == size);
     }
+}
+
+// note: you may call child() max_rounds times without calling parent()
+void PacmanGameTree::init(unsigned int max_rounds) {
+    max_depth = max_rounds;
+    states.reserve(max_depth+1);  // Note: this is probably too much as sometimes multiple players need to move at the same time in the same tick
+
+    // progress to initial choice
+    states.emplace_back(IntermediateGameState::new_game());
 }
 
 void PacmanGameTree::parent() {

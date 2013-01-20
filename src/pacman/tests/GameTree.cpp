@@ -22,11 +22,14 @@ using PACMAN::GENERATOR::ChoiceNode;
 namespace PACMAN {
     namespace TEST {
 
-GameTree::GameTree(int max_rounds, shared_ptr<TreeNode> root) 
+GameTree::GameTree(shared_ptr<TreeNode> root) 
 :   node(root),
-    children_visited(0),
-    max_depth(max_rounds)
+    children_visited(0)
 {
+}
+
+void GameTree::init(unsigned int max_rounds) {
+    max_depth = max_rounds;
 }
 
 void GameTree::parent() {

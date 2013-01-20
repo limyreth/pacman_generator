@@ -25,6 +25,9 @@ namespace PACMAN {
         class GameTree
         {
         public:
+
+            virtual void init(unsigned int max_rounds) = 0;
+
             /*
              * Move to parent
              */

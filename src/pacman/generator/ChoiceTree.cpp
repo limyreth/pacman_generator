@@ -21,11 +21,14 @@ using std::endl;
 namespace PACMAN {
     namespace GENERATOR {
 
-ChoiceTree::ChoiceTree(GameTree& tree) 
-:   tree(tree)
+ChoiceTree::ChoiceTree(GameTree& tree, unsigned int max_choices)
+:   tree(tree),
+    max_choices(max_choices),
+    choices_taken(0)
 {
     INVARIANTS_ON_EXIT;
-    choices.reserve(get_max_depth()+1);
+    tree.init(max_choices);
+    init();
     choices.emplace_back(ChoiceNode{-1, 0, -1});
 }
 
@@ -33,7 +36,10 @@ ChoiceTree::ChoiceTree(std::istream& in, GameTree& tree)
 :   tree(tree)
 {
     INVARIANTS_ON_EXIT;
-    choices.reserve(get_max_depth()+1);
+    read(in, max_choices);
+    read(in, choices_taken);
+
+    init();
 
     vector<ChoiceNode>::size_type size;
     read(in, size);
@@ -42,11 +48,18 @@ ChoiceTree::ChoiceTree(std::istream& in, GameTree& tree)
     in.read((char*)choices.data(), choices.size() * sizeof(ChoiceNode));
 }
 
+void ChoiceTree::init() {
+    choices.reserve(max_choices*PLAYER_COUNT+1);
+}
+
 int ChoiceTree::parent() {
     INVARIANTS_ON_EXIT;
     choices.pop_back();
     if (choices.size() % PLAYER_COUNT == 0) {
         tree.parent();
+    }
+    if (tree.get_action_count(choices.back().player) > 1) {
+        choices_taken--;
     }
     return choices.back().action;
 }
@@ -54,8 +67,12 @@ int ChoiceTree::parent() {
 bool ChoiceTree::next_child() {
     INVARIANTS_ON_EXIT;
     auto action_count = tree.get_action_count(choices.back().player);
-    if (action_count == 0 && is_first_child()) {
-        choices.back().action = 99;  // set to random value >-1 because that's how we encode that this is no longer the first child
+
+    if (action_count == 0) {
+        if (!is_first_child()) {
+            return false;
+        }
+        choices.back().action = -2;  // we encode first child as -1
     }
     else {
         Action next_action = choices.back().action + 1;
@@ -65,6 +82,10 @@ bool ChoiceTree::next_child() {
         else {
             return false;
         }
+    }
+
+    if (action_count > 1) {
+        choices_taken++;
     }
 
     if (choices.size() % PLAYER_COUNT == 0) {
@@ -82,7 +103,7 @@ bool ChoiceTree::next_child() {
 }
 
 bool ChoiceTree::is_leaf() const {
-    return tree.is_leaf() || get_depth() == get_max_depth();
+    return tree.is_leaf() || choices_taken == max_choices;
 }
 
 bool ChoiceTree::is_first_child() const {
@@ -118,6 +139,8 @@ void ChoiceTree::set_alpha_beta(int alpha_beta) {
 }
 
 void ChoiceTree::save(std::ostream& out) const {
+    write(out, max_choices);
+    write(out, choices_taken);
     write(out, choices.size());
     out.write((const char*)choices.data(), choices.size() * sizeof(ChoiceNode));
 }
@@ -128,7 +151,9 @@ bool ChoiceTree::operator==(const ChoiceTree& other) const {
 
 void ChoiceTree::invariants() const {
     INVARIANT(!choices.empty());
-    INVARIANT(choices.capacity() == get_max_depth() + 1);
+    INVARIANT(choices_taken <= max_choices);
+    INVARIANT(choices.size() > choices_taken);
+    INVARIANT(choices.capacity() == max_choices*PLAYER_COUNT + 1);
 }
 
 }}

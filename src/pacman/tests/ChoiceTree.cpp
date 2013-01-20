@@ -20,8 +20,8 @@ using PACMAN::GENERATOR::ChoiceNode;
 namespace PACMAN {
     namespace TEST {
 
-ChoiceTree::ChoiceTree(GENERATOR::GameTree& tree) 
-:   GENERATOR::ChoiceTree(tree)
+ChoiceTree::ChoiceTree(GENERATOR::GameTree& tree, unsigned int max_choices)
+:   GENERATOR::ChoiceTree(tree, max_choices)
 {
 }
 
