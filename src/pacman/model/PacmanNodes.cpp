@@ -66,34 +66,6 @@ PacmanNodes::~PacmanNodes() {
     delete spawn;
 }
 
-const Node* PacmanNodes::load(std::istream& in) const {
-    char choice;
-    read(in, choice);
-    if (choice == (char)0) {
-        return NULL;
-    }
-    else if (choice == (char)1) {
-        return spawn;
-    }
-    else {
-        ASSERT(choice == (char)2);
-        return Nodes::load(in, nodes);
-    }
-}
-
-void PacmanNodes::save(std::ostream& out, const Node* node) const {
-    if (node == NULL) {
-        write(out, (char)0);
-    }
-    else if (node == spawn) {
-        write(out, (char)1);
-    }
-    else {
-        write(out, (char)2);
-        Nodes::save(out, node, nodes);
-    }
-}
-
 void PacmanNodes::draw(shared_ptr<SDL_Surface> buffer) const {
     Nodes::draw(buffer, nodes, 0xFF0000, 0xFF000077);
     Nodes::draw(buffer, spawn, 0x00FF00, 0x00FF00FF);

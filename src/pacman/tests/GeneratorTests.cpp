@@ -51,15 +51,6 @@ void GeneratorTests::test_save_load() {
 
     {
         stringstream str;
-        auto state = IntermediateGameState::new_game().get_predecessor();
-        state.save(str);
-
-        GameState loaded_state(str);
-        ASSERT(loaded_state == state);
-    }
-
-    {
-        stringstream str;
         PacmanGameTree game_tree;
         ChoiceTree choice_tree(game_tree, 10);
         choice_tree.save(str);

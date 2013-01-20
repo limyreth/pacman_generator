@@ -35,13 +35,11 @@ namespace PACMAN {
         {
         public:
             GameState();
-            GameState(std::istream& in);
             GameState(const GameState& state, UIHints&, double movement_excess[]);
             GameState(const Node* pacman_spawn, const std::vector<Node*> ghost_spawns);
 
             void act(const std::vector<Action>& actions, const GameState& state, UIHints&, const double movement_excess[]);
 
-            void save(std::ostream& out) const;
             bool operator==(const GameState&) const;
             bool operator!=(const GameState& o) const {
                 return !(o == *this);

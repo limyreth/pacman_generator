@@ -38,14 +38,6 @@ PlayerState::PlayerState(const Node* initial_node)
     REQUIRE(initial_node);
 }
 
-PlayerState::PlayerState(std::istream& in, const Nodes& nodes) {
-    INVARIANTS_ON_EXIT;
-    read(in, pos.x);
-    read(in, pos.y);
-    origin = nodes.load(in);
-    destination = nodes.load(in);
-}
-
 /*
  * Move player distance_moved px towards destination, ...
  * 
@@ -168,12 +160,6 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
         --best_action;
     }
     return best_action;
-}
-
-void PlayerState::save(std::ostream& out, const Nodes& nodes) const {
-    write(out, pos);
-    nodes.save(out, origin);
-    nodes.save(out, destination);
 }
 
 bool PlayerState::operator==(const PlayerState& o) const {

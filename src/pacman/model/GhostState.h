@@ -27,11 +27,9 @@ namespace PACMAN {
         public:
             GhostState();
             GhostState(const Node* initial_node);
-            GhostState(std::istream& in);
 
             bool is_in_tunnel();
 
-            virtual void save(std::ostream& out) const;
             bool operator==(const GhostState&) const;
 
             bool operator!=(const GhostState& o) const {

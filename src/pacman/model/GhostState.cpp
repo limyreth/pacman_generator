@@ -26,12 +26,6 @@ GhostState::GhostState()
 {
 }
 
-GhostState::GhostState(std::istream& in) 
-:   PlayerState(in, GHOST_NODES)
-{
-    read(in, state);
-}
-
 GhostState::GhostState(const Node* initial_node)
 :   PlayerState(initial_node), state(NORMAL)
 {
@@ -39,11 +33,6 @@ GhostState::GhostState(const Node* initial_node)
 
 bool GhostState::is_in_tunnel() {
     return false; // TODO implement this damn it
-}
-
-void GhostState::save(std::ostream& out) const {
-    PlayerState::save(out, GHOST_NODES);
-    write(out, state);
 }
 
 bool GhostState::operator==(const GhostState& o) const {

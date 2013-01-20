@@ -59,35 +59,6 @@ GhostNodes::~GhostNodes()
     }
 }
 
-const Node* GhostNodes::load(std::istream& in) const {
-    char choice;
-    read(in, choice);
-    if (choice == (char)0) {
-        return NULL;
-    }
-    else if (choice == (char)1) {
-        return Nodes::load(in, spawns);
-    }
-    else {
-        ASSERT(choice == (char)2);
-        return Nodes::load(in, nodes);
-    }
-}
-
-void GhostNodes::save(std::ostream& out, const Node* node) const {
-    if (node == NULL) {
-        write(out, (char)0);
-    }
-    else if (std::find(spawns.begin(), spawns.end(), node) != spawns.end()) {
-        write(out, (char)1);
-        Nodes::save(out, node, spawns);
-    }
-    else {
-        write(out, (char)2);
-        Nodes::save(out, node, nodes);
-    }
-}
-
 void GhostNodes::draw(shared_ptr<SDL_Surface> buffer) const {
     Nodes::draw(buffer, nodes, 0xFF0000, 0xFF000077);
     Nodes::draw(buffer, spawns, 0x00FF00, 0x00FF00FF);

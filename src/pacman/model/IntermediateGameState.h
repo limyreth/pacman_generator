@@ -26,11 +26,9 @@ namespace PACMAN {
         {
         public:
             IntermediateGameState(const GameState predecessor, UIHints&);
-            IntermediateGameState(std::istream& in, UIHints&);
 
             static IntermediateGameState new_game();
 
-            void save(std::ostream& out) const;
             IntermediateGameState act(const std::vector<Action>& actions, UIHints&) const;
             bool operator==(const IntermediateGameState&) const;
             bool operator!=(const IntermediateGameState& o) const {

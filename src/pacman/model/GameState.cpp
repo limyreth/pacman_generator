@@ -87,27 +87,6 @@ GameState::GameState()
 {
 }
 
-GameState::GameState(std::istream& in) {
-    INVARIANTS_ON_EXIT;
-
-    pacman = PacmanState(in);
-    for (int i=0; i < GHOST_COUNT; ++i) {
-        ghosts[i] = GhostState(in);
-    }
-
-    read(in, foods);
-
-    read(in, food_count);
-    read(in, score);
-    read(in, lives);
-    read(in, fruit_spawned);
-    read(in, vulnerable_ticks_left);
-    read(in, fruit_ticks_left);
-    read(in, idler_ticks_left);
-    read(in, ate_energizer);
-    read(in, triggered_fruit_spawn);
-}
-
 /**
  * Start new game
  */
@@ -390,24 +369,6 @@ void GameState::nextLvl() {
 
 void GameState::resetLvl() {	// vars and positions when pacman dies during level
     assert(false); // we're testing with lives==0 for now
-}
-
-void GameState::save(std::ostream& out) const {
-    for (int player=0; player < PLAYER_COUNT; ++player) {
-        get_player(player).save(out);
-    }
-
-    write(out, foods);
-
-    write(out, food_count);
-    write(out, score);
-    write(out, lives);
-    write(out, fruit_spawned);
-    write(out, vulnerable_ticks_left);
-    write(out, fruit_ticks_left);
-    write(out, idler_ticks_left);
-    write(out, ate_energizer);
-    write(out, triggered_fruit_spawn);
 }
 
 bool GameState::operator==(const GameState& other) const {

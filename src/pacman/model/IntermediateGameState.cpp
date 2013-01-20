@@ -36,16 +36,6 @@ IntermediateGameState::IntermediateGameState(const GameState predecessor, UIHint
 {
 }
 
-IntermediateGameState::IntermediateGameState(std::istream& in, UIHints& uihints)
-:   IntermediateGameState(GameState(in), uihints)
-{
-}
-
-void IntermediateGameState::save(std::ostream& out) const {
-    REQUIRE(predecessor != successor); // Can't save the initial/new game state
-    predecessor.save(out);
-}
-
 IntermediateGameState IntermediateGameState::new_game() {
     return IntermediateGameState(GameState(PACMAN_NODES.get_spawn(), GHOST_NODES.get_spawns()));
 }

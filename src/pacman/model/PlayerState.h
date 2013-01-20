@@ -25,7 +25,6 @@ namespace PACMAN {
         public:
             PlayerState();
             PlayerState(const Node* initial_node);
-            PlayerState(std::istream& in, const Nodes&);
             double move(double distance);
             void act(Action action);
             virtual IPoint get_tile_pos() const;
@@ -42,8 +41,6 @@ namespace PACMAN {
             unsigned char get_action_count() const;
 
             Action get_action_along_direction(Direction::Type direction) const;
-
-            virtual void save(std::ostream& out) const = 0;
 
         protected:
             const FPoint& get_pos() const;
