@@ -26,11 +26,13 @@ namespace PACMAN {
     namespace GENERATOR {
 
 PacmanGameTree::PacmanGameTree()
+:   initialised(false)
 {
 }
 
 PacmanGameTree::PacmanGameTree(std::istream& in)
 {
+    initialised = true;
     INVARIANTS_ON_EXIT;
     read(in, max_depth);
 
@@ -48,6 +50,9 @@ PacmanGameTree::PacmanGameTree(std::istream& in)
 
 // note: you may call child() max_rounds times without calling parent()
 void PacmanGameTree::init(unsigned int max_rounds) {
+    REQUIRE(!initialised);
+    initialised = true;
+
     max_depth = max_rounds;
     states.reserve(max_depth+1);  // Note: this is probably too much as sometimes multiple players need to move at the same time in the same tick
 
@@ -57,11 +62,13 @@ void PacmanGameTree::init(unsigned int max_rounds) {
 
 void PacmanGameTree::parent() {
     INVARIANTS_ON_EXIT;
+    REQUIRE(initialised);
     states.pop_back();
 }
 
 void PacmanGameTree::child(const vector<Action>& actions) {
     INVARIANTS_ON_EXIT;
+    REQUIRE(initialised);
     REQUIRE(actions.size() == PLAYER_COUNT);
 
     const int old_states_size = states.size();
@@ -76,10 +83,12 @@ void PacmanGameTree::child(const vector<Action>& actions) {
 }
 
 bool PacmanGameTree::is_leaf() const {
+    REQUIRE(initialised);
     return states.back().get_predecessor().is_game_over();
 }
 
 int PacmanGameTree::get_score() const {
+    REQUIRE(initialised);
     return states.back().get_predecessor().get_score();
 }
 

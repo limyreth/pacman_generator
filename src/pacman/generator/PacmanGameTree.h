@@ -49,6 +49,7 @@ namespace PACMAN {
             std::vector<MODEL::IntermediateGameState> states;
             GUI::NullUIHints uihints;
             unsigned int max_depth;
+            bool initialised;
         };
 
     }
