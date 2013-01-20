@@ -24,7 +24,6 @@ namespace PACMAN {
         {
         public:
             PacmanGameTree();
-            PacmanGameTree(std::istream& in);
 
             void init(unsigned int max_rounds);
             void parent();
@@ -33,8 +32,6 @@ namespace PACMAN {
             int get_score() const;
             bool is_leaf() const;
             int get_max_depth() const;
-
-            void save(std::ostream& out) const;
 
             bool operator==(const PacmanGameTree&) const;
 

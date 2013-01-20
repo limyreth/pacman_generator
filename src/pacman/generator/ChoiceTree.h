@@ -72,6 +72,7 @@ namespace PACMAN {
 
         private:
             virtual void init();
+            void enter_child(std::vector<ChoiceNode>::iterator& it);
 
         private:
             unsigned int max_choices;

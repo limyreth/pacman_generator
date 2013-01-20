@@ -63,10 +63,6 @@ bool GameTree::is_leaf() const {
     return node->children.empty();
 }
 
-void GameTree::save(std::ostream& out) const {
-    REQUIRE(false);
-}
-
 int GameTree::get_max_depth() const {
     return max_depth;
 }

@@ -27,7 +27,6 @@ ChoiceTree::ChoiceTree(GameTree& tree, unsigned int max_choices)
     choices_taken(0)
 {
     INVARIANTS_ON_EXIT;
-    tree.init(max_choices);
     init();
     choices.emplace_back(ChoiceNode{-1, 0, -1});
 }
@@ -46,9 +45,17 @@ ChoiceTree::ChoiceTree(std::istream& in, GameTree& tree)
     choices.resize(size);
 
     in.read((char*)choices.data(), choices.size() * sizeof(ChoiceNode));
+
+    // get back to where we were in the game tree
+    int finished_rounds = (choices.size() - 1) / PLAYER_COUNT;
+    auto it = choices.begin();
+    for (int i=0; i < finished_rounds; ++i) {
+        enter_child(it);
+    }
 }
 
 void ChoiceTree::init() {
+    tree.init(max_choices);
     choices.reserve(max_choices*PLAYER_COUNT+1);
 }
 
@@ -89,17 +96,27 @@ bool ChoiceTree::next_child() {
     }
 
     if (choices.size() % PLAYER_COUNT == 0) {
-        vector<Action> actions;
-        actions.reserve(PLAYER_COUNT);
-        for (auto it = choices.end() - PLAYER_COUNT; it != choices.end(); it++) {
-            actions.push_back((*it).action);
-        }
-        tree.child(actions);
+        auto it = choices.end() - PLAYER_COUNT;
+        enter_child(it);
     }
 
     choices.emplace_back(ChoiceNode{-1, (int)choices.size() % PLAYER_COUNT, -1});
 
     return true;
+}
+
+/*
+ * Call GameTree.child with choices starting with it
+ */
+void ChoiceTree::enter_child(vector<ChoiceNode>::iterator& it) {
+    vector<Action> actions;
+    actions.reserve(PLAYER_COUNT);
+    for (int i=0; i < PLAYER_COUNT; ++i) {
+        ASSERT(it != choices.end());
+        actions.push_back((*it).action);
+        it++;
+    }
+    tree.child(actions);
 }
 
 bool ChoiceTree::is_leaf() const {

@@ -30,24 +30,6 @@ PacmanGameTree::PacmanGameTree()
 {
 }
 
-PacmanGameTree::PacmanGameTree(std::istream& in)
-{
-    initialised = true;
-    INVARIANTS_ON_EXIT;
-    read(in, max_depth);
-
-    states.reserve(max_depth+1);
-    {
-        vector<GameState>::size_type size;
-        read(in, size);
-        states.emplace_back(IntermediateGameState::new_game());
-        for (int i=1; i < size; ++i) {
-            states.emplace_back(IntermediateGameState(in, uihints));
-        }
-        ASSERT(states.size() == size);
-    }
-}
-
 // note: you may call child() max_rounds times without calling parent()
 void PacmanGameTree::init(unsigned int max_rounds) {
     REQUIRE(!initialised);
@@ -134,15 +116,6 @@ void PacmanGameTree::progress_game_until_choice(IntermediateGameState& state) {
 
     // push state
     states.push_back(state);
-}
-
-void PacmanGameTree::save(std::ostream& out) const {
-    write(out, max_depth);
-
-    write(out, states.size());
-    for (int i=1; i < states.size(); ++i) {
-        states.at(i).save(out);
-    }
 }
 
 bool PacmanGameTree::operator==(const PacmanGameTree& o) const {

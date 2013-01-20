@@ -23,8 +23,7 @@ GeneratorRun::GeneratorRun()
 }
 
 GeneratorRun::GeneratorRun(std::istream& in)
-:   game_tree(in),
-    choice_tree(in, game_tree),
+:   choice_tree(in, game_tree),
     generator(in, choice_tree)
 {
     if (in.fail()) {
@@ -40,7 +39,6 @@ void GeneratorRun::stop(std::ostream& out) {
     generator.stop();
     generator.join();
 
-    game_tree.save(out);
     choice_tree.save(out);
     generator.save(out);
     out.flush();

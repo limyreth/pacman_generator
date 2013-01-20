@@ -60,21 +60,12 @@ void GeneratorTests::test_save_load() {
 
     {
         stringstream str;
-        PacmanGameTree tree;
-        tree.init(10);
-        tree.save(str);
-
-        PacmanGameTree loaded_tree(str);
-        ASSERT(loaded_tree == tree);
-    }
-
-    {
-        stringstream str;
         PacmanGameTree game_tree;
         ChoiceTree choice_tree(game_tree, 10);
         choice_tree.save(str);
 
-        ChoiceTree loaded_tree(str, game_tree);
+        PacmanGameTree game_tree2;
+        ChoiceTree loaded_tree(str, game_tree2);
         ASSERT(loaded_tree == choice_tree);
     }
 
