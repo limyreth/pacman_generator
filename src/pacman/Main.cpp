@@ -34,9 +34,10 @@ using std::vector;
 
 int main( int argc, char** argv ) {
     std::string str="";
-    bool show_pacman_nodes = false;
-    bool show_ghost_nodes = false;
-    bool show_food = true;
+    GUI::GUIArgs gui_args;
+    gui_args.show_pacman_nodes = false;
+    gui_args.show_ghost_nodes = false;
+    gui_args.show_food = true;
 
     try {
         logtxt.setFilename(".pacman_sdl");
@@ -62,13 +63,13 @@ int main( int argc, char** argv ) {
                 return 0;
             }
             else if (str == "--show-pacman-nodes") {
-                show_pacman_nodes = true;
+                gui_args.show_pacman_nodes = true;
             }
             else if (str == "--show-ghost-nodes") {
-                show_ghost_nodes = true;
+                gui_args.show_ghost_nodes = true;
             }
             else if (str == "--hide-food") {
-                show_food = false;
+                gui_args.show_food = false;
             }
             else
                 std::cerr << "unrecognized commandline option\n";
@@ -76,7 +77,7 @@ int main( int argc, char** argv ) {
 
         // interactive mode
         MODEL::Game game(0);
-        GUI::GUI gui(game.get_state(), show_pacman_nodes, show_ghost_nodes, show_food);
+        GUI::GUI gui(game.get_state(), gui_args);
         shared_ptr<UIHints> uihints = gui.create_uihints();
 
         while (gui.emptyMsgPump()) {

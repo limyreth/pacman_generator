@@ -33,10 +33,16 @@ namespace PACMAN {
         class Sounds;
         class Object;
 
+        struct GUIArgs {
+            bool show_pacman_nodes;
+            bool show_ghost_nodes;
+            bool show_food;
+        };
+
         class GUI
         {
         public:
-            GUI(const MODEL::GameState& state, bool show_pacman_nodes, bool show_ghost_nodes, bool show_food);
+            GUI(const MODEL::GameState& state, GUIArgs gui_args);
             ~GUI();
 
             shared_ptr<MODEL::UIHints> create_uihints();
@@ -88,9 +94,7 @@ namespace PACMAN {
                     *objects[NUMOFOBJECTS];
 
             bool showfps;
-            bool show_pacman_nodes;
-            bool show_ghost_nodes;
-            bool show_food;
+            GUIArgs gui_args;
         };
 
     }

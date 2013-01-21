@@ -35,14 +35,12 @@ using namespace ::PACMAN::SPECIFICATION;
 namespace PACMAN {
     namespace GUI {
 
-GUI::GUI(const MODEL::GameState& state, bool show_pacman_nodes, bool show_ghost_nodes, bool show_food)
+GUI::GUI(const MODEL::GameState& state, GUIArgs gui_args)
 :   counter(0),
     showfps(false),
     state(state),
     preferred_direction(Direction::NORTH),
-    show_pacman_nodes(show_pacman_nodes),
-    show_ghost_nodes(show_ghost_nodes),
-    show_food(show_food)
+    gui_args(gui_args)
 {
     InitApp();
     InitWindow();
@@ -204,7 +202,7 @@ void GUI::renderNormal() {
     col.r = col.g = col.b = 255;
 
     // DRAW FIELD + SPRITES
-    ((BckgrObj*)objects[0])->Draw(state.get_foods(), state.is_fruit_spawned(), show_food);
+    ((BckgrObj*)objects[0])->Draw(state.get_foods(), state.is_fruit_spawned(), gui_args.show_food);
     ((Pacman*)objects[1])->Draw((const MODEL::PacmanState&)state.get_player(0));
     for (int i=0; i<GHOST_COUNT; ++i) {
         ((Ghost*)objects[i+2])->Draw((const MODEL::GhostState&)state.get_player(i+1));
@@ -225,10 +223,10 @@ void GUI::renderNormal() {
     SDL_BlitSurface(txt.get(),NULL,screen.get(),&scorebox);
 
     // draw node map
-    if (show_pacman_nodes) {
+    if (gui_args.show_pacman_nodes) {
         MODEL::PACMAN_NODES.draw(screen);
     }
-    if (show_ghost_nodes) {
+    if (gui_args.show_ghost_nodes) {
         MODEL::GHOST_NODES.draw(screen);
     }
 
