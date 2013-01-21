@@ -230,7 +230,7 @@ void GUI::renderNormal() {
         MODEL::GHOST_NODES.draw(screen);
     }
 
-    if (true) {
+    if (gui_args.show_respawn_paths) {
         MODEL::GHOST_NODES.draw_respawn_paths(screen);
     }
 }

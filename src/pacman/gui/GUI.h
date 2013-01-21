@@ -37,6 +37,7 @@ namespace PACMAN {
             bool show_pacman_nodes;
             bool show_ghost_nodes;
             bool show_food;
+            bool show_respawn_paths;
         };
 
         class GUI

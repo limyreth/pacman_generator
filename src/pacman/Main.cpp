@@ -38,6 +38,7 @@ int main( int argc, char** argv ) {
     gui_args.show_pacman_nodes = false;
     gui_args.show_ghost_nodes = false;
     gui_args.show_food = true;
+    gui_args.show_respawn_paths = false;
 
     try {
         logtxt.setFilename(".pacman_sdl");
@@ -70,6 +71,9 @@ int main( int argc, char** argv ) {
             }
             else if (str == "--hide-food") {
                 gui_args.show_food = false;
+            }
+            else if (str == "--show-respawn-paths") {
+                gui_args.show_respawn_paths = true;
             }
             else
                 std::cerr << "unrecognized commandline option\n";
