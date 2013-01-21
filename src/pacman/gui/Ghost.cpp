@@ -51,16 +51,6 @@ void Ghost::Draw(const MODEL::GhostState& current) {
     else if (current.state == GhostState::DEAD) {
         SDL_BlitSurface(ghostEl[3].get(),NULL,buf.get(),&pos);
     }
-
-    /*else if (current.state == GhostState::WARNING) {
-        if ( !paused ) animcounter++;
-        if (animcounter%30 < 15) {
-            SDL_BlitSurface(ghostEl[2].get(),NULL,buf.get(),&pos);
-        }
-        else {
-            SDL_BlitSurface(ghostEl[1].get(),NULL,buf.get(),&pos);
-        }
-    }*/
 }
 
 void Ghost::LoadTextures(std::string path) {
