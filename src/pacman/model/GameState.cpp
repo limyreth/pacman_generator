@@ -142,6 +142,9 @@ GameState::GameState(const GameState& state, UIHints& uihints, double movement_e
 
     ate_energizer = false;
     triggered_fruit_spawn = false;
+    for (int i=0; i < PLAYER_COUNT; ++i) {
+        get_player_(i).allow_reversing = false;
+    }
 
     // Vulnerable timing
     if (state.ate_energizer) {

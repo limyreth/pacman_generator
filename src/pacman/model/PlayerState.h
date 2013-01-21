@@ -42,6 +42,8 @@ namespace PACMAN {
 
             Action get_action_along_direction(Direction::Type direction) const;
 
+            bool allow_reversing;  // when false, the reverse action is hidden from act, action count, ...
+
         protected:
             const FPoint& get_pos() const;
             void invariants() const;

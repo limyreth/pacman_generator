@@ -32,7 +32,8 @@ PlayerState::PlayerState()
 PlayerState::PlayerState(const Node* initial_node) 
 :   pos(initial_node->get_location()), 
     origin(NULL),
-    destination(initial_node)
+    destination(initial_node),
+    allow_reversing(false)
 {
     INVARIANTS_ON_EXIT;
     REQUIRE(initial_node);
@@ -74,14 +75,14 @@ void PlayerState::act(Action action) {
     REQUIRE(action < get_action_count());
 
     auto reverse_action = get_reverse_action();
-    if (reverse_action >= 0 && action >= reverse_action) {
+    if (!allow_reversing && reverse_action >= 0 && action >= reverse_action) {
         ++action;
     }
 
     // destination reached
     // consume the next action
     auto new_destination = destination->get_neighbours().at(action);
-    ASSERT(new_destination != origin);  // One may never reverse
+    ASSERT(allow_reversing || new_destination != origin);
     origin = destination;
     destination = new_destination;
 
@@ -103,7 +104,7 @@ unsigned char PlayerState::get_action_count() const {
     }
     else {
         unsigned char count = destination->get_neighbours().size();
-        if (get_reverse_action() >= 0) {
+        if (!allow_reversing && get_reverse_action() >= 0) {
             return count -1;
         }
         else {
@@ -139,7 +140,7 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
     Action best_action = -1;
     auto reverse_action = get_reverse_action();
     for (int i=0; i < destination->get_neighbours().size(); ++i) {
-        if (i == reverse_action) {
+        if (!allow_reversing && i == reverse_action) {
             continue;
         }
 
@@ -156,7 +157,7 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
         }
     }
 
-    if (reverse_action >= 0 && best_action > reverse_action) {
+    if (!allow_reversing && reverse_action >= 0 && best_action > reverse_action) {
         --best_action;
     }
     return best_action;
