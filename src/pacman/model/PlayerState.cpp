@@ -44,7 +44,7 @@ PlayerState::PlayerState(const Node* initial_node)
  * 
  * Returns movement excess (>0 if destination reached)
  */
-double PlayerState::move(double distance_moved) {
+double PlayerState::move(double distance_moved, int player_index) {
     INVARIANTS_ON_EXIT;
     REQUIRE(distance_moved >= 0.0);
     REQUIRE(!has_reached_destination());

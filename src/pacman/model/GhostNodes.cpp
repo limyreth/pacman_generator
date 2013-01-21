@@ -29,7 +29,8 @@ namespace PACMAN {
 const GhostNodes GHOST_NODES;
 
 GhostNodes::GhostNodes() 
-:   spawns(GHOST_COUNT)
+:   spawns(GHOST_COUNT),
+    respawns(GHOST_COUNT)
 {
     eliminate_redundant_nodes();
 
@@ -51,6 +52,11 @@ GhostNodes::GhostNodes()
     all_nodes.insert(all_nodes.end(), nodes.begin(), nodes.end());
     all_nodes.insert(all_nodes.end(), spawns.begin(), spawns.end());
     ensure_valid(spawns, all_nodes);
+
+    respawns.at(GHOST_BLINKY) = spawns.at(GHOST_PINKY);
+    respawns.at(GHOST_PINKY) = spawns.at(GHOST_PINKY);
+    respawns.at(GHOST_INKY) = spawns.at(GHOST_INKY);
+    respawns.at(GHOST_CLYDE) = spawns.at(GHOST_CLYDE);
 
     add_respawn_paths();
 
@@ -146,6 +152,14 @@ double GhostNodes::get_cost(const Node* node) const {
 const Node* GhostNodes::get_node_towards_spawn(const Node* origin) const {
     ASSERT(origin);
     return towards_spawn.at(origin);
+}
+
+const std::vector<Node*> GhostNodes::get_respawns() const {
+    return respawns;
+}
+
+const std::vector<Node*> GhostNodes::get_spawns() const {
+    return spawns;
 }
 
 }}

@@ -33,8 +33,10 @@ GhostState::GhostState(const Node* initial_node)
 }
 
 // player_index: current player
-double GhostState::move(double distance) {
-    double movement_excess = PlayerState::move(distance);
+double GhostState::move(double distance, int player_index) {
+    REQUIRE(player_index >= 0);
+    REQUIRE(player_index < PLAYER_COUNT);
+    double movement_excess = PlayerState::move(distance, player_index);
 
     if (state != DEAD) {
         return movement_excess;
@@ -43,7 +45,9 @@ double GhostState::move(double distance) {
         // path finding for dead ghosts:
 
         if (movement_excess >= 0.0) {
-            auto respawn_node = GHOST_NODES.get_spawns().at(GHOST_PINKY);
+            // destination reached, need to pick next destination
+
+            auto respawn_node = GHOST_NODES.get_respawns().at(player_index - 1);
             if (destination == respawn_node) {
                 // respawn node reached, respawn!
                 state = NORMAL;
@@ -51,8 +55,16 @@ double GhostState::move(double distance) {
                 return movement_excess;
             } else {
                 origin = destination;
-                destination = GHOST_NODES.get_node_towards_spawn(destination);
-                return move(movement_excess);
+                if (destination == GHOST_NODES.get_respawns().at(GHOST_PINKY)) {
+                    // we couldn't fit the last pointer towards respawn point
+                    // for CLYDE and INKY, because the path splits at PINKY;
+                    // so we hardcode the last step this way
+                    destination = respawn_node;
+                }
+                else {
+                    destination = GHOST_NODES.get_node_towards_spawn(destination);
+                }
+                return move(movement_excess, player_index);
             }
         }
     }

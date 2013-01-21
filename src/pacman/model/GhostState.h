@@ -28,7 +28,7 @@ namespace PACMAN {
             GhostState();
             GhostState(const Node* initial_node);
 
-            double move(double distance);
+            double move(double distance, int player_index);
             void die();
             bool is_in_tunnel();
 

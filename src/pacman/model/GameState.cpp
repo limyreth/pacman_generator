@@ -229,7 +229,7 @@ GameState::GameState(const GameState& state, UIHints& uihints, double movement_e
                 player = &ghosts[ghost_i];
             }
 
-            movement_excess[i] = player->move(FULL_SPEED * TILE_SIZE * speed_modifier);
+            movement_excess[i] = player->move(FULL_SPEED * TILE_SIZE * speed_modifier, i);
         }
     }
 }
@@ -246,7 +246,7 @@ void GameState::act(const vector<Action>& actions, const GameState& state, UIHin
         auto& player = get_player_(i);
         if (movement_excess[i] >= 0.0) {
             player.act(actions.at(i));
-            player.move(movement_excess[i]);
+            player.move(movement_excess[i], i);
         }
     }
 

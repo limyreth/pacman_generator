@@ -27,9 +27,8 @@ namespace PACMAN {
             ~GhostNodes();
 
             const Node* get_node_towards_spawn(const Node* origin) const;
-            const std::vector<Node*> get_spawns() const {
-                return spawns;
-            }
+            const std::vector<Node*> get_respawns() const;
+            const std::vector<Node*> get_spawns() const;
 
             double get_cost(const Node* node) const;
 
@@ -42,6 +41,7 @@ namespace PACMAN {
         private:
             std::map<const Node*, double> min_costs;  // best cost to reach said node
             std::map<const Node*, const Node*> towards_spawn; // map node to a node closer to Pinky spawn
+            std::vector<Node*> respawns;
             std::vector<Node*> spawns;
         };
 
