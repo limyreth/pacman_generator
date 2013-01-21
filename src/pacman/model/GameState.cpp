@@ -50,6 +50,9 @@
  *   immediately after having eaten fruit; as any player, immediately after
  *   pacman eats an energizer
  *
+ * - Ghost respawn: ghosts respawn at their original spawn location. Except for
+ *   blinky, blinky spawns at pinky's location.
+ *
  * In our case we'll start with 1 life. Later we'll add more lifes, but first let's solve the simpler problem
  *
  * The above rules only apply to level 1, I'm assuming pacman won't make it through the first level.
