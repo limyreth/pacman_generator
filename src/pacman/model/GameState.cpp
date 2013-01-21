@@ -190,9 +190,8 @@ GameState::GameState(const GameState& state, UIHints& uihints, double movement_e
     {
         double speed_modifier;
 
-        for (int i=0; i<PLAYER_COUNT; i++) {
-            PlayerState* player;
-            if (i == 0) {
+        for (int player_index = 0; player_index < PLAYER_COUNT; player_index++) {
+            if (player_index == 0) {
                 // pacman
                 if (idler_ticks_left > 0) {
                     idler_ticks_left = max(idler_ticks_left - 1, 0);
@@ -205,11 +204,9 @@ GameState::GameState(const GameState& state, UIHints& uihints, double movement_e
                 else {
                     speed_modifier = NORMAL_PACMAN_SPEED;
                 }
-
-                player = &pacman;
             }
             else {
-                const int ghost_i = i-1;
+                const int ghost_i = player_index - 1;
                 if (ghosts[ghost_i].is_in_tunnel()) {
                     speed_modifier = GHOST_TUNNEL_SPEED;
                 }
@@ -225,11 +222,9 @@ GameState::GameState(const GameState& state, UIHints& uihints, double movement_e
                 else {
                     speed_modifier = GHOST_NORMAL_SPEED;
                 }
-
-                player = &ghosts[ghost_i];
             }
 
-            movement_excess[i] = player->move(FULL_SPEED * TILE_SIZE * speed_modifier, i);
+            movement_excess[player_index] = get_player_(player_index).move(FULL_SPEED * TILE_SIZE * speed_modifier, player_index);
         }
     }
 }
