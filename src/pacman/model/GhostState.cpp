@@ -14,6 +14,8 @@
 #include "../Utility.h"
 #include "../util/serialization.h"
 
+#include <boost/scope_exit.hpp>
+
 // TODO dead ghost takes shortest path back to correct pen tile
 
 // TODO size enums to 1 byte
@@ -36,42 +38,50 @@ GhostState::GhostState(const Node* initial_node)
 double GhostState::move(double distance, int player_index) {
     REQUIRE(player_index >= 0);
     REQUIRE(player_index < PLAYER_COUNT);
-    double movement_excess = PlayerState::move(distance, player_index);
 
-    if (state != DEAD) {
-        return movement_excess;
+    double movement_excess = PlayerState::move(distance, player_index);
+    double retval;
+
+    BOOST_SCOPE_EXIT(&retval, &state) {
+        ENSURE(state != DEAD || retval < 0.0);
+    } BOOST_SCOPE_EXIT_END
+
+    if (state != DEAD || movement_excess < 0.0) {
+        return retval = movement_excess;
     }
     else {
         // path finding for dead ghosts:
 
-        if (movement_excess >= 0.0) {
-            // destination reached, need to pick next destination
-
-            auto respawn_node = GHOST_NODES.get_respawns().at(player_index - 1);
-            if (destination == respawn_node) {
-                // respawn node reached, respawn!
-                state = NORMAL;
-                origin = NULL;
-                return movement_excess;
-            } else {
-                origin = destination;
-                if (destination == GHOST_NODES.get_respawns().at(GHOST_PINKY)) {
-                    // we couldn't fit the last pointer towards respawn point
-                    // for CLYDE and INKY, because the path splits at PINKY;
-                    // so we hardcode the last step this way
-                    destination = respawn_node;
-                }
-                else {
-                    destination = GHOST_NODES.get_node_towards_spawn(destination);
-                }
-                return move(movement_excess, player_index);
+        // destination reached, need to pick next destination
+        auto respawn_node = GHOST_NODES.get_respawns().at(player_index - 1);
+        if (destination == respawn_node) {
+            // respawn node reached, respawn!
+            state = NORMAL;
+            origin = NULL;
+            return retval = movement_excess;
+        } else {
+            origin = destination;
+            if (destination == GHOST_NODES.get_respawns().at(GHOST_PINKY)) {
+                // we couldn't fit the last pointer towards respawn point
+                // for CLYDE and INKY, because the path splits at PINKY;
+                // so we hardcode the last step this way
+                destination = respawn_node;
             }
+            else {
+                destination = GHOST_NODES.get_node_towards_spawn(destination);
+            }
+            return retval = move(movement_excess, player_index);
         }
     }
 }
 
+void GhostState::act(Action action) {
+    REQUIRE(state != DEAD);  // dead ghosts have no free will, they must return to the ghost pen
+    PlayerState::act(action);
+}
+
 void GhostState::die() {
-    state = GhostState::DEAD;
+    state = DEAD;
 
     // initial path finding to respawn point: which way is shortest, through origin or destination?
     ASSERT(origin);

@@ -26,7 +26,7 @@ namespace PACMAN {
             PlayerState();
             PlayerState(const Node* initial_node);
             virtual double move(double distance, int player_index);
-            void act(Action action);
+            virtual void act(Action action);
             virtual IPoint get_tile_pos() const;
 
             inline FPoint get_pixel_pos() const {

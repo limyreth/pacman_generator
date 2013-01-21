@@ -160,6 +160,7 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
     if (!allow_reversing && reverse_action >= 0 && best_action > reverse_action) {
         --best_action;
     }
+    ENSURE(best_action < get_action_count());
     return best_action;
 }
 
