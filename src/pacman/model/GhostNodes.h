@@ -10,8 +10,11 @@
 
 #pragma once
 
-#include <vector>
 #include "Nodes.h"
+#include "Action.h"
+
+#include <vector>
+#include <map>
 
 namespace PACMAN {
     namespace MODEL {
@@ -30,6 +33,10 @@ namespace PACMAN {
             void draw(shared_ptr<SDL_Surface> buffer) const;
 
         private:
+            void add_respawn_paths();
+
+        private:
+            std::map<const Node*, const Node*> towards_spawn; // map node to a node closer to Pinky spawn
             std::vector<Node*> spawns;
         };
 

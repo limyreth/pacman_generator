@@ -18,11 +18,23 @@
 using std::vector;
 using std::cout;
 using std::endl;
+using std::make_pair;
 
 namespace PACMAN {
     namespace MODEL {
 
 const GhostNodes GHOST_NODES;
+
+inline double get_cost(std::map<const Node*, double> min_costs, const Node* node) {
+    REQUIRE(node);
+    auto current_min_cost = min_costs.find(node);
+    if (current_min_cost == min_costs.end()) {
+        return std::numeric_limits<double>::infinity();
+    }
+    else {
+        return (*current_min_cost).second;
+    }
+}
 
 GhostNodes::GhostNodes() 
 :   spawns(GHOST_COUNT)
@@ -48,8 +60,43 @@ GhostNodes::GhostNodes()
     all_nodes.insert(all_nodes.end(), spawns.begin(), spawns.end());
     ensure_valid(spawns, all_nodes);
 
+    add_respawn_paths();
+
     // print stats
     cout << "Ghost branching factor: " << get_branching_factor(nodes) << endl;
+}
+
+void GhostNodes::add_respawn_paths() {
+    // Overall structure: like an A* search with distance as cost, PINKY spawn as origin, and no destination/goal
+
+    std::map<const Node*, double> min_costs;  // best cost to reach said node so far
+    std::multimap<double, const Node*> fringe;
+
+    fringe.insert(make_pair(0.0, spawns.at(GHOST_PINKY)));
+
+    while (!fringe.empty()) {
+        auto it = fringe.begin();
+        const double cost = (*it).first;
+        const Node* node = (*it).second;
+        fringe.erase(it);
+
+        if (cost > get_cost(min_costs, node)) {
+            continue;  // node's closed; we already expanded it
+        }
+
+        for (const auto neighbour : node->get_neighbours()) {
+            double neighbour_cost = cost + (neighbour->get_location() - node->get_location()).length();
+
+            if (neighbour_cost < get_cost(min_costs, neighbour)) {
+                // found a better path to this neighbour
+                min_costs[neighbour] = neighbour_cost;
+                towards_spawn[neighbour] = node;
+                fringe.insert(make_pair(neighbour_cost, neighbour));
+            }
+
+        }
+    }
+
 }
 
 GhostNodes::~GhostNodes()
