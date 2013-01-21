@@ -32,8 +32,7 @@ PlayerState::PlayerState()
 PlayerState::PlayerState(const Node* initial_node) 
 :   pos(initial_node->get_location()), 
     origin(NULL),
-    destination(initial_node),
-    allow_reversing(false)
+    destination(initial_node)
 {
     INVARIANTS_ON_EXIT;
     REQUIRE(initial_node);
@@ -75,14 +74,14 @@ void PlayerState::act(Action action) {
     REQUIRE(action < get_action_count());
 
     auto reverse_action = get_reverse_action();
-    if (!allow_reversing && reverse_action >= 0 && action >= reverse_action) {
+    if (reverse_action >= 0 && action >= reverse_action) {
         ++action;
     }
 
     // destination reached
     // consume the next action
     auto new_destination = destination->get_neighbours().at(action);
-    ASSERT(allow_reversing || new_destination != origin);
+    ASSERT(new_destination != origin);
     origin = destination;
     destination = new_destination;
 
@@ -104,7 +103,7 @@ unsigned char PlayerState::get_action_count() const {
     }
     else {
         unsigned char count = destination->get_neighbours().size();
-        if (!allow_reversing && get_reverse_action() >= 0) {
+        if (get_reverse_action() >= 0) {
             return count -1;
         }
         else {
@@ -140,7 +139,7 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
     Action best_action = -1;
     auto reverse_action = get_reverse_action();
     for (int i=0; i < destination->get_neighbours().size(); ++i) {
-        if (!allow_reversing && i == reverse_action) {
+        if (i == reverse_action) {
             continue;
         }
 
@@ -157,7 +156,7 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
         }
     }
 
-    if (!allow_reversing && reverse_action >= 0 && best_action > reverse_action) {
+    if (reverse_action >= 0 && best_action > reverse_action) {
         --best_action;
     }
     ENSURE(best_action < get_action_count());
@@ -180,10 +179,6 @@ void PlayerState::invariants() const {
 
 const FPoint& PlayerState::get_pos() const {
     return pos;
-}
-
-void PlayerState::set_allow_reversing(bool allow) {
-    allow_reversing = allow;
 }
 
 // Note: reversing direction between intersections is a legal action and a
