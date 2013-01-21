@@ -181,6 +181,10 @@ const FPoint& PlayerState::get_pos() const {
     return pos;
 }
 
+void PlayerState::set_allow_reversing(bool allow) {
+    allow_reversing = allow;
+}
+
 // Note: reversing direction between intersections is a legal action and a
 // perfect play player might actually make use of that. E.g. consider this path between intersections:
 // Dot Dot Dot 
