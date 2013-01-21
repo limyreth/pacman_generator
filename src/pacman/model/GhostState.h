@@ -28,6 +28,8 @@ namespace PACMAN {
             GhostState();
             GhostState(const Node* initial_node);
 
+            double move(double distance);
+            void die();
             bool is_in_tunnel();
 
             bool operator==(const GhostState&) const;

@@ -25,7 +25,7 @@ namespace PACMAN {
         public:
             PlayerState();
             PlayerState(const Node* initial_node);
-            double move(double distance);
+            virtual double move(double distance);
             void act(Action action);
             virtual IPoint get_tile_pos() const;
 
@@ -50,6 +50,10 @@ namespace PACMAN {
             void save(std::ostream& out, const Nodes& nodes) const;
             bool operator==(const PlayerState&) const;
 
+        protected:
+            const Node* origin;  // we come from this node
+            const Node* destination;  // we are moving towards this node
+
         private:
             Action get_reverse_action() const;
             bool has_reached_destination() const;
@@ -57,8 +61,6 @@ namespace PACMAN {
         private:
             bool allow_reversing;  // when false, the reverse action is hidden from act, action count, ...
             FPoint pos;  // current position in pixels
-            const Node* origin;  // we come from this node
-            const Node* destination;  // we are moving towards this node
         };
 
     }

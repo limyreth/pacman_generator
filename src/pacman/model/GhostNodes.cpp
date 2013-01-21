@@ -28,17 +28,6 @@ namespace PACMAN {
 
 const GhostNodes GHOST_NODES;
 
-inline double get_cost(std::map<const Node*, double> min_costs, const Node* node) {
-    REQUIRE(node);
-    auto current_min_cost = min_costs.find(node);
-    if (current_min_cost == min_costs.end()) {
-        return std::numeric_limits<double>::infinity();
-    }
-    else {
-        return (*current_min_cost).second;
-    }
-}
-
 GhostNodes::GhostNodes() 
 :   spawns(GHOST_COUNT)
 {
@@ -72,7 +61,6 @@ GhostNodes::GhostNodes()
 void GhostNodes::add_respawn_paths() {
     // Overall structure: like an A* search with distance as cost, PINKY spawn as origin, and no destination/goal
 
-    std::map<const Node*, double> min_costs;  // best cost to reach said node so far
     std::multimap<double, const Node*> fringe;
 
     fringe.insert(make_pair(0.0, spawns.at(GHOST_PINKY)));
@@ -83,14 +71,14 @@ void GhostNodes::add_respawn_paths() {
         const Node* node = (*it).second;
         fringe.erase(it);
 
-        if (cost > get_cost(min_costs, node)) {
+        if (cost > get_cost(node)) {
             continue;  // node's closed; we already expanded it
         }
 
         for (const auto neighbour : node->get_neighbours()) {
             double neighbour_cost = cost + (neighbour->get_location() - node->get_location()).length();
 
-            if (neighbour_cost < get_cost(min_costs, neighbour)) {
+            if (neighbour_cost < get_cost(neighbour)) {
                 // found a better path to this neighbour
                 min_costs[neighbour] = neighbour_cost;
                 towards_spawn[neighbour] = node;
@@ -142,6 +130,22 @@ void GhostNodes::draw_respawn_paths(shared_ptr<SDL_Surface> screen) const {
         retval = filledTrigonColor(screen.get(), (int)d.x, (int)d.y, (int)p1.x, (int)p1.y, (int)p2.x, (int)p2.y, 0xFF0000FF);
         ASSERT(retval == 0);
     }
+}
+
+double GhostNodes::get_cost(const Node* node) const {
+    REQUIRE(node);
+    auto current_min_cost = min_costs.find(node);
+    if (current_min_cost == min_costs.end()) {
+        return std::numeric_limits<double>::infinity();
+    }
+    else {
+        return (*current_min_cost).second;
+    }
+}
+
+const Node* GhostNodes::get_node_towards_spawn(const Node* origin) const {
+    ASSERT(origin);
+    return towards_spawn.at(origin);
 }
 
 }}

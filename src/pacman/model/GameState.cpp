@@ -272,7 +272,7 @@ void GameState::act(const vector<Action>& actions, const GameState& state, UIHin
             else if (ghost.state == GhostState::VULNERABLE) {
                 // pacman eats ghost
                 score += (int) pow(2.0, GHOST_COUNT - get_vulnerable_ghost_count()) * 200;
-                ghost.state = GhostState::DEAD;
+                ghost.die();
                 uihints.ate_ghost();
             }
         }
