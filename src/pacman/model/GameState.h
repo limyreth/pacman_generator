@@ -34,12 +34,23 @@ namespace PACMAN {
         class GameState : public ASSERTION::Assertable
         {
         public:
+            // create bogus state
             GameState();
-            GameState(const GameState& state, UIHints&, double movement_excess[]);
+
+            // create new game
             GameState(const Node* pacman_spawn, const std::vector<Node*> ghost_spawns);
 
+            /*
+             * To create successor of state: Copy the predecessor and call these in order.
+             *
+             * State of the game 1 tick after `state`.
+             */
+            void init_successor(const GameState& state);
+            void progress_timers(const GameState& state, UIHints& uihints);
+            void initial_movement(const GameState& state, UIHints& uihints, double movement_excess[]);
             void act(const std::vector<Action>& actions, const GameState& state, UIHints&, const double movement_excess[]);
 
+            //
             bool operator==(const GameState&) const;
             bool operator!=(const GameState& o) const {
                 return !(o == *this);

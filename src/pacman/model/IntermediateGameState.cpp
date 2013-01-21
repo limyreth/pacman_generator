@@ -30,10 +30,14 @@ IntermediateGameState::IntermediateGameState(const GameState predecessor)
     }
 }
 
+// create successing intermediate
 IntermediateGameState::IntermediateGameState(const GameState predecessor, UIHints& uihints)
 :   predecessor(predecessor),
-    successor(GameState(predecessor, uihints, movement_excess))
+    successor(predecessor)
 {
+    successor.init_successor(predecessor);
+    successor.progress_timers(predecessor, uihints);
+    successor.initial_movement(predecessor, uihints, movement_excess);
 }
 
 IntermediateGameState IntermediateGameState::new_game() {

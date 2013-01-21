@@ -116,14 +116,7 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns)
     }
 }
 
-/*
- * Create successor of state
- *
- * State of the game 1 tick after `state`.
- */
-GameState::GameState(const GameState& state, UIHints& uihints, double movement_excess[])
-:   GameState(state)
-{
+void GameState::init_successor(const GameState& state) {
     INVARIANTS_ON_EXIT;
     REQUIRE(!state.did_pacman_win());
     REQUIRE(!state.did_pacman_lose());
@@ -145,6 +138,15 @@ GameState::GameState(const GameState& state, UIHints& uihints, double movement_e
 
     ate_energizer = false;
     triggered_fruit_spawn = false;
+}
+
+/*
+ * Updates timers, executes triggered events, ...
+ *
+ * Returns true if players are to be given the choice to reverse direction
+ */
+void GameState::progress_timers(const GameState& state, UIHints& uihints) {
+    INVARIANTS_ON_EXIT;
 
     // Vulnerable timing
     if (state.ate_energizer) {
@@ -158,14 +160,14 @@ GameState::GameState(const GameState& state, UIHints& uihints, double movement_e
         }
     }
     else if (vulnerable_ticks_left == 0) {
+        uihints.ghosts_no_longer_vulnerable();
+
         // Ghosts no longer vulnerable, make it so
         for (auto& ghost : ghosts) {
             if (ghost.state == GhostState::VULNERABLE) {
                 ghost.state = GhostState::NORMAL;
             }
         }
-
-        uihints.ghosts_no_longer_vulnerable();
     }
     vulnerable_ticks_left = max(vulnerable_ticks_left - 1, -1);  // Consume 1 tick of timer
 
@@ -181,8 +183,10 @@ GameState::GameState(const GameState& state, UIHints& uihints, double movement_e
         fruit_ticks_left = FRUIT_TICKS;
     }
     fruit_ticks_left = max(fruit_ticks_left - 1, -1);
+}
 
-
+void GameState::initial_movement(const GameState& state, UIHints& uihints, double movement_excess[]) {
+    INVARIANTS_ON_EXIT;
     // Move players
     {
         double speed_modifier;
