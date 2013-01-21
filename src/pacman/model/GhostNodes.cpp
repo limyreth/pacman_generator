@@ -15,6 +15,9 @@
 #include "../specification/Walls.h"
 #include "../util/serialization.h"
 
+#include <SDL/SDL.h>
+#include <SDL/SDL_gfxPrimitives.h>
+
 using std::vector;
 using std::cout;
 using std::endl;
@@ -109,6 +112,36 @@ GhostNodes::~GhostNodes()
 void GhostNodes::draw(shared_ptr<SDL_Surface> buffer) const {
     Nodes::draw(buffer, nodes, 0xFF0000, 0xFF000077);
     Nodes::draw(buffer, spawns, 0x00FF00, 0x00FF00FF);
+}
+
+void GhostNodes::draw_respawn_paths(shared_ptr<SDL_Surface> screen) const {
+    for (auto it = towards_spawn.begin(); it != towards_spawn.end(); it++) {
+        auto origin = it->first;
+        auto destination = it->second;
+        //Nodes::draw(screen, origin, 0xFF0000);
+
+        // draw arrow from origin to destination
+        int retval;
+
+        auto o = origin->location;
+        auto d = destination->location;
+        retval = lineColor(screen.get(), (int)o.x, (int)o.y, (int)d.x, (int)d.y, 0x00FF00FF);
+        ASSERT(retval == 0);
+
+        // offset along origin-destination
+        auto offset = o - d;
+        offset.normalise();
+        offset.x *= 12;
+        offset.y *= 12;
+
+        // offset perpendicular to o-d
+        FPoint perpendicular_offset(offset.y / 2.0, offset.x / 2.0);
+
+        auto p1 = d + offset + perpendicular_offset;
+        auto p2 = d + offset - perpendicular_offset;
+        retval = filledTrigonColor(screen.get(), (int)d.x, (int)d.y, (int)p1.x, (int)p1.y, (int)p2.x, (int)p2.y, 0xFF0000FF);
+        ASSERT(retval == 0);
+    }
 }
 
 }}

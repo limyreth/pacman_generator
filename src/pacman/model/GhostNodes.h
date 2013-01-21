@@ -31,6 +31,7 @@ namespace PACMAN {
             }
 
             void draw(shared_ptr<SDL_Surface> buffer) const;
+            void draw_respawn_paths(shared_ptr<SDL_Surface> buffer) const;
 
         private:
             void add_respawn_paths();

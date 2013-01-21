@@ -231,6 +231,10 @@ void GUI::renderNormal() {
     if (show_ghost_nodes) {
         MODEL::GHOST_NODES.draw(screen);
     }
+
+    if (true) {
+        MODEL::GHOST_NODES.draw_respawn_paths(screen);
+    }
 }
 
 std::string GUI::getFPS() {

@@ -149,12 +149,17 @@ void Nodes::draw(shared_ptr<SDL_Surface> screen, const Node* node, uint32_t node
         ASSERT(retval == 0);
     }
 
+    draw(screen, node, node_color);
+}
+
+void Nodes::draw(shared_ptr<SDL_Surface> screen, const Node* node, uint32_t node_color) const {
     SDL_Rect r;
     r.w = r.h = 5;
     r.x = (int)node->location.x - 2;
     r.y = (int)node->location.y - 2;
     SDL_FillRect(screen.get(), &r, node_color);
 }
+
 
 double Nodes::get_branching_factor(const vector<Node*>& nodes) const {
     double branching_factor = 0.0;
