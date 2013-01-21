@@ -40,10 +40,6 @@ IntermediateGameState IntermediateGameState::new_game() {
     return IntermediateGameState(GameState(PACMAN_NODES.get_spawn(), GHOST_NODES.get_spawns()));
 }
 
-const PlayerState& IntermediateGameState::get_player(int index) const {
-    return successor.get_player(index);
-}
-
 bool IntermediateGameState::operator==(const IntermediateGameState& o) const {
     for (int i=0; i < PLAYER_COUNT; ++i) {
         if (o.movement_excess[i] != movement_excess[i]) {
@@ -64,11 +60,11 @@ IntermediateGameState IntermediateGameState::act(const std::vector<Action>& acti
 }
 
 unsigned char IntermediateGameState::get_action_count(int player_index) const {
-    return get_player(player_index).get_action_count();
+    return successor.get_player(player_index).get_action_count();
 }
 
 Action IntermediateGameState::get_action_along_direction(int player_index, Direction::Type direction) const {
-    return get_player(player_index).get_action_along_direction(direction);
+    return successor.get_player(player_index).get_action_along_direction(direction);
 }
 
 }}

@@ -38,8 +38,6 @@ namespace PACMAN {
                 return !(o == *this);
             }
 
-            const PlayerState& get_player(int index) const;
-
             inline const GameState& get_predecessor() const {
                 return predecessor;
             }
