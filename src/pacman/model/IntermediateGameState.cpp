@@ -63,4 +63,12 @@ IntermediateGameState IntermediateGameState::act(const std::vector<Action>& acti
     return next_intermediate;
 }
 
+unsigned char IntermediateGameState::get_action_count(int player_index) const {
+    return get_player(player_index).get_action_count();
+}
+
+Action IntermediateGameState::get_action_along_direction(int player_index, Direction::Type direction) const {
+    return get_player(player_index).get_action_along_direction(direction);
+}
+
 }}

@@ -45,8 +45,6 @@ namespace PACMAN {
                 return !(o == *this);
             }
 
-            // Note: behaviour of accessors is implementation specific when in an intermediate state
-
             bool get_vulnerable_ghost_count() const;
 
             inline bool is_fruit_spawned() const {

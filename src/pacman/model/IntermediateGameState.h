@@ -30,6 +30,9 @@ namespace PACMAN {
             static IntermediateGameState new_game();
 
             IntermediateGameState act(const std::vector<Action>& actions, UIHints&) const;
+            unsigned char get_action_count(int player_index) const;
+            Action get_action_along_direction(int player_index, Direction::Type direction) const;
+
             bool operator==(const IntermediateGameState&) const;
             bool operator!=(const IntermediateGameState& o) const {
                 return !(o == *this);

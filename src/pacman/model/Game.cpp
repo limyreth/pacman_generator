@@ -31,9 +31,8 @@ Game::Game(int player_index)
 void Game::act(Direction::Type direction, UIHints& uihints) {
     vector<Action> actions(PLAYER_COUNT, 0);
 
-    auto& player = state.get_player(player_index);
-    if (player.get_action_count() > 0) {
-        actions.at(player_index) = player.get_action_along_direction(direction);
+    if (state.get_action_count(player_index) > 0) {
+        actions.at(player_index) = state.get_action_along_direction(player_index, direction);
     }
 
     state = state.act(actions, uihints);
