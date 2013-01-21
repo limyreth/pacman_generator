@@ -45,9 +45,11 @@ void Ghost::Draw(const MODEL::GhostState& current) {
     if (current.state == GhostState::NORMAL) {
         SDL_BlitSurface(ghostEl[0].get(),NULL,buf.get(),&pos);
     }
-
     else if (current.state == GhostState::VULNERABLE) {
         SDL_BlitSurface(ghostEl[1].get(),NULL,buf.get(),&pos);
+    }
+    else if (current.state == GhostState::DEAD) {
+        SDL_BlitSurface(ghostEl[3].get(),NULL,buf.get(),&pos);
     }
 
     /*else if (current.state == GhostState::WARNING) {
