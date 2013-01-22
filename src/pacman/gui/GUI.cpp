@@ -191,8 +191,8 @@ void GUI::toggleSound() {
 }
 
 void GUI::renderNormal() {
-    // Note: might come in handy: SDL_GetTicks(); to make a more accurate delay
-    delay(1000/TICK_RATE); // feel like life is flashing by, this helps fix that
+    // enforce fixed frame/tick rate
+    delay(SDL_GetTicks() % (1000/TICK_RATE));
 
     int i;
     std::ostringstream ostr;
