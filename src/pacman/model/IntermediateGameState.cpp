@@ -32,16 +32,6 @@ IntermediateGameState::IntermediateGameState(const GameState predecessor)
     }
 }
 
-// create successing intermediate
-IntermediateGameState::IntermediateGameState(const GameState predecessor, UIHints& uihints)
-:   predecessor(predecessor),
-    successor(predecessor),
-    state(REVERSE_ALL_CHOICE)
-{
-    successor.init_successor(predecessor);
-    suppress_action = !successor.progress_timers(predecessor, uihints);
-}
-
 IntermediateGameState IntermediateGameState::new_game() {
     return IntermediateGameState(GameState(PACMAN_NODES.get_spawn(), GHOST_NODES.get_spawns()));
 }
@@ -59,9 +49,9 @@ bool IntermediateGameState::operator==(const IntermediateGameState& o) const {
 }
 
 IntermediateGameState IntermediateGameState::act(const std::vector<Action>& actions, UIHints& uihints) const {
-    if (state == REVERSE_ALL_CHOICE) {
-        auto copy = *this;
+    auto copy = *this;
 
+    if (state == REVERSE_ALL_CHOICE) {
         if (!suppress_action) {
             for (int player_index = 0; player_index < PLAYER_COUNT; ++player_index) {
                 if (actions.at(player_index) == 0) {
@@ -75,14 +65,17 @@ IntermediateGameState IntermediateGameState::act(const std::vector<Action>& acti
         copy.successor.initial_movement(copy.predecessor, uihints, copy.movement_excess);
         copy.suppress_action = false;
         copy.state = ABOUT_TO_ACT;
-        return copy;
     }
     else if (state == ABOUT_TO_ACT) {
         ASSERT(!suppress_action);
-        auto copy = successor;
-        copy.act(actions, predecessor, uihints, movement_excess);
-        return IntermediateGameState(copy, uihints);
+        copy.successor.act(actions, predecessor, uihints, movement_excess);
+        copy.predecessor = copy.successor;
+        copy.state = REVERSE_ALL_CHOICE;
+        copy.successor.init_successor(copy.predecessor);
+        copy.suppress_action = !copy.successor.progress_timers(copy.predecessor, uihints);
     }
+
+    return copy;
 }
 
 unsigned char IntermediateGameState::get_action_count(int player_index) const {

@@ -25,8 +25,6 @@ namespace PACMAN {
         class IntermediateGameState
         {
         public:
-            IntermediateGameState(const GameState predecessor, UIHints&);
-
             static IntermediateGameState new_game();
 
             IntermediateGameState act(const std::vector<Action>& actions, UIHints&) const;
