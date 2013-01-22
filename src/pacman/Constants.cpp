@@ -39,3 +39,4 @@ namespace PACMAN {
 }
 
 const int TILE_SIZE = 20;
+const int PLAYER_PACMAN = 0;
