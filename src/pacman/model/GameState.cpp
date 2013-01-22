@@ -66,10 +66,13 @@
 #include "GameState.h"
 #include "UIHints.h"
 #include "Action.h"
-#include "../Utility.h"
 #include "Node.h"
-#include <string.h>
+#include "../Utility.h"
 #include "../util/serialization.h"
+
+#include <string.h>
+
+#include <boost/scope_exit.hpp>
 
 using namespace ::PACMAN::SPECIFICATION;
 
@@ -246,6 +249,18 @@ bool GameState::act(const vector<Action>& actions, const GameState& state, UIHin
     INVARIANTS_ON_EXIT;
     //REQUIRE(actions.size() == PLAYER_COUNT);
 
+    BOOST_SCOPE_EXIT(&state, this_) {
+        ENSURE(this_->foods[at(this_->pacman.get_tile_pos())] == Food::NONE || this_->did_pacman_lose());
+        ENSURE(state.food_count - this_->food_count <= 1);
+        ENSURE(this_->score >= state.score);
+        ENSURE(this_->lives <= state.lives);
+        ENSURE(state.triggered_fruit_spawn == (this_->fruit_ticks_left == FRUIT_TICKS - 1));
+        ENSURE((!this_->fruit_spawned && this_->fruit_ticks_left == -1) || 
+                (this_->fruit_spawned && (this_->fruit_ticks_left == FRUIT_TICKS - 1 || this_->fruit_ticks_left == state.fruit_ticks_left - 1)));
+        ENSURE(state.ate_energizer == (this_->vulnerable_ticks_left == VULNERABLE_TICKS - 1));
+        ENSURE(this_->vulnerable_ticks_left == -1 || state.ate_energizer || this_->vulnerable_ticks_left == state.vulnerable_ticks_left - 1);
+    } BOOST_SCOPE_EXIT_END
+
     // finish movement
     for (int i=0; i < PLAYER_COUNT; ++i) {
         auto& player = get_player(i);
@@ -318,16 +333,6 @@ bool GameState::act(const vector<Action>& actions, const GameState& state, UIHin
 
     unsigned int food_eaten = MAX_FOOD_COUNT - food_count;
     triggered_fruit_spawn = food_count != state.food_count && (food_eaten == 70 || food_eaten == 170);
-
-    ENSURE(foods[at(pacman.get_tile_pos())] == Food::NONE || did_pacman_lose());
-    ENSURE(state.food_count - food_count <= 1);
-    ENSURE(score >= state.score);
-    ENSURE(lives <= state.lives);
-    ENSURE(state.triggered_fruit_spawn == (fruit_ticks_left == FRUIT_TICKS - 1));
-    ENSURE((!fruit_spawned && fruit_ticks_left == -1) || 
-            (fruit_spawned && (fruit_ticks_left == FRUIT_TICKS - 1 || fruit_ticks_left == state.fruit_ticks_left - 1)));
-    ENSURE(state.ate_energizer == (vulnerable_ticks_left == VULNERABLE_TICKS - 1));
-    ENSURE(vulnerable_ticks_left == -1 || state.ate_energizer || vulnerable_ticks_left == state.vulnerable_ticks_left - 1);
 
     return ate_fruit;
 }
