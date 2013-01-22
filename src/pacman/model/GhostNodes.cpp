@@ -90,7 +90,6 @@ void GhostNodes::add_respawn_paths() {
                 towards_spawn[neighbour] = node;
                 fringe.insert(make_pair(neighbour_cost, neighbour));
             }
-
         }
     }
 
@@ -112,7 +111,6 @@ void GhostNodes::draw_respawn_paths(shared_ptr<SDL_Surface> screen) const {
     for (auto it = towards_spawn.begin(); it != towards_spawn.end(); it++) {
         auto origin = it->first;
         auto destination = it->second;
-        //Nodes::draw(screen, origin, 0xFF0000);
 
         // draw arrow from origin to destination
         int retval;
