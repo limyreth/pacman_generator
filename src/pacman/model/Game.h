@@ -21,10 +21,11 @@ namespace PACMAN {
         public:
             Game(int player_index);
 
-            void act(Direction::Type direction, UIHints& uihints);
+            bool act(Direction::Type direction, UIHints& uihints);
             const MODEL::GameState& get_state();
 
         private:
+            MODEL::GameState current;
             int player_index;
             MODEL::IntermediateGameState state;
         };

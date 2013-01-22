@@ -85,8 +85,9 @@ int main( int argc, char** argv ) {
         shared_ptr<UIHints> uihints = gui.create_uihints();
 
         while (gui.emptyMsgPump()) {
-            game.act(gui.get_preferred_direction(), *uihints);
-            gui.render();
+            if (game.act(gui.get_preferred_direction(), *uihints)) {
+                gui.render();
+            }
         }
 
         logtxt.print( "Shutdown" );

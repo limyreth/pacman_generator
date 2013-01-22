@@ -26,9 +26,13 @@ Game::Game(int player_index)
 :   state(IntermediateGameState::new_game()),
     player_index(player_index)
 {
+    current = get_state();
 }
 
-void Game::act(Direction::Type direction, UIHints& uihints) {
+/*
+ * Returns true when get_state() changed
+ */
+bool Game::act(Direction::Type direction, UIHints& uihints) {
     vector<Action> actions(PLAYER_COUNT, 0);
 
     if (state.get_action_count(player_index) > 0) {
@@ -36,6 +40,12 @@ void Game::act(Direction::Type direction, UIHints& uihints) {
     }
 
     state = state.act(actions, uihints);
+    if (current != get_state()) {
+        current = get_state();
+        return true;
+    }
+
+    return false;
 }
 
 const MODEL::GameState& Game::get_state() {
