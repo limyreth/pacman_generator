@@ -335,6 +335,16 @@ bool GameState::act(const vector<Action>& actions, const GameState& state, UIHin
     }
 
     unsigned int food_eaten = MAX_FOOD_COUNT - food_count;
+
+    // check whether or not to free some ghosts
+    if (food_eaten >= 30 && ghosts[GHOST_INKY].state == GhostState::WAITING) {
+        ghosts[GHOST_INKY].leave_pen();
+    }
+    if (food_eaten >= 90 && ghosts[GHOST_CLYDE].state == GhostState::WAITING) {
+        ghosts[GHOST_CLYDE].leave_pen();
+    }
+
+    // fruit spawn trigger
     triggered_fruit_spawn = food_count != state.food_count && (food_eaten == 70 || food_eaten == 170);
 
     return ate_fruit;
