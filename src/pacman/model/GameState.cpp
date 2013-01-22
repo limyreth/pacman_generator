@@ -379,7 +379,6 @@ bool GameState::get_vulnerable_ghost_count() const {
 }
 
 bool GameState::is_elroy1(int ghost_index) const {
-    // TODO clyde should have left the pen, otherwise elroy speeds are no go!
     REQUIRE(ghost_index >= 0);
     REQUIRE(ghost_index < GHOST_COUNT);
     return ghost_index == GHOST_BLINKY && food_count <= 20;
