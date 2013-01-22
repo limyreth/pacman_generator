@@ -23,7 +23,9 @@ namespace PACMAN {
 // intermediate state with new_game as predecessor
 IntermediateGameState::IntermediateGameState(const GameState predecessor)
 :   predecessor(predecessor),
-    successor(predecessor)
+    successor(predecessor),
+    state(ABOUT_TO_ACT),
+    suppress_action(false)
 {
     for (int i=0; i < PLAYER_COUNT; ++i) {
         movement_excess[i] = 0.0;
@@ -33,11 +35,11 @@ IntermediateGameState::IntermediateGameState(const GameState predecessor)
 // create successing intermediate
 IntermediateGameState::IntermediateGameState(const GameState predecessor, UIHints& uihints)
 :   predecessor(predecessor),
-    successor(predecessor)
+    successor(predecessor),
+    state(REVERSE_ALL_CHOICE)
 {
     successor.init_successor(predecessor);
-    successor.progress_timers(predecessor, uihints);
-    successor.initial_movement(predecessor, uihints, movement_excess);
+    suppress_action = !successor.progress_timers(predecessor, uihints);
 }
 
 IntermediateGameState IntermediateGameState::new_game() {
@@ -52,23 +54,57 @@ bool IntermediateGameState::operator==(const IntermediateGameState& o) const {
     }
 
     return o.predecessor == predecessor &&
-        o.successor == successor;
+        o.successor == successor &&
+        o.state == state;
 }
 
 IntermediateGameState IntermediateGameState::act(const std::vector<Action>& actions, UIHints& uihints) const {
-    auto copy = successor;
-    copy.act(actions, predecessor, uihints, movement_excess);
+    if (state == REVERSE_ALL_CHOICE) {
+        auto copy = *this;
 
-    IntermediateGameState next_intermediate(copy, uihints);
-    return next_intermediate;
+        if (!suppress_action) {
+            for (int player_index = 0; player_index < PLAYER_COUNT; ++player_index) {
+                if (actions.at(player_index) == 0) {
+                    copy.successor.get_player(player_index).reverse();
+                } else {
+                    REQUIRE(actions.at(player_index) == 1);
+                }
+            }
+        }
+
+        copy.successor.initial_movement(copy.predecessor, uihints, copy.movement_excess);
+        copy.suppress_action = false;
+        copy.state = ABOUT_TO_ACT;
+        return copy;
+    }
+    else if (state == ABOUT_TO_ACT) {
+        ASSERT(!suppress_action);
+        auto copy = successor;
+        copy.act(actions, predecessor, uihints, movement_excess);
+        return IntermediateGameState(copy, uihints);
+    }
 }
 
 unsigned char IntermediateGameState::get_action_count(int player_index) const {
-    return successor.get_player(player_index).get_action_count();
+    if (suppress_action) {
+        return 0;
+    }
+    else if (state == REVERSE_ALL_CHOICE) {
+        return 2;  // either you reverse, or you don't
+    }
+    else if (state == ABOUT_TO_ACT) {
+        return successor.get_player(player_index).get_action_count();
+    }
 }
 
 Action IntermediateGameState::get_action_along_direction(int player_index, Direction::Type direction) const {
-    return successor.get_player(player_index).get_action_along_direction(direction);
+    REQUIRE(get_action_count(player_index) > 0);
+    if (state == REVERSE_ALL_CHOICE) {
+        return 0;  // just assume 0, even though that's not always correct (only affects testing / manual run)
+    }
+    else if (state == ABOUT_TO_ACT) {
+        return successor.get_player(player_index).get_action_along_direction(direction);
+    }
 }
 
 }}

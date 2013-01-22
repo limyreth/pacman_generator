@@ -46,7 +46,7 @@ namespace PACMAN {
              * State of the game 1 tick after `state`.
              */
             void init_successor(const GameState& state);
-            void progress_timers(const GameState& state, UIHints& uihints);
+            bool progress_timers(const GameState& state, UIHints& uihints);
             void initial_movement(const GameState& state, UIHints& uihints, double movement_excess[]);
             void act(const std::vector<Action>& actions, const GameState& state, UIHints&, const double movement_excess[]);
 
@@ -95,6 +95,15 @@ namespace PACMAN {
                 }
             }
 
+            inline PlayerState& get_player(int index) {
+                if (index == 0) {
+                    return pacman;
+                }
+                else {
+                    return ghosts[index-1];
+                }
+            }
+
             inline const SPECIFICATION::Foods& get_foods() const {
                 return foods;
             }
@@ -104,15 +113,6 @@ namespace PACMAN {
 
         private:
             void ensure_final_state();
-
-            inline PlayerState& get_player_(int index) {
-                if (index == 0) {
-                    return pacman;
-                }
-                else {
-                    return ghosts[index-1];
-                }
-            }
 
             void resetLvl();
             void nextLvl();

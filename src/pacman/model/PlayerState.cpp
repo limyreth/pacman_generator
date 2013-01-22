@@ -181,6 +181,10 @@ const FPoint& PlayerState::get_pos() const {
     return pos;
 }
 
+void PlayerState::reverse() {
+    std::swap(origin, destination);
+}
+
 // Note: reversing direction between intersections is a legal action and a
 // perfect play player might actually make use of that. E.g. consider this path between intersections:
 // Dot Dot Dot 

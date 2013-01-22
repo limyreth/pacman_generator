@@ -28,6 +28,7 @@ namespace PACMAN {
             virtual double move(double distance, int player_index);
             virtual void act(Action action);
             virtual IPoint get_tile_pos() const;
+            void reverse();
 
             inline FPoint get_pixel_pos() const {
                 return pos;

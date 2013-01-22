@@ -145,8 +145,9 @@ void GameState::init_successor(const GameState& state) {
  *
  * Returns true if players are to be given the choice to reverse direction
  */
-void GameState::progress_timers(const GameState& state, UIHints& uihints) {
+bool GameState::progress_timers(const GameState& state, UIHints& uihints) {
     INVARIANTS_ON_EXIT;
+    bool allow_reversing = false;
 
     // Vulnerable timing
     if (state.ate_energizer) {
@@ -156,6 +157,7 @@ void GameState::progress_timers(const GameState& state, UIHints& uihints) {
         for (auto& ghost : ghosts) {
             if (ghost.state == GhostState::NORMAL) {
                 ghost.state = GhostState::VULNERABLE;
+                allow_reversing = true;
             }
         }
     }
@@ -166,6 +168,7 @@ void GameState::progress_timers(const GameState& state, UIHints& uihints) {
         for (auto& ghost : ghosts) {
             if (ghost.state == GhostState::VULNERABLE) {
                 ghost.state = GhostState::NORMAL;
+                allow_reversing = true;
             }
         }
     }
@@ -183,6 +186,8 @@ void GameState::progress_timers(const GameState& state, UIHints& uihints) {
         fruit_ticks_left = FRUIT_TICKS;
     }
     fruit_ticks_left = max(fruit_ticks_left - 1, -1);
+
+    return allow_reversing;
 }
 
 void GameState::initial_movement(const GameState& state, UIHints& uihints, double movement_excess[]) {
@@ -225,7 +230,7 @@ void GameState::initial_movement(const GameState& state, UIHints& uihints, doubl
                 }
             }
 
-            movement_excess[player_index] = get_player_(player_index).move(FULL_SPEED * TILE_SIZE * speed_modifier, player_index);
+            movement_excess[player_index] = get_player(player_index).move(FULL_SPEED * TILE_SIZE * speed_modifier, player_index);
         }
     }
 }
@@ -239,7 +244,7 @@ void GameState::act(const vector<Action>& actions, const GameState& state, UIHin
 
     // finish movement
     for (int i=0; i < PLAYER_COUNT; ++i) {
-        auto& player = get_player_(i);
+        auto& player = get_player(i);
         if (movement_excess[i] >= 0.0) {
             player.act(actions.at(i));
             player.move(movement_excess[i], i);

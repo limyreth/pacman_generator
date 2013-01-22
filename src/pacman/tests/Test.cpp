@@ -63,9 +63,11 @@ int Test::move(Direction::Type direction) {
         }
 
         game.act(direction, uihints);
+        if (current != game.get_state()) {
+            ++steps;
+        }
         current = game.get_state();
 
-        ++steps;
     }
 
     return steps;
