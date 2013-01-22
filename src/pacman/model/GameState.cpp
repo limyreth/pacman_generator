@@ -291,7 +291,8 @@ bool GameState::act(const vector<Action>& actions, const GameState& state, UIHin
                 if (get_lives() > 0) {
                     resetLvl();
                 }
-                ASSERT(false); // TODO return
+
+                return false;
             }
             else if (ghost.state == GhostState::VULNERABLE) {
                 // pacman eats ghost
