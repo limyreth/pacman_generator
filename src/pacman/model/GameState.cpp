@@ -117,6 +117,9 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns)
     for (int i=0; i<GHOST_COUNT; ++i) {
         ghosts[i] = GhostState(ghost_spawns.at(i));
     }
+
+    ghosts[GHOST_BLINKY].leave_pen();
+    ghosts[GHOST_PINKY].leave_pen();
 }
 
 void GameState::init_successor(const GameState& state) {

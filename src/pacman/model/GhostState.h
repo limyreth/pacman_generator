@@ -21,7 +21,8 @@ namespace PACMAN {
             enum State : unsigned char {
                 NORMAL,
                 VULNERABLE,
-                DEAD
+                DEAD,
+                WAITING  // when in ghost pen, but not yet allowed to leave
             };
 
         public:
@@ -31,6 +32,7 @@ namespace PACMAN {
             double move(double distance, int player_index);
             void act(Action action);
             void die();
+            void leave_pen();
             bool is_in_tunnel();
 
             bool operator==(const GhostState&) const;

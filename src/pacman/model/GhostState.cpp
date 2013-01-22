@@ -30,7 +30,8 @@ GhostState::GhostState()
 }
 
 GhostState::GhostState(const Node* initial_node)
-:   PlayerState(initial_node), state(NORMAL)
+:   PlayerState(initial_node), 
+    state(WAITING)
 {
 }
 
@@ -38,6 +39,10 @@ GhostState::GhostState(const Node* initial_node)
 double GhostState::move(double distance, int player_index) {
     REQUIRE(player_index >= 0);
     REQUIRE(player_index < PLAYER_COUNT);
+
+    if (state == WAITING) {
+        return -1.0;
+    }
 
     double movement_excess = PlayerState::move(distance, player_index);
     double retval;
@@ -104,6 +109,11 @@ bool GhostState::operator==(const GhostState& o) const {
 
 const Nodes& GhostState::get_nodes() const {
     return GHOST_NODES;
+}
+
+void GhostState::leave_pen() {
+    REQUIRE(state == WAITING);
+    state = NORMAL;
 }
 
 // Note: this has little meaning other than that when it changes, a new action may be chosen (which is by crossing any grid line with offset half a tile)
