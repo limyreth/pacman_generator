@@ -319,7 +319,7 @@ bool GameState::act(const vector<Action>& actions, const GameState& state, UIHin
     unsigned int food_eaten = MAX_FOOD_COUNT - food_count;
     triggered_fruit_spawn = food_count != state.food_count && (food_eaten == 70 || food_eaten == 170);
 
-    ensure_final_state();
+    ENSURE(foods[at(pacman.get_tile_pos())] == Food::NONE || did_pacman_lose());
     ENSURE(state.food_count - food_count <= 1);
     ENSURE(score >= state.score);
     ENSURE(lives <= state.lives);
@@ -330,10 +330,6 @@ bool GameState::act(const vector<Action>& actions, const GameState& state, UIHin
     ENSURE(vulnerable_ticks_left == -1 || state.ate_energizer || vulnerable_ticks_left == state.vulnerable_ticks_left - 1);
 
     return ate_fruit;
-}
-
-void GameState::ensure_final_state() {
-    ENSURE(foods[at(pacman.get_tile_pos())] == Food::NONE || did_pacman_lose());
 }
 
 bool GameState::get_vulnerable_ghost_count() const {

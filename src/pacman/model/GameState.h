@@ -112,8 +112,6 @@ namespace PACMAN {
             void invariants() const;
 
         private:
-            void ensure_final_state();
-
             void resetLvl();
             void nextLvl();
 
