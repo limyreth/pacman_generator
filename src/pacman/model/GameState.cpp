@@ -263,6 +263,9 @@ bool GameState::act(const vector<Action>& actions, const GameState& state, UIHin
                 (this_->fruit_spawned && (this_->fruit_ticks_left == FRUIT_TICKS - 1 || this_->fruit_ticks_left == state.fruit_ticks_left - 1)));
         ENSURE(state.ate_energizer == (this_->vulnerable_ticks_left == VULNERABLE_TICKS - 1));
         ENSURE(this_->vulnerable_ticks_left == -1 || state.ate_energizer || this_->vulnerable_ticks_left == state.vulnerable_ticks_left - 1);
+        if (!this_->is_game_over()) {
+            ENSURE(this_->ghost_release_ticks_left == MAX_TICKS_BETWEEN_GHOST_RELEASE || this_->ghost_release_ticks_left == state.ghost_release_ticks_left - 1);
+        }
     } BOOST_SCOPE_EXIT_END
 
     // finish movement
