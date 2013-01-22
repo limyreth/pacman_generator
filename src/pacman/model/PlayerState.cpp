@@ -11,6 +11,8 @@
 #include "PlayerState.h"
 #include "Node.h"
 #include "Nodes.h"
+#include "GhostNodes.h"
+#include "PacmanNodes.h"
 #include "../Constants.h"
 #include "../util/assertion.h"
 #include "../util/serialization.h"
@@ -53,15 +55,17 @@ double PlayerState::move(double distance_moved, int player_index) {
     double movement_excess = distance_moved - direction.length();
 
     // move towards destination
+    if (needs_invert(origin, destination)) {
+        direction = origin->get_location() - destination->get_location();
+    }
     direction.normalise();
     pos += direction * distance_moved_towards_destination;
 
     // wrap screen when hitting left/right edge of tunnel
-    auto tpos = get_tile_pos();
-    if (tpos.x < 0) {
-        pos.x = MAP_WIDTH * TILE_SIZE - pos.x;
+    if (pos.x < 0) {
+        pos.x += MAP_WIDTH * TILE_SIZE;
     }
-    else if (tpos.x >= MAP_WIDTH) {
+    else if (pos.x >= MAP_WIDTH * TILE_SIZE) {
         pos.x -= MAP_WIDTH * TILE_SIZE;
     }
 
@@ -143,8 +147,12 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
             continue;
         }
 
-        auto dir = destination->get_neighbours()[i]->get_location() - destination->get_location();
+        auto neighbour = destination->get_neighbours()[i];
+        auto dir = neighbour->get_location() - destination->get_location();
         dir.normalise();
+        if (needs_invert(destination, neighbour)) {
+            dir = -dir;
+        }
 
         double dot_prod = dir.dot_product(direction);
         ASSERT(dot_prod >= -1.0);
@@ -184,6 +192,15 @@ const FPoint& PlayerState::get_pos() const {
 void PlayerState::reverse() {
     std::swap(origin, destination);
 }
+
+/*
+ * Returns true if (to - from) needs to become (from - to) to actually go the right direction
+ */
+bool PlayerState::needs_invert(const Node* from, const Node* to) const {
+    return get_nodes().is_tunnel_node(from) && get_nodes().is_tunnel_node(to);
+}
+
+
 
 // Note: reversing direction between intersections is a legal action and a
 // perfect play player might actually make use of that. E.g. consider this path between intersections:

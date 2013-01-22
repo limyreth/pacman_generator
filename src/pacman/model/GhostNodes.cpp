@@ -32,6 +32,9 @@ GhostNodes::GhostNodes()
 :   spawns(GHOST_COUNT),
     respawns(GHOST_COUNT)
 {
+    left_tunnel_node = nodes.at(at(6, 14));
+    right_tunnel_node = nodes.at(at(MAP_WIDTH-7, 14));
+
     eliminate_redundant_nodes();
 
     // ghost pen nodes
@@ -59,6 +62,9 @@ GhostNodes::GhostNodes()
     respawns.at(GHOST_CLYDE) = spawns.at(GHOST_CLYDE);
 
     add_respawn_paths();
+
+    ENSURE(std::find(nodes.begin(), nodes.end(), left_tunnel_node) != nodes.end());
+    ENSURE(std::find(nodes.begin(), nodes.end(), right_tunnel_node) != nodes.end());
 
     // print stats
     cout << "Ghost branching factor: " << get_branching_factor(nodes) << endl;

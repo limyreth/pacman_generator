@@ -27,6 +27,9 @@ namespace PACMAN {
 const PacmanNodes PACMAN_NODES;
 
 PacmanNodes::PacmanNodes() {
+    left_tunnel_node = nodes.at(at(5, 14));
+    right_tunnel_node = nodes.at(at(MAP_WIDTH-6, 14));
+
     for (int x=0; x < MAP_WIDTH; ++x) {
         for (int y=0; y < MAP_HEIGHT; ++y) {
             auto& node = nodes.at(at(x, y));
@@ -57,6 +60,9 @@ PacmanNodes::PacmanNodes() {
 
     ensure_valid(nodes, nodes);
     ensure_valid(spawn, nodes);
+
+    ENSURE(std::find(nodes.begin(), nodes.end(), left_tunnel_node) != nodes.end());
+    ENSURE(std::find(nodes.begin(), nodes.end(), right_tunnel_node) != nodes.end());
 
     // print stats
     cout << "Pacman branching factor: " << get_branching_factor(nodes) << endl;

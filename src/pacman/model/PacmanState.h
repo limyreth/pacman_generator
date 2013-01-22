@@ -28,6 +28,9 @@ namespace PACMAN {
             bool operator!=(const PacmanState& o) const {
                 return !(*this == o);
             }
+
+        protected:
+            virtual const Nodes& get_nodes() const;
         };
 
     }

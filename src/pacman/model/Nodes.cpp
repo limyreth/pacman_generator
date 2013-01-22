@@ -265,4 +265,8 @@ void Nodes::eliminate(int x, int y) {
     delete node;
 }
 
+bool Nodes::is_tunnel_node(const Node* node) const {
+    return node == left_tunnel_node || node == right_tunnel_node;
+}
+
 }}

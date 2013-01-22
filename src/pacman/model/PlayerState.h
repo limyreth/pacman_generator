@@ -44,6 +44,7 @@ namespace PACMAN {
             Action get_action_along_direction(Direction::Type direction) const;
 
         protected:
+            virtual const Nodes& get_nodes() const = 0;
             const FPoint& get_pos() const;
             void invariants() const;
             void save(std::ostream& out, const Nodes& nodes) const;
@@ -56,6 +57,7 @@ namespace PACMAN {
         private:
             Action get_reverse_action() const;
             bool has_reached_destination() const;
+            bool needs_invert(const Node* from, const Node* to) const;
 
         private:
             FPoint pos;  // current position in pixels

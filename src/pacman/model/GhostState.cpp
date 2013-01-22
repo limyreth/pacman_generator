@@ -102,6 +102,10 @@ bool GhostState::operator==(const GhostState& o) const {
         o.state == state;
 }
 
+const Nodes& GhostState::get_nodes() const {
+    return GHOST_NODES;
+}
+
 // Note: this has little meaning other than that when it changes, a new action may be chosen (which is by crossing any grid line with offset half a tile)
 
 }}

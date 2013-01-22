@@ -41,6 +41,9 @@ namespace PACMAN {
 
         public:
             State state;
+
+        protected:
+            virtual const Nodes& get_nodes() const;
         };
 
     }

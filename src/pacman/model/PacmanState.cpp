@@ -49,5 +49,8 @@ IPoint PacmanState::get_tile_pos() const {
     return tile_pos;
 }
 
+const Nodes& PacmanState::get_nodes() const {
+    return PACMAN_NODES;
+}
 
 }}
