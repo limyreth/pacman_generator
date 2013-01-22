@@ -63,9 +63,8 @@ string get_state_path(const string STATE_DIR, int number) {
     return STATE_DIR + "/" + to_string(number);
 }
 
-void run_generate() {
+void run_generate(const string STATE_DIR) {
     std::shared_ptr<GeneratorRun> run;
-    const string STATE_DIR = string(getenv("XDG_DATA_HOME")) + "/pacman_generator";
     mkdir(STATE_DIR.c_str(), 0755);
 
     int previous_state_number = find_previous_state(STATE_DIR);

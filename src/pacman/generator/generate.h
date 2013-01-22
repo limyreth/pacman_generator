@@ -18,7 +18,7 @@ namespace PACMAN {
 
     namespace GENERATOR {
 
-        void run_generate();
+        void run_generate(const std::string STATE_DIR);
 
     }
 }

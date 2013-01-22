@@ -30,9 +30,10 @@ using TEST::test;
 
 using std::string;
 using std::cout;
+using std::endl;
 using std::vector;
 
-int main( int argc, char** argv ) {
+int main(int argc, char** argv) {
     std::string str="";
     GUI::GUIArgs gui_args;
     gui_args.show_pacman_nodes = false;
@@ -60,7 +61,12 @@ int main( int argc, char** argv ) {
                 return 0;
             }
             else if (str == "--generate") {
-                GENERATOR::run_generate();
+                if (!(i == 1 && argc == 3)) {
+                    std::cerr << "Incorrect arguments to generate" << endl;
+                    return 1;
+                }
+
+                GENERATOR::run_generate(string(argv[2]));
                 return 0;
             }
             else if (str == "--show-pacman-nodes") {
@@ -75,8 +81,10 @@ int main( int argc, char** argv ) {
             else if (str == "--show-respawn-paths") {
                 gui_args.show_respawn_paths = true;
             }
-            else
+            else {
                 std::cerr << "unrecognized commandline option\n";
+                return 1;
+            }
         }
 
         // interactive mode
