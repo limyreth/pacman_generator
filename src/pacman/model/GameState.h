@@ -138,6 +138,7 @@ namespace PACMAN {
             int vulnerable_ticks_left;  // how many more ticks ( / successing game states) ghosts will be vulnerable
             int fruit_ticks_left;  // amount of ticks left til fruit disappears
             int idler_ticks_left;  // ticks left til pacman gets off his lazy ass and starts moving again (pacman rests after eating dot or energizer)
+            int ghost_release_ticks_left;  // ticks until we are forced to release a ghost
 
             friend class PACMAN::TEST::Test;
         };

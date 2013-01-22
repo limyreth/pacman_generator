@@ -31,6 +31,8 @@ namespace PACMAN {
         const IPoint FRUIT_LEFT_TPOS(13, 17);
         const IPoint FRUIT_RIGHT_TPOS(14, 17);
         const FPoint FRUIT_POS(14 * TILE_SIZE, 17.5 * TILE_SIZE);
+
+        const int MAX_TICKS_BETWEEN_GHOST_RELEASE = 4 * TICK_RATE;  // 4 seconds
     }
 
     namespace GUI {

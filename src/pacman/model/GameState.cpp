@@ -103,6 +103,7 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns)
     fruit_spawned(false),
     fruit_ticks_left(-1),
     vulnerable_ticks_left(-1),
+    ghost_release_ticks_left(MAX_TICKS_BETWEEN_GHOST_RELEASE),
     idler_ticks_left(0),
     ate_energizer(false),
     triggered_fruit_spawn(false)
@@ -337,11 +338,28 @@ bool GameState::act(const vector<Action>& actions, const GameState& state, UIHin
     unsigned int food_eaten = MAX_FOOD_COUNT - food_count;
 
     // check whether or not to free some ghosts
-    if (food_eaten >= 30 && ghosts[GHOST_INKY].state == GhostState::WAITING) {
-        ghosts[GHOST_INKY].leave_pen();
+    --ghost_release_ticks_left;
+
+    if (state.food_count != food_count) {
+        ghost_release_ticks_left = MAX_TICKS_BETWEEN_GHOST_RELEASE;
     }
-    if (food_eaten >= 90 && ghosts[GHOST_CLYDE].state == GhostState::WAITING) {
+
+    if (ghost_release_ticks_left == -1) {
+        if (ghosts[GHOST_INKY].state == GhostState::WAITING) {
+            ghosts[GHOST_INKY].leave_pen();
+        }
+        else if (ghosts[GHOST_CLYDE].state == GhostState::WAITING) {
+            ghosts[GHOST_CLYDE].leave_pen();
+        }
+        ghost_release_ticks_left = MAX_TICKS_BETWEEN_GHOST_RELEASE;
+    }
+    else if (food_eaten >= 90 && ghosts[GHOST_CLYDE].state == GhostState::WAITING) {
         ghosts[GHOST_CLYDE].leave_pen();
+        ghost_release_ticks_left = MAX_TICKS_BETWEEN_GHOST_RELEASE;
+    }
+    else if (food_eaten >= 30 && ghosts[GHOST_INKY].state == GhostState::WAITING) {
+        ghosts[GHOST_INKY].leave_pen();
+        ghost_release_ticks_left = MAX_TICKS_BETWEEN_GHOST_RELEASE;
     }
 
     // fruit spawn trigger
@@ -390,6 +408,9 @@ void GameState::invariants() const {
 
     INVARIANT(idler_ticks_left >= 0);
     INVARIANT(idler_ticks_left <= 3);
+
+    INVARIANT(ghost_release_ticks_left >= 0);
+    INVARIANT(ghost_release_ticks_left <= MAX_TICKS_BETWEEN_GHOST_RELEASE);
 }
 
 void GameState::nextLvl() {
@@ -423,7 +444,8 @@ bool GameState::operator==(const GameState& other) const {
         other.fruit_ticks_left == fruit_ticks_left &&
         other.idler_ticks_left == idler_ticks_left &&
         other.ate_energizer == ate_energizer &&
-        other.triggered_fruit_spawn == triggered_fruit_spawn;
+        other.triggered_fruit_spawn == triggered_fruit_spawn &&
+        other.ghost_release_ticks_left == ghost_release_ticks_left;
 }
 
 }}

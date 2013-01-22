@@ -32,6 +32,10 @@ namespace PACMAN {
         // 100% speed expressed in tiles per tick.
         extern const double FULL_SPEED;
 
+        // the max allowed ticks between releasing ghosts from the ghost pen
+        // If exceeded, a ghost is forced to leave
+        extern const int MAX_TICKS_BETWEEN_GHOST_RELEASE;
+
         // initial food count of start_foods, which is also the max
         extern const unsigned int MAX_FOOD_COUNT;
         extern const IPoint FRUIT_LEFT_TPOS;
