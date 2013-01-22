@@ -12,6 +12,7 @@
 #include "../util/assertion.h"
 #include "../model/PacmanNodes.h"
 #include "../model/GhostNodes.h"
+#include "../Constants.h"
 
 using std::vector;
 using std::cout;
@@ -68,11 +69,22 @@ IntermediateGameState IntermediateGameState::act(const std::vector<Action>& acti
     }
     else if (state == ABOUT_TO_ACT) {
         ASSERT(!suppress_action);
-        copy.successor.act(actions, predecessor, uihints, movement_excess);
+        copy.suppress_action = !copy.successor.act(actions, predecessor, uihints, movement_excess);
+        copy.state = REVERSE_PACMAN_CHOICE;
+    }
+    else if (state == REVERSE_PACMAN_CHOICE) {
+        if (!suppress_action) {
+            if (actions.at(PLAYER_PACMAN) == 0) {
+                copy.successor.get_player(PLAYER_PACMAN).reverse();
+            } else {
+                REQUIRE(actions.at(PLAYER_PACMAN) == 1);
+            }
+        }
+
         copy.predecessor = copy.successor;
-        copy.state = REVERSE_ALL_CHOICE;
         copy.successor.init_successor(copy.predecessor);
         copy.suppress_action = !copy.successor.progress_timers(copy.predecessor, uihints);
+        copy.state = REVERSE_ALL_CHOICE;
     }
 
     return copy;
@@ -85,6 +97,13 @@ unsigned char IntermediateGameState::get_action_count(int player_index) const {
     else if (state == REVERSE_ALL_CHOICE) {
         return 2;  // either you reverse, or you don't
     }
+    else if (state == REVERSE_PACMAN_CHOICE) {
+        if (player_index == PLAYER_PACMAN) {
+            return 2;
+        } else {
+            return 0;
+        }
+    }
     else if (state == ABOUT_TO_ACT) {
         return successor.get_player(player_index).get_action_count();
     }
@@ -92,11 +111,11 @@ unsigned char IntermediateGameState::get_action_count(int player_index) const {
 
 Action IntermediateGameState::get_action_along_direction(int player_index, Direction::Type direction) const {
     REQUIRE(get_action_count(player_index) > 0);
-    if (state == REVERSE_ALL_CHOICE) {
-        return 0;  // just assume 0, even though that's not always correct (only affects testing / manual run)
-    }
-    else if (state == ABOUT_TO_ACT) {
+    if (state == ABOUT_TO_ACT) {
         return successor.get_player(player_index).get_action_along_direction(direction);
+    }
+    else {
+        return 0;  // just assume 0, even though that's not always correct (only affects testing / manual run)
     }
 }
 

@@ -236,9 +236,13 @@ void GameState::initial_movement(const GameState& state, UIHints& uihints, doubl
 }
 
 /*
+ * Complete player movement, handle collisions, ...
+ *
  * actions may contain invalid actions if the respective player won't act this tick
+ *
+ * Returns true if pacman is to be given the choice to reverse direction
  */
-void GameState::act(const vector<Action>& actions, const GameState& state, UIHints& uihints, const double movement_excess[]) {
+bool GameState::act(const vector<Action>& actions, const GameState& state, UIHints& uihints, const double movement_excess[]) {
     INVARIANTS_ON_EXIT;
     //REQUIRE(actions.size() == PLAYER_COUNT);
 
@@ -268,7 +272,7 @@ void GameState::act(const vector<Action>& actions, const GameState& state, UIHin
                 if (get_lives() > 0) {
                     resetLvl();
                 }
-                return;
+                ASSERT(false); // TODO return
             }
             else if (ghost.state == GhostState::VULNERABLE) {
                 // pacman eats ghost
@@ -280,6 +284,7 @@ void GameState::act(const vector<Action>& actions, const GameState& state, UIHin
     }
 
     // collide with food
+    bool ate_fruit = false;
     int food_index = at(pacman_tpos);
     if (foods[food_index] == Food::DOT) {
         foods[food_index] = Food::NONE;
@@ -305,6 +310,7 @@ void GameState::act(const vector<Action>& actions, const GameState& state, UIHin
     else if (fruit_spawned && (pacman_tpos == FRUIT_LEFT_TPOS || pacman_tpos == FRUIT_RIGHT_TPOS)) {
         score += get_fruit_score();
         uihints.ate_fruit();
+        ate_fruit = true;
         fruit_spawned = false;
         fruit_ticks_left = -1;
         ASSERT(idler_ticks_left == 0);
@@ -312,7 +318,7 @@ void GameState::act(const vector<Action>& actions, const GameState& state, UIHin
 
     unsigned int food_eaten = MAX_FOOD_COUNT - food_count;
     triggered_fruit_spawn = food_count != state.food_count && (food_eaten == 70 || food_eaten == 170);
-    
+
     ensure_final_state();
     ENSURE(state.food_count - food_count <= 1);
     ENSURE(score >= state.score);
@@ -322,6 +328,8 @@ void GameState::act(const vector<Action>& actions, const GameState& state, UIHin
             (fruit_spawned && (fruit_ticks_left == FRUIT_TICKS - 1 || fruit_ticks_left == state.fruit_ticks_left - 1)));
     ENSURE(state.ate_energizer == (vulnerable_ticks_left == VULNERABLE_TICKS - 1));
     ENSURE(vulnerable_ticks_left == -1 || state.ate_energizer || vulnerable_ticks_left == state.vulnerable_ticks_left - 1);
+
+    return ate_fruit;
 }
 
 void GameState::ensure_final_state() {

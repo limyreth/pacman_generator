@@ -51,7 +51,8 @@ namespace PACMAN {
 
             enum State {
                 REVERSE_ALL_CHOICE,  // after time progression, each player decides whether or not to reverse
-                ABOUT_TO_ACT  // each player chooses where to move to, if any
+                ABOUT_TO_ACT,  // each player chooses where to move to, if any
+                REVERSE_PACMAN_CHOICE  // after acting, pacman decides whether or not to reverse
             } state;
         };
 
