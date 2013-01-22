@@ -61,11 +61,6 @@ void test_initial_game_state() {
     assert_equals(state->get_player(GHOST_PINKY+1).get_pixel_pos(), FPoint(14, 14) * TILE_SIZE);
     assert_equals(state->get_player(GHOST_INKY+1).get_pixel_pos(), FPoint(12, 14) * TILE_SIZE);
     assert_equals(state->get_player(GHOST_CLYDE+1).get_pixel_pos(), FPoint(16, 14) * TILE_SIZE);
-
-    // vulnerability
-    for (int i=0; i < GHOST_COUNT; ++i) {
-        BOOST_ASSERT(((GhostState&)state->get_player(i+1)).state == GhostState::NORMAL);
-    }
 }
 
 void test_ghosts_remain_normal_when_not_eating_energizer() {

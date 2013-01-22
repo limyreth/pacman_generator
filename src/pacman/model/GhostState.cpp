@@ -16,10 +16,6 @@
 
 #include <boost/scope_exit.hpp>
 
-// TODO dead ghost takes shortest path back to correct pen tile
-
-// TODO size enums to 1 byte
-
 using std::endl;
 
 namespace PACMAN {
