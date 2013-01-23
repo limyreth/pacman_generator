@@ -9,7 +9,6 @@
 
 
 #include "generate.h"
-#include "GeneratorRun.h"
 #include "../Error.h"
 #include "../Utility.h"
 
@@ -19,12 +18,15 @@
 
 #include <sys/stat.h>
 #include <dirent.h>
+#include <signal.h>
 
 using std::string;
 using std::cout;
 using std::cin;
 using std::endl;
 using std::ios;
+
+extern std::shared_ptr<PACMAN::GENERATOR::GeneratorMain> generator_main;
 
 namespace PACMAN {
     namespace GENERATOR {
@@ -34,7 +36,7 @@ namespace PACMAN {
  *
  * Note that each state file name is just a number >= 1
  */
-int find_previous_state(const string STATE_DIR) {
+int GeneratorMain::find_previous_state() {
     DIR* dir = opendir(STATE_DIR.c_str());
 
     if (!dir) {
@@ -59,25 +61,48 @@ int find_previous_state(const string STATE_DIR) {
     return max_number;
 }
 
-string get_state_path(const string STATE_DIR, int number) {
+string GeneratorMain::get_state_path(int number) {
     return STATE_DIR + "/" + to_string(number);
 }
 
-void run_generate(const string STATE_DIR) {
-    std::shared_ptr<GeneratorRun> run;
+void GeneratorMain::signal_callback(int signum) {
+    generator_main->stop();
+
+    exit(signum);
+}
+
+void GeneratorMain::stop() {
+    if (generator) {
+        cout << "Stopping generator" << endl;
+        std::ofstream out(get_state_path(previous_state_number + 1), ios::out | ios::binary);
+        generator->stop(out);
+        out.close();
+        cout << "Stopped" << endl;
+    }
+}
+
+GeneratorMain::GeneratorMain(const string STATE_DIR)
+:   STATE_DIR(STATE_DIR)
+{
+}
+
+void GeneratorMain::run() {
+    signal(SIGTERM, GeneratorMain::signal_callback);
+    signal(SIGINT, signal_callback);  // C-c interrupt
+
     mkdir(STATE_DIR.c_str(), 0755);
 
-    int previous_state_number = find_previous_state(STATE_DIR);
+    previous_state_number = find_previous_state();
     if (previous_state_number > 0) {
         cout << "Loading save state " << previous_state_number << endl;
-        std::ifstream in(get_state_path(STATE_DIR, previous_state_number), ios::in | ios::binary);
-        run.reset(new GeneratorRun(in));
+        std::ifstream in(get_state_path(previous_state_number), ios::in | ios::binary);
+        generator.reset(new GeneratorRun(in));
     }
     else {
         cout << "No save state found, starting new run" << endl;
-        run.reset(new GeneratorRun);
+        generator.reset(new GeneratorRun);
     }
-    run->start();
+    generator->start();
 
     bool quit = false;
     while (!quit) {
@@ -87,8 +112,8 @@ void run_generate(const string STATE_DIR) {
             quit = true;
 
             cout << "Stopping generator" << endl;
-            std::ofstream out(get_state_path(STATE_DIR, previous_state_number + 1), ios::out | ios::binary);
-            run->stop(out);
+            std::ofstream out(get_state_path(previous_state_number + 1), ios::out | ios::binary);
+            generator->stop(out);
             out.close();
             cout << "Stopped" << endl;
         }

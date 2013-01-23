@@ -12,13 +12,28 @@
 
 #include "ChoiceTree.h"
 #include "../util/assertion.h"
-#include <thread>
+#include "GeneratorRun.h"
 
 namespace PACMAN {
 
     namespace GENERATOR {
 
-        void run_generate(const std::string STATE_DIR);
+        class GeneratorMain {
+        public:
+            GeneratorMain(const std::string STATE_DIR);
+            void run();
+
+        private:
+            static void signal_callback(int signum);
+            int find_previous_state();
+            std::string get_state_path(int number);
+            void stop();
+
+        private:
+            std::shared_ptr<GeneratorRun> generator;
+            const std::string STATE_DIR;
+            int previous_state_number;
+        };
 
     }
 }

@@ -20,6 +20,7 @@
 #include "Log.h"
 #include "util/assertion.h"
 #include "tests/Tests.h"
+
 #include <sstream>
 
 #include "Constants.h"
@@ -27,11 +28,14 @@
 using namespace PACMAN;
 using namespace MODEL;
 using TEST::test;
+using GENERATOR::GeneratorMain;
 
 using std::string;
 using std::cout;
 using std::endl;
 using std::vector;
+
+std::shared_ptr<GeneratorMain> generator_main;
 
 int main(int argc, char** argv) {
     std::string str="";
@@ -66,7 +70,8 @@ int main(int argc, char** argv) {
                     return 1;
                 }
 
-                GENERATOR::run_generate(string(argv[2]));
+                generator_main.reset(new GeneratorMain(string(argv[2])));
+                generator_main->run();
                 return 0;
             }
             else if (str == "--show-pacman-nodes") {
