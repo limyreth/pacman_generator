@@ -62,22 +62,18 @@ int GeneratorMain::find_previous_state() {
 }
 
 string GeneratorMain::get_state_path(int number) {
+    ASSERT(number > 0);
     return STATE_DIR + "/" + to_string(number);
 }
 
 void GeneratorMain::signal_callback(int signum) {
     generator_main->stop();
-
-    exit(signum);
 }
 
 void GeneratorMain::stop() {
     if (generator) {
         cout << "Stopping generator" << endl;
-        std::ofstream out(get_state_path(previous_state_number + 1), ios::out | ios::binary);
-        generator->stop(out);
-        out.close();
-        cout << "Stopped" << endl;
+        generator->stop();
     }
 }
 
@@ -102,25 +98,11 @@ void GeneratorMain::run() {
         cout << "No save state found, starting new run" << endl;
         generator.reset(new GeneratorRun);
     }
-    generator->start();
 
-    bool quit = false;
-    while (!quit) {
-        string input;
-        cin >> input;
-        if (input == "quit" || input == "q") {
-            quit = true;
-
-            cout << "Stopping generator" << endl;
-            std::ofstream out(get_state_path(previous_state_number + 1), ios::out | ios::binary);
-            generator->stop(out);
-            out.close();
-            cout << "Stopped" << endl;
-        }
-        else {
-            cout << "Que?" << endl;
-        }
-    }
+    std::ofstream out(get_state_path(previous_state_number + 1), ios::out | ios::binary);
+    generator->join(out);
+    out.close();
+    cout << "Stopped" << endl;
 }
 
 }}

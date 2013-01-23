@@ -23,8 +23,8 @@ namespace PACMAN {
         public:
             GeneratorRun();
             GeneratorRun(std::istream& in);
-            void start();
-            void stop(std::ostream& out);
+            void stop();
+            void join(std::ostream& out);
             bool operator==(const GeneratorRun&) const;
 
         private:

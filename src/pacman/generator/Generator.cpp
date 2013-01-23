@@ -56,20 +56,15 @@ Generator::Generator(std::istream& in, ChoiceTree& tree)
     }
 }
 
-void Generator::start() {
+void Generator::run() {
     INVARIANTS_ON_EXIT;
-    REQUIRE(thread.get_id() == std::thread::id()); // Not already running; current thread invalid
     if (!search_complete) {
-        thread = std::thread(&Generator::minimax, this);
+        minimax();
     }
 }
 
 void Generator::stop() {
     should_stop = true;
-}
-
-void Generator::join() {
-    thread.join();
 }
 
 int Generator::get_best_score() const {

@@ -31,13 +31,12 @@ GeneratorRun::GeneratorRun(std::istream& in)
     }
 }
 
-void GeneratorRun::start() {
-    generator.start();
+void GeneratorRun::stop() {
+    generator.stop();
 }
 
-void GeneratorRun::stop(std::ostream& out) {
-    generator.stop();
-    generator.join();
+void GeneratorRun::join(std::ostream& out) {
+    generator.run();
 
     choice_tree.save(out);
     generator.save(out);

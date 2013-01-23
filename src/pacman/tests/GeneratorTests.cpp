@@ -20,7 +20,7 @@
 
 #include "../util/assertion.h"
 
-#include <sstream>
+#include <thread>
 
 using std::cout;
 using std::endl;
@@ -42,8 +42,7 @@ void GeneratorTests::test_1() {
     GENERATOR::PacmanGameTree game_tree;
     GENERATOR::ChoiceTree choice_tree(game_tree, max_choices);
     GENERATOR::Generator generator(choice_tree);
-    generator.start();
-    generator.join();
+    generator.run();
 }
 
 void GeneratorTests::test_save_load() {
@@ -73,21 +72,31 @@ void GeneratorTests::test_save_load() {
 }
 
 void GeneratorTests::test_save_load_of_running_instance() {
+    SaveLoadRunningGeneratorTest test;
+    test.test();
+}
+
+void SaveLoadRunningGeneratorTest::thread_callback() {
+    run->join(str);
+}
+
+void SaveLoadRunningGeneratorTest::test() {
     std::chrono::milliseconds duration(50);
-    shared_ptr<GeneratorRun> run(new GeneratorRun);
+    run.reset(new GeneratorRun);
 
     for (int i=0; i < 5; ++i) {
         cout << i << endl;
-        run->start();
+
+        std::thread thread(&SaveLoadRunningGeneratorTest::thread_callback, this);
 
         if (i > 0) {
             std::this_thread::sleep_for(duration);
         }
 
-        stringstream str;
-        run->stop(str);
+        run->stop();
+        thread.join();
 
-        shared_ptr<GeneratorRun> loaded_run(new GeneratorRun(str));
+        std::shared_ptr<GeneratorRun> loaded_run(new GeneratorRun(str));
         ASSERT(*loaded_run == *run);
         run = loaded_run;
     }

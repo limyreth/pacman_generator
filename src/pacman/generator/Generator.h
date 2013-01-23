@@ -12,7 +12,6 @@
 
 #include "ChoiceTree.h"
 #include "../util/assertion.h"
-#include <thread>
 
 namespace PACMAN {
 
@@ -38,14 +37,8 @@ namespace PACMAN {
             int get_best_score() const;
             const std::vector<MODEL::Action>& get_best_path() const;
 
-            // start asynchronously
-            void start(); 
-
-            // tell thread to stop
-            void stop(); 
-
-            // wait for generator thread to stop/finish
-            void join();
+            void run(); 
+            void stop(); // you can call this from another thread to stop a run
 
         protected:
             void invariants() const;
@@ -63,7 +56,6 @@ namespace PACMAN {
 
         private:
             bool should_stop;
-            std::thread thread;
 
             ChoiceTree& choice_tree;
             std::vector<std::vector<MODEL::Action>> paths;
