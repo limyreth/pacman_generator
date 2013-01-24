@@ -1,0 +1,12 @@
+[Unit]
+Description=Pacman perfect play generator
+
+[Service]
+User=PICK_A_USER
+Nice=19
+Type=simple
+ExecStart=/YOUR_PATH/pacman_sdl --generate /ANOTHER_PATH_OF_YOUR_CHOICE/pacman_generator
+ExecStop=/bin/kill $MAINPID
+
+[Install]
+WantedBy=multi-user.target
