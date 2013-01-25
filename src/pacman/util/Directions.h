@@ -12,6 +12,8 @@
 
 #include "Point.h"
 
+namespace PACMAN {
+
 namespace Direction {
     enum Type : int {
         ANY = -1,
@@ -29,3 +31,5 @@ static FPoint DIRECTIONS[] = {
     FPoint(0.0, 1.0),
     FPoint(-1.0, 0.0)
 };
+
+}

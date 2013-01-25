@@ -15,6 +15,8 @@
 #include <iostream>
 #include <cmath>
 
+namespace PACMAN {
+
 template <typename T>
 class Point
 {
@@ -108,3 +110,5 @@ std::ostream& operator<< (std::ostream& out, Point<T> p) {
 
 typedef Point<int> IPoint;
 typedef Point<double> FPoint;
+
+}
