@@ -14,6 +14,21 @@
 #include "Point.h"
 
 namespace PACMAN {
+
+    namespace MODEL {
+        // pixel size of a tile, is best kept as a multiple of 8
+        extern const int TILE_SIZE;
+
+        // player indices
+        extern const int PLAYER_PACMAN;
+
+        // ghost indices (+1 to convert to player index)
+        extern const int GHOST_BLINKY;
+        extern const int GHOST_PINKY;
+        extern const int GHOST_INKY;
+        extern const int GHOST_CLYDE;
+    }
+
     namespace SPECIFICATION {
         // ticks per second
         extern const int TICK_RATE;
@@ -47,13 +62,11 @@ namespace PACMAN {
         // path to skin images
         extern const std::string SKINS_PATH;
     }
+
 }
 
 
 // note: namespaces have no effect on defines, because preprocessor doesn't understand C++
-
-// pixel size of a tile, is best kept as a multiple of 8
-extern const int TILE_SIZE;
 
 // map sizes in tiles
 #define MAP_WIDTH 28
@@ -66,13 +79,4 @@ extern const int TILE_SIZE;
 
 #define GHOST_COUNT 4
 #define PLAYER_COUNT (GHOST_COUNT + 1)
-
-// player indices
-extern const int PLAYER_PACMAN;
-
-// ghost indices (+1 to convert to player index)
-extern const int GHOST_BLINKY;
-extern const int GHOST_PINKY;
-extern const int GHOST_INKY;
-extern const int GHOST_CLYDE;
 

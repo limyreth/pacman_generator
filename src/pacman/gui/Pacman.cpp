@@ -16,6 +16,8 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
+using ::PACMAN::MODEL::TILE_SIZE;
+
 namespace PACMAN {
     namespace GUI {
 

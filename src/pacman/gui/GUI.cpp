@@ -31,6 +31,7 @@
 #define PAC 1
 
 using namespace ::PACMAN::SPECIFICATION;
+using ::PACMAN::MODEL::TILE_SIZE;
 
 namespace PACMAN {
     namespace GUI {

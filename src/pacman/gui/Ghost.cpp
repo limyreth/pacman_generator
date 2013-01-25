@@ -17,6 +17,7 @@
 #include <SDL/SDL_image.h>
 
 using ::PACMAN::MODEL::GhostState;
+using ::PACMAN::MODEL::TILE_SIZE;
 
 namespace PACMAN {
     namespace GUI {
