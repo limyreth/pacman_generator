@@ -42,3 +42,7 @@ namespace PACMAN {
 
 const int TILE_SIZE = 20;
 const int PLAYER_PACMAN = 0;
+const int GHOST_BLINKY = 0;
+const int GHOST_PINKY = 1;
+const int GHOST_INKY = 2;
+const int GHOST_CLYDE = 3;

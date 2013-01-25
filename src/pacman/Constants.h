@@ -71,7 +71,8 @@ extern const int TILE_SIZE;
 extern const int PLAYER_PACMAN;
 
 // ghost indices (+1 to convert to player index)
-#define GHOST_BLINKY 0
-#define GHOST_PINKY 1
-#define GHOST_INKY 2
-#define GHOST_CLYDE 3
+extern const int GHOST_BLINKY;
+extern const int GHOST_PINKY;
+extern const int GHOST_INKY;
+extern const int GHOST_CLYDE;
+
