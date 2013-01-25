@@ -21,7 +21,12 @@ namespace PACMAN {
 
         class Node;
 
-        // these are choice nodes for pacman/ghosts
+        /*
+         * Collection of nodes for path finding
+         *
+         * Contract towards derived class:
+         * - after derived class' ctor: INVARIANT(left_tunnel_node && right_tunnel_node)
+         */
         class Nodes
         {
         public:
@@ -29,7 +34,7 @@ namespace PACMAN {
             virtual ~Nodes();
 
             virtual void draw(std::shared_ptr<SDL_Surface> buffer) const = 0;
-            bool is_tunnel_node(const Node&) const;
+            bool are_connected_through_wrapping(const Node& a, const Node& b) const;
 
         protected:
             std::vector<Node*> nodes;
@@ -47,8 +52,8 @@ namespace PACMAN {
             double get_branching_factor(const std::vector<Node*>& nodes) const;
 
         protected:
-            Node* left_tunnel_node;
-            Node* right_tunnel_node;
+            const Node* left_tunnel_node;
+            const Node* right_tunnel_node;
         };
 
     }

@@ -264,8 +264,14 @@ void Nodes::eliminate(int x, int y) {
     delete node;
 }
 
-bool Nodes::is_tunnel_node(const Node& node) const {
-    return &node == left_tunnel_node || &node == right_tunnel_node;
+/*
+ * Whether travelling between a and b requires wrapping the screen
+ */
+bool Nodes::are_connected_through_wrapping(const Node& a, const Node& b) const {
+    // requires of internal contract with derived class
+    REQUIRE(left_tunnel_node);
+    REQUIRE(right_tunnel_node);
+    return (&a == left_tunnel_node && &b == right_tunnel_node) || (&a == right_tunnel_node && &b == left_tunnel_node);
 }
 
 }}

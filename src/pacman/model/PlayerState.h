@@ -57,7 +57,6 @@ namespace PACMAN {
         private:
             Action get_reverse_action() const;
             bool has_reached_destination() const;
-            bool needs_invert(const Node& from, const Node& to) const;
 
         private:
             FPoint pos;  // current position in pixels

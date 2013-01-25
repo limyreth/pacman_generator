@@ -53,7 +53,7 @@ double PlayerState::move(double distance_moved, int player_index) {
     double movement_excess = distance_moved - direction.length();
 
     // move towards destination
-    if (needs_invert(*origin, *destination)) {
+    if (get_nodes().are_connected_through_wrapping(*origin, *destination)) {
         direction = origin->get_location() - destination->get_location();
     }
     direction.normalise();
@@ -148,7 +148,7 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
         auto neighbour = destination->get_neighbours()[i];
         auto dir = neighbour->get_location() - destination->get_location();
         dir.normalise();
-        if (needs_invert(*destination, *neighbour)) {
+        if (get_nodes().are_connected_through_wrapping(*destination, *neighbour)) {
             dir = -dir;
         }
 
@@ -190,14 +190,6 @@ const FPoint& PlayerState::get_pos() const {
 void PlayerState::reverse() {
     std::swap(origin, destination);
 }
-
-/*
- * Returns true if (to - from) needs to become (from - to) to actually go the right direction
- */
-bool PlayerState::needs_invert(const Node& from, const Node& to) const {
-    return get_nodes().is_tunnel_node(from) && get_nodes().is_tunnel_node(to);
-}
-
 
 
 // Note: reversing direction between intersections is a legal action and a
