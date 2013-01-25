@@ -45,7 +45,6 @@ Test::Test(int player_index)
  */
 int Test::move(Direction::Type direction) {
     int steps = 0;
-    vector<Action> actions(PLAYER_COUNT, 0);
 
     GameState original = game.get_state();
 
