@@ -13,7 +13,6 @@
 #include "../Constants.h"
 #include "../specification/Walls.h"
 #include "../util/assertion.h"
-#include "../util/serialization.h"
 #include "../util/util.h"
 
 #include <SDL/SDL.h>

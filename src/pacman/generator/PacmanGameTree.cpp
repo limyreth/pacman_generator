@@ -12,7 +12,6 @@
 
 #include "ChoiceNode.h"
 #include "../Constants.h"
-#include "../util/serialization.h"
 
 #include <boost/scope_exit.hpp>
 

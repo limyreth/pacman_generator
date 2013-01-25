@@ -8,7 +8,6 @@
  ***************************************************************************/
 
 #include "IntermediateGameState.h"
-#include "../util/serialization.h"
 #include "../util/assertion.h"
 #include "../model/PacmanNodes.h"
 #include "../model/GhostNodes.h"

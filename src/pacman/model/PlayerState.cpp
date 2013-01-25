@@ -15,7 +15,6 @@
 #include "PacmanNodes.h"
 #include "../Constants.h"
 #include "../util/assertion.h"
-#include "../util/serialization.h"
 #include <cmath>
 
 using std::min;

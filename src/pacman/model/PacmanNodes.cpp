@@ -12,7 +12,6 @@
 #include "Node.h"
 #include "../Constants.h"
 #include "../specification/Walls.h"
-#include "../util/serialization.h"
 #include "../util/util.h"
 
 using std::vector;
