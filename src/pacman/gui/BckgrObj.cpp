@@ -9,10 +9,11 @@
 
 
 #include "BckgrObj.h"
-#include "../Error.h"
 #include "Draw.h"
-#include "../Log.h"
-#include "../Utility.h"
+#include "../util/error.h"
+#include "../util/util.h"
+#include "../util/Log.h"
+
 #include <SDL/SDL_image.h>
 
 using namespace ::PACMAN::SPECIFICATION;

@@ -9,7 +9,7 @@
 
 
 #include "GeneratorRun.h"
-#include "../Error.h"
+#include "../util/error.h"
 
 namespace PACMAN {
     namespace GENERATOR {

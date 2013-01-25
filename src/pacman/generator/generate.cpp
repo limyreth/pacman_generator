@@ -9,8 +9,8 @@
 
 
 #include "generate.h"
-#include "../Error.h"
-#include "../Utility.h"
+#include "../util/error.h"
+#include "../util/util.h"
 
 #include <fstream>
 #include <sstream>

@@ -11,10 +11,11 @@
 #pragma once
 
 #include "Point.h"
-#include "Constants.h"
-#include "model/Action.h"
+#include "assertion.h"
+#include "../Constants.h"
+#include "../model/Action.h"
+
 #include <sstream>
-#include "util/assertion.h"
 
 namespace PACMAN {
 

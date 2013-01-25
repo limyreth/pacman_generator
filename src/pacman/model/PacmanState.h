@@ -11,7 +11,7 @@
 #pragma once
 
 #include "PlayerState.h"
-#include "../Point.h"
+#include "../util/Point.h"
 
 namespace PACMAN {
     namespace MODEL {

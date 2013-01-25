@@ -9,8 +9,9 @@
 
 
 #include "Log.h"
-#include "Error.h"
-#include "util/assertion.h"
+#include "error.h"
+#include "assertion.h"
+
 #include <fstream>
 
 #define WNDTITLE	"pacman_sdl (" __DATE__ ", " __TIME__ ")"

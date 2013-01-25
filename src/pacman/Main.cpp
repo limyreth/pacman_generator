@@ -17,7 +17,7 @@
 #include "model/Game.h"
 #include "generator/generate.h"
 #include "gui/GUI.h"
-#include "Log.h"
+#include "util/Log.h"
 #include "util/assertion.h"
 #include "tests/Tests.h"
 

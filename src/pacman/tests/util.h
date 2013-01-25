@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "../Utility.h"
+#include "../util/util.h"
 
 #include <sstream>
 #include <boost/assert.hpp>

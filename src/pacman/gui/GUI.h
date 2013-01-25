@@ -10,10 +10,10 @@
 
 #pragma once
 
+#include "../util/Directions.h"
+
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
-
-#include "../Directions.h"
 
 #include <boost/shared_ptr.hpp>
 using boost::shared_ptr;

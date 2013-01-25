@@ -16,7 +16,7 @@
 #include "util.h"
 
 #include "../model/GameState.h"
-#include "../Point.h"
+#include "../util/Point.h"
 #include "../Constants.h"
 
 #include <boost/assert.hpp>

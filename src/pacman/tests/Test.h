@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "../Directions.h"
+#include "../util/Directions.h"
 #include "../model/Game.h"
 #include "../model/Action.h"
 #include "../gui/NullUIHints.h"

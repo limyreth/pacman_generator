@@ -10,10 +10,10 @@
 
 #include "GhostNodes.h"
 #include "Node.h"
-#include "../Utility.h"
 #include "../Constants.h"
 #include "../specification/Walls.h"
 #include "../util/serialization.h"
+#include "../util/util.h"
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_gfxPrimitives.h>

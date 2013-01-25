@@ -10,9 +10,9 @@
 
 #pragma once
 
-#include "../Point.h"
 #include "Action.h"
-#include "../Directions.h"
+#include "../util/Directions.h"
+#include "../util/Point.h"
 
 namespace PACMAN {
     namespace MODEL {

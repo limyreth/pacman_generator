@@ -10,9 +10,10 @@
 
 #pragma once
 
+#include "assertion.h"
+
 #include <iostream>
 #include <cmath>
-#include "util/assertion.h"
 
 template <typename T>
 class Point

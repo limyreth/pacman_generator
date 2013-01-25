@@ -10,7 +10,7 @@
 
 #include "PacmanState.h"
 #include "PacmanNodes.h"
-#include "../Utility.h"
+#include "../util/util.h"
 #include "../specification/Walls.h"
 
 using ::PACMAN::SPECIFICATION::walls;

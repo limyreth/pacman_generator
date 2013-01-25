@@ -13,7 +13,7 @@
 #include "util.h"
 
 #include "../model/IntermediateGameState.h"
-#include "../Point.h"
+#include "../util/Point.h"
 #include "../Constants.h"
 
 using namespace ::PACMAN::MODEL;

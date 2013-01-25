@@ -9,10 +9,11 @@
 
 
 #include "Ghost.h"
-#include "../Log.h"
-#include "../model/GhostState.h"
-#include "../Error.h"
 #include "Draw.h"
+#include "../model/GhostState.h"
+#include "../util/error.h"
+#include "../util/Log.h"
+
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 

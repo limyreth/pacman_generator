@@ -11,7 +11,7 @@
 #include "GhostState.h"
 #include "GhostNodes.h"
 #include "Node.h"
-#include "../Utility.h"
+#include "../util/util.h"
 #include "../util/serialization.h"
 
 #include <boost/scope_exit.hpp>

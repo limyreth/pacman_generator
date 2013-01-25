@@ -9,8 +9,9 @@
 
 
 #include "DefaultSounds.h"
-#include "../Error.h"
-#include "../Log.h"
+#include "../util/error.h"
+#include "../util/Log.h"
+
 #include <SDL/SDL_mixer.h>
 
 using std::string;

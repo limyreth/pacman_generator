@@ -10,8 +10,9 @@
 
 #pragma once
 
+#include "util/Point.h"
+
 #include <string>
-#include "Point.h"
 
 namespace PACMAN {
 

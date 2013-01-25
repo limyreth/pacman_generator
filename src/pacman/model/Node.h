@@ -10,11 +10,11 @@
 
 #pragma once
 
+#include "../util/Point.h"
+
 #include <vector>
-#include "../Point.h"
 
 #include <boost/shared_ptr.hpp>
-
 using boost::shared_ptr;
 
 namespace PACMAN {
