@@ -31,13 +31,12 @@ PlayerState::PlayerState()
 {
 }
 
-PlayerState::PlayerState(const Node* initial_node) 
-:   pos(initial_node->get_location()), 
+PlayerState::PlayerState(const Node& initial_node) 
+:   pos(initial_node.get_location()), 
     origin(NULL),
-    destination(initial_node)
+    destination(&initial_node)
 {
     INVARIANTS_ON_EXIT;
-    REQUIRE(initial_node);
 }
 
 /*
@@ -55,7 +54,7 @@ double PlayerState::move(double distance_moved, int player_index) {
     double movement_excess = distance_moved - direction.length();
 
     // move towards destination
-    if (needs_invert(origin, destination)) {
+    if (needs_invert(*origin, *destination)) {
         direction = origin->get_location() - destination->get_location();
     }
     direction.normalise();
@@ -150,7 +149,7 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
         auto neighbour = destination->get_neighbours()[i];
         auto dir = neighbour->get_location() - destination->get_location();
         dir.normalise();
-        if (needs_invert(destination, neighbour)) {
+        if (needs_invert(*destination, *neighbour)) {
             dir = -dir;
         }
 
@@ -196,7 +195,7 @@ void PlayerState::reverse() {
 /*
  * Returns true if (to - from) needs to become (from - to) to actually go the right direction
  */
-bool PlayerState::needs_invert(const Node* from, const Node* to) const {
+bool PlayerState::needs_invert(const Node& from, const Node& to) const {
     return get_nodes().is_tunnel_node(from) && get_nodes().is_tunnel_node(to);
 }
 

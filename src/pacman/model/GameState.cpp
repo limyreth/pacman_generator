@@ -96,7 +96,7 @@ GameState::GameState()
 /**
  * Start new game
  */
-GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns)
+GameState::GameState(const Node& pacman_spawn, const vector<Node*> ghost_spawns)
 :   food_count(MAX_FOOD_COUNT),
     score(0),
     lives(1),
@@ -109,14 +109,13 @@ GameState::GameState(const Node* pacman_spawn, const vector<Node*> ghost_spawns)
     triggered_fruit_spawn(false)
 {
     INVARIANTS_ON_EXIT;
-    REQUIRE(pacman_spawn);
 
     memcpy(foods, start_foods, sizeof(start_foods));
 
     pacman = PacmanState(pacman_spawn);
 
     for (int i=0; i<GHOST_COUNT; ++i) {
-        ghosts[i] = GhostState(ghost_spawns.at(i));
+        ghosts[i] = GhostState(*ghost_spawns.at(i));
     }
 
     ghosts[GHOST_BLINKY].leave_pen();

@@ -20,7 +20,7 @@ namespace PACMAN {
         {
         public:
             PacmanState();
-            PacmanState(const Node* initial_node);
+            PacmanState(const Node& initial_node);
 
             virtual IPoint get_tile_pos() const;
             bool operator==(const PacmanState&) const;

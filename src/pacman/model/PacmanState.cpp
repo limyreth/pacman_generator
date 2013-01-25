@@ -22,7 +22,7 @@ PacmanState::PacmanState()
 {
 }
 
-PacmanState::PacmanState(const Node* initial_node)
+PacmanState::PacmanState(const Node& initial_node)
 :   PlayerState(initial_node)
 {
 }

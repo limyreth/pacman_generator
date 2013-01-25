@@ -24,7 +24,7 @@ namespace PACMAN {
         {
         public:
             PlayerState();
-            PlayerState(const Node* initial_node);
+            PlayerState(const Node& initial_node);
             virtual double move(double distance, int player_index);
             virtual void act(Action action);
             virtual IPoint get_tile_pos() const;
@@ -57,7 +57,7 @@ namespace PACMAN {
         private:
             Action get_reverse_action() const;
             bool has_reached_destination() const;
-            bool needs_invert(const Node* from, const Node* to) const;
+            bool needs_invert(const Node& from, const Node& to) const;
 
         private:
             FPoint pos;  // current position in pixels

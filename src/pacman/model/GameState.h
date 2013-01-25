@@ -38,7 +38,7 @@ namespace PACMAN {
             GameState();
 
             // create new game
-            GameState(const Node* pacman_spawn, const std::vector<Node*> ghost_spawns);
+            GameState(const Node& pacman_spawn, const std::vector<Node*> ghost_spawns);
 
             /*
              * To create successor of state: Copy the predecessor and call these in order.

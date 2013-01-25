@@ -137,26 +137,24 @@ void Nodes::draw(shared_ptr<SDL_Surface> screen, const std::vector<Node*>& nodes
         if (!node)
             continue;
 
-        draw(screen, node, node_color, edge_color);
+        draw(screen, *node, node_color, edge_color);
     }
 }
 
-void Nodes::draw(shared_ptr<SDL_Surface> screen, const Node* node, uint32_t node_color, uint32_t edge_color) const {
-    REQUIRE(node);
-
-    for (auto neighbour : node->neighbours) {
-        int retval = lineColor(screen.get(), (int)node->location.x, (int)node->location.y, (int)neighbour->location.x, (int)neighbour->location.y, edge_color);
+void Nodes::draw(shared_ptr<SDL_Surface> screen, const Node& node, uint32_t node_color, uint32_t edge_color) const {
+    for (auto neighbour : node.neighbours) {
+        int retval = lineColor(screen.get(), (int)node.location.x, (int)node.location.y, (int)neighbour->location.x, (int)neighbour->location.y, edge_color);
         ASSERT(retval == 0);
     }
 
     draw(screen, node, node_color);
 }
 
-void Nodes::draw(shared_ptr<SDL_Surface> screen, const Node* node, uint32_t node_color) const {
+void Nodes::draw(shared_ptr<SDL_Surface> screen, const Node& node, uint32_t node_color) const {
     SDL_Rect r;
     r.w = r.h = 5;
-    r.x = (int)node->location.x - 2;
-    r.y = (int)node->location.y - 2;
+    r.x = (int)node.location.x - 2;
+    r.y = (int)node.location.y - 2;
     SDL_FillRect(screen.get(), &r, node_color);
 }
 
@@ -265,8 +263,8 @@ void Nodes::eliminate(int x, int y) {
     delete node;
 }
 
-bool Nodes::is_tunnel_node(const Node* node) const {
-    return node == left_tunnel_node || node == right_tunnel_node;
+bool Nodes::is_tunnel_node(const Node& node) const {
+    return &node == left_tunnel_node || &node == right_tunnel_node;
 }
 
 }}

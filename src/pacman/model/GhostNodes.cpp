@@ -83,14 +83,14 @@ void GhostNodes::add_respawn_paths() {
         const Node* node = (*it).second;
         fringe.erase(it);
 
-        if (cost > get_cost(node)) {
+        if (cost > get_cost(*node)) {
             continue;  // node's closed; we already expanded it
         }
 
         for (const auto neighbour : node->get_neighbours()) {
             double neighbour_cost = cost + (neighbour->get_location() - node->get_location()).length();
 
-            if (neighbour_cost < get_cost(neighbour)) {
+            if (neighbour_cost < get_cost(*neighbour)) {
                 // found a better path to this neighbour
                 min_costs[neighbour] = neighbour_cost;
                 towards_spawn[neighbour] = node;
@@ -142,9 +142,8 @@ void GhostNodes::draw_respawn_paths(shared_ptr<SDL_Surface> screen) const {
     }
 }
 
-double GhostNodes::get_cost(const Node* node) const {
-    REQUIRE(node);
-    auto current_min_cost = min_costs.find(node);
+double GhostNodes::get_cost(const Node& node) const {
+    auto current_min_cost = min_costs.find(&node);
     if (current_min_cost == min_costs.end()) {
         return std::numeric_limits<double>::infinity();
     }
@@ -153,9 +152,8 @@ double GhostNodes::get_cost(const Node* node) const {
     }
 }
 
-const Node* GhostNodes::get_node_towards_spawn(const Node* origin) const {
-    ASSERT(origin);
-    return towards_spawn.at(origin);
+const Node& GhostNodes::get_node_towards_spawn(const Node& origin) const {
+    return *towards_spawn.at(&origin);
 }
 
 const std::vector<Node*> GhostNodes::get_respawns() const {

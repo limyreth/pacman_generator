@@ -30,7 +30,7 @@ namespace PACMAN {
             virtual ~Nodes();
 
             virtual void draw(shared_ptr<SDL_Surface> buffer) const = 0;
-            bool is_tunnel_node(const Node*) const;
+            bool is_tunnel_node(const Node&) const;
 
         protected:
             std::vector<Node*> nodes;
@@ -39,8 +39,8 @@ namespace PACMAN {
             void eliminate_redundant_nodes();
 
             void draw(shared_ptr<SDL_Surface> screen, const std::vector<Node*>& nodes, uint32_t node_color, uint32_t edge_color) const;
-            void draw(shared_ptr<SDL_Surface> screen, const Node* node, uint32_t node_color, uint32_t edge_color) const;
-            void draw(shared_ptr<SDL_Surface> screen, const Node* node, uint32_t node_color) const;
+            void draw(shared_ptr<SDL_Surface> screen, const Node& node, uint32_t node_color, uint32_t edge_color) const;
+            void draw(shared_ptr<SDL_Surface> screen, const Node& node, uint32_t node_color) const;
 
             void ensure_valid(const std::vector<Node*>& nodes, const std::vector<Node*>& all_nodes) const;
             void ensure_valid(const Node* node, const std::vector<Node*>& all_nodes) const;

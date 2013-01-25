@@ -25,7 +25,7 @@ GhostState::GhostState()
 {
 }
 
-GhostState::GhostState(const Node* initial_node)
+GhostState::GhostState(const Node& initial_node)
 :   PlayerState(initial_node), 
     state(WAITING)
 {
@@ -69,7 +69,7 @@ double GhostState::move(double distance, int player_index) {
                 destination = respawn_node;
             }
             else {
-                destination = GHOST_NODES.get_node_towards_spawn(destination);
+                destination = &GHOST_NODES.get_node_towards_spawn(*destination);
             }
             return retval = move(movement_excess, player_index);
         }
@@ -86,8 +86,8 @@ void GhostState::die() {
 
     // initial path finding to respawn point: which way is shortest, through origin or destination?
     ASSERT(origin);
-    double origin_cost = (get_pos() - origin->get_location()).length() + GHOST_NODES.get_cost(origin);
-    double destination_cost = (get_pos() - destination->get_location()).length() + GHOST_NODES.get_cost(destination);
+    double origin_cost = (get_pos() - origin->get_location()).length() + GHOST_NODES.get_cost(*origin);
+    double destination_cost = (get_pos() - destination->get_location()).length() + GHOST_NODES.get_cost(*destination);
     if (origin_cost < destination_cost) {
         std::swap(destination, origin);
     }

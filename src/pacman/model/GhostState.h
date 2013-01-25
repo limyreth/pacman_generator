@@ -27,7 +27,7 @@ namespace PACMAN {
 
         public:
             GhostState();
-            GhostState(const Node* initial_node);
+            GhostState(const Node& initial_node);
 
             double move(double distance, int player_index);
             void act(Action action);

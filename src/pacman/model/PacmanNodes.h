@@ -22,9 +22,7 @@ namespace PACMAN {
             PacmanNodes();
             ~PacmanNodes();
 
-            const Node* get_spawn() const {
-                return spawn;
-            }
+            const Node& get_spawn() const;
 
             void draw(shared_ptr<SDL_Surface> buffer) const;
 
