@@ -19,8 +19,6 @@
 using namespace ::PACMAN::MODEL;
 using namespace ::PACMAN::SPECIFICATION;
 
-using ::PACMAN::GUI::NullUIHints;
-
 using std::cout;
 using std::endl;
 using std::vector;

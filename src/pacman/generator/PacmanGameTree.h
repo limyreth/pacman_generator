@@ -13,7 +13,7 @@
 #include "GameTree.h"
 #include "../model/Action.h"
 #include "../model/IntermediateGameState.h"
-#include "../gui/NullUIHints.h"
+#include "../model/NullUIHints.h"
 #include "../util/assertion.h"
 
 namespace PACMAN {
@@ -44,7 +44,7 @@ namespace PACMAN {
 
         private:
             std::vector<MODEL::IntermediateGameState> states;
-            GUI::NullUIHints uihints;
+            MODEL::NullUIHints uihints;
             unsigned int max_depth;
             bool initialised;
         };

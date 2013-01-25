@@ -13,7 +13,7 @@
 #include "../model/UIHints.h"
 
 namespace PACMAN {
-    namespace GUI {
+    namespace MODEL {
 
         class NullUIHints : public MODEL::UIHints
         {

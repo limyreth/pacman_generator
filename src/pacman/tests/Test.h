@@ -13,7 +13,7 @@
 #include "../util/Directions.h"
 #include "../model/Game.h"
 #include "../model/Action.h"
-#include "../gui/NullUIHints.h"
+#include "../model/NullUIHints.h"
 
 namespace PACMAN {
     namespace MODEL {
@@ -35,7 +35,7 @@ namespace PACMAN {
         private:
             int player_index;
             MODEL::Game game;
-            GUI::NullUIHints uihints;
+            MODEL::NullUIHints uihints;
         };
 
     }
