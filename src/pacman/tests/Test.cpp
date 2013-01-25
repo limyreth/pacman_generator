@@ -10,8 +10,6 @@
 
 #include "Test.h"
 
-#include "util.h"
-
 #include "../model/IntermediateGameState.h"
 #include "../util/Point.h"
 #include "../Constants.h"
@@ -48,15 +46,12 @@ int Test::move(Direction::Type direction) {
 
     auto current = game.get_state();
     while (original.get_player(player_index).get_tile_pos() == current.get_player(player_index).get_tile_pos()) {
-        assert_equals(current.food_count, original.food_count);
-        assert_equals(current.lives, original.lives);
-        assert_equals(current.score, original.score);
+        ASSERT(current.food_count == original.food_count);
+        ASSERT(current.lives == original.lives);
+        ASSERT(current.score == original.score);
 
         for (int i=0; i < GHOST_COUNT; ++i) {
-            assert_equals(
-                ((GhostState&)current.get_player(i+1)).state,
-                ((GhostState&)original.get_player(i+1)).state
-            );
+            ASSERT( ((GhostState&)current.get_player(i+1)).state == ((GhostState&)original.get_player(i+1)).state );
         }
 
         if (game.act(direction, uihints)) {

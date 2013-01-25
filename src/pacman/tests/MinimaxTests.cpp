@@ -9,12 +9,10 @@
 
 
 #include "MinimaxTests.h"
-
-#include "util.h"
-
 #include "ChoiceTree.h"
 #include "GameTree.h"
 #include "../generator/Generator.h"
+#include "../util/assertion.h"
 
 using std::cout;
 using std::endl;
@@ -447,8 +445,8 @@ void MinimaxTests::test_1() {
     GENERATOR::Generator generator(choice_tree);
     int best_score;
     generator.run();
-    assert_equals(generator.get_best_score(), 11);
-    assert_equals(game_tree.get_children_visited(), 36);  // if more is pruned, could be nice, but that's suspicious
+    ASSERT(generator.get_best_score() == 11);
+    ASSERT(game_tree.get_children_visited() == 36);  // if more is pruned, could be nice, but that's suspicious
 }
 
 }}

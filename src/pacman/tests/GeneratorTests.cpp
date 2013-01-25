@@ -10,8 +10,6 @@
 
 #include "GeneratorTests.h"
 
-#include "util.h"
-
 #include "../generator/GeneratorRun.h"
 #include "../generator/Generator.h"
 #include "../generator/PacmanGameTree.h"
