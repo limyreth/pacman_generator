@@ -14,8 +14,7 @@
 #include "../model/Action.h"
 #include "../util/assertion.h"
 
-#include <boost/shared_ptr.hpp>
-using boost::shared_ptr;
+#include <vector>
 
 namespace PACMAN {
 

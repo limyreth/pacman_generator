@@ -32,8 +32,8 @@ namespace PACMAN {
 
             double get_cost(const Node& node) const;
 
-            void draw(shared_ptr<SDL_Surface> buffer) const;
-            void draw_respawn_paths(shared_ptr<SDL_Surface> buffer) const;
+            void draw(std::shared_ptr<SDL_Surface> buffer) const;
+            void draw_respawn_paths(std::shared_ptr<SDL_Surface> buffer) const;
 
         private:
             void add_respawn_paths();

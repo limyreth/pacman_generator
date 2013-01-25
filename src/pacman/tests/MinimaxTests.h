@@ -10,9 +10,7 @@
 
 #pragma once
 
-#include <boost/shared_ptr.hpp>
-using boost::shared_ptr;
-
+#include <memory>
 
 namespace PACMAN {
     namespace TEST {
@@ -25,7 +23,7 @@ namespace PACMAN {
             static void test_1();
 
         private:
-            static shared_ptr<TreeNode> build_tree();
+            static std::shared_ptr<TreeNode> build_tree();
         };
 
     }

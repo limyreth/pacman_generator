@@ -12,10 +12,9 @@
 
 #include "../generator/GameTree.h"
 #include "../model/Action.h"
-#include <vector>
 
-#include <boost/shared_ptr.hpp>
-using boost::shared_ptr;
+#include <vector>
+#include <memory>
 
 namespace PACMAN {
 
@@ -28,14 +27,14 @@ namespace PACMAN {
         struct TreeNode {
             int score;
             int player;
-            shared_ptr<TreeNode> parent;
-            std::vector<shared_ptr<TreeNode>> children;
+            std::shared_ptr<TreeNode> parent;
+            std::vector<std::shared_ptr<TreeNode>> children;
         };
 
         class GameTree : public GENERATOR::GameTree
         {
         public:
-            GameTree(shared_ptr<TreeNode> root) ;
+            GameTree(std::shared_ptr<TreeNode> root) ;
 
             void init(unsigned int max_rounds);
             void parent();
@@ -51,7 +50,7 @@ namespace PACMAN {
 
         private:
             int children_visited; // if a child is visited twice, then it is counted twice = the number of calls to next_child that return true
-            shared_ptr<TreeNode> node;  // curent node, starts as root
+            std::shared_ptr<TreeNode> node;  // curent node, starts as root
             unsigned int max_depth;
         };
 

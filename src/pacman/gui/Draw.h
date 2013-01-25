@@ -10,14 +10,13 @@
 
 #pragma once
 
-#include <boost/shared_ptr.hpp>
-using boost::shared_ptr;
+#include <memory>
 
 class SDL_Surface;
 
 namespace PACMAN {
     namespace GUI {
-        void scale_to_size(shared_ptr<SDL_Surface>& surface, double size);
-        void scale_to_size(shared_ptr<SDL_Surface>& surface, double sizex, double sizey);
+        void scale_to_size(std::shared_ptr<SDL_Surface>& surface, double size);
+        void scale_to_size(std::shared_ptr<SDL_Surface>& surface, double sizex, double sizey);
     }
 }

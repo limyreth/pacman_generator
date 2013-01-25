@@ -18,11 +18,12 @@
 
 using namespace ::PACMAN::SPECIFICATION;
 using ::PACMAN::MODEL::TILE_SIZE;
+using std::shared_ptr;
 
 namespace PACMAN {
     namespace GUI {
 
-BckgrObj::BckgrObj( shared_ptr<SDL_Surface> buffer, int os)
+BckgrObj::BckgrObj(shared_ptr<SDL_Surface> buffer, int os)
     :	Object(buffer, os)
 {
     fruit_pos.w = fruit_pos.h = PLAYER_SIZE;

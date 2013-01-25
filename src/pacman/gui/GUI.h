@@ -14,10 +14,7 @@
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
-
-#include <boost/shared_ptr.hpp>
-using boost::shared_ptr;
-
+#include <memory>
 
 #define NUMOFOBJECTS 6
 
@@ -46,7 +43,7 @@ namespace PACMAN {
             GUI(const MODEL::GameState& state, GUIArgs gui_args);
             ~GUI();
 
-            shared_ptr<MODEL::UIHints> create_uihints();
+            std::shared_ptr<MODEL::UIHints> create_uihints();
             void render();
             bool emptyMsgPump();
             Direction::Type get_preferred_direction(); // direction the user wants to go in
@@ -71,9 +68,9 @@ namespace PACMAN {
             Direction::Type preferred_direction;
             const MODEL::GameState& state;
 
-            shared_ptr<SDL_Surface> screen;
+            std::shared_ptr<SDL_Surface> screen;
 
-            shared_ptr<Sounds> snd;
+            std::shared_ptr<Sounds> snd;
 
             int
                     counter;

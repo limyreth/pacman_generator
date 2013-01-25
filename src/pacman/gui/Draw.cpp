@@ -9,8 +9,11 @@
 
 
 #include "Draw.h"
+
 #include <SDL/SDL.h>
 #include <SDL/SDL_rotozoom.h>
+
+using std::shared_ptr;
 
 namespace PACMAN {
     namespace GUI {

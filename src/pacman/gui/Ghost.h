@@ -12,8 +12,7 @@
 
 #include "Object.h"
 
-#include <boost/shared_ptr.hpp>
-using boost::shared_ptr;
+#include <memory>
 
 class SDL_Surface;
 
@@ -28,7 +27,7 @@ namespace PACMAN {
                 public Object
         {
         public:
-            Ghost(shared_ptr<SDL_Surface> buf, int os, std::string fn);
+            Ghost(std::shared_ptr<SDL_Surface> buf, int os, std::string fn);
 
             void Draw(const MODEL::GhostState& current);
             void Draw(int ix, int iy, int obj=0, int type=0) ;
@@ -38,7 +37,7 @@ namespace PACMAN {
         private:
             int animcounter;
 
-            shared_ptr<SDL_Surface>
+            std::shared_ptr<SDL_Surface>
                     ghostEl[4];
 
             std::string

@@ -12,8 +12,7 @@
 
 #include "../model/UIHints.h"
 
-#include <boost/shared_ptr.hpp>
-using boost::shared_ptr;
+#include <memory>
 
 namespace PACMAN {
     namespace GUI {
@@ -23,7 +22,7 @@ namespace PACMAN {
         class GUIHints : public MODEL::UIHints
         {
         public:
-            GUIHints(shared_ptr<Sounds> snd);
+            GUIHints(std::shared_ptr<Sounds> snd);
 
             void ate_dot();
             void ate_energizer();
@@ -33,7 +32,7 @@ namespace PACMAN {
             void ghosts_no_longer_vulnerable();
 
         private:
-            shared_ptr<Sounds> snd;
+            std::shared_ptr<Sounds> snd;
         };
 
     }

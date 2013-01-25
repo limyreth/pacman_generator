@@ -17,6 +17,7 @@
 
 using std::cout;
 using std::endl;
+using std::shared_ptr;
 using PACMAN::GENERATOR::ChoiceNode;
 
 namespace PACMAN {

@@ -14,12 +14,14 @@
 #include "../specification/Walls.h"
 #include "../util/util.h"
 
+#include <algorithm>
 #include <SDL/SDL.h>
 #include <SDL/SDL_gfxPrimitives.h>
 
 using std::vector;
 using std::cout;
 using std::endl;
+using std::shared_ptr;
 using std::make_pair;
 
 namespace PACMAN {

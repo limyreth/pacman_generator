@@ -10,10 +10,9 @@
 
 #pragma once
 
-#include <boost/shared_ptr.hpp>
-using boost::shared_ptr;
-
 #include "../Constants.h"
+
+#include <memory>
 
 class SDL_Surface;
 
@@ -23,7 +22,7 @@ namespace PACMAN {
         class Object
         {
         public:
-            Object(shared_ptr<SDL_Surface> buffer, int os )
+            Object(std::shared_ptr<SDL_Surface> buffer, int os )
             :	buf(buffer),
                     offset(os),
                     paused(true)
@@ -37,9 +36,9 @@ namespace PACMAN {
             virtual void Draw(int ix, int iy, int obj=3, int type=1)=0;
             virtual void LoadTextures(std::string path)=0;
 
-            virtual shared_ptr<SDL_Surface> Rotate(shared_ptr<SDL_Surface> src, int angle, double zoomx=1, double zoomy=1);
+            virtual std::shared_ptr<SDL_Surface> Rotate(std::shared_ptr<SDL_Surface> src, int angle, double zoomx=1, double zoomy=1);
         protected:
-            shared_ptr<SDL_Surface>
+            std::shared_ptr<SDL_Surface>
                     buf;
 
             const int

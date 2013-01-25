@@ -15,11 +15,13 @@
 #include "../util/assertion.h"
 #include "../util/util.h"
 
+#include <algorithm>
 #include <SDL/SDL.h>
 #include <SDL/SDL_gfxPrimitives.h>
 
 using std::vector;
 using std::endl;
+using std::shared_ptr;
 
 using ::PACMAN::SPECIFICATION::walls;
 

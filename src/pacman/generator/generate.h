@@ -14,6 +14,8 @@
 #include "../util/assertion.h"
 #include "GeneratorRun.h"
 
+#include <memory>
+
 namespace PACMAN {
 
     namespace GENERATOR {

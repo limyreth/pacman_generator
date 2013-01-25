@@ -14,9 +14,7 @@
 #include "../specification/Food.h"
 
 #include <SDL/SDL.h>
-
-#include <boost/shared_ptr.hpp>
-using boost::shared_ptr;
+#include <memory>
 
 class SDL_Surface;
 
@@ -27,7 +25,7 @@ namespace PACMAN {
                 public Object
         {
         public:
-            BckgrObj(shared_ptr<SDL_Surface> buffer, int os);
+            BckgrObj(std::shared_ptr<SDL_Surface> buffer, int os);
 
             void Draw(const SPECIFICATION::Foods foods, bool fruit_spawned, bool show_food);
             void Draw(int ix, int iy, int obj=3, int type=1);
@@ -38,7 +36,7 @@ namespace PACMAN {
             void LoadTextures(std::string path);
 
         private:
-            shared_ptr<SDL_Surface>
+            std::shared_ptr<SDL_Surface>
                     map,
                     objEl[3];
 

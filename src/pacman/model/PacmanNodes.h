@@ -24,7 +24,7 @@ namespace PACMAN {
 
             const Node& get_spawn() const;
 
-            void draw(shared_ptr<SDL_Surface> buffer) const;
+            void draw(std::shared_ptr<SDL_Surface> buffer) const;
 
         private:
             Node* spawn;

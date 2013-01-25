@@ -14,9 +14,12 @@
 #include "../specification/Walls.h"
 #include "../util/util.h"
 
+#include <algorithm>
+
 using std::vector;
 using std::cout;
 using std::endl;
+using std::shared_ptr;
 
 using ::PACMAN::SPECIFICATION::walls;
 

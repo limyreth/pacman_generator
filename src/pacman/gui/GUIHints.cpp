@@ -11,6 +11,8 @@
 #include "SDLUtility.h"
 #include "Sounds.h"
 
+using std::shared_ptr;
+
 namespace PACMAN {
     namespace GUI {
 

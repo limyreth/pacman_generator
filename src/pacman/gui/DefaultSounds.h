@@ -12,8 +12,8 @@
 
 #include "Sounds.h"
 
-#include <boost/shared_ptr.hpp>
-using boost::shared_ptr;
+#include <memory>
+#include <string>
 
 class Mix_Chunk;
 
@@ -33,7 +33,7 @@ namespace PACMAN {
             void toggleSounds();
 
         private:
-            shared_ptr<Mix_Chunk> snd[NUMOFSOUNDS];
+            std::shared_ptr<Mix_Chunk> snd[NUMOFSOUNDS];
 
             std::string sndPaths[NUMOFSOUNDS];
 
