@@ -30,6 +30,7 @@ Generator::Generator(ChoiceTree& tree)
     search_complete(false)
 {
     INVARIANTS_ON_EXIT;
+    //REQUIRE(choice_tree's player 0 is the MAXing player, all other players are MINs)
     for (int depth=0; depth <= choice_tree.get_max_depth(); ++depth) {
         paths.at(depth).reserve(choice_tree.get_max_depth() - depth);
     }

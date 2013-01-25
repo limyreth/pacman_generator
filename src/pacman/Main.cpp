@@ -93,7 +93,7 @@ int main(int argc, char** argv) {
         }
 
         // interactive mode
-        MODEL::Game game(0);
+        MODEL::Game game(PLAYER_PACMAN);
         GUI::GUI gui(game.get_state(), gui_args);
         shared_ptr<UIHints> uihints = gui.create_uihints();
 
