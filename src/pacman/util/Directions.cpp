@@ -8,22 +8,15 @@
  ***************************************************************************/
 
 
-#pragma once
-
-#include "Point.h"
+#include "Directions.h"
 
 namespace PACMAN {
 
-namespace Direction {
-    enum Type : int {
-        ANY = -1,
-        NORTH = 0,
-        EAST = 1,
-        SOUTH = 2,
-        WEST = 3,
-    };
-}
-
-extern const FPoint DIRECTIONS[];
+const FPoint DIRECTIONS[] = {
+    FPoint(0.0, -1.0),
+    FPoint(1.0, 0.0),
+    FPoint(0.0, 1.0),
+    FPoint(-1.0, 0.0)
+};
 
 }
