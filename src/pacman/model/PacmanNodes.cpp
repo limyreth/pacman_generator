@@ -41,7 +41,7 @@ PacmanNodes::PacmanNodes() {
             if ((!walls[at_wrap(x-1,y)] || !walls[at_wrap(x+1,y)])  // a free tile along x-axis
                     && (!walls[at(x, y-1)] || !walls[at(x, y+1)]))  // and a free tile along the y-axis
             {
-                assert(node->neighbours.size() >= 2); // intersection has at least 2 neighbours
+                ASSERT(node->neighbours.size() >= 2); // intersection has at least 2 neighbours
                 for (auto neighbour : node->neighbours) {
                     // Update neighbour location to be when pacman's bounds hit the intersection tile
                     FPoint direction = node->location - neighbour->location;

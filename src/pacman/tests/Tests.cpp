@@ -11,14 +11,11 @@
 #include "Tests.h"
 #include "MinimaxTests.h"
 #include "GeneratorTests.h"
-
 #include "Test.h"
-
 #include "../model/GameState.h"
+#include "../util/assertion.h"
 #include "../util/Point.h"
 #include "../Constants.h"
-
-#include <boost/assert.hpp>
 
 using std::cout;
 using std::endl;

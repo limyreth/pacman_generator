@@ -10,8 +10,6 @@
 
 #pragma once
 
-#include <boost/assert.hpp>
-
 /*
  * Inspired by Another Mediocre Assertion Mechanism for C++
  */
