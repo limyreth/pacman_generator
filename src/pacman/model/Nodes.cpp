@@ -82,7 +82,7 @@ Nodes::Nodes()
                 node->neighbours.push_back(nodes.at(south));
             }
 
-            int east = at_wrap(x+1, y); // TODO the wrapping code can be centralised (and you could do it with shorter with x%MAP_WIDTH), at_wrapped or at(wrap(p)) or tunnel_wrap
+            int east = at_wrap(x+1, y);
             if (nodes.at(east)) {
                 node->neighbours.push_back(nodes.at(east));
             }
