@@ -178,7 +178,7 @@ void GUI::toggleSound() {
     if (state.get_vulnerable_ghost_count()>0) snd->play(7, 1);
 }
 
-void GUI::renderNormal() {
+void GUI::render() {
     // enforce fixed frame/tick rate
     delay(SDL_GetTicks() % (1000/TICK_RATE));
 
@@ -221,10 +221,7 @@ void GUI::renderNormal() {
     if (gui_args.show_respawn_paths) {
         MODEL::GHOST_NODES.draw_respawn_paths(screen);
     }
-}
 
-void GUI::render() {
-    renderNormal();
     SDL_Flip(screen.get());
 }
 

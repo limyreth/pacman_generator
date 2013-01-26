@@ -55,7 +55,6 @@ namespace PACMAN {
             void loadFont();
             bool loadSprites();
             void loadMap(std::string file, int* memmap);
-            void renderNormal();
             void toggleSound();
 
         private:
