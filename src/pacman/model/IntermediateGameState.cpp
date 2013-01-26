@@ -50,6 +50,7 @@ bool IntermediateGameState::operator==(const IntermediateGameState& o) const {
 }
 
 IntermediateGameState IntermediateGameState::act(const std::vector<Action>& actions, UIHints& uihints) const {
+    REQUIRE(state != GAME_OVER);  // iff get_predecessor().is_game_over()
     auto copy = *this;
 
     if (state == REVERSE_ALL_CHOICE) {
@@ -73,24 +74,32 @@ IntermediateGameState IntermediateGameState::act(const std::vector<Action>& acti
         copy.state = REVERSE_PACMAN_CHOICE;
     }
     else if (state == REVERSE_PACMAN_CHOICE) {
-        if (!suppress_action) {
-            if (actions.at(PLAYER_PACMAN) == 0) {
-                copy.successor.get_player(PLAYER_PACMAN).reverse();
-            } else {
-                REQUIRE(actions.at(PLAYER_PACMAN) == 1);
-            }
-        }
-
         copy.predecessor = copy.successor;
-        copy.successor.init_successor(copy.predecessor);
-        copy.suppress_action = !copy.successor.progress_timers(copy.predecessor, uihints);
-        copy.state = REVERSE_ALL_CHOICE;
+
+        if (successor.is_game_over()) {
+            copy.successor = GameState();  // there is no successor
+            copy.state = GAME_OVER;
+        }
+        else {
+            if (!suppress_action) {
+                if (actions.at(PLAYER_PACMAN) == 0) {
+                    copy.successor.get_player(PLAYER_PACMAN).reverse();
+                } else {
+                    REQUIRE(actions.at(PLAYER_PACMAN) == 1);
+                }
+            }
+
+            copy.successor.init_successor(copy.predecessor);
+            copy.suppress_action = !copy.successor.progress_timers(copy.predecessor, uihints);
+            copy.state = REVERSE_ALL_CHOICE;
+        }
     }
 
     return copy;
 }
 
 unsigned char IntermediateGameState::get_action_count(int player_index) const {
+    REQUIRE(state != GAME_OVER);
     if (suppress_action) {
         return 0;
     }
@@ -110,6 +119,7 @@ unsigned char IntermediateGameState::get_action_count(int player_index) const {
 }
 
 Action IntermediateGameState::get_action_along_direction(int player_index, Direction::Type direction) const {
+    REQUIRE(state != GAME_OVER);
     REQUIRE(get_action_count(player_index) > 0);
     if (state == ABOUT_TO_ACT) {
         return successor.get_player(player_index).get_action_along_direction(direction);
