@@ -134,11 +134,7 @@ bool PacmanGameTree::operator==(const PacmanGameTree& o) const {
 void PacmanGameTree::invariants() const {
     INVARIANT(states.capacity() == max_depth + 1);
     INVARIANT(!states.empty());
-}
-
-int PacmanGameTree::get_max_depth() const {
-    ENSURE(max_depth >= 0);
-    return max_depth;
+    //INVARIANT(max_depth is const after init)
 }
 
 }}

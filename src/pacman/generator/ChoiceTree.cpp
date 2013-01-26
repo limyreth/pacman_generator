@@ -56,7 +56,7 @@ ChoiceTree::ChoiceTree(std::istream& in, GameTree& tree)
 
 void ChoiceTree::init() {
     tree.init(max_choices);
-    choices.reserve(max_choices*PLAYER_COUNT+1);
+    choices.reserve(get_max_depth()+1);
 }
 
 int ChoiceTree::parent() {
@@ -137,7 +137,7 @@ int ChoiceTree::get_depth() const {
 }
 
 int ChoiceTree::get_max_depth() const {
-    int retval = tree.get_max_depth() * PLAYER_COUNT;
+    int retval = max_choices * PLAYER_COUNT;
     ENSURE(retval >= 0);
     return retval;
 }

@@ -64,8 +64,4 @@ bool GameTree::is_leaf() const {
     return node->children.empty();
 }
 
-int GameTree::get_max_depth() const {
-    return max_depth;
-}
-
 }}

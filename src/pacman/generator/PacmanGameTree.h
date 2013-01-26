@@ -31,7 +31,6 @@ namespace PACMAN {
             unsigned char get_action_count(int player) const;
             int get_score() const;
             bool is_leaf() const;
-            int get_max_depth() const;
 
             bool operator==(const PacmanGameTree&) const;
 
