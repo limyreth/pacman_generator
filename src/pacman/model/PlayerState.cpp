@@ -69,6 +69,11 @@ double PlayerState::move(double distance_moved, int player_index) {
         pos.x -= MAP_WIDTH * TILE_SIZE;
     }
 
+    if (has_reached_destination() && movement_excess > -1e-10 && movement_excess < 0.0) {
+        // deal with rounding error
+        movement_excess = 0.0;
+    }
+
     ENSURE(has_reached_destination() == (movement_excess >= 0.0));
     return movement_excess;
 }
