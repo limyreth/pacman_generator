@@ -100,7 +100,6 @@ GameState::GameState(const Node& pacman_spawn, const vector<Node*> ghost_spawns)
 :   food_count(MAX_FOOD_COUNT),
     score(0),
     lives(1),
-    fruit_spawned(false),
     fruit_ticks_left(0),
     vulnerable_ticks_left(-1),
     ghost_release_ticks_left(MAX_TICKS_BETWEEN_GHOST_RELEASE),
@@ -188,14 +187,9 @@ bool GameState::progress_timers(const GameState& pre, UIHints& uihints) {
     ENSURE(vulnerable_ticks_left == -1 || vulnerable_ticks_left == VULNERABLE_TICKS - 1 || vulnerable_ticks_left == pre.vulnerable_ticks_left - 1);
 
     // Fruit spawning
-    if (fruit_ticks_left == 0) {
-        // aw, too late, despawn fruit
-        fruit_spawned = false;
-    }
     if (pre.triggered_fruit_spawn) {
         // spawn a fruit
-        ASSERT(!fruit_spawned);  // It is impossible for another fruit to spawn while a previous is still spawned (eating 100 dots should take long enough for this never to happen)
-        fruit_spawned = true;
+        ASSERT(!is_fruit_spawned());  // It is impossible for another fruit to spawn while a previous is still spawned (eating 100 dots should take long enough for this never to happen)
         fruit_ticks_left = FRUIT_TICKS;
     }
     fruit_ticks_left = max(fruit_ticks_left - 1, 0);
@@ -282,8 +276,8 @@ bool GameState::act(const vector<Action>& actions, const GameState& pre, UIHints
         ENSURE(this_->lives <= pre.lives);
 
         // internal contract
-        ENSURE(old_fruit_ticks_left == this_->fruit_ticks_left);
-        ENSURE(old_vulnerable_ticks_left == this_->vulnerable_ticks_left);
+        ENSURE(this_->fruit_ticks_left == old_fruit_ticks_left || this_->fruit_ticks_left == 0);
+        ENSURE(this_->vulnerable_ticks_left == old_vulnerable_ticks_left);
         if (!this_->is_game_over()) {
             ENSURE(this_->ghost_release_ticks_left == MAX_TICKS_BETWEEN_GHOST_RELEASE || this_->ghost_release_ticks_left == pre.ghost_release_ticks_left - 1);
         }
@@ -352,12 +346,11 @@ bool GameState::act(const vector<Action>& actions, const GameState& pre, UIHints
         ASSERT(idler_ticks_left == 0);
         idler_ticks_left = 3;  // pacman can't move for 3 ticks after eating a dot
     }
-    else if (fruit_spawned && (pacman_tpos == FRUIT_LEFT_TPOS || pacman_tpos == FRUIT_RIGHT_TPOS)) {
+    else if (is_fruit_spawned() && (pacman_tpos == FRUIT_LEFT_TPOS || pacman_tpos == FRUIT_RIGHT_TPOS)) {
         score += get_fruit_score();
         uihints.ate_fruit();
         ate_fruit = true;
-        fruit_spawned = false;
-        fruit_ticks_left = -1;
+        fruit_ticks_left = 0;
         ASSERT(idler_ticks_left == 0);
     }
 
@@ -438,7 +431,6 @@ void GameState::invariants() const {
 
     ENSURE(fruit_ticks_left >= 0);
     ENSURE(fruit_ticks_left < FRUIT_TICKS);
-    ENSURE(!fruit_spawned || fruit_ticks_left > 0);
 
     INVARIANT(vulnerable_ticks_left >= -1);
     INVARIANT(vulnerable_ticks_left < VULNERABLE_TICKS);
@@ -476,7 +468,6 @@ bool GameState::operator==(const GameState& other) const {
     return other.food_count == food_count &&
         other.score == score &&
         other.lives == lives &&
-        other.fruit_spawned == fruit_spawned &&
         other.vulnerable_ticks_left == vulnerable_ticks_left &&
         other.fruit_ticks_left == fruit_ticks_left &&
         other.idler_ticks_left == idler_ticks_left &&

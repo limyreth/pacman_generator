@@ -60,7 +60,7 @@ namespace PACMAN {
 
             inline bool is_fruit_spawned() const {
                 REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
-                return fruit_spawned;
+                return fruit_ticks_left > 0;
             }
 
             inline int get_level() const {
@@ -139,7 +139,6 @@ namespace PACMAN {
             int score;
             int lives;
 
-            bool fruit_spawned;
             bool ate_energizer;
             bool triggered_fruit_spawn; // an action was performed which will cause fruit to spawn next tick
 
