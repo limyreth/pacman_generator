@@ -388,7 +388,7 @@ bool GameState::act(const vector<Action>& actions, const GameState& pre, UIHints
     return ate_fruit;
 }
 
-int GameState::get_vulnerable_ghost_count() const {
+unsigned int GameState::get_vulnerable_ghost_count() const {
     REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
     int count = 0;
     for (auto ghost : ghosts) {
