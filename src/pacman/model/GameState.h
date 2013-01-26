@@ -132,7 +132,7 @@ namespace PACMAN {
 
         private:
             PacmanState pacman;
-            GhostState ghosts[GHOST_COUNT];
+            std::array<GhostState, GHOST_COUNT> ghosts;
 
             SPECIFICATION::Foods foods; // shows where food lies on the map
             int food_count;
