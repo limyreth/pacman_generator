@@ -46,6 +46,8 @@ GUI::GUI(const MODEL::GameState& state, GUIArgs gui_args)
     InitWindow();
     InitSound();
 
+    old_ticks = SDL_GetTicks();
+
     scorebox.x= 20;
     scorebox.w = 500;
     scorebox.y = MAP_HEIGHT * TILE_SIZE ;
