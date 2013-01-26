@@ -45,10 +45,10 @@ namespace PACMAN {
              *
              * State of the game 1 tick after `state`.
              */
-            void init_successor(const GameState& state);
-            bool progress_timers(const GameState& state, UIHints& uihints);
-            void initial_movement(const GameState& state, UIHints& uihints, double movement_excess[]);
-            bool act(const std::vector<Action>& actions, const GameState& state, UIHints&, const double movement_excess[]);
+            void init_successor(const GameState& predecessor);
+            bool progress_timers(const GameState& predecessor, UIHints& uihints);
+            void initial_movement(const GameState& predecessor, UIHints& uihints, double movement_excess[]);
+            bool act(const std::vector<Action>& actions, const GameState& predecessor, UIHints&, const double movement_excess[]);
 
             //
             bool operator==(const GameState&) const;
@@ -59,30 +59,37 @@ namespace PACMAN {
             bool get_vulnerable_ghost_count() const;
 
             inline bool is_fruit_spawned() const {
+                REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
                 return fruit_spawned;
             }
 
             inline int get_level() const {
+                REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
                 return 1;
             }
 
             inline int get_score() const {
+                REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
                 return score;
             }
 
             inline int get_lives() const {
+                REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
                 return lives;
             }
 
             inline bool did_pacman_lose() const {
+                REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
                 return lives == 0;
             }
 
             inline bool did_pacman_win() const {
+                REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
                 return food_count == 0;
             }
 
             inline bool is_game_over() const {
+                REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
                 return did_pacman_lose() || did_pacman_win();
             }
 
@@ -105,6 +112,7 @@ namespace PACMAN {
             }
 
             inline const SPECIFICATION::Foods& get_foods() const {
+                REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
                 return foods;
             }
 
@@ -141,6 +149,16 @@ namespace PACMAN {
             int ghost_release_ticks_left;  // ticks until we are forced to release a ghost
 
             friend class PACMAN::TEST::Test;
+
+            enum State {
+                NEW_GAME,
+                INITIALISED, // after init_successor
+                TIME_PROGRESSED, // after progress_timer
+                INITIAL_MOVED, // after initial_movement
+                ACTED, // after act
+                TRANSITIONING, // during any of the 4 above function calls
+                INVALID
+            } state;
         };
 
     }

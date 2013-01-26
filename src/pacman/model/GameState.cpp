@@ -89,6 +89,7 @@ namespace PACMAN {
  * way.
  */
 GameState::GameState()
+:   state(INVALID)
 {
 }
 
@@ -100,12 +101,13 @@ GameState::GameState(const Node& pacman_spawn, const vector<Node*> ghost_spawns)
     score(0),
     lives(1),
     fruit_spawned(false),
-    fruit_ticks_left(-1),
+    fruit_ticks_left(0),
     vulnerable_ticks_left(-1),
     ghost_release_ticks_left(MAX_TICKS_BETWEEN_GHOST_RELEASE),
     idler_ticks_left(0),
     ate_energizer(false),
-    triggered_fruit_spawn(false)
+    triggered_fruit_spawn(false),
+    state(NEW_GAME)
 {
     INVARIANTS_ON_EXIT;
 
@@ -121,10 +123,10 @@ GameState::GameState(const Node& pacman_spawn, const vector<Node*> ghost_spawns)
     ghosts[GHOST_PINKY].leave_pen();
 }
 
-void GameState::init_successor(const GameState& state) {
+void GameState::init_successor(const GameState& pre) {
     INVARIANTS_ON_EXIT;
-    REQUIRE(!state.did_pacman_win());
-    REQUIRE(!state.did_pacman_lose());
+    REQUIRE(!pre.is_game_over());
+    REQUIRE(state == ACTED); //= REQUIRE(was copied from a final state)
 
     /* Note: TODO split in functions to provide better overview of ordering
      *
@@ -143,6 +145,7 @@ void GameState::init_successor(const GameState& state) {
 
     ate_energizer = false;
     triggered_fruit_spawn = false;
+    state = INITIALISED;
 }
 
 /*
@@ -150,12 +153,14 @@ void GameState::init_successor(const GameState& state) {
  *
  * Returns true if players are to be given the choice to reverse direction
  */
-bool GameState::progress_timers(const GameState& state, UIHints& uihints) {
+bool GameState::progress_timers(const GameState& pre, UIHints& uihints) {
     INVARIANTS_ON_EXIT;
+    REQUIRE(state == INITIALISED);
     bool allow_reversing = false;
+    state = TRANSITIONING;
 
     // Vulnerable timing
-    if (state.ate_energizer) {
+    if (pre.ate_energizer) {
         vulnerable_ticks_left = VULNERABLE_TICKS;
 
         // Ghosts become vulnerable in this tick
@@ -179,24 +184,36 @@ bool GameState::progress_timers(const GameState& state, UIHints& uihints) {
     }
     vulnerable_ticks_left = max(vulnerable_ticks_left - 1, -1);  // Consume 1 tick of timer
 
+    ENSURE(pre.ate_energizer == (vulnerable_ticks_left == VULNERABLE_TICKS - 1));
+    ENSURE(vulnerable_ticks_left == -1 || vulnerable_ticks_left == VULNERABLE_TICKS - 1 || vulnerable_ticks_left == pre.vulnerable_ticks_left - 1);
+
     // Fruit spawning
     if (fruit_ticks_left == 0) {
         // aw, too late, despawn fruit
         fruit_spawned = false;
     }
-    if (state.triggered_fruit_spawn) {
+    if (pre.triggered_fruit_spawn) {
         // spawn a fruit
         ASSERT(!fruit_spawned);  // It is impossible for another fruit to spawn while a previous is still spawned (eating 100 dots should take long enough for this never to happen)
         fruit_spawned = true;
         fruit_ticks_left = FRUIT_TICKS;
     }
-    fruit_ticks_left = max(fruit_ticks_left - 1, -1);
+    fruit_ticks_left = max(fruit_ticks_left - 1, 0);
 
+    ENSURE(pre.triggered_fruit_spawn == (fruit_ticks_left == FRUIT_TICKS - 1));
+    ENSURE(fruit_ticks_left == 0 || fruit_ticks_left == FRUIT_TICKS - 1 || fruit_ticks_left == pre.fruit_ticks_left - 1);
+
+    state = TIME_PROGRESSED;
     return allow_reversing;
 }
 
-void GameState::initial_movement(const GameState& state, UIHints& uihints, double movement_excess[]) {
+void GameState::initial_movement(const GameState& pre, UIHints& uihints, double movement_excess[]) {
     INVARIANTS_ON_EXIT;
+    REQUIRE(state == TIME_PROGRESSED);
+    state = TRANSITIONING;
+    const auto old_fruit_ticks_left = fruit_ticks_left;
+    const auto old_vulnerable_ticks_left = vulnerable_ticks_left;
+
     // Move players
     {
         double speed_modifier;
@@ -238,6 +255,9 @@ void GameState::initial_movement(const GameState& state, UIHints& uihints, doubl
             movement_excess[player_index] = get_player(player_index).move(FULL_SPEED * TILE_SIZE * speed_modifier, player_index);
         }
     }
+    ENSURE(old_fruit_ticks_left == fruit_ticks_left);
+    ENSURE(old_vulnerable_ticks_left == vulnerable_ticks_left);
+    state = INITIAL_MOVED;
 }
 
 /*
@@ -247,22 +267,26 @@ void GameState::initial_movement(const GameState& state, UIHints& uihints, doubl
  *
  * Returns true if pacman is to be given the choice to reverse direction
  */
-bool GameState::act(const vector<Action>& actions, const GameState& state, UIHints& uihints, const double movement_excess[]) {
+bool GameState::act(const vector<Action>& actions, const GameState& pre, UIHints& uihints, const double movement_excess[]) {
     INVARIANTS_ON_EXIT;
     //REQUIRE(actions.size() == PLAYER_COUNT);
+    REQUIRE(state == INITIAL_MOVED || state == NEW_GAME);
+    state = TRANSITIONING;
+    const auto old_fruit_ticks_left = fruit_ticks_left;
+    const auto old_vulnerable_ticks_left = vulnerable_ticks_left;
 
-    BOOST_SCOPE_EXIT(&state, this_) {
+    BOOST_SCOPE_EXIT(&pre, &old_fruit_ticks_left, &old_vulnerable_ticks_left, this_) {
+        ENSURE(this_->state == ACTED);
         ENSURE(this_->foods[at(this_->pacman.get_tile_pos())] == Food::NONE || this_->did_pacman_lose());
-        ENSURE(state.food_count - this_->food_count <= 1);
-        ENSURE(this_->score >= state.score);
-        ENSURE(this_->lives <= state.lives);
-        ENSURE(state.triggered_fruit_spawn == (this_->fruit_ticks_left == FRUIT_TICKS - 1));
-        ENSURE((!this_->fruit_spawned && this_->fruit_ticks_left == -1) || 
-                (this_->fruit_spawned && (this_->fruit_ticks_left == FRUIT_TICKS - 1 || this_->fruit_ticks_left == state.fruit_ticks_left - 1)));
-        ENSURE(state.ate_energizer == (this_->vulnerable_ticks_left == VULNERABLE_TICKS - 1));
-        ENSURE(this_->vulnerable_ticks_left == -1 || state.ate_energizer || this_->vulnerable_ticks_left == state.vulnerable_ticks_left - 1);
+        ENSURE(pre.food_count - this_->food_count <= 1);
+        ENSURE(this_->score >= pre.score);
+        ENSURE(this_->lives <= pre.lives);
+
+        // internal contract
+        ENSURE(old_fruit_ticks_left == this_->fruit_ticks_left);
+        ENSURE(old_vulnerable_ticks_left == this_->vulnerable_ticks_left);
         if (!this_->is_game_over()) {
-            ENSURE(this_->ghost_release_ticks_left == MAX_TICKS_BETWEEN_GHOST_RELEASE || this_->ghost_release_ticks_left == state.ghost_release_ticks_left - 1);
+            ENSURE(this_->ghost_release_ticks_left == MAX_TICKS_BETWEEN_GHOST_RELEASE || this_->ghost_release_ticks_left == pre.ghost_release_ticks_left - 1);
         }
     } BOOST_SCOPE_EXIT_END
 
@@ -293,6 +317,7 @@ bool GameState::act(const vector<Action>& actions, const GameState& state, UIHin
                     resetLvl();
                 }
 
+                state = ACTED;
                 return false;
             }
             else if (ghost.state == GhostState::VULNERABLE) {
@@ -342,7 +367,7 @@ bool GameState::act(const vector<Action>& actions, const GameState& state, UIHin
     // check whether or not to free some ghosts
     --ghost_release_ticks_left;
 
-    if (state.food_count != food_count) {
+    if (pre.food_count != food_count) {
         ghost_release_ticks_left = MAX_TICKS_BETWEEN_GHOST_RELEASE;
     }
 
@@ -365,27 +390,32 @@ bool GameState::act(const vector<Action>& actions, const GameState& state, UIHin
     }
 
     // fruit spawn trigger
-    triggered_fruit_spawn = food_count != state.food_count && (food_eaten == 70 || food_eaten == 170);
+    triggered_fruit_spawn = food_count != pre.food_count && (food_eaten == 70 || food_eaten == 170);
 
+    state = ACTED;
     return ate_fruit;
 }
 
 bool GameState::get_vulnerable_ghost_count() const {
+    REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
     int count = 0;
     for (auto ghost : ghosts) {
         if (ghost.state == GhostState::VULNERABLE)
             count++;
     }
+    INVARIANT((vulnerable_ticks_left == -1) == (count == 0));
     return count;
 }
 
 bool GameState::is_elroy1(int ghost_index) const {
+    REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
     REQUIRE(ghost_index >= 0);
     REQUIRE(ghost_index < GHOST_COUNT);
     return ghost_index == GHOST_BLINKY && food_count <= 20;
 }
 
 bool GameState::is_elroy2(int ghost_index) const {
+    REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
     REQUIRE(ghost_index >= 0);
     REQUIRE(ghost_index < GHOST_COUNT);
     return ghost_index == GHOST_BLINKY && food_count <= 10;
@@ -394,18 +424,25 @@ bool GameState::is_elroy2(int ghost_index) const {
 void GameState::invariants() const {
     INVARIANT(food_count >= 0);
     INVARIANT(!(food_count == 0 && !did_pacman_win()));
-    // TODO count food in foods == food_count
+    {
+        int count = 0;
+        for (auto food : foods) {
+            if (food) {
+                count++;
+            }
+        }
+        INVARIANT(count == food_count);
+    }
 
     INVARIANT(score >= 0);
     INVARIANT(lives >= 0);
 
-    INVARIANT(fruit_ticks_left >= -1);
-    INVARIANT(fruit_ticks_left <= FRUIT_TICKS);
-    INVARIANT(!((fruit_ticks_left == -1 || fruit_ticks_left == FRUIT_TICKS) && fruit_spawned));
+    ENSURE(fruit_ticks_left >= 0);
+    ENSURE(fruit_ticks_left < FRUIT_TICKS);
+    ENSURE(!fruit_spawned || fruit_ticks_left > 0);
 
     INVARIANT(vulnerable_ticks_left >= -1);
-    INVARIANT(vulnerable_ticks_left <= VULNERABLE_TICKS);
-    INVARIANT(!((vulnerable_ticks_left == -1 || vulnerable_ticks_left == VULNERABLE_TICKS) && get_vulnerable_ghost_count() > 0));
+    INVARIANT(vulnerable_ticks_left < VULNERABLE_TICKS);
 
     INVARIANT(idler_ticks_left >= 0);
     INVARIANT(idler_ticks_left <= 3);
@@ -415,11 +452,11 @@ void GameState::invariants() const {
 }
 
 void GameState::nextLvl() {
-    assert(false); // didn't expect pacman to win vs perfect ghosts
+    REQUIRE(false); // didn't expect pacman to win vs perfect ghosts
 }
 
 void GameState::resetLvl() {	// vars and positions when pacman dies during level
-    assert(false); // we're testing with lives==0 for now
+    REQUIRE(false); // we're testing with lives==0 for now
 }
 
 bool GameState::operator==(const GameState& other) const {
