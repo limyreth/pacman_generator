@@ -53,6 +53,7 @@ namespace PACMAN {
 
 
         private:
+            bool is_running;
             bool should_stop;
 
             ChoiceTree& choice_tree;

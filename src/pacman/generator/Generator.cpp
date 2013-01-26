@@ -27,7 +27,8 @@ Generator::Generator(ChoiceTree& tree)
     child_action(-1),
     paths(choice_tree.get_max_depth()+1),
     should_stop(false),
-    search_complete(false)
+    search_complete(false),
+    is_running(false)
 {
     INVARIANTS_ON_EXIT;
     //REQUIRE(choice_tree's player 0 is the MAXing player, all other players are MINs)
@@ -38,7 +39,9 @@ Generator::Generator(ChoiceTree& tree)
 
 Generator::Generator(std::istream& in, ChoiceTree& tree) 
 :   choice_tree(tree),
-    paths(choice_tree.get_max_depth()+1)
+    paths(choice_tree.get_max_depth()+1),
+    should_stop(false),
+    is_running(false)
 {
     INVARIANTS_ON_EXIT;
     read(in, child_value);
@@ -109,10 +112,11 @@ int Generator::get_beta(int depth) const {
  * Explore all choices of current choice node
  */
 void Generator::minimax() {
+    INVARIANTS_ON_EXIT;
+    REQUIRE(!is_running);
+    is_running = true;
     while (!search_complete && !should_stop) {
-        INVARIANTS_ON_EXIT;
         auto& best_path = paths.at(choice_tree.get_depth());
-        ASSERT(best_path.capacity() == choice_tree.get_max_depth() - choice_tree.get_depth());  // assert we reserved the right amount
 
         if (choice_tree.is_leaf()) {
             child_value = choice_tree.get_score();
@@ -144,7 +148,6 @@ void Generator::minimax() {
 
             ASSERT(get_alpha() >= 0);
             ASSERT(get_beta() >= 0);
-            //std::cout << "alpha " << get_alpha() << ", beta " << get_beta() << std::endl;
             bool continued_search = get_alpha() < get_beta()  // pruning
                                     && choice_tree.next_child();  // get the next choice
 
@@ -168,10 +171,13 @@ void Generator::minimax() {
             << endl;
     }
 
+    is_running = false;
     ENSURE(!search_complete || choice_tree.get_depth() == 0);
 }
 
 void Generator::save(std::ostream& out) const {
+    REQUIRE(!is_running);
+
     write(out, child_value);
     write(out, child_action);
     write(out, search_complete);
@@ -201,8 +207,9 @@ bool Generator::operator==(const Generator& other) const {
 }
 
 void Generator::invariants() const {
-    // Invariant: the action field of all ancestors is valid and shows the path
-    // to the current node
+    for (int depth=0; depth <= choice_tree.get_max_depth(); ++depth) {
+        INVARIANT(paths.at(depth).capacity() == choice_tree.get_max_depth() - depth);
+    }
 }
 
 
