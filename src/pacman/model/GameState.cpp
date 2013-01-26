@@ -106,11 +106,11 @@ GameState::GameState(const Node& pacman_spawn, const vector<Node*> ghost_spawns)
     idler_ticks_left(0),
     ate_energizer(false),
     triggered_fruit_spawn(false),
-    state(NEW_GAME)
+    state(NEW_GAME),
+    foods(start_foods)
 {
     INVARIANTS_ON_EXIT;
 
-    memcpy(foods, start_foods, sizeof(start_foods));
 
     pacman = PacmanState(pacman_spawn);
 
@@ -461,7 +461,7 @@ bool GameState::operator==(const GameState& other) const {
         }
     }
 
-    if (memcmp(other.foods, foods, sizeof(foods)) != 0) {
+    if (other.foods != foods) {
         return false;
     }
 

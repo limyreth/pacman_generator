@@ -11,6 +11,7 @@
 #pragma once
 
 #include "../Constants.h"
+#include <array>
 
 namespace PACMAN {
 
@@ -23,7 +24,7 @@ namespace PACMAN {
                 ENERGIZER
             };
         }
-        typedef Food::Type Foods[MAP_WIDTH * MAP_HEIGHT];
+        typedef std::array<Food::Type, MAP_WIDTH * MAP_HEIGHT> Foods;
 
         extern const Foods start_foods;
     }

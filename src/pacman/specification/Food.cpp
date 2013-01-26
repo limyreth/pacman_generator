@@ -14,7 +14,7 @@
 namespace PACMAN {
     namespace SPECIFICATION {
 
-const Food::Type start_foods[MAP_HEIGHT * MAP_WIDTH] = {
+const Foods start_foods = {
         Food::NONE, Food::NONE,      Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE,      Food::NONE,
         Food::NONE, Food::DOT,       Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,  Food::DOT,       Food::NONE,
         Food::NONE, Food::DOT,       Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,  Food::NONE, Food::NONE, Food::NONE, Food::NONE, Food::DOT,       Food::NONE,
