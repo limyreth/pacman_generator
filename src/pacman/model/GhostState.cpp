@@ -15,6 +15,7 @@
 
 #include <boost/scope_exit.hpp>
 
+using std::cout;
 using std::endl;
 
 namespace PACMAN {

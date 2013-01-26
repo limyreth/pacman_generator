@@ -40,8 +40,6 @@ PlayerState::PlayerState(const Node& initial_node)
 
 /*
  * Move player distance_moved px towards destination, ...
- * 
- * Returns movement excess (>0 if destination reached)
  */
 double PlayerState::move(double distance_moved, int player_index) {
     INVARIANTS_ON_EXIT;
@@ -51,27 +49,30 @@ double PlayerState::move(double distance_moved, int player_index) {
     REQUIRE(player_index < PLAYER_COUNT);
 
     FPoint direction = destination->get_location() - pos;
-    double distance_moved_towards_destination = min(direction.length(), distance_moved);
     double movement_excess = distance_moved - direction.length();
 
-    // move towards destination
-    if (get_nodes().are_connected_through_wrapping(*origin, *destination)) {
-        direction = origin->get_location() - destination->get_location();
-    }
-    direction.normalise();
-    pos += direction * distance_moved_towards_destination;
+    if (distance_moved > 0.0) {
+        double distance_moved_towards_destination = min(direction.length(), distance_moved);
 
-    // wrap screen when hitting left/right edge of tunnel
-    if (pos.x < 0) {
-        pos.x += MAP_WIDTH * TILE_SIZE;
-    }
-    else if (pos.x >= MAP_WIDTH * TILE_SIZE) {
-        pos.x -= MAP_WIDTH * TILE_SIZE;
-    }
+        // move towards destination
+        if (get_nodes().are_connected_through_wrapping(*origin, *destination)) {
+            direction = origin->get_location() - destination->get_location();
+        }
+        direction.normalise();
+        pos += direction * distance_moved_towards_destination;
 
-    if (has_reached_destination() && movement_excess > -1e-10 && movement_excess < 0.0) {
-        // deal with rounding error
-        movement_excess = 0.0;
+        // wrap screen when hitting left/right edge of tunnel
+        if (pos.x < 0) {
+            pos.x += MAP_WIDTH * TILE_SIZE;
+        }
+        else if (pos.x >= MAP_WIDTH * TILE_SIZE) {
+            pos.x -= MAP_WIDTH * TILE_SIZE;
+        }
+
+        if (has_reached_destination() && movement_excess > -1e-10 && movement_excess < 0.0) {
+            // deal with rounding error
+            movement_excess = 0.0;
+        }
     }
 
     ENSURE(has_reached_destination() == (movement_excess >= 0.0));
