@@ -32,9 +32,6 @@ GhostState::GhostState(const Node& initial_node)
 
 // player_index: current player
 double GhostState::move(double distance, int player_index) {
-    REQUIRE(player_index >= 0);
-    REQUIRE(player_index < PLAYER_COUNT);
-
     if (state == WAITING) {
         return -1.0;
     }
@@ -88,7 +85,7 @@ void GhostState::die() {
     double origin_cost = (get_pos() - origin->get_location()).length() + GHOST_NODES.get_cost(*origin);
     double destination_cost = (get_pos() - destination->get_location()).length() + GHOST_NODES.get_cost(*destination);
     if (origin_cost < destination_cost) {
-        std::swap(destination, origin);
+        reverse();
     }
 }
 

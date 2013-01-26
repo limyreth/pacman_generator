@@ -34,11 +34,6 @@ namespace PACMAN {
                 return pos;
             }
 
-            /*
-             * the count of valid actions for a call to act()
-             *
-             * Valid actions are 0 <= action <= count
-             */
             unsigned char get_action_count() const;
 
             Action get_action_along_direction(Direction::Type direction) const;

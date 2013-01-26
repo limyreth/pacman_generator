@@ -47,6 +47,8 @@ double PlayerState::move(double distance_moved, int player_index) {
     INVARIANTS_ON_EXIT;
     REQUIRE(distance_moved >= 0.0);
     REQUIRE(!has_reached_destination());
+    REQUIRE(player_index >= 0);
+    REQUIRE(player_index < PLAYER_COUNT);
 
     FPoint direction = destination->get_location() - pos;
     double distance_moved_towards_destination = min(direction.length(), distance_moved);
@@ -72,6 +74,7 @@ double PlayerState::move(double distance_moved, int player_index) {
 }
 
 void PlayerState::act(Action action) {
+    INVARIANTS_ON_EXIT;
     REQUIRE(action >= 0);
     REQUIRE(action < get_action_count());
 
@@ -106,7 +109,7 @@ unsigned char PlayerState::get_action_count() const {
     else {
         unsigned char count = destination->get_neighbours().size();
         if (get_reverse_action() >= 0) {
-            return count -1;
+            return count - 1;
         }
         else {
             return count;
@@ -132,6 +135,8 @@ Action PlayerState::get_reverse_action() const {
  * Gets action that moves most along the desired direction
  */
 Action PlayerState::get_action_along_direction(Direction::Type direction_) const {
+    REQUIRE(get_action_count() > 0);
+
     if (direction_ == Direction::ANY)
         return 0;
 
@@ -178,8 +183,8 @@ bool PlayerState::operator==(const PlayerState& o) const {
 void PlayerState::invariants() const {
     INVARIANT(pos.x >= 0);
     INVARIANT(pos.y >= 0);
-    INVARIANT(pos.x <= MAP_WIDTH * TILE_SIZE);
-    INVARIANT(pos.y <= MAP_HEIGHT * TILE_SIZE);
+    INVARIANT(pos.x < MAP_WIDTH * TILE_SIZE);
+    INVARIANT(pos.y < MAP_HEIGHT * TILE_SIZE);
     INVARIANT(destination != NULL);
 }
 
@@ -188,6 +193,8 @@ const FPoint& PlayerState::get_pos() const {
 }
 
 void PlayerState::reverse() {
+    INVARIANTS_ON_EXIT;
+    REQUIRE(origin != NULL);  // = call act() at least once after player (re)spawn
     std::swap(origin, destination);
 }
 
