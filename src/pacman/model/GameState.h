@@ -56,7 +56,7 @@ namespace PACMAN {
                 return !(o == *this);
             }
 
-            bool get_vulnerable_ghost_count() const;
+            unsigned int get_vulnerable_ghost_count() const;
 
             inline bool is_fruit_spawned() const {
                 REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
