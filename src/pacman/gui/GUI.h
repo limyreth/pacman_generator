@@ -55,44 +55,20 @@ namespace PACMAN {
             void loadFont();
             bool loadSprites();
             void loadMap(std::string file, int* memmap);
-
             void renderNormal();
-
-            std::string getFPS();
-
-            void toggleFps() { showfps = !showfps; }
-
             void toggleSound();
 
         private:
             Direction::Type preferred_direction;
             const MODEL::GameState& state;
 
-            std::shared_ptr<SDL_Surface> screen;
-
-            std::shared_ptr<Sounds> snd;
-
-            int
-                    counter;
-
-            std::string
-                    fps;
-
-            SDL_Rect
-                    fpsbox,
-                    scorebox;
-
-            unsigned int
-                    ticks;
-
-            TTF_Font
-                    *font;
-
-            Object
-                    *objects[NUMOFOBJECTS];
-
-            bool showfps;
+            unsigned int ticks;
             GUIArgs gui_args;
+            std::shared_ptr<SDL_Surface> screen;
+            std::shared_ptr<Sounds> snd;
+            SDL_Rect scorebox;
+            TTF_Font *font;
+            Object *objects[NUMOFOBJECTS];
         };
 
     }

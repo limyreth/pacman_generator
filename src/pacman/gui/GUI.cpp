@@ -38,22 +38,13 @@ namespace PACMAN {
     namespace GUI {
 
 GUI::GUI(const MODEL::GameState& state, GUIArgs gui_args)
-:   counter(0),
-    showfps(false),
-    state(state),
+:   state(state),
     preferred_direction(Direction::NORTH),
     gui_args(gui_args)
 {
     InitApp();
     InitWindow();
     InitSound();
-
-    fps = "loading";
-
-    fpsbox.x= 10;
-    fpsbox.w = 290;
-    fpsbox.y = 10;
-    fpsbox.h = 190;
 
     scorebox.x= 20;
     scorebox.w = 500;
@@ -150,10 +141,6 @@ bool GUI::emptyMsgPump() {
             case SDLK_q:
                 return false;
 
-            case SDLK_f:
-                toggleFps();
-                break;
-
             case SDLK_UP:
                 preferred_direction = Direction::NORTH;
                 break;
@@ -186,7 +173,6 @@ Direction::Type GUI::get_preferred_direction() {
 }
 
 void GUI::toggleSound() {
-
     snd->toggleSounds();
     snd->play(10, 1);
     if (state.get_vulnerable_ghost_count()>0) snd->play(7, 1);
@@ -237,48 +223,9 @@ void GUI::renderNormal() {
     }
 }
 
-std::string GUI::getFPS() {
-    unsigned int newtick = SDL_GetTicks();
-    std::ostringstream ostr;
-    float diff;
-
-    diff = (float)(newtick-ticks) / (float)counter;	// ms per frame
-
-    diff = 1000.0f / diff;			// frames per s
-
-    ostr << diff << "fps";
-
-    ticks = newtick;
-
-    return ostr.str();
-}
-
 void GUI::render() {
-    shared_ptr<SDL_Surface>
-            buf = screen,
-            txt;
-    SDL_Color
-            col;
-
-    col.r = col.g = col.b = 255;
-
-    if (counter == 100) {
-        fps = getFPS();
-        counter = 0;
-    }
-
     renderNormal();
-
-    if ( showfps ) {
-        txt.reset(TTF_RenderText_Solid(font,fps.c_str(),col), SDL_FreeSurface);
-        if (!txt) throw_exception("DrawText failed");
-
-        SDL_BlitSurface(txt.get(),NULL,buf.get(),&fpsbox);
-    }
-
-    SDL_Flip(buf.get());
-
-    counter++;
+    SDL_Flip(screen.get());
 }
 
 void GUI::loadFont() {
