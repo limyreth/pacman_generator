@@ -180,7 +180,14 @@ void GUI::toggleSound() {
 
 void GUI::render() {
     // enforce fixed frame/tick rate
-    delay(SDL_GetTicks() % (1000/TICK_RATE));
+    {
+        const Uint32 new_ticks = SDL_GetTicks();
+        int delay_ticks = 1000/TICK_RATE - (int)(new_ticks - old_ticks);
+        if (delay_ticks > 0) {
+            delay(delay_ticks);
+        }
+        old_ticks = new_ticks;
+    }
 
     int i;
     std::ostringstream ostr;

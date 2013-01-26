@@ -61,7 +61,7 @@ namespace PACMAN {
             Direction::Type preferred_direction;
             const MODEL::GameState& state;
 
-            unsigned int ticks;
+            Uint32 old_ticks;
             GUIArgs gui_args;
             std::shared_ptr<SDL_Surface> screen;
             std::shared_ptr<Sounds> snd;
