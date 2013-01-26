@@ -45,6 +45,7 @@ bool IntermediateGameState::operator==(const IntermediateGameState& o) const {
 
     return o.predecessor == predecessor &&
         o.successor == successor &&
+        o.suppress_action == suppress_action &&
         o.state == state;
 }
 
