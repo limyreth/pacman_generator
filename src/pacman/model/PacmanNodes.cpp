@@ -63,6 +63,8 @@ PacmanNodes::PacmanNodes() {
     ensure_valid(nodes, nodes);
     ensure_valid(spawn, nodes);
 
+    ENSURE(left_tunnel_node);
+    ENSURE(right_tunnel_node);
     ENSURE(std::find(nodes.begin(), nodes.end(), left_tunnel_node) != nodes.end());
     ENSURE(std::find(nodes.begin(), nodes.end(), right_tunnel_node) != nodes.end());
 

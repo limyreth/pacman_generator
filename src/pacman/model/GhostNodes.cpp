@@ -50,13 +50,7 @@ GhostNodes::GhostNodes()
     spawns.at(GHOST_BLINKY)->neighbours.push_back(nodes.at(at(12, 11)));
     spawns.at(GHOST_BLINKY)->neighbours.push_back(nodes.at(at(15, 11)));
 
-    ensure_valid(nodes, nodes);
-    vector<Node*> all_nodes;
-    all_nodes.reserve(nodes.size() + spawns.size());
-    all_nodes.insert(all_nodes.end(), nodes.begin(), nodes.end());
-    all_nodes.insert(all_nodes.end(), spawns.begin(), spawns.end());
-    ensure_valid(spawns, all_nodes);
-
+    // respawns
     respawns.at(GHOST_BLINKY) = spawns.at(GHOST_PINKY);
     respawns.at(GHOST_PINKY) = spawns.at(GHOST_PINKY);
     respawns.at(GHOST_INKY) = spawns.at(GHOST_INKY);
@@ -64,15 +58,33 @@ GhostNodes::GhostNodes()
 
     add_respawn_paths();
 
-    ENSURE(std::find(nodes.begin(), nodes.end(), left_tunnel_node) != nodes.end());
-    ENSURE(std::find(nodes.begin(), nodes.end(), right_tunnel_node) != nodes.end());
-
     // print stats
     cout << "Ghost branching factor: " << get_branching_factor(nodes) << endl;
+
+    // ensures
+    ensure_valid(nodes, nodes);
+
+    vector<Node*> all_nodes;
+    all_nodes.reserve(nodes.size() + spawns.size());
+    all_nodes.insert(all_nodes.end(), nodes.begin(), nodes.end());
+    all_nodes.insert(all_nodes.end(), spawns.begin(), spawns.end());
+    ensure_valid(spawns, all_nodes);
+    ENSURE(spawns.size() == PLAYER_COUNT-1);
+
+    ENSURE(respawns.size() == PLAYER_COUNT-1);
+    for (auto respawn : respawns) {  // respawns is subset of spawns
+        std::find(spawns.begin(), spawns.end(), respawn) != spawns.end();
+    }
+
+    ENSURE(left_tunnel_node);
+    ENSURE(right_tunnel_node);
+    ENSURE(std::find(nodes.begin(), nodes.end(), left_tunnel_node) != nodes.end());
+    ENSURE(std::find(nodes.begin(), nodes.end(), right_tunnel_node) != nodes.end());
 }
 
 void GhostNodes::add_respawn_paths() {
     // Overall structure: like an A* search with distance as cost, PINKY spawn as origin, and no destination/goal
+    ensure_valid(nodes, nodes);  // =REQUIRE
 
     std::multimap<double, const Node*> fringe;
 
@@ -100,6 +112,18 @@ void GhostNodes::add_respawn_paths() {
         }
     }
 
+    auto more_nodes = nodes;
+    //more_nodes.push_back(spawns.at(GHOST_BLINKY));
+    for (auto node : more_nodes) {
+        if (!node) continue;
+
+        ENSURE(min_costs.find(node) != min_costs.end());
+        ENSURE(min_costs.find(node)->second != std::numeric_limits<double>::infinity());
+        ENSURE(min_costs.find(node)->second >= 0);
+
+        ENSURE(towards_spawn.find(node) != towards_spawn.end());
+        ENSURE(towards_spawn.find(node)->second != NULL);
+    }
 }
 
 GhostNodes::~GhostNodes()
@@ -144,6 +168,8 @@ void GhostNodes::draw_respawn_paths(shared_ptr<SDL_Surface> screen) const {
 }
 
 double GhostNodes::get_cost(const Node& node) const {
+    //REQUIRE(node in nodes.union(blinky spawn))
+    //ENSURE(retval != infinity after ctor)
     auto current_min_cost = min_costs.find(&node);
     if (current_min_cost == min_costs.end()) {
         return std::numeric_limits<double>::infinity();
@@ -154,14 +180,18 @@ double GhostNodes::get_cost(const Node& node) const {
 }
 
 const Node& GhostNodes::get_node_towards_spawn(const Node& origin) const {
+    //REQUIRE(node in nodes.union(blinky spawn))
+    //ENSURE(retval != NULL && is of this Nodes)
     return *towards_spawn.at(&origin);
 }
 
 const std::vector<Node*> GhostNodes::get_respawns() const {
+    //ENSURE(respawns.size() == PLAYER_COUNT-1)
     return respawns;
 }
 
 const std::vector<Node*> GhostNodes::get_spawns() const {
+    //ENSURE(spawns.size() == PLAYER_COUNT-1)
     return spawns;
 }
 

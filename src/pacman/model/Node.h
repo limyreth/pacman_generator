@@ -21,7 +21,11 @@ namespace PACMAN {
         class PacmanNodes;
         class GhostNodes;
 
-        // these are choice nodes for pacman/ghosts
+        /*
+         * Positional node
+         *
+         * Ensures nothing (but nodes provided by Nodes do)
+         */
         class Node
         {
         public:
