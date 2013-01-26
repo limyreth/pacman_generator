@@ -17,6 +17,8 @@
 #include "Game.h"
 #include "../Constants.h"
 
+using std::cout;
+using std::endl;
 using std::vector;
 
 namespace PACMAN {
@@ -39,6 +41,7 @@ bool Game::act(Direction::Type direction, UIHints& uihints) {
 
     if (state.get_action_count(player_index) > 0) {
         actions.at(player_index) = state.get_action_along_direction(player_index, direction);
+        path.push_back(actions.at(player_index));
     }
 
     state = state.act(actions, uihints);
@@ -48,6 +51,14 @@ bool Game::act(Direction::Type direction, UIHints& uihints) {
 
 const MODEL::GameState& Game::get_state() {
     return state.get_predecessor();
+}
+
+void Game::print_path() {
+    cout << "{";
+    for (auto action : path) {
+        cout << (int)action << ", ";
+    }
+    cout << "}" << endl;
 }
 
 }}

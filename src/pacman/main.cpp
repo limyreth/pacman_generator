@@ -92,7 +92,8 @@ int main(int argc, char** argv) {
             }
         }
 
-        run_interactively(gui_args);
+        InteractiveMain main;
+        main.run(gui_args);
 
         logtxt.print( "Shutdown" );
     }

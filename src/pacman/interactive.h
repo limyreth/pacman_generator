@@ -13,5 +13,10 @@
 #include "gui/GUI.h"
 
 namespace PACMAN {
-    void run_interactively(GUI::GUIArgs gui_args);
+
+    class InteractiveMain {
+    public:
+        void run(GUI::GUIArgs gui_args);
+    };
+
 }

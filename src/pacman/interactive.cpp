@@ -12,6 +12,8 @@
 #include "model/Game.h"
 #include "Constants.h"
 
+#include <boost/scope_exit.hpp>
+
 using namespace PACMAN;
 using namespace MODEL;
 
@@ -22,10 +24,14 @@ using std::shared_ptr;
 
 namespace PACMAN {
 
-void run_interactively(GUI::GUIArgs gui_args) {
+void InteractiveMain::run(GUI::GUIArgs gui_args) {
     Game game(PLAYER_PACMAN);
     GUI::GUI gui(game.get_state(), gui_args);
     shared_ptr<UIHints> uihints = gui.create_uihints();
+
+    BOOST_SCOPE_EXIT(&game) {
+       game.print_path(); 
+    } BOOST_SCOPE_EXIT_END
 
     while (gui.emptyMsgPump()) {
         if (game.act(gui.get_preferred_direction(), *uihints)) {
