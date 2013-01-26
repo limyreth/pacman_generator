@@ -14,9 +14,8 @@
 // ported to linux with attempt at crossplatform compatibility
 //////////////////////////////////////////////////////
 
-#include "model/Game.h"
+#include "interactive.h"
 #include "generator/generate.h"
-#include "gui/GUI.h"
 #include "util/Log.h"
 #include "util/assertion.h"
 #include "tests/Tests.h"
@@ -93,16 +92,7 @@ int main(int argc, char** argv) {
             }
         }
 
-        // interactive mode
-        MODEL::Game game(PLAYER_PACMAN);
-        GUI::GUI gui(game.get_state(), gui_args);
-        shared_ptr<UIHints> uihints = gui.create_uihints();
-
-        while (gui.emptyMsgPump()) {
-            if (game.act(gui.get_preferred_direction(), *uihints)) {
-                gui.render();
-            }
-        }
+        run_interactively(gui_args);
 
         logtxt.print( "Shutdown" );
     }
