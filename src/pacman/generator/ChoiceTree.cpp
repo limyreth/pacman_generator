@@ -68,11 +68,14 @@ int ChoiceTree::parent() {
     if (tree.get_action_count(choices.back().player) > 1) {
         choices_taken--;
     }
+    ENSURE(!is_leaf());
     return choices.back().action;
 }
 
 bool ChoiceTree::next_child() {
     INVARIANTS_ON_EXIT;
+    REQUIRE(!is_leaf());
+
     auto action_count = tree.get_action_count(choices.back().player);
 
     if (action_count == 0) {
@@ -109,6 +112,7 @@ bool ChoiceTree::next_child() {
  * Call GameTree.child with choices starting with it
  */
 void ChoiceTree::enter_child(vector<ChoiceNode>::iterator& it) {
+    //REQUIRE(it <= choices.end() - PLAYER_COUNT)
     vector<Action> actions;
     actions.reserve(PLAYER_COUNT);
     for (int i=0; i < PLAYER_COUNT; ++i) {
@@ -170,7 +174,8 @@ void ChoiceTree::invariants() const {
     INVARIANT(!choices.empty());
     INVARIANT(choices_taken <= max_choices);
     INVARIANT(choices.size() > choices_taken);
-    INVARIANT(choices.capacity() == max_choices*PLAYER_COUNT + 1);
+    INVARIANT(choices.capacity() == get_max_depth() + 1);
+    //INVARIANT(max_choices const after ctor)
 }
 
 }}
