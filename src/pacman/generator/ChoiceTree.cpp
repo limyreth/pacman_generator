@@ -166,8 +166,11 @@ void ChoiceTree::save(std::ostream& out) const {
     out.write((const char*)choices.data(), choices.size() * sizeof(ChoiceNode));
 }
 
-bool ChoiceTree::operator==(const ChoiceTree& other) const {
-    return other.choices == choices;
+bool ChoiceTree::operator==(const ChoiceTree& o) const {
+    return o.choices == choices &&
+        o.max_choices == max_choices &&
+        o.choices_taken == choices_taken &&
+        o.tree == tree;
 }
 
 void ChoiceTree::invariants() const {

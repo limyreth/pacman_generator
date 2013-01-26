@@ -117,7 +117,14 @@ void PacmanGameTree::progress_game_until_choice(IntermediateGameState& state) {
     states.push_back(state);
 }
 
-bool PacmanGameTree::operator==(const PacmanGameTree& o) const {
+bool PacmanGameTree::operator==(const GameTree& generic_o) const {
+    auto pointer = dynamic_cast<const PacmanGameTree*>(&generic_o);
+    if (pointer == NULL) {
+        return false;
+    }
+
+    auto o = *pointer;
+
     if (o.states.size() != states.size()) {
         return false;
     }

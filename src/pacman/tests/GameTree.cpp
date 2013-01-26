@@ -64,4 +64,8 @@ bool GameTree::is_leaf() const {
     return node->children.empty();
 }
 
+bool GameTree::operator==(const GENERATOR::GameTree&) const {
+    REQUIRE(false);
+}
+
 }}

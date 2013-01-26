@@ -32,7 +32,7 @@ namespace PACMAN {
             int get_score() const;
             bool is_leaf() const;
 
-            bool operator==(const PacmanGameTree&) const;
+            bool operator==(const GameTree&) const;
 
         protected:
             void invariants() const;

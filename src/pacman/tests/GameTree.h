@@ -42,6 +42,7 @@ namespace PACMAN {
             unsigned char get_action_count(int player) const;
             int get_score() const;
             bool is_leaf() const;
+            bool operator==(const GENERATOR::GameTree&) const;
 
             inline int get_children_visited() {
                 return children_visited;

@@ -51,6 +51,8 @@ namespace PACMAN {
 
             virtual bool is_leaf() const = 0;
 
+            virtual bool operator==(const GameTree&) const = 0;
+
         };
 
     }
