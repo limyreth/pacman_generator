@@ -51,13 +51,9 @@ void PacmanGameTree::child(const vector<Action>& actions) {
     INVARIANTS_ON_EXIT;
     REQUIRE(initialised);
     REQUIRE(actions.size() == PLAYER_COUNT);
-
     const int old_states_size = states.size();
 
-    // proceed to next state
     auto intermediate = states.back().act(actions, uihints);
-
-    // proceed even further
     progress_game_until_choice(intermediate);
 
     ENSURE(states.size() == old_states_size + 1);
@@ -74,6 +70,7 @@ int PacmanGameTree::get_score() const {
 }
 
 unsigned char PacmanGameTree::get_action_count(int player) const {
+    REQUIRE(initialised);
     REQUIRE(player >= 0);
     REQUIRE(player < PLAYER_COUNT);
     return states.back().get_action_count(player);
@@ -87,6 +84,7 @@ unsigned char PacmanGameTree::get_action_count(int player) const {
  * Returns true if it succeeded, false if choices need to be made
  */
 bool PacmanGameTree::generate_actions(const IntermediateGameState& state, vector<Action>& actions) const {
+    //REQUIRE(initialised);
     actions.clear();
     for (int player=0; player < PLAYER_COUNT; ++player) {
         auto action_count = state.get_action_count(player);
@@ -97,6 +95,7 @@ bool PacmanGameTree::generate_actions(const IntermediateGameState& state, vector
             return false;
         }
     }
+    ENSURE(actions.size() == PLAYER_COUNT);
     return true;
 }
 
@@ -105,6 +104,7 @@ bool PacmanGameTree::generate_actions(const IntermediateGameState& state, vector
  */
 void PacmanGameTree::progress_game_until_choice(IntermediateGameState& state) {
     INVARIANTS_ON_EXIT;
+    //REQUIRE(initialised);
 
     // progress as far as possible
     vector<Action> actions;
