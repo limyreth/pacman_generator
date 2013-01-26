@@ -25,8 +25,7 @@ namespace PACMAN {
             const MODEL::GameState& get_state();
 
         private:
-            MODEL::GameState current;
-            int player_index;
+            const int player_index;
             MODEL::IntermediateGameState state;
         };
 
