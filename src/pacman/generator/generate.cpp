@@ -58,11 +58,12 @@ int GeneratorMain::find_previous_state() {
 
     closedir(dir);
 
+    ENSURE(max_number >= 0);
     return max_number;
 }
 
 string GeneratorMain::get_state_path(int number) {
-    ASSERT(number > 0);
+    REQUIRE(number > 0);
     return STATE_DIR + "/" + to_string(number);
 }
 
