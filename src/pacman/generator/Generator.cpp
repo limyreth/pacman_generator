@@ -172,7 +172,6 @@ void Generator::minimax() {
 }
 
 void Generator::save(std::ostream& out) const {
-    // TODO when saving must sync with end of loop iteration, and end that thread...
     write(out, child_value);
     write(out, child_action);
     write(out, search_complete);

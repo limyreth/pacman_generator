@@ -125,7 +125,7 @@ void GUI::InitApp() {
 }
 
 void GUI::InitSound() {
-    if (true) {  //TODO offer choice to turn it on
+    if (true) {
         // use disabled sound (!= muted)
         // This is handy for debugging (no more alsa underrun messages)
         snd.reset(new NullSounds());
