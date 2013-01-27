@@ -17,6 +17,7 @@
 
 using namespace PACMAN;
 using namespace MODEL;
+using GUI::GUIArgs;
 
 using std::cout;
 using std::endl;
@@ -26,7 +27,16 @@ using std::ios;
 
 namespace PACMAN {
 
-void InteractiveMain::run(GUI::GUIArgs gui_args) {
+void InteractiveMain::run(GUIArgs gui_args, std::list<Action> path) {
+    if (path.empty()) {
+        run(gui_args);
+    }
+    else {
+        playback(gui_args, path);
+    }
+}
+
+void InteractiveMain::run(GUIArgs gui_args) {
     Game game(PLAYER_PACMAN);
     GUI::GUI gui(game.get_state(), gui_args);
     shared_ptr<UIHints> uihints = gui.create_uihints();
@@ -39,6 +49,32 @@ void InteractiveMain::run(GUI::GUIArgs gui_args) {
 
     while (gui.emptyMsgPump()) {
         if (game.act(gui.get_preferred_direction(), *uihints)) {
+            gui.render();
+        }
+    }
+}
+
+void InteractiveMain::playback(GUIArgs gui_args, const std::list<Action>& path) {
+    auto current_action = path.begin();
+    IntermediateGameState state = IntermediateGameState::new_game();
+    vector<Action> actions(PLAYER_COUNT, 0);
+
+    GUI::GUI gui(state.get_predecessor(), gui_args);
+    shared_ptr<UIHints> uihints = gui.create_uihints();
+
+    while (gui.emptyMsgPump()) {
+        if (state.get_action_count(PLAYER_PACMAN) > 0) {
+            if (current_action == path.end()) {
+                return;
+            }
+            actions.at(PLAYER_PACMAN) = *current_action;
+            current_action++;
+        }
+
+        auto old_state = state.get_predecessor();
+        state = state.act(actions, *uihints);
+
+        if (old_state != state.get_predecessor()) {
             gui.render();
         }
     }

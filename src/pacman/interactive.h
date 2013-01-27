@@ -11,12 +11,19 @@
 #pragma once
 
 #include "gui/GUI.h"
+#include <pacman/model/Action.h>
+
+#include <list>
 
 namespace PACMAN {
 
     class InteractiveMain {
     public:
-        void run(GUI::GUIArgs gui_args);
+        void run(GUI::GUIArgs, std::list<MODEL::Action> path);
+
+    private:
+        void run(GUI::GUIArgs);
+        void playback(GUI::GUIArgs, const std::list<MODEL::Action>& path);
     };
 
 }

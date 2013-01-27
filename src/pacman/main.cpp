@@ -21,6 +21,8 @@
 #include "tests/Tests.h"
 
 #include <sstream>
+#include <algorithm>
+#include <list>
 
 #include "Constants.h"
 
@@ -45,6 +47,7 @@ int main(int argc, char** argv) {
     gui_args.show_food = true;
     gui_args.show_respawn_paths = false;
     gui_args.game_speed = 1.0;
+    std::list<Action> path;
 
     try {
         logtxt.setFilename(".pacman_sdl");
@@ -73,6 +76,9 @@ int main(int argc, char** argv) {
                     << endl
                     << "\t--game-speed GAME_SPEED" << endl
                     << "\t\tDouble value to set game speed to, defaults to 1.0" << endl
+                    << endl
+                    << "\t--path {A, B, C, ..., Z}" << endl
+                    << "\t\tUse list of actions as input (instead of keyboard)" << endl
                     << endl
                     << endl
                     << "In-game:" << endl
@@ -123,6 +129,29 @@ int main(int argc, char** argv) {
                 std::istringstream str(argv[i]);
                 str >> gui_args.game_speed;
             }
+            else if (str == "--path") {
+                i++;
+                if (i >= argc) {
+                    std::cerr << "Missing argument for --path" << endl;
+                    return 1;
+                }
+
+                // make space separated sequence of actions
+                string path_str(argv[i]);
+                std::replace(path_str.begin(), path_str.end(), '{', ' ');
+                std::replace(path_str.begin(), path_str.end(), ',', ' ');
+                std::replace(path_str.begin(), path_str.end(), '}', ' ');
+
+                // now turn it into a list of Action
+                std::istringstream str(path_str);
+                int action;
+                str >> action;
+                while (!str.fail()) {
+                    path.push_back(action);
+                    str >> action;
+                }
+
+            }
             else {
                 std::cerr << "unrecognized commandline option\n";
                 return 1;
@@ -130,7 +159,7 @@ int main(int argc, char** argv) {
         }
 
         InteractiveMain main;
-        main.run(gui_args);
+        main.run(gui_args, path);
 
         logtxt.print( "Shutdown" );
     }
