@@ -202,7 +202,7 @@ const Node* GhostNodes::get(int id) const {
     ASSERT(id >= 0);
 
     int index = id >> 1;
-    if (id & 1 == 0) {
+    if ((id & 1) == 0) {
         return nodes.at(index);
     }
     else {
