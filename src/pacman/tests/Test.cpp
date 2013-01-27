@@ -40,9 +40,8 @@ Test::Test(int player_index)
  * Returns steps taken
  */
 int Test::move(Direction::Type direction) {
-    int steps = 0;
-
     GameState original = game.get_state();
+    game.reset_steps();
 
     auto current = game.get_state();
     while (original.get_player(player_index).get_tile_pos() == current.get_player(player_index).get_tile_pos()) {
@@ -54,13 +53,11 @@ int Test::move(Direction::Type direction) {
             ASSERT( ((GhostState&)current.get_player(i+1)).state == ((GhostState&)original.get_player(i+1)).state );
         }
 
-        if (game.act(direction, uihints)) {
-            ++steps;
-        }
+        game.act(direction, uihints);
         current = game.get_state();
     }
 
-    return steps;
+    return game.get_steps();
 }
 
 int Test::get_food_count() {

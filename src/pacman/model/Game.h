@@ -25,6 +25,8 @@ namespace PACMAN {
             bool act(Direction::Type direction, UIHints& uihints);
             const MODEL::GameState& get_state();
             void print_recorded_test(std::ostream&);
+            int get_steps();
+            void reset_steps();
 
         private:
             int steps;
