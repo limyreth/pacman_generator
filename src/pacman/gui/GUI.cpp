@@ -32,6 +32,8 @@
 
 using namespace ::PACMAN::SPECIFICATION;
 using ::PACMAN::MODEL::TILE_SIZE;
+using std::cout;
+using std::endl;
 using std::shared_ptr;
 
 namespace PACMAN {
@@ -184,7 +186,7 @@ void GUI::render() {
     // enforce fixed frame/tick rate
     {
         const Uint32 new_ticks = SDL_GetTicks();
-        int delay_ticks = 1000/TICK_RATE - (int)(new_ticks - old_ticks);
+        int delay_ticks = 1000/(TICK_RATE * gui_args.game_speed) - (int)(new_ticks - old_ticks);
         if (delay_ticks > 0) {
             delay(delay_ticks);
         }

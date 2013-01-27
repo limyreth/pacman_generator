@@ -44,6 +44,7 @@ int main(int argc, char** argv) {
     gui_args.show_ghost_nodes = false;
     gui_args.show_food = true;
     gui_args.show_respawn_paths = false;
+    gui_args.game_speed = 1.0;
 
     try {
         logtxt.setFilename(".pacman_sdl");
@@ -53,7 +54,7 @@ int main(int argc, char** argv) {
             if (str=="--help") {
                 std::cout
                     << endl
-                    << "Arguments:" << endl
+                    << "Interactive-mode arguments:" << endl
                     << endl
                     << "\t--help" << endl
                     << "\t\tShow this message" << endl
@@ -69,6 +70,9 @@ int main(int argc, char** argv) {
                     << endl
                     << "\t--hide-food" << endl
                     << "\t\tDon't render dots and energizers" << endl
+                    << endl
+                    << "\t--game-speed GAME_SPEED" << endl
+                    << "\t\tDouble value to set game speed to, defaults to 1.0" << endl
                     << endl
                     << endl
                     << "In-game:" << endl
@@ -108,6 +112,16 @@ int main(int argc, char** argv) {
             }
             else if (str == "--show-respawn-paths") {
                 gui_args.show_respawn_paths = true;
+            }
+            else if (str == "--game-speed") {
+                i++;
+                if (i >= argc) {
+                    std::cerr << "Missing argument for --game-speed" << endl;
+                    return 1;
+                }
+
+                std::istringstream str(argv[i]);
+                str >> gui_args.game_speed;
             }
             else {
                 std::cerr << "unrecognized commandline option\n";
