@@ -226,8 +226,5 @@ void PlayerState::print(std::ostream& out, string prefix, string name) const {
 // => None Dot Ghost (pacman reversed because it had to run) 
 // => None Dot Pac (pacman now approaches from the right)
 // => Ghost Pac None (pacman now cleared this path, which would not have been possible without reversing)
-//
-// Reversing is usually not the best action though, so we return it as the last possible legal action (in hope of it getting pruned)
-// TODO might still want to allow a search without reversal though, as it'll probably be a lot quicker to find a solution, although we can't be sure that solution is perfect
 
 }}
