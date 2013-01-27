@@ -290,7 +290,7 @@ bool GameState::act(const vector<Action>& actions, const GameState& pre, UIHints
 
     BOOST_SCOPE_EXIT(&pre, &old_fruit_ticks_left, &old_vulnerable_ticks_left, this_) {
         ENSURE(this_->state == ACTED);
-        ENSURE(this_->foods[at(this_->pacman.get_tile_pos())] == Food::NONE || this_->did_pacman_lose());
+        ENSURE(this_->foods.at(at(this_->pacman.get_tile_pos())) == Food::NONE || this_->did_pacman_lose());
         ENSURE(pre.food_count - this_->food_count <= 1);
         ENSURE(this_->score >= pre.score);
         ENSURE(this_->lives <= pre.lives);
@@ -345,8 +345,8 @@ bool GameState::act(const vector<Action>& actions, const GameState& pre, UIHints
     // collide with food
     bool ate_fruit = false;
     int food_index = at(pacman_tpos);
-    if (foods[food_index] == Food::DOT) {
-        foods[food_index] = Food::NONE;
+    if (foods.at(food_index) == Food::DOT) {
+        foods.at(food_index) = Food::NONE;
         --food_count;
         score += 10;
 
@@ -355,8 +355,8 @@ bool GameState::act(const vector<Action>& actions, const GameState& pre, UIHints
         ASSERT(idler_ticks_left == 0);
         idler_ticks_left = 1;  // pacman can't move for 1 tick after eating a dot
     }
-    else if (foods[food_index] == Food::ENERGIZER) {
-        foods[food_index] = Food::NONE;
+    else if (foods.at(food_index) == Food::ENERGIZER) {
+        foods.at(food_index) = Food::NONE;
         --food_count;
         score += 50;
 

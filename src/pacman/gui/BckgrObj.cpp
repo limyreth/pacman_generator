@@ -52,10 +52,10 @@ void BckgrObj::Draw(const Foods foods, bool fruit_spawned, bool show_food) {
             pos.w=TILE_SIZE;
 
             if (show_food) {
-                if (foods[j*MAP_WIDTH+i]==Food::DOT) {
+                if (foods.at(j*MAP_WIDTH+i)==Food::DOT) {
                     SDL_BlitSurface(objEl[0].get(), NULL, buf.get(), &pos);
                 }
-                else if (foods[j*MAP_WIDTH+i]==Food::ENERGIZER) {
+                else if (foods.at(j*MAP_WIDTH+i)==Food::ENERGIZER) {
                     SDL_BlitSurface(objEl[1].get(), NULL, buf.get(), &pos);
                 }
             }
