@@ -42,9 +42,7 @@ void InteractiveMain::run(GUIArgs gui_args) {
     shared_ptr<UIHints> uihints = gui.create_uihints();
 
     BOOST_SCOPE_EXIT(&game) {
-        std::ofstream out("generated_test.cpp", ios::out);
-        game.print_recorded_test(out); 
-        out.close();
+        game.print_path(cout);
     } BOOST_SCOPE_EXIT_END
 
     while (gui.emptyMsgPump()) {
@@ -52,6 +50,10 @@ void InteractiveMain::run(GUIArgs gui_args) {
             gui.render();
         }
     }
+
+    std::ofstream out("generated_test.cpp", ios::out);
+    game.print_recorded_test(out); 
+    out.close();
 }
 
 void InteractiveMain::playback(GUIArgs gui_args, const std::list<Action>& path) {

@@ -110,7 +110,17 @@ void Game::print_recorded_test(std::ostream& out) {
     get_state().print(out, "    ");
 
     out << endl
-        << "    std::vector<Action> path = {";
+        << "    std::vector<Action> path = ";
+    print_path(out);
+    out << endl
+        << "    playback_test(path, game_state, PLAYER_PACMAN, steps);" << endl
+        << "}" << endl
+        << endl
+        << "}}";
+}
+
+void Game::print_path(std::ostream& out) {
+    out << "{";
     if (!path.empty()) {
         auto it = path.begin();
         out << (int)*it;
@@ -119,12 +129,7 @@ void Game::print_recorded_test(std::ostream& out) {
             out << ", " << (int)*it;
         }
     }
-    out << "};" << endl
-        << endl
-        << "    playback_test(path, game_state, PLAYER_PACMAN, steps);" << endl
-        << "}" << endl
-        << endl
-        << "}}";
+    out << "};" << endl;
 }
 
 int Game::get_steps() {
