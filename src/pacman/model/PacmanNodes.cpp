@@ -85,4 +85,24 @@ const Node& PacmanNodes::get_spawn() const {
     return *spawn;
 }
 
+const Node* PacmanNodes::get(int id) const {
+    if (id >= 0) {
+        return nodes.at(id);
+    }
+    else if (id == -1) {
+        return spawn;
+    }
+    else {
+        ASSERT(id == -2);
+        return NULL;
+    }
+}
+
+int PacmanNodes::get_id(const Node* node) const {
+    if (node == NULL) {
+        return -2;
+    }
+    return Nodes::get_id(*node, nodes);
+}
+
 }}

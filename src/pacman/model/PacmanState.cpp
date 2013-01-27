@@ -22,6 +22,12 @@ PacmanState::PacmanState()
 {
 }
 
+PacmanState::PacmanState(const int origin_id, const int destination_id, FPoint pos)
+:   PlayerState(PACMAN_NODES.get(origin_id), PACMAN_NODES.get(destination_id), pos)
+    
+{
+}
+
 PacmanState::PacmanState(const Node& initial_node)
 :   PlayerState(initial_node)
 {

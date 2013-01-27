@@ -17,11 +17,18 @@
 
 using std::cout;
 using std::endl;
+using std::string;
 
 namespace PACMAN {
     namespace MODEL {
 
 GhostState::GhostState()
+{
+}
+
+GhostState::GhostState(const int origin_id, const int destination_id, FPoint pos, State state)
+:   PlayerState(GHOST_NODES.get(origin_id), GHOST_NODES.get(destination_id), pos),
+    state(state)
 {
 }
 
@@ -107,6 +114,11 @@ const Nodes& GhostState::get_nodes() const {
 void GhostState::leave_pen() {
     REQUIRE(state == WAITING);
     state = NORMAL;
+}
+
+void GhostState::print(std::ostream& out, string prefix, string name) const {
+    PlayerState::print(out, prefix, name);
+    out << prefix << "const GhostState::State " << name << "_state = (GhostState::State)" << state << ";" << endl;
 }
 
 // Note: this has little meaning other than that when it changes, a new action may be chosen (which is by crossing any grid line with offset half a tile)

@@ -26,11 +26,13 @@ namespace PACMAN {
             GhostNodes();
             ~GhostNodes();
 
-            const Node& get_node_towards_spawn(const Node& origin) const;
             const std::vector<Node*> get_respawns() const;
             const std::vector<Node*> get_spawns() const;
-
             double get_cost(const Node& node) const;
+            const Node& get_node_towards_spawn(const Node& origin) const;
+
+            const Node* get(int id) const;
+            int get_id(const Node*) const;
 
             void draw(std::shared_ptr<SDL_Surface> buffer) const;
             void draw_respawn_paths(std::shared_ptr<SDL_Surface> buffer) const;

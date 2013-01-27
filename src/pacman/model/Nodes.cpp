@@ -274,4 +274,14 @@ bool Nodes::are_connected_through_wrapping(const Node& a, const Node& b) const {
     return (&a == left_tunnel_node && &b == right_tunnel_node) || (&a == right_tunnel_node && &b == left_tunnel_node);
 }
 
+int Nodes::get_id(const Node& node, const std::vector<Node*>& nodes) const {
+    auto it = std::find(nodes.begin(), nodes.end(), &node);
+    if (it == nodes.end()) {
+        return -1;
+    }
+    else {
+        return std::distance(nodes.begin(), it);
+    }
+}
+
 }}

@@ -10,29 +10,16 @@
 
 #pragma once
 
-#include "PlayerState.h"
-#include "../util/Point.h"
+#include "../model/Action.h"
+
+#include <vector>
 
 namespace PACMAN {
     namespace MODEL {
+        class GameState;
+    }
 
-        class PacmanState : public PlayerState
-        {
-        public:
-            PacmanState();
-            PacmanState(const int origin_id, const int destination_id, FPoint pos); // Only for testing
-            PacmanState(const Node& initial_node);
-
-            virtual IPoint get_tile_pos() const;
-            bool operator==(const PacmanState&) const;
-
-            bool operator!=(const PacmanState& o) const {
-                return !(*this == o);
-            }
-
-        protected:
-            virtual const Nodes& get_nodes() const;
-        };
-
+    namespace TEST {
+        void playback_test(const std::vector<MODEL::Action>& path, const MODEL::GameState& game_state, const int player_index, const int recorded_steps);
     }
 }

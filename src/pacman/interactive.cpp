@@ -12,6 +12,7 @@
 #include "model/Game.h"
 #include "Constants.h"
 
+#include <fstream>
 #include <boost/scope_exit.hpp>
 
 using namespace PACMAN;
@@ -21,6 +22,7 @@ using std::cout;
 using std::endl;
 using std::vector;
 using std::shared_ptr;
+using std::ios;
 
 namespace PACMAN {
 
@@ -30,7 +32,9 @@ void InteractiveMain::run(GUI::GUIArgs gui_args) {
     shared_ptr<UIHints> uihints = gui.create_uihints();
 
     BOOST_SCOPE_EXIT(&game) {
-       game.print_path(); 
+        std::ofstream out("generated_test.cpp", ios::out);
+        game.print_recorded_test(out); 
+        out.close();
     } BOOST_SCOPE_EXIT_END
 
     while (gui.emptyMsgPump()) {

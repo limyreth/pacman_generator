@@ -24,9 +24,10 @@ namespace PACMAN {
 
             bool act(Direction::Type direction, UIHints& uihints);
             const MODEL::GameState& get_state();
-            void print_path();
+            void print_recorded_test(std::ostream&);
 
         private:
+            int steps;
             const int player_index;
             MODEL::IntermediateGameState state;
             std::list<MODEL::Action> path;  // actions taken to get to current state

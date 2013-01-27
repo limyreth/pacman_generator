@@ -27,6 +27,8 @@ namespace PACMAN {
 
     namespace MODEL {
 
+        typedef std::array<GhostState, GHOST_COUNT> Ghosts;
+
         class UIHints;
         class IntermediateGameState;
 
@@ -34,6 +36,20 @@ namespace PACMAN {
         class GameState : public ASSERTION::Assertable
         {
         public:
+            enum State {
+                NEW_GAME = 0,
+                INITIALISED = 1, // after init_successor
+                TIME_PROGRESSED = 2, // after progress_timer
+                INITIAL_MOVED = 3, // after initial_movement
+                ACTED = 4, // after act
+                TRANSITIONING = 5, // during any of the 4 above function calls
+                INVALID = 6
+            };
+
+        public:
+            // for testing only
+            GameState(SPECIFICATION::Foods foods, int score, int lives, bool ate_energizer, bool triggered_fruit_spawn, int vulnerable_ticks_left, int fruit_ticks_left, int idler_ticks_left, int ghost_release_ticks_left, State state, PacmanState pacman, Ghosts ghosts);
+
             // create bogus state
             GameState();
 
@@ -55,6 +71,8 @@ namespace PACMAN {
             bool operator!=(const GameState& o) const {
                 return !(o == *this);
             }
+
+            void print(std::ostream&, std::string line_prefix) const;
 
             unsigned int get_vulnerable_ghost_count() const;
 
@@ -132,7 +150,7 @@ namespace PACMAN {
 
         private:
             PacmanState pacman;
-            std::array<GhostState, GHOST_COUNT> ghosts;
+            Ghosts ghosts;
 
             SPECIFICATION::Foods foods; // shows where food lies on the map
             int food_count;
@@ -147,17 +165,9 @@ namespace PACMAN {
             int idler_ticks_left;  // ticks left til pacman gets off his lazy ass and starts moving again (pacman rests after eating dot or energizer)
             int ghost_release_ticks_left;  // ticks until we are forced to release a ghost
 
-            friend class PACMAN::TEST::Test;
+            State state;
 
-            enum State {
-                NEW_GAME,
-                INITIALISED, // after init_successor
-                TIME_PROGRESSED, // after progress_timer
-                INITIAL_MOVED, // after initial_movement
-                ACTED, // after act
-                TRANSITIONING, // during any of the 4 above function calls
-                INVALID
-            } state;
+            friend class PACMAN::TEST::Test;
         };
 
     }

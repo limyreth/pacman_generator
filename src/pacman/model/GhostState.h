@@ -19,14 +19,15 @@ namespace PACMAN {
         {
         public:
             enum State : unsigned char {
-                NORMAL,
-                VULNERABLE,
-                DEAD,
-                WAITING  // when in ghost pen, but not yet allowed to leave
+                NORMAL = 0,
+                VULNERABLE = 1,
+                DEAD = 2,
+                WAITING = 3  // when in ghost pen, but not yet allowed to leave
             };
 
         public:
             GhostState();
+            GhostState(const int origin_id, const int destination_id, FPoint pos, State state); // Only for testing
             GhostState(const Node& initial_node);
 
             double move(double distance, int player_index);
@@ -34,9 +35,9 @@ namespace PACMAN {
             void die();
             void leave_pen();
             bool is_in_tunnel();
+            void print(std::ostream& out, std::string prefix, std::string name) const;
 
             bool operator==(const GhostState&) const;
-
             bool operator!=(const GhostState& o) const {
                 return !(*this == o);
             }

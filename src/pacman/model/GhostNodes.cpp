@@ -195,4 +195,35 @@ const std::vector<Node*> GhostNodes::get_spawns() const {
     return spawns;
 }
 
+const Node* GhostNodes::get(int id) const {
+    if (id == -1) {
+        return NULL;
+    }
+    ASSERT(id >= 0);
+
+    int index = id >> 1;
+    if (id & 1 == 0) {
+        return nodes.at(index);
+    }
+    else {
+        return spawns.at(index);
+    }
+}
+
+int GhostNodes::get_id(const Node* node) const {
+    if (node == NULL) {
+        return -1;
+    }
+
+    auto id = Nodes::get_id(*node, nodes);
+    if (id >= 0) {
+        id = (id << 1) + 0;
+    }
+    else {
+        id = Nodes::get_id(*node, spawns);
+        id = (id << 1) + 1;
+    }
+    return id;
+}
+
 }}

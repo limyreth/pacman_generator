@@ -20,6 +20,7 @@
 using std::min;
 using std::cout;
 using std::endl;
+using std::string;
 
 namespace PACMAN {
     namespace MODEL {
@@ -27,6 +28,13 @@ namespace PACMAN {
 // default constructor because collections want them, don't use anything
 // instantiated like this, because it is utter garbage
 PlayerState::PlayerState() 
+{
+}
+
+PlayerState::PlayerState(const Node* origin, const Node* destination, FPoint pos)
+:   pos(pos),
+    origin(origin),
+    destination(destination)
 {
 }
 
@@ -202,6 +210,12 @@ void PlayerState::reverse() {
     INVARIANTS_ON_EXIT;
     REQUIRE(origin != NULL);  // = call act() at least once after player (re)spawn
     std::swap(origin, destination);
+}
+
+void PlayerState::print(std::ostream& out, string prefix, string name) const {
+    out << prefix << "const int " << name << "_origin = " << get_nodes().get_id(origin) << ";" << endl
+        << prefix << "const int " << name << "_destination = " << get_nodes().get_id(destination) << ";" << endl
+        << prefix << "const FPoint " << name << "_pos" << pos << ";" << endl;
 }
 
 

@@ -78,11 +78,30 @@ using namespace ::PACMAN::SPECIFICATION;
 using std::vector;
 using std::cout;
 using std::endl;
-
+using std::string;
 using std::max;
 
 namespace PACMAN {
     namespace MODEL {
+
+GameState::GameState(Foods foods, int score, int lives, bool ate_energizer, 
+        bool triggered_fruit_spawn, int vulnerable_ticks_left, int fruit_ticks_left,
+        int idler_ticks_left, int ghost_release_ticks_left, State state,
+        PacmanState pacman, Ghosts ghosts)
+:   foods(foods),
+    score(score),
+    lives(lives),
+    ate_energizer(ate_energizer),
+    triggered_fruit_spawn(triggered_fruit_spawn),
+    vulnerable_ticks_left(vulnerable_ticks_left),
+    fruit_ticks_left(fruit_ticks_left),
+    idler_ticks_left(idler_ticks_left),
+    ghost_release_ticks_left(ghost_release_ticks_left),
+    state(state),
+    pacman(pacman),
+    ghosts(ghosts)
+{
+}
 
 /**
  * Default ctor for use in collections. Don't use objects instantiated this
@@ -474,6 +493,48 @@ bool GameState::operator==(const GameState& other) const {
         other.ate_energizer == ate_energizer &&
         other.triggered_fruit_spawn == triggered_fruit_spawn &&
         other.ghost_release_ticks_left == ghost_release_ticks_left;
+}
+
+void GameState::print(std::ostream& out, string prefix) const {
+    pacman.print(out, prefix, "pacman");
+    out << endl;
+    ghosts[GHOST_BLINKY].print(out, prefix, "blinky");
+    out << endl;
+    ghosts[GHOST_PINKY].print(out, prefix, "pinky");
+    out << endl;
+    ghosts[GHOST_INKY].print(out, prefix, "inky");
+    out << endl;
+    ghosts[GHOST_CLYDE].print(out, prefix, "clyde");
+    out << endl;
+
+    out << prefix << "const int score = " << score << ";" << endl
+        << prefix << "const int lives = " << lives << ";" << endl
+        << prefix << "const bool ate_energizer = " << ate_energizer << ";" << endl
+        << prefix << "const bool triggered_fruit_spawn = " << triggered_fruit_spawn << ";" << endl
+        << prefix << "const int vulnerable_ticks_left = " << vulnerable_ticks_left << ";" << endl
+        << prefix << "const int fruit_ticks_left = " << fruit_ticks_left << ";" << endl
+        << prefix << "const int idler_ticks_left = " << idler_ticks_left << ";" << endl
+        << prefix << "const int ghost_release_ticks_left = " << ghost_release_ticks_left << ";" << endl
+        << prefix << "const GameState::State state = (GameState::State)" << state << ";" << endl;
+
+    out << endl;
+    out << prefix << "const Foods foods = {";
+    for (auto it = foods.begin(); it != foods.end()-1; it++) {
+        out << "(Food::Type)" << *it << ", ";
+    }
+    out << "(Food::Type)" << foods.back() << "};" << endl;
+
+    out << endl
+        << prefix << "/////////////////////////////////////////////////////////////////////////////////////////" << endl
+        << endl
+        << prefix << "PacmanState pacman(pacman_origin, pacman_destination, pacman_pos);" << endl
+        << prefix << "Ghosts ghosts = {" << endl
+        << prefix << "    GhostState(blinky_origin, blinky_destination, blinky_pos, blinky_state)," << endl
+        << prefix << "    GhostState(pinky_origin, pinky_destination, pinky_pos, pinky_state)," << endl
+        << prefix << "    GhostState(inky_origin, inky_destination, inky_pos, inky_state)," << endl
+        << prefix << "    GhostState(clyde_origin, clyde_destination, clyde_pos, clyde_state)" << endl
+        << prefix << "};" << endl
+        << prefix << "GameState game_state(foods, score, lives, ate_energizer, triggered_fruit_spawn, vulnerable_ticks_left, fruit_ticks_left, idler_ticks_left, ghost_release_ticks_left, state, pacman, ghosts);" << endl;
 }
 
 }}

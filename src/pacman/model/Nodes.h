@@ -34,6 +34,8 @@ namespace PACMAN {
             virtual ~Nodes();
 
             virtual void draw(std::shared_ptr<SDL_Surface> buffer) const = 0;
+            virtual const Node* get(int id) const = 0;
+            virtual int get_id(const Node*) const = 0;
             bool are_connected_through_wrapping(const Node& a, const Node& b) const;
 
         protected:
@@ -48,6 +50,8 @@ namespace PACMAN {
 
             void ensure_valid(const std::vector<Node*>& nodes, const std::vector<Node*>& all_nodes) const;
             void ensure_valid(const Node* node, const std::vector<Node*>& all_nodes) const;
+
+            int get_id(const Node& node, const std::vector<Node*>& nodes) const;
 
             double get_branching_factor(const std::vector<Node*>& nodes) const;
 
