@@ -135,11 +135,11 @@ GameState::GameState(const Node& pacman_spawn, const vector<Node*> ghost_spawns)
     pacman = PacmanState(pacman_spawn);
 
     for (int i=0; i<GHOST_COUNT; ++i) {
-        ghosts[i] = GhostState(*ghost_spawns.at(i));
+        ghosts.at(i) = GhostState(*ghost_spawns.at(i));
     }
 
-    ghosts[GHOST_BLINKY].leave_pen();
-    ghosts[GHOST_PINKY].leave_pen();
+    ghosts.at(GHOST_BLINKY).leave_pen();
+    ghosts.at(GHOST_PINKY).leave_pen();
 }
 
 void GameState::init_successor(const GameState& pre) {
@@ -248,10 +248,10 @@ void GameState::initial_movement(const GameState& pre, UIHints& uihints, double 
             }
             else {
                 const int ghost_i = player_index - 1;
-                if (ghosts[ghost_i].is_in_tunnel()) {
+                if (ghosts.at(ghost_i).is_in_tunnel()) {
                     speed_modifier = GHOST_TUNNEL_SPEED;
                 }
-                else if (ghosts[ghost_i].state == GhostState::VULNERABLE) {
+                else if (ghosts.at(ghost_i).state == GhostState::VULNERABLE) {
                     speed_modifier = GHOST_VULNERABLE_SPEED;
                 }
                 else if (is_elroy2(ghost_i)) {
@@ -384,20 +384,20 @@ bool GameState::act(const vector<Action>& actions, const GameState& pre, UIHints
     }
 
     if (ghost_release_ticks_left == -1) {
-        if (ghosts[GHOST_INKY].state == GhostState::WAITING) {
-            ghosts[GHOST_INKY].leave_pen();
+        if (ghosts.at(GHOST_INKY).state == GhostState::WAITING) {
+            ghosts.at(GHOST_INKY).leave_pen();
         }
-        else if (ghosts[GHOST_CLYDE].state == GhostState::WAITING) {
-            ghosts[GHOST_CLYDE].leave_pen();
+        else if (ghosts.at(GHOST_CLYDE).state == GhostState::WAITING) {
+            ghosts.at(GHOST_CLYDE).leave_pen();
         }
         ghost_release_ticks_left = MAX_TICKS_BETWEEN_GHOST_RELEASE;
     }
-    else if (food_eaten >= 90 && ghosts[GHOST_CLYDE].state == GhostState::WAITING) {
-        ghosts[GHOST_CLYDE].leave_pen();
+    else if (food_eaten >= 90 && ghosts.at(GHOST_CLYDE).state == GhostState::WAITING) {
+        ghosts.at(GHOST_CLYDE).leave_pen();
         ghost_release_ticks_left = MAX_TICKS_BETWEEN_GHOST_RELEASE;
     }
-    else if (food_eaten >= 30 && ghosts[GHOST_INKY].state == GhostState::WAITING) {
-        ghosts[GHOST_INKY].leave_pen();
+    else if (food_eaten >= 30 && ghosts.at(GHOST_INKY).state == GhostState::WAITING) {
+        ghosts.at(GHOST_INKY).leave_pen();
         ghost_release_ticks_left = MAX_TICKS_BETWEEN_GHOST_RELEASE;
     }
 
@@ -481,7 +481,7 @@ bool GameState::operator==(const GameState& other) const {
     }
 
     for (int i=0; i < GHOST_COUNT; ++i) {
-        if (other.ghosts[i] != ghosts[i]) {
+        if (other.ghosts.at(i) != ghosts.at(i)) {
             return false;
         }
     }
@@ -504,13 +504,13 @@ bool GameState::operator==(const GameState& other) const {
 void GameState::print(std::ostream& out, string prefix) const {
     pacman.print(out, prefix, "pacman");
     out << endl;
-    ghosts[GHOST_BLINKY].print(out, prefix, "blinky");
+    ghosts.at(GHOST_BLINKY).print(out, prefix, "blinky");
     out << endl;
-    ghosts[GHOST_PINKY].print(out, prefix, "pinky");
+    ghosts.at(GHOST_PINKY).print(out, prefix, "pinky");
     out << endl;
-    ghosts[GHOST_INKY].print(out, prefix, "inky");
+    ghosts.at(GHOST_INKY).print(out, prefix, "inky");
     out << endl;
-    ghosts[GHOST_CLYDE].print(out, prefix, "clyde");
+    ghosts.at(GHOST_CLYDE).print(out, prefix, "clyde");
     out << endl;
 
     out << prefix << "const int score = " << score << ";" << endl

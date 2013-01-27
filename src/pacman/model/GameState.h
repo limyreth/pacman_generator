@@ -116,7 +116,7 @@ namespace PACMAN {
                     return pacman;
                 }
                 else {
-                    return ghosts[index-1];
+                    return ghosts.at(index-1);
                 }
             }
 
@@ -125,7 +125,7 @@ namespace PACMAN {
                     return pacman;
                 }
                 else {
-                    return ghosts[index-1];
+                    return ghosts.at(index-1);
                 }
             }
 
