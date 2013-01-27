@@ -67,7 +67,7 @@
 #include "UIHints.h"
 #include "Action.h"
 #include "Node.h"
-#include "../util/util.h"
+#include <pacman/util/util.h>
 
 #include <string.h>
 
