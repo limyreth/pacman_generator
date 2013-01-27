@@ -17,6 +17,8 @@
 #include "Game.h"
 #include "../Constants.h"
 
+#include <limits>
+
 using std::cout;
 using std::endl;
 using std::vector;
@@ -65,6 +67,8 @@ const MODEL::GameState& Game::get_state() {
  * and asserts reaching the same end game state
  */
 void Game::print_recorded_test(std::ostream& out) {
+    out.precision(20);  // print with larger than max precision
+
     out << "/***************************************************************************" << endl
         << " *                                                                         *" << endl
         << " *   This program is free software; you can redistribute it and/or modify  *" << endl

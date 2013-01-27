@@ -26,7 +26,6 @@ void playback_test(const std::vector<Action>& path, const GameState& game_state,
     auto current_action = path.begin();
     IntermediateGameState state = IntermediateGameState::new_game();
     vector<Action> actions(PLAYER_COUNT, 0);
-    auto old_state = state.get_predecessor();
     int steps = 0;
 
     while (recorded_steps != steps) {
@@ -35,10 +34,10 @@ void playback_test(const std::vector<Action>& path, const GameState& game_state,
             current_action++;
         }
 
+        auto old_state = state.get_predecessor();
         state = state.act(actions, uihints);
 
         if (old_state != state.get_predecessor()) {
-            old_state = state.get_predecessor();
             steps++;
         }
     }
