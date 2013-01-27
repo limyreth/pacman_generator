@@ -141,6 +141,7 @@ namespace PACMAN {
             void resetLvl();
             void nextLvl();
 
+            int get_food_count_() const;
             inline int get_fruit_score() const {
                 return 100;
             }

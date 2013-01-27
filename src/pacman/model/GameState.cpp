@@ -101,6 +101,7 @@ GameState::GameState(Foods foods, int score, int lives, bool ate_energizer,
     pacman(pacman),
     ghosts(ghosts)
 {
+    food_count = get_food_count_();
 }
 
 /**
@@ -432,18 +433,23 @@ bool GameState::is_elroy2(int ghost_index) const {
     return ghost_index == GHOST_BLINKY && food_count <= 10;
 }
 
+/*
+ * Use food_count instead; it's faster
+ */
+int GameState::get_food_count_() const {
+    int count = 0;
+    for (auto food : foods) {
+        if (food) {
+            count++;
+        }
+    }
+    return count;
+}
+
 void GameState::invariants() const {
     INVARIANT(food_count >= 0);
     INVARIANT(!(food_count == 0 && !did_pacman_win()));
-    {
-        int count = 0;
-        for (auto food : foods) {
-            if (food) {
-                count++;
-            }
-        }
-        INVARIANT(count == food_count);
-    }
+    INVARIANT(food_count == get_food_count_());
 
     INVARIANT(score >= 0);
     INVARIANT(lives >= 0);
