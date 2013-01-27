@@ -7,62 +7,6 @@
  *                                                                         *
  ***************************************************************************/
 
-/*
- * Pacman rules: 
- *
- * - 10 points for each dot
- *
- * - 50 points for each energizer (big dot)
- *
- * - 244 dots
- *
- * - 4 energizers
- *
- * - ghosts made vulnerable by energizer for 6 seconds
- *
- * - ghosts eaten: first 200 points, then 400, 800, 1600. Is reset back to 200 upon eating a new energizer.
- *
- * - 2 fruits appear at directly beneath monster pen after 70 and 170 dots. At level 1 they are worth 100 points. They remain for 10sec.
- *   Spec isn't clear about exactly which tile fruit is in, so consider it to be in both tiles underneath the center of the pen.
- *
- * - monster pen leaving: red spawns outside the first time, pink leaves after 0 dots are eaten, blue leaves after 30 dots eaten, orange leaves after 90 dots total eaten. If no dots are eaten for 4 seconds, the next monster leaves the pen. (in level 3 all monsters leave immediately, always, might want to take that level as simplification)
- *
- * - speeds: see the table. Speed is determined solely by the current tile and state of the player. 100% speed = 9.5 tiles per sec.
- *
- * - pacman and ghosts are free to change direction any time. Ghosts and pacman take in a path as AI.
- *
- * - tunnel: wrap when tile pos exits map bounds. Wrap with pixel accuracy.
- *
- * - Original tile size was 8 px, pacman size 10x11 px, ghost size 14x25. 
- *   Simplification: pacman size = ghost size = 0.8 * 2 * tile_size.
- *   Sizes should be relatively correct. Fruit size is more or less the same as
- *   player size.
- *
- * - cornering: pacman can start his turn earlier. As early as when pacman's
- *   bounds touch the intersection tile's bounds. When cornering, pacman will
- *   briefly move through the wall tile neighbouring the intersection. While
- *   doing so, pacman's tile pos is that of the intersection tile, not that of
- *   the wall. This works for lvl1 speeds (player's pixel pos will enter the
- *   wall tile, even at highest speed; the distance spent in the wall tile is
- *   about 0.42 * tile_size).
- *
- * - Players are not allowed to reverse, unless in 2 cases: as pacman,
- *   immediately after having eaten fruit; as any player, immediately after
- *   pacman eats an energizer
- *
- * - Ghost respawn: ghosts respawn at their original spawn location. Except for
- *   blinky, blinky spawns at pinky's location.
- *
- * In our case we'll start with 1 life. Later we'll add more lifes, but first let's solve the simpler problem
- *
- * The above rules only apply to level 1, I'm assuming pacman won't make it through the first level.
- *
- * The game's logic plays at a fixed rate of 60 ticks per second. So the max render rate is 60 frames per second.
- *
- *
- * For full details: http://home.comcast.net/~jpittman2/pacman/pacmandossier.html
- */
-
 #include "GameState.h"
 #include "UIHints.h"
 #include "Action.h"
@@ -70,7 +14,6 @@
 #include <pacman/util/util.h>
 
 #include <string.h>
-
 #include <boost/scope_exit.hpp>
 
 using namespace ::PACMAN::SPECIFICATION;

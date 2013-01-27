@@ -32,7 +32,11 @@ namespace PACMAN {
         class UIHints;
         class IntermediateGameState;
 
-        // Each GameState shows the state at the begin/end of a tick
+        /*
+         * Each GameState shows the state at the begin/end of a tick
+         *
+         * Progresses game state according to the rules in the specification (see README)
+         */
         class GameState : public ASSERTION::Assertable
         {
         public:
