@@ -51,10 +51,33 @@ int main(int argc, char** argv) {
         for (int i = 1;i<argc;i++) {
             str=argv[i];
             if (str=="--help") {
-                std::cout << "pacman usage:\n\ncommandline arguments\n--help:\t\tshow this message\n"
-                        << "ingame\nesc/q:\tquit\narrows:\tmovement\n"
-                        << "n:\tnew game\n"
-                        << "f:\ttoggle fps display\n";
+                std::cout
+                    << endl
+                    << "Arguments:" << endl
+                    << endl
+                    << "\t--help" << endl
+                    << "\t\tShow this message" << endl
+                    << endl
+                    << "\t--show-pacman-nodes" << endl
+                    << "\t\tShow pacman movement graph" << endl
+                    << endl
+                    << "\t--show-ghost-nodes" << endl
+                    << "\t\tShow ghost movement graph" << endl
+                    << endl
+                    << "\t--show-respawn-paths" << endl
+                    << "\t\tShow ghost respawn path finding graph" << endl
+                    << endl
+                    << "\t--hide-food" << endl
+                    << "\t\tDon't render dots and energizers" << endl
+                    << endl
+                    << endl
+                    << "In-game:" << endl
+                    << "\tESC / q" << endl
+                    << "\t\tQuit" << endl
+                    << endl
+                    << "\tArrow keys" << endl
+                    << "\t\tMove pacman" << endl
+                    << endl;
                 return 0;
             }
             else if (str == "--test") {
