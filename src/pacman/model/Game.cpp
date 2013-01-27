@@ -75,12 +75,12 @@ void Game::print_recorded_test(std::ostream& out) {
         << " ***************************************************************************/" << endl
         << endl
         << endl
-        << "#include \"util/Point.h\"" << endl
-        << "#include \"model/GhostState.h\"" << endl
-        << "#include \"model/PacmanState.h\"" << endl
-        << "#include \"model/GameState.h\"" << endl
-        << "#include \"specification/Food.h\"" << endl
-        << "#include \"tests/playback_test.h\"" << endl
+        << "#include <pacman/util/Point.h>" << endl
+        << "#include <pacman/model/GhostState.h>" << endl
+        << "#include <pacman/model/PacmanState.h>" << endl
+        << "#include <pacman/model/GameState.h>" << endl
+        << "#include <pacman/specification/Food.h>" << endl
+        << "#include <pacman/tests/playback_test.h>" << endl
         << "" << endl
         << "#include <vector>" << endl
         << "" << endl
