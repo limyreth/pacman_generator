@@ -358,7 +358,7 @@ unsigned int GameState::get_vulnerable_ghost_count() const {
         if (ghost.state == GhostState::VULNERABLE)
             count++;
     }
-    INVARIANT(count == 0 || vulnerable_ticks_left > 0);
+    INVARIANT(count == 0 || vulnerable_ticks_left > -1);
     return count;
 }
 
