@@ -178,7 +178,7 @@ bool PlayerState::is_reversing_action(Action action) const {
             return true;
         }
 
-        const auto& new_neighbours = new_destination->get_neighbours();
+        const auto& new_neighbours = new_destination->get_neighbours(); // Note: this probably only applies to pacman
         if (std::find(new_neighbours.begin(), new_neighbours.end(), origin) != new_neighbours.end()) {
             return true;
         }
