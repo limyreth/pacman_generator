@@ -17,6 +17,7 @@
 using namespace ::PACMAN::MODEL;
 using std::vector;
 using std::endl;
+using std::max;
 
 namespace PACMAN {
     namespace GENERATOR {
@@ -45,6 +46,12 @@ ChoiceTree::ChoiceTree(std::istream& in, GameTree& tree)
     choices.resize(size);
 
     in.read((char*)choices.data(), choices.size() * sizeof(ChoiceNode));
+
+    restore_game_tree();
+}
+
+void ChoiceTree::restore_game_tree() const {
+    REQUIRE(tree.is_root());
 
     // get back to where we were in the game tree
     int finished_rounds = (choices.size() - 1) / PLAYER_COUNT;
@@ -99,7 +106,7 @@ bool ChoiceTree::next_child() {
     }
 
     if (choices.size() % PLAYER_COUNT == 0) {
-        auto it = choices.end() - PLAYER_COUNT;
+        auto it = (vector<ChoiceNode>::const_iterator)choices.end() - PLAYER_COUNT;
         enter_child(it);
     }
 
@@ -111,7 +118,7 @@ bool ChoiceTree::next_child() {
 /*
  * Call GameTree.child with choices starting with it
  */
-void ChoiceTree::enter_child(vector<ChoiceNode>::iterator& it) {
+void ChoiceTree::enter_child(vector<ChoiceNode>::const_iterator& it) const {
     //REQUIRE(it <= choices.end() - PLAYER_COUNT)
     vector<Action> actions;
     actions.reserve(PLAYER_COUNT);
@@ -179,6 +186,57 @@ void ChoiceTree::invariants() const {
     INVARIANT(choices.size() > choices_taken);
     INVARIANT(choices.capacity() == get_max_depth() + 1);
     //INVARIANT(max_choices const after ctor)
+}
+
+double ChoiceTree::get_completion() const {
+    double completion = 0.0;
+    
+    for (auto it = choices.rbegin(); it != choices.rend(); it++) {
+        if (it != choices.rbegin()) {
+            if (it->player == PLAYER_COUNT-1) {
+                tree.parent();
+            }
+        }
+
+        int action_count = 1;
+        int children_done;
+        if (it->action == -1) {
+            children_done = 0;
+        }
+        else if (it->action == -2) {
+            if (it == choices.rbegin()) {
+                children_done = 1;
+            }
+            else {
+                children_done = 0;
+            }
+        }
+        else {
+            action_count = tree.get_action_count(it->player);
+            ASSERT(it->action >= 0);
+            ASSERT(action_count > 0);
+            if (it == choices.rbegin()) {
+                children_done = it->action + 1;
+            }
+            else {
+                children_done = it->action;
+            }
+        }
+
+        completion = children_done / (double)action_count + // children fully done
+                     1.0 / (double)action_count * completion;  // + partial completion of current child
+
+        ASSERT(completion >= 0.0);
+        ASSERT(completion <= 1.0);
+    }
+
+    // restore the game tree
+    restore_game_tree();
+
+    //ENSURE(game_tree hasn't changed)
+    ENSURE(completion >= 0.0);
+    ENSURE(completion <= 1.0);
+    return completion;
 }
 
 }}

@@ -24,7 +24,8 @@ namespace PACMAN {
     namespace TEST {
 
 GameTree::GameTree(shared_ptr<TreeNode> root) 
-:   node(root),
+:   root(root),
+    node(root),
     children_visited(0)
 {
 }
@@ -62,6 +63,10 @@ int GameTree::get_score() const {
 
 bool GameTree::is_leaf() const {
     return node->children.empty();
+}
+
+bool GameTree::is_root() const {
+    return node == root;
 }
 
 bool GameTree::operator==(const GENERATOR::GameTree&) const {

@@ -48,6 +48,7 @@ namespace PACMAN {
             int get_alpha(int depth) const;
             int get_beta() const;
             int get_beta(int depth) const;
+            void print_completion() const;
 
             void minimax();
 

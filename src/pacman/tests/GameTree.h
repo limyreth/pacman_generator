@@ -42,6 +42,7 @@ namespace PACMAN {
             unsigned char get_action_count(int player) const;
             int get_score() const;
             bool is_leaf() const;
+            bool is_root() const;
             bool operator==(const GENERATOR::GameTree&) const;
 
             inline int get_children_visited() {
@@ -50,6 +51,7 @@ namespace PACMAN {
 
         private:
             int children_visited; // if a child is visited twice, then it is counted twice = the number of calls to next_child that return true
+            const std::shared_ptr<TreeNode> root;
             std::shared_ptr<TreeNode> node;  // curent node, starts as root
             unsigned int max_depth;
         };

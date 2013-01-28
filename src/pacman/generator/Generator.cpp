@@ -115,6 +115,7 @@ void Generator::minimax() {
     INVARIANTS_ON_EXIT;
     REQUIRE(!is_running);
     is_running = true;
+    print_completion();
     while (!search_complete && !should_stop) {
         auto& best_path = paths.at(choice_tree.get_depth());
 
@@ -162,6 +163,7 @@ void Generator::minimax() {
             }
         }
     }
+    print_completion();
 
     if (search_complete) {
         cout << endl
@@ -173,6 +175,15 @@ void Generator::minimax() {
 
     is_running = false;
     ENSURE(!search_complete || choice_tree.get_depth() == 0);
+}
+
+void Generator::print_completion() const {
+    double completion = choice_tree.get_completion();
+
+    auto old_precision = cout.precision();
+    cout.precision(20);
+    cout << "Completion: " << completion << endl;
+    cout.precision(old_precision);
 }
 
 void Generator::save(std::ostream& out) const {

@@ -144,4 +144,8 @@ void PacmanGameTree::invariants() const {
     //INVARIANT(max_depth is const after init)
 }
 
+bool PacmanGameTree::is_root() const {
+    return states.size() == 1;
+}
+
 }}

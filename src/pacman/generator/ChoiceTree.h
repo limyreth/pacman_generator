@@ -57,6 +57,7 @@ namespace PACMAN {
             int get_score() const;
             int get_depth() const;  // current depth in the tree, depth is 0-based index
             int get_max_depth() const;  // inclusive max
+            double get_completion() const;
 
             const GENERATOR::ChoiceNode& get() const;
             const GENERATOR::ChoiceNode& get(int depth) const;
@@ -70,8 +71,9 @@ namespace PACMAN {
             void invariants() const;
 
         private:
+            void restore_game_tree() const;
             virtual void init();
-            void enter_child(std::vector<ChoiceNode>::iterator& it);
+            void enter_child(std::vector<ChoiceNode>::const_iterator& it) const;
 
         private:
             unsigned int max_choices;

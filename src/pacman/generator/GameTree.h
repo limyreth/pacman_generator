@@ -50,7 +50,7 @@ namespace PACMAN {
             virtual int get_score() const = 0;
 
             virtual bool is_leaf() const = 0;
-
+            virtual bool is_root() const = 0;
             virtual bool operator==(const GameTree&) const = 0;
 
         };
