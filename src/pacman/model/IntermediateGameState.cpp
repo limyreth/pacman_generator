@@ -104,7 +104,12 @@ unsigned char IntermediateGameState::get_action_count(int player_index) const {
         return 0;
     }
     else if (state == REVERSE_ALL_CHOICE) {
-        return 2;  // either you reverse, or you don't
+        if (successor.get_player(player_index).can_reverse()) {
+            return 2;
+        }
+        else {
+            return 1;
+        }
     }
     else if (state == REVERSE_PACMAN_CHOICE) {
         if (player_index == PLAYER_PACMAN) {

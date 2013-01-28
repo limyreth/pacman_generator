@@ -206,9 +206,13 @@ const FPoint& PlayerState::get_pos() const {
     return pos;
 }
 
+bool PlayerState::can_reverse() const {
+    return origin != NULL; // = call act() at least once after player (re)spawn
+}
+
 void PlayerState::reverse() {
     INVARIANTS_ON_EXIT;
-    REQUIRE(origin != NULL);  // = call act() at least once after player (re)spawn
+    REQUIRE(can_reverse());
     std::swap(origin, destination);
 }
 

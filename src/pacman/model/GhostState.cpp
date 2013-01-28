@@ -111,6 +111,16 @@ const Nodes& GhostState::get_nodes() const {
     return GHOST_NODES;
 }
 
+bool GhostState::is_leaving_pen() const {
+    GHOST_NODES.is_spawn_node(origin);
+}
+
+bool GhostState::can_reverse() const {
+    return state != DEAD && state != WAITING && 
+        !is_leaving_pen() &&
+        PlayerState::can_reverse();
+}
+
 void GhostState::leave_pen() {
     REQUIRE(state == WAITING);
     state = NORMAL;

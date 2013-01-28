@@ -35,6 +35,7 @@ namespace PACMAN {
             void die();
             void leave_pen();
             bool is_in_tunnel();
+            bool can_reverse() const;
             void print(std::ostream& out, std::string prefix, std::string name) const;
 
             bool operator==(const GhostState&) const;
@@ -47,6 +48,9 @@ namespace PACMAN {
 
         protected:
             virtual const Nodes& get_nodes() const;
+
+        private:
+            bool is_leaving_pen() const;
         };
 
     }

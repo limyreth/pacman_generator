@@ -226,4 +226,8 @@ int GhostNodes::get_id(const Node* node) const {
     return id;
 }
 
+bool GhostNodes::is_spawn_node(const Node* node) const {
+    return std::find(spawns.begin(), spawns.end(), node) != spawns.end();
+}
+
 }}
