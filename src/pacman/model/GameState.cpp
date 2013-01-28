@@ -259,6 +259,7 @@ bool GameState::act(const vector<Action>& actions, const GameState& pre, UIHints
     // Handle collisions
     ///////////////////////////////////////////
 
+    bool ate_ghost = false;
     auto pacman_tpos = pacman.get_tile_pos();
     for (auto& ghost : ghosts) {
         if (pacman_tpos == ghost.get_tile_pos()) {
@@ -281,6 +282,7 @@ bool GameState::act(const vector<Action>& actions, const GameState& pre, UIHints
                 score += (int) pow(2.0, GHOST_COUNT - get_vulnerable_ghost_count()) * 200;
                 ghost.die();
                 uihints.ate_ghost();
+                ate_ghost = true;
             }
         }
     }
@@ -348,7 +350,7 @@ bool GameState::act(const vector<Action>& actions, const GameState& pre, UIHints
     triggered_fruit_spawn = food_count != pre.food_count && (food_eaten == 70 || food_eaten == 170);
 
     state = ACTED;
-    return ate_fruit;
+    return ate_ghost || ate_fruit;
 }
 
 unsigned int GameState::get_vulnerable_ghost_count() const {

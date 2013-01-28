@@ -99,9 +99,10 @@ Changes to the original rules:
       
     - and the new destination may not be a neighbour of where we just came from
     
-    - except after pacman has eaten an energizer or a ghost
+    - except after pacman has eaten an energizer, or ghosts become invulnerable
+      again
 
-    - except as pacman, after having eaten a fruit
+    - except as pacman, after having eaten a fruit or a ghost
 
   - Players may not stand still (except for ghosts who aren't allowed to leave
     the ghost pen yet)
