@@ -323,6 +323,9 @@ Additions compatible with the original rules:
   - TODO **eat energizer while ghosts are leaving the pen**
 
 
+Note: tests generated with record/playback are sensitive to the TILE_SIZE used,
+and expect a tile size of 24.
+
 
 Contact / More Information
 ==========================

@@ -13,7 +13,7 @@
 namespace PACMAN {
 
     namespace MODEL {
-        const int TILE_SIZE = 20;
+        const int TILE_SIZE = 24;
 
         const int PLAYER_PACMAN = 0;
         const int GHOST_BLINKY = 0;
