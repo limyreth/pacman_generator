@@ -56,10 +56,10 @@ IntermediateGameState IntermediateGameState::act(const std::vector<Action>& acti
     if (state == REVERSE_ALL_CHOICE) {
         if (!suppress_action) {
             for (int player_index = 0; player_index < PLAYER_COUNT; ++player_index) {
-                if (actions.at(player_index) == 0) {
+                if (actions.at(player_index) == 1) {
                     copy.successor.get_player(player_index).reverse();
                 } else {
-                    REQUIRE(actions.at(player_index) == 1);
+                    REQUIRE(actions.at(player_index) == 0);
                 }
             }
         }
@@ -82,10 +82,10 @@ IntermediateGameState IntermediateGameState::act(const std::vector<Action>& acti
         }
         else {
             if (!suppress_action) {
-                if (actions.at(PLAYER_PACMAN) == 0) {
+                if (actions.at(PLAYER_PACMAN) == 1) {
                     copy.successor.get_player(PLAYER_PACMAN).reverse();
                 } else {
-                    REQUIRE(actions.at(PLAYER_PACMAN) == 1);
+                    REQUIRE(actions.at(PLAYER_PACMAN) == 0);
                 }
             }
 
