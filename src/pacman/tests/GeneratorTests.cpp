@@ -17,6 +17,7 @@
 #include "../model/IntermediateGameState.h"
 
 #include "../util/assertion.h"
+#include "../util/Log.h"
 
 #include <thread>
 
@@ -75,7 +76,12 @@ void GeneratorTests::test_save_load_of_running_instance() {
 }
 
 void SaveLoadRunningGeneratorTest::thread_callback() {
-    run->join(str);
+    try {
+        run->join(str);
+    } 
+    catch(...) {
+        logtxt.log_exception(std::current_exception());
+    }
 }
 
 void SaveLoadRunningGeneratorTest::test() {

@@ -55,6 +55,19 @@ void Log::log_exception(const std::string str) {
     print(str);
 }
 
+void Log::log_exception(const std::exception_ptr& ptr) {
+    try {
+        std::rethrow_exception(ptr);
+    }
+    catch (const ASSERTION::AssertionException& e) {
+        log_exception(e);
+    }
+    catch (const std::exception& e) {
+        log_exception(e);
+    }
+    exit(1);
+}
+
 void Log::log_exception(const ASSERTION::AssertionException& e) {
     auto* message = boost::get_error_info<ASSERTION::assertion_message>(e);
 

@@ -163,13 +163,8 @@ int main(int argc, char** argv) {
 
         logtxt.print( "Shutdown" );
     }
-    catch (const ASSERTION::AssertionException& e) {
-        logtxt.log_exception(e);
-        return 1;
-    }
-    catch (const std::exception& e) {
-        logtxt.log_exception(e);
-        return 1;
+    catch (...) {
+        logtxt.log_exception(std::current_exception());
     }
 
     return 0;
