@@ -93,7 +93,7 @@ void GhostState::die() {
     double origin_cost = (get_pos() - origin->get_location()).length() + GHOST_NODES.get_cost(*origin);
     double destination_cost = (get_pos() - destination->get_location()).length() + GHOST_NODES.get_cost(*destination);
     if (origin_cost < destination_cost) {
-        reverse();
+        std::swap(origin, destination);
     }
 }
 
