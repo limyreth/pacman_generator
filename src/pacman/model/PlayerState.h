@@ -53,7 +53,9 @@ namespace PACMAN {
             const Node* destination;  // we are moving towards this node
 
         private:
-            Action get_reverse_action() const;
+            Action internal_to_external(Action) const;
+            Action external_to_internal(Action) const;
+            bool is_reversing_action(Action action) const;
             bool has_reached_destination() const;
 
         private:

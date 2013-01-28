@@ -93,7 +93,11 @@ Changes to the original rules:
 
 - Ghosts and pacman are free to move however they like, except for:
 
-  - Players may not reverse (i.e. they may not go where they directly came from):
+  - Players may not reverse:
+    
+    - they may not go where they directly came from
+      
+    - and the new destination may not be a neighbour of where we just came from
     
     - except after pacman has eaten an energizer or a ghost
 

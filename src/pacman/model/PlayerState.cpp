@@ -15,6 +15,8 @@
 #include "PacmanNodes.h"
 #include "../Constants.h"
 #include "../util/assertion.h"
+
+#include <algorithm>
 #include <cmath>
 
 using std::min;
@@ -92,10 +94,7 @@ void PlayerState::act(Action action) {
     REQUIRE(action >= 0);
     REQUIRE(action < get_action_count());
 
-    auto reverse_action = get_reverse_action();
-    if (reverse_action >= 0 && action >= reverse_action) {
-        ++action;
-    }
+    action = external_to_internal(action);
 
     // destination reached
     // consume the next action
@@ -105,6 +104,41 @@ void PlayerState::act(Action action) {
     destination = new_destination;
 
     ENSURE(!has_reached_destination());
+}
+
+Action PlayerState::external_to_internal(Action external) const {
+    REQUIRE(external >= 0);
+    REQUIRE(external < get_action_count());
+
+    Action internal = -1;
+    while (external >= 0) {
+        ++internal;
+        if (!is_reversing_action(internal)) {
+            external--;
+        }
+    }
+
+    ENSURE(internal >= 0);
+    ENSURE(internal < destination->get_neighbours().size());
+    ENSURE(!is_reversing_action(internal));
+    return internal;
+}
+
+Action PlayerState::internal_to_external(Action internal) const {
+    REQUIRE(internal >= 0);
+    REQUIRE(internal < destination->get_neighbours().size());
+    REQUIRE(!is_reversing_action(internal));
+
+    auto external = internal;
+    for (int i = 0; i <= internal; ++i) {
+        if (is_reversing_action(i)) {
+            external--;
+        }
+    }
+
+    ENSURE(external >= 0);
+    ENSURE(external < get_action_count());
+    return external;
 }
 
 bool PlayerState::has_reached_destination() const {
@@ -121,28 +155,35 @@ unsigned char PlayerState::get_action_count() const {
         return 0;
     }
     else {
-        unsigned char count = destination->get_neighbours().size();
-        if (get_reverse_action() >= 0) {
-            return count - 1;
+        int count = 0;
+        for (int i = 0; i < destination->get_neighbours().size(); ++i) {
+            if (!is_reversing_action(i)) {
+                count++;
+            }
         }
-        else {
-            return count;
-        }
+        return count;
     }
 }
 
 /*
- * Returns Action if found, -1 if none
+ * Returns true if said internal action reverses the move we just made
  */
-Action PlayerState::get_reverse_action() const {
+bool PlayerState::is_reversing_action(Action action) const {
+    REQUIRE(action >= 0);
+    REQUIRE(action < destination->get_neighbours().size());
+
     if (origin) {
-        for (Action i=0; i < destination->get_neighbours().size(); ++i) {
-            if (origin == destination->get_neighbours().at(i)) {
-                return i;
-            }
+        auto new_destination = destination->get_neighbours().at(action);
+        if (origin == new_destination) {
+            return true;
+        }
+
+        const auto& new_neighbours = new_destination->get_neighbours();
+        if (std::find(new_neighbours.begin(), new_neighbours.end(), origin) != new_neighbours.end()) {
+            return true;
         }
     }
-    return -1;
+    return false;
 }
 
 /*
@@ -158,9 +199,8 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
 
     double best_dot_prod = -1.0; // worst = -1, best = 1
     Action best_action = -1;
-    auto reverse_action = get_reverse_action();
     for (int i=0; i < destination->get_neighbours().size(); ++i) {
-        if (i == reverse_action) {
+        if (is_reversing_action(i)) {
             continue;
         }
 
@@ -181,9 +221,8 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
         }
     }
 
-    if (reverse_action >= 0 && best_action > reverse_action) {
-        --best_action;
-    }
+    best_action = internal_to_external(best_action);
+
     ENSURE(best_action < get_action_count());
     return best_action;
 }
