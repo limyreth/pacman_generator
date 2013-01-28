@@ -40,6 +40,8 @@ GhostState::GhostState(const Node& initial_node)
 
 // player_index: current player
 double GhostState::move(double distance, int player_index) {
+    INVARIANTS_ON_EXIT;
+
     if (state == WAITING) {
         return -1.0;
     }
@@ -81,11 +83,14 @@ double GhostState::move(double distance, int player_index) {
 }
 
 void GhostState::act(Action action) {
+    INVARIANTS_ON_EXIT;
     REQUIRE(state != DEAD);  // dead ghosts have no free will, they must return to the ghost pen
     PlayerState::act(action);
 }
 
 void GhostState::die() {
+    INVARIANTS_ON_EXIT;
+
     state = DEAD;
 
     // initial path finding to respawn point: which way is shortest, through origin or destination?
@@ -97,7 +102,7 @@ void GhostState::die() {
     }
 }
 
-bool GhostState::is_in_tunnel() {
+bool GhostState::is_in_tunnel() const {
     auto tpos = get_tile_pos();
     return tpos.y == 14 && ((tpos.x >= 0 && tpos.x <= 5) || (tpos.x >= MAP_WIDTH - 6 && tpos.x <= MAP_WIDTH - 1));
 }
@@ -122,6 +127,8 @@ bool GhostState::can_reverse() const {
 }
 
 void GhostState::leave_pen() {
+    INVARIANTS_ON_EXIT;
+
     REQUIRE(state == WAITING);
     state = NORMAL;
 }
