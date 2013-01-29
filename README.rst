@@ -186,7 +186,7 @@ How tests cover the game specification: (tests are in bold font)
   - **eat a fruit**
   - **eat a ghost**
   - **eat a fruit, then a ghost**
-  - TODO **eat 2 ghosts**
+  - **eat 2 ghosts**
   - TODO **eat 3 ghosts**
   - TODO **eat all ghosts**
   - TODO **eat ghost, another energizer, ghost**

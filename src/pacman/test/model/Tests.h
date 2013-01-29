@@ -22,6 +22,7 @@ namespace PACMAN {
             void test_pacman_movement_regular_speed_not_cornering();
             void test_dot_eating_no_cornering();
             void test_eat_1_ghost();
+            void test_eat_2_ghosts();
             void test_eat_2_dots();
             void test_eat_energizer();
             void test_eat_fruit();
