@@ -181,7 +181,7 @@ How tests cover the game specification: (tests are in bold font)
   - 100 points for a fruit at level 1. 
 
   - TODO **for every test, check score is correct**
-  - TODO **eat 2 dots**
+  - **eat 2 dots**
   - TODO **eat an energizer, no ghosts**
   - TODO **eat a fruit**
   - TODO **eat a fruit, then a ghost**

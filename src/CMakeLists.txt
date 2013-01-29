@@ -56,6 +56,7 @@ target_link_libraries(pacman_sdl
 
 enable_testing()
 
+# initial state
 add_test(
     NAME MODEL::test_start_foods
     COMMAND pacman_sdl --test MODEL::test_start_foods
@@ -71,6 +72,7 @@ add_test(
     COMMAND pacman_sdl --test MODEL::test_ghosts_remain_normal_when_not_eating_energizer
 )
 
+# movement
 add_test(
     NAME MODEL::test_pacman_movement_regular_speed_not_cornering
     COMMAND pacman_sdl --test MODEL::test_pacman_movement_regular_speed_not_cornering
@@ -81,6 +83,13 @@ add_test(
     COMMAND pacman_sdl --test MODEL::test_dot_eating_no_cornering
 )
 
+# scoring
+add_test(
+    NAME MODEL::test_eat_2_dots
+    COMMAND pacman_sdl --test MODEL::test_eat_2_dots
+)
+
+# generator
 add_test(
     NAME MinimaxTests::test_1
     COMMAND pacman_sdl --test MinimaxTests::test_1
