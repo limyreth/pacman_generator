@@ -100,16 +100,6 @@ namespace PACMAN {
                 return lives;
             }
 
-            inline bool did_pacman_lose() const {
-                REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
-                return lives == 0;
-            }
-
-            inline bool did_pacman_win() const {
-                REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
-                return food_count == 0;
-            }
-
             inline bool is_game_over() const {
                 REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
                 return did_pacman_lose() || did_pacman_win();
@@ -142,6 +132,16 @@ namespace PACMAN {
             void invariants() const;
 
         private:
+            inline bool did_pacman_lose() const {
+                REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
+                return lives == 0;
+            }
+
+            inline bool did_pacman_win() const {
+                REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
+                return food_count == 0;
+            }
+
             void resetLvl();
             void nextLvl();
 
