@@ -27,6 +27,9 @@ namespace PACMAN {
     namespace TEST {
         namespace MODEL {
 
+/*
+ * Map has 240 dots and 4 energizers
+ */
 void test_start_foods() {
     // validate a part of requirements: start_foods
     int dot_count = 0;
@@ -46,11 +49,13 @@ void test_start_foods() {
     ASSERT(energizer_count == 4);
 }
 
+/*
+ * Correct spawn positions
+ */
 void test_initial_game_state() {
     Test test(PLAYER_PACMAN);
     auto state = test.get_state();
 
-    // start positions
     ASSERT(state->get_player(PLAYER_PACMAN).get_pixel_pos() == FPoint(14, 23.5) * TILE_SIZE);
     ASSERT(state->get_player(PLAYER_PACMAN).get_tile_pos() == IPoint(14, 23));
     ASSERT(state->get_player(GHOST_BLINKY+1).get_pixel_pos() == FPoint(14, 11.5) * TILE_SIZE);
@@ -59,11 +64,17 @@ void test_initial_game_state() {
     ASSERT(state->get_player(GHOST_CLYDE+1).get_pixel_pos() == FPoint(16, 14) * TILE_SIZE);
 }
 
+/*
+ * Regression test to an earlier fix
+ */
 void test_ghosts_remain_normal_when_not_eating_energizer() {
     Test test(1);
     test.move(Direction::ANY);
 }
 
+/*
+ * Correct timing normal speed pacman movement
+ */
 void test_pacman_movement_regular_speed_not_cornering() {
     Test test(PLAYER_PACMAN);
 
@@ -77,6 +88,9 @@ void test_pacman_movement_regular_speed_not_cornering() {
     ASSERT(tile_pos == IPoint(16, 23));
 }
 
+/*
+ * Correct timing of dot eating when not cornering
+ */
 void test_dot_eating_no_cornering() {
     Test test(PLAYER_PACMAN);
 

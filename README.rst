@@ -166,8 +166,8 @@ How tests cover the game specification: (tests are in bold font)
 - Map: 240 (small) dots and 4 energizers (big dot). Spawn positions detailed in
   source code.
 
-  - TODO **Check start_foods for dot/energizer count**
-  - TODO **Check whether ghosts spawn at their spawn positions, nicely centered**
+  - **Check start_foods for dot/energizer count**
+  - **Check whether ghosts spawn at their spawn positions, nicely centered**
 
 - Scoring:
 
