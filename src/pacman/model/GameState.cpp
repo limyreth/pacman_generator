@@ -262,6 +262,7 @@ bool GameState::act(const vector<Action>& actions, const GameState& pre, UIHints
             }
             else if (ghost.state == GhostState::VULNERABLE) {
                 // pacman eats ghost
+                REQUIRE(ghost_score == 200 || ghost_score == 400 || ghost_score == 800 || ghost_score == 1600);
                 score += ghost_score;
                 ghost_score *= 2.0;
                 ghost.die();
@@ -394,8 +395,6 @@ void GameState::invariants() const {
 
     INVARIANT(ghost_release_ticks_left >= 0);
     INVARIANT(ghost_release_ticks_left <= MAX_TICKS_BETWEEN_GHOST_RELEASE);
-
-    INVARIANT(ghost_score == 200 || ghost_score == 400 || ghost_score == 800 || ghost_score == 1600);
 }
 
 void GameState::nextLvl() {
