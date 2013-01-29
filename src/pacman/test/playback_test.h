@@ -16,10 +16,10 @@
 
 namespace PACMAN {
     namespace MODEL {
-        class GameState;
+        class ExternalGameState;
     }
 
     namespace TEST {
-        void playback_test(const std::vector<MODEL::Action>& path, const MODEL::GameState& game_state, const int player_index, const int recorded_steps);
+        void playback_test(const std::vector<MODEL::Action>& path, const ::PACMAN::MODEL::ExternalGameState& game_state, const int player_index, const int recorded_steps);
     }
 }

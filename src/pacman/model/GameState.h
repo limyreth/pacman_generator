@@ -31,6 +31,17 @@ namespace PACMAN {
 
         class UIHints;
 
+        // implementation independent view of a GameState
+        struct ExternalGameState {
+            SPECIFICATION::Foods foods;
+            int score;
+            int lives;
+            PacmanState pacman;
+            Ghosts ghosts;
+            bool is_fruit_spawned;
+            bool is_game_over;
+        };
+
         /*
          * Each GameState shows the state at the begin/end of a tick
          *
@@ -50,9 +61,6 @@ namespace PACMAN {
             };
 
         public:
-            // for testing only
-            GameState(SPECIFICATION::Foods foods, int score, int lives, bool ate_energizer, bool triggered_fruit_spawn, int vulnerable_ticks_left, int fruit_ticks_left, int idler_ticks_left, int ghost_release_ticks_left, State state, PacmanState pacman, Ghosts ghosts);
-
             // create bogus state
             GameState();
 
@@ -74,6 +82,8 @@ namespace PACMAN {
             bool operator!=(const GameState& o) const {
                 return !(o == *this);
             }
+
+            bool is_equivalent_to(const ExternalGameState&) const;
 
             void print(std::ostream&, std::string line_prefix) const;
 

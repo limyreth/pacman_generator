@@ -95,7 +95,7 @@ void Game::print_recorded_test(std::ostream& out) {
         << "using ::PACMAN::MODEL::GhostState;" << endl
         << "using ::PACMAN::MODEL::Ghosts;" << endl
         << "using ::PACMAN::MODEL::PacmanState;" << endl
-        << "using ::PACMAN::MODEL::GameState;" << endl
+        << "using ::PACMAN::MODEL::ExternalGameState;" << endl
         << "using ::PACMAN::MODEL::Action;" << endl
         << "using ::PACMAN::MODEL::PLAYER_PACMAN;" << endl
         << "using namespace ::PACMAN::SPECIFICATION;" << endl

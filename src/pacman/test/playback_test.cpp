@@ -21,7 +21,7 @@ using namespace ::PACMAN::MODEL;
 namespace PACMAN {
     namespace TEST {
 
-void playback_test(const std::vector<Action>& path, const GameState& game_state, const int player_index, const int recorded_steps) {
+void playback_test(const std::vector<Action>& path, const ExternalGameState& game_state, const int player_index, const int recorded_steps) {
     NullUIHints uihints;
     auto current_action = path.begin();
     IntermediateGameState state = IntermediateGameState::new_game();
@@ -43,7 +43,7 @@ void playback_test(const std::vector<Action>& path, const GameState& game_state,
     }
 
     ASSERT(current_action == path.end());
-    ASSERT(state.get_predecessor() == game_state);
+    ASSERT(state.get_predecessor().is_equivalent_to(game_state));
 }
 
 }}

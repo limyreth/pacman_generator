@@ -27,26 +27,6 @@ using std::max;
 namespace PACMAN {
     namespace MODEL {
 
-GameState::GameState(Foods foods, int score, int lives, bool ate_energizer, 
-        bool triggered_fruit_spawn, int vulnerable_ticks_left, int fruit_ticks_left,
-        int idler_ticks_left, int ghost_release_ticks_left, State state,
-        PacmanState pacman, Ghosts ghosts)
-:   foods(foods),
-    score(score),
-    lives(lives),
-    ate_energizer(ate_energizer),
-    triggered_fruit_spawn(triggered_fruit_spawn),
-    vulnerable_ticks_left(vulnerable_ticks_left),
-    fruit_ticks_left(fruit_ticks_left),
-    idler_ticks_left(idler_ticks_left),
-    ghost_release_ticks_left(ghost_release_ticks_left),
-    state(state),
-    pacman(pacman),
-    ghosts(ghosts)
-{
-    food_count = get_food_count_();
-}
-
 /**
  * Default ctor for use in collections. Don't use objects instantiated this
  * way.
@@ -453,6 +433,27 @@ bool GameState::operator==(const GameState& other) const {
         other.ghost_score == ghost_score;
 }
 
+bool GameState::is_equivalent_to(const ExternalGameState& o) const {
+    if (o.pacman != pacman) {
+        return false;
+    }
+
+    for (int i=0; i < GHOST_COUNT; ++i) {
+        if (o.ghosts.at(i) != ghosts.at(i)) {
+            return false;
+        }
+    }
+
+    if (o.foods != foods) {
+        return false;
+    }
+
+    return o.score == score &&
+        o.lives == lives &&
+        o.is_fruit_spawned == is_fruit_spawned() &&
+        o.is_game_over == is_game_over();
+}
+
 void GameState::print(std::ostream& out, string prefix) const {
     pacman.print(out, prefix, "pacman");
     out << endl;
@@ -465,18 +466,15 @@ void GameState::print(std::ostream& out, string prefix) const {
     ghosts.at(GHOST_CLYDE).print(out, prefix, "clyde");
     out << endl;
 
-    out << prefix << "const int score = " << score << ";" << endl
-        << prefix << "const int lives = " << lives << ";" << endl
-        << prefix << "const bool ate_energizer = " << ate_energizer << ";" << endl
-        << prefix << "const bool triggered_fruit_spawn = " << triggered_fruit_spawn << ";" << endl
-        << prefix << "const int vulnerable_ticks_left = " << vulnerable_ticks_left << ";" << endl
-        << prefix << "const int fruit_ticks_left = " << fruit_ticks_left << ";" << endl
-        << prefix << "const int idler_ticks_left = " << idler_ticks_left << ";" << endl
-        << prefix << "const int ghost_release_ticks_left = " << ghost_release_ticks_left << ";" << endl
-        << prefix << "const GameState::State state = (GameState::State)" << state << ";" << endl;
+    out << prefix << "ExternalGameState game_state;" << endl
+        << prefix << "game_state.score = " << score << ";" << endl
+        << prefix << "game_state.lives = " << lives << ";" << endl
+        << prefix << "game_state.is_fruit_spawned = " << is_fruit_spawned() << ";" << endl
+        << prefix << "game_state.is_game_over = " << is_game_over() << ";" << endl
+        ;
 
     out << endl;
-    out << prefix << "const Foods foods = {";
+    out << prefix << "game_state.foods = Foods {";
     for (auto it = foods.begin(); it != foods.end()-1; it++) {
         out << "(Food::Type)" << *it << ", ";
     }
@@ -485,14 +483,14 @@ void GameState::print(std::ostream& out, string prefix) const {
     out << endl
         << prefix << "/////////////////////////////////////////////////////////////////////////////////////////" << endl
         << endl
-        << prefix << "PacmanState pacman(pacman_origin, pacman_destination, pacman_pos);" << endl
-        << prefix << "Ghosts ghosts = {" << endl
+        << prefix << "game_state.pacman = PacmanState(pacman_origin, pacman_destination, pacman_pos);" << endl
+        << prefix << "game_state.ghosts = Ghosts {" << endl
         << prefix << "    GhostState(blinky_origin, blinky_destination, blinky_pos, blinky_state)," << endl
         << prefix << "    GhostState(pinky_origin, pinky_destination, pinky_pos, pinky_state)," << endl
         << prefix << "    GhostState(inky_origin, inky_destination, inky_pos, inky_state)," << endl
         << prefix << "    GhostState(clyde_origin, clyde_destination, clyde_pos, clyde_state)" << endl
         << prefix << "};" << endl
-        << prefix << "GameState game_state(foods, score, lives, ate_energizer, triggered_fruit_spawn, vulnerable_ticks_left, fruit_ticks_left, idler_ticks_left, ghost_release_ticks_left, state, pacman, ghosts);" << endl;
+        ;
 }
 
 }}
