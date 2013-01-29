@@ -30,7 +30,6 @@ namespace PACMAN {
         typedef std::array<GhostState, GHOST_COUNT> Ghosts;
 
         class UIHints;
-        class IntermediateGameState;
 
         /*
          * Each GameState shows the state at the begin/end of a tick
