@@ -87,6 +87,9 @@ int main(int argc, char** argv) {
                     << endl
                     << "\tArrow keys" << endl
                     << "\t\tMove pacman" << endl
+                    << endl
+                    << "\tp" << endl
+                    << "\t\tPause game" << endl
                     << endl;
                 return 0;
             }

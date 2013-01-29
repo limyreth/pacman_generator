@@ -46,8 +46,13 @@ void InteractiveMain::run(GUIArgs gui_args) {
     } BOOST_SCOPE_EXIT_END
 
     while (gui.emptyMsgPump()) {
-        if (game.act(gui.get_preferred_direction(), *uihints)) {
+        if (gui.is_paused()) {
             gui.render();
+        }
+        else {
+            if (game.act(gui.get_preferred_direction(), *uihints)) {
+                gui.render();
+            }
         }
     }
 
@@ -65,19 +70,24 @@ void InteractiveMain::playback(GUIArgs gui_args, const std::list<Action>& path) 
     shared_ptr<UIHints> uihints = gui.create_uihints();
 
     while (gui.emptyMsgPump()) {
-        if (state.get_action_count(PLAYER_PACMAN) > 0) {
-            if (current_action == path.end()) {
-                return;
-            }
-            actions.at(PLAYER_PACMAN) = *current_action;
-            current_action++;
-        }
-
-        auto old_state = state.get_predecessor();
-        state = state.act(actions, *uihints);
-
-        if (old_state != state.get_predecessor()) {
+        if (gui.is_paused()) {
             gui.render();
+        }
+        else {
+            if (state.get_action_count(PLAYER_PACMAN) > 0) {
+                if (current_action == path.end()) {
+                    return;
+                }
+                actions.at(PLAYER_PACMAN) = *current_action;
+                current_action++;
+            }
+
+            auto old_state = state.get_predecessor();
+            state = state.act(actions, *uihints);
+
+            if (old_state != state.get_predecessor()) {
+                gui.render();
+            }
         }
     }
 }

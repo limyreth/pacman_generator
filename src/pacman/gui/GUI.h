@@ -48,6 +48,7 @@ namespace PACMAN {
             void render();
             bool emptyMsgPump();
             Direction::Type get_preferred_direction(); // direction the user wants to go in
+            bool is_paused();
 
         private:
             void InitApp();
@@ -69,6 +70,7 @@ namespace PACMAN {
             SDL_Rect scorebox;
             TTF_Font *font;
             Object *objects[NUMOFOBJECTS];
+            bool paused;
         };
 
     }

@@ -42,7 +42,8 @@ namespace PACMAN {
 GUI::GUI(const MODEL::GameState& state, GUIArgs gui_args)
 :   state(state),
     preferred_direction(Direction::NORTH),
-    gui_args(gui_args)
+    gui_args(gui_args),
+    paused(false)
 {
     InitApp();
     InitWindow();
@@ -140,6 +141,10 @@ bool GUI::emptyMsgPump() {
         switch(ev.type) {
         case SDL_KEYDOWN:
             switch (ev.key.keysym.sym ) {
+
+            case SDLK_p:
+                paused = !paused;
+                break;
 
             case SDLK_ESCAPE:
             case SDLK_q:
@@ -244,6 +249,10 @@ void GUI::loadFont() {
 
 shared_ptr<MODEL::UIHints> GUI::create_uihints() {
     return shared_ptr<MODEL::UIHints>(new GUIHints(snd));
+}
+
+bool GUI::is_paused() {
+    return paused;
 }
 
 }}
