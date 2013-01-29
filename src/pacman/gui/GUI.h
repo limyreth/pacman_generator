@@ -49,6 +49,7 @@ namespace PACMAN {
             bool emptyMsgPump();
             Direction::Type get_preferred_direction(); // direction the user wants to go in
             bool is_paused();
+            void pause();
 
         private:
             void InitApp();

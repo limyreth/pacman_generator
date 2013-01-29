@@ -27,12 +27,12 @@ using std::ios;
 
 namespace PACMAN {
 
-void InteractiveMain::run(GUIArgs gui_args, std::list<Action> path) {
+void InteractiveMain::run(GUIArgs gui_args, std::list<Action> path, bool pause_at_end) {
     if (path.empty()) {
         run(gui_args);
     }
     else {
-        playback(gui_args, path);
+        playback(gui_args, path, pause_at_end);
     }
 }
 
@@ -61,7 +61,7 @@ void InteractiveMain::run(GUIArgs gui_args) {
     out.close();
 }
 
-void InteractiveMain::playback(GUIArgs gui_args, const std::list<Action>& path) {
+void InteractiveMain::playback(GUIArgs gui_args, const std::list<Action>& path, bool pause_at_end) {
     auto current_action = path.begin();
     IntermediateGameState state = IntermediateGameState::new_game();
     vector<Action> actions(PLAYER_COUNT, 0);
@@ -69,6 +69,7 @@ void InteractiveMain::playback(GUIArgs gui_args, const std::list<Action>& path) 
     GUI::GUI gui(state.get_predecessor(), gui_args);
     shared_ptr<UIHints> uihints = gui.create_uihints();
 
+    bool quit_at_end = !pause_at_end;
     while (gui.emptyMsgPump()) {
         if (gui.is_paused()) {
             gui.render();
@@ -76,7 +77,14 @@ void InteractiveMain::playback(GUIArgs gui_args, const std::list<Action>& path) 
         else {
             if (state.get_action_count(PLAYER_PACMAN) > 0) {
                 if (current_action == path.end()) {
-                    return;
+                    if (quit_at_end) {
+                        return;
+                    }
+                    else {
+                        quit_at_end = true;
+                        gui.pause();
+                        continue;
+                    }
                 }
                 actions.at(PLAYER_PACMAN) = *current_action;
                 current_action++;

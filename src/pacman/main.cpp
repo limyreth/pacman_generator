@@ -48,6 +48,7 @@ int main(int argc, char** argv) {
     gui_args.show_respawn_paths = false;
     gui_args.game_speed = 1.0;
     std::list<Action> path;
+    bool pause_at_end = false;
 
     try {
         logtxt.setFilename(".pacman_sdl");
@@ -79,6 +80,9 @@ int main(int argc, char** argv) {
                     << endl
                     << "\t--path {A, B, C, ..., Z}" << endl
                     << "\t\tUse list of actions as input (instead of keyboard)" << endl
+                    << endl
+                    << "\t--pause-at-end" << endl
+                    << "\t\tWhen using --path, pause at end of playback" << endl
                     << endl
                     << endl
                     << "In-game:" << endl
@@ -124,6 +128,9 @@ int main(int argc, char** argv) {
             else if (str == "--show-respawn-paths") {
                 gui_args.show_respawn_paths = true;
             }
+            else if (str == "--pause-at-end") {
+                pause_at_end = true;
+            }
             else if (str == "--game-speed") {
                 i++;
                 if (i >= argc) {
@@ -164,7 +171,7 @@ int main(int argc, char** argv) {
         }
 
         InteractiveMain main;
-        main.run(gui_args, path);
+        main.run(gui_args, path, pause_at_end);
 
         logtxt.print( "Shutdown" );
     }

@@ -19,11 +19,11 @@ namespace PACMAN {
 
     class InteractiveMain {
     public:
-        void run(GUI::GUIArgs, std::list<MODEL::Action> path);
+        void run(GUI::GUIArgs, std::list<MODEL::Action> path, bool pause_at_end);
 
     private:
         void run(GUI::GUIArgs);
-        void playback(GUI::GUIArgs, const std::list<MODEL::Action>& path);
+        void playback(GUI::GUIArgs, const std::list<MODEL::Action>& path, bool pause_at_end);
     };
 
 }

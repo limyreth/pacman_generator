@@ -255,4 +255,8 @@ bool GUI::is_paused() {
     return paused;
 }
 
+void GUI::pause() {
+    paused = true;
+}
+
 }}
