@@ -89,6 +89,11 @@ add_test(
     COMMAND pacman_sdl --test MODEL::test_eat_2_dots
 )
 
+add_test(
+    NAME MODEL::test_eat_energizer
+    COMMAND pacman_sdl --test MODEL::test_eat_energizer
+)
+
 # generator
 add_test(
     NAME MinimaxTests::test_1

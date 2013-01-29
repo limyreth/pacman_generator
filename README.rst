@@ -182,7 +182,7 @@ How tests cover the game specification: (tests are in bold font)
 
   - TODO **for every test, check score is correct**
   - **eat 2 dots**
-  - TODO **eat an energizer, no ghosts**
+  - **eat an energizer, no ghosts**
   - TODO **eat a fruit**
   - TODO **eat a fruit, then a ghost**
   - TODO **eat a ghost**
