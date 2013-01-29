@@ -188,7 +188,7 @@ How tests cover the game specification: (tests are in bold font)
   - **eat a fruit, then a ghost**
   - **eat 2 ghosts**
   - **eat 3 ghosts**
-  - TODO **eat all ghosts**
+  - **eat all ghosts**
   - TODO **eat ghost, another energizer, ghost**
 
 - Fixed frame rate of 60 ticks per second.

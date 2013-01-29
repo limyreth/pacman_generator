@@ -115,6 +115,11 @@ add_test(
 )
 
 add_test(
+    NAME MODEL::test_eat_4_ghosts
+    COMMAND pacman_sdl --test MODEL::test_eat_4_ghosts
+)
+
+add_test(
     NAME MODEL::test_eat_fruit_ghost
     COMMAND pacman_sdl --test MODEL::test_eat_fruit_ghost
 )
