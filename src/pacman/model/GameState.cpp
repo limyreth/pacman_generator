@@ -70,7 +70,8 @@ GameState::GameState(const Node& pacman_spawn, const vector<Node*> ghost_spawns)
     ate_energizer(false),
     triggered_fruit_spawn(false),
     state(NEW_GAME),
-    foods(start_foods)
+    foods(start_foods),
+    ghost_score(200)
 {
     INVARIANTS_ON_EXIT;
 
@@ -132,6 +133,8 @@ bool GameState::progress_timers(const GameState& pre, UIHints& uihints) {
                 allow_reversing = true;
             }
         }
+
+        ghost_score = 200;
     }
     else if (vulnerable_ticks_left == 0) {
         uihints.ghosts_no_longer_vulnerable();
@@ -279,7 +282,8 @@ bool GameState::act(const vector<Action>& actions, const GameState& pre, UIHints
             }
             else if (ghost.state == GhostState::VULNERABLE) {
                 // pacman eats ghost
-                score += (int) pow(2.0, GHOST_COUNT - get_vulnerable_ghost_count()) * 200;
+                score += ghost_score;
+                ghost_score *= 2.0;
                 ghost.die();
                 uihints.ate_ghost();
                 ate_ghost = true;
@@ -410,6 +414,8 @@ void GameState::invariants() const {
 
     INVARIANT(ghost_release_ticks_left >= 0);
     INVARIANT(ghost_release_ticks_left <= MAX_TICKS_BETWEEN_GHOST_RELEASE);
+
+    INVARIANT(ghost_score == 200 || ghost_score == 400 || ghost_score == 800 || ghost_score == 1600);
 }
 
 void GameState::nextLvl() {
@@ -443,7 +449,8 @@ bool GameState::operator==(const GameState& other) const {
         other.idler_ticks_left == idler_ticks_left &&
         other.ate_energizer == ate_energizer &&
         other.triggered_fruit_spawn == triggered_fruit_spawn &&
-        other.ghost_release_ticks_left == ghost_release_ticks_left;
+        other.ghost_release_ticks_left == ghost_release_ticks_left &&
+        other.ghost_score == ghost_score;
 }
 
 void GameState::print(std::ostream& out, string prefix) const {

@@ -161,6 +161,7 @@ namespace PACMAN {
             int food_count;
             int score;
             int lives;
+            int ghost_score;  // score given for eating a ghost
 
             bool ate_energizer;
             bool triggered_fruit_spawn; // an action was performed which will cause fruit to spawn next tick
