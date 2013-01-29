@@ -57,28 +57,28 @@ target_link_libraries(pacman_sdl
 enable_testing()
 
 add_test(
-    NAME test_start_foods
-    COMMAND pacman_sdl --test test_start_foods
+    NAME MODEL::test_start_foods
+    COMMAND pacman_sdl --test MODEL::test_start_foods
 )
 
 add_test(
-    NAME test_initial_game_state
-    COMMAND pacman_sdl --test test_initial_game_state
+    NAME MODEL::test_initial_game_state
+    COMMAND pacman_sdl --test MODEL::test_initial_game_state
 )
 
 add_test(
-    NAME test_ghosts_remain_normal_when_not_eating_energizer
-    COMMAND pacman_sdl --test test_ghosts_remain_normal_when_not_eating_energizer
+    NAME MODEL::test_ghosts_remain_normal_when_not_eating_energizer
+    COMMAND pacman_sdl --test MODEL::test_ghosts_remain_normal_when_not_eating_energizer
 )
 
 add_test(
-    NAME test_pacman_movement_regular_speed_not_cornering
-    COMMAND pacman_sdl --test test_pacman_movement_regular_speed_not_cornering
+    NAME MODEL::test_pacman_movement_regular_speed_not_cornering
+    COMMAND pacman_sdl --test MODEL::test_pacman_movement_regular_speed_not_cornering
 )
 
 add_test(
-    NAME test_dot_eating_no_cornering
-    COMMAND pacman_sdl --test test_dot_eating_no_cornering
+    NAME MODEL::test_dot_eating_no_cornering
+    COMMAND pacman_sdl --test MODEL::test_dot_eating_no_cornering
 )
 
 add_test(

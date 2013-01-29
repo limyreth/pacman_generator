@@ -26,16 +26,16 @@ namespace PACMAN {
         public:
             Test(int player_index);
             int move(Direction::Type direction);
-            void directions_to_actions(Direction::Type pacman, Direction::Type blinky, Direction::Type pinky, Direction::Type inky, Direction::Type clyde, MODEL::Action* actions);
+            void directions_to_actions(Direction::Type pacman, Direction::Type blinky, Direction::Type pinky, Direction::Type inky, Direction::Type clyde, ::PACMAN::MODEL::Action* actions);
 
             int get_food_count();
 
-            const MODEL::GameState* get_state();
+            const ::PACMAN::MODEL::GameState* get_state();
 
         private:
             int player_index;
-            MODEL::Game game;
-            MODEL::NullUIHints uihints;
+            ::PACMAN::MODEL::Game game;
+            ::PACMAN::MODEL::NullUIHints uihints;
         };
 
     }
