@@ -99,6 +99,11 @@ add_test(
     COMMAND pacman_sdl --test MODEL::test_eat_fruit
 )
 
+add_test(
+    NAME MODEL::test_eat_fruit_ghost
+    COMMAND pacman_sdl --test MODEL::test_eat_fruit_ghost
+)
+
 # generator
 add_test(
     NAME MinimaxTests::test_1
