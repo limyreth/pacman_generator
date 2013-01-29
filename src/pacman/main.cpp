@@ -18,7 +18,7 @@
 #include "generator/generate.h"
 #include "util/Log.h"
 #include "util/assertion.h"
-#include "tests/Tests.h"
+#include "test/Tests.h"
 
 #include <sstream>
 #include <algorithm>

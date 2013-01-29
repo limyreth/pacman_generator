@@ -88,7 +88,7 @@ void Game::print_recorded_test(std::ostream& out) {
         << "#include <pacman/model/PacmanState.h>" << endl
         << "#include <pacman/model/GameState.h>" << endl
         << "#include <pacman/specification/Food.h>" << endl
-        << "#include <pacman/tests/playback_test.h>" << endl
+        << "#include <pacman/test/playback_test.h>" << endl
         << "" << endl
         << "#include <vector>" << endl
         << "" << endl
