@@ -10,11 +10,6 @@
 
 #include "Tests.h"
 #include "model/Tests.h"
-#include "model/eat_2_dots.h"
-#include "model/eat_energizer.h"
-#include "model/eat_fruit.h"
-#include "model/eat_1_ghost.h"
-#include "model/eat_fruit_ghost.h"
 #include "MinimaxTests.h"
 #include "GeneratorTests.h"
 #include "../util/assertion.h"
