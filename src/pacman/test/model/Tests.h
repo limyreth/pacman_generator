@@ -25,6 +25,7 @@ namespace PACMAN {
             void test_eat_2_ghosts();
             void test_eat_3_ghosts();
             void test_eat_4_ghosts();
+            void test_eat_ghost_energizer_ghost();
             void test_eat_2_dots();
             void test_eat_energizer();
             void test_eat_fruit();

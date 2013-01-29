@@ -180,7 +180,6 @@ How tests cover the game specification: (tests are in bold font)
 
   - 100 points for a fruit at level 1. 
 
-  - TODO **for every test, check score is correct**
   - **eat 2 dots**
   - **eat an energizer, no ghosts**
   - **eat a fruit**
@@ -189,7 +188,7 @@ How tests cover the game specification: (tests are in bold font)
   - **eat 2 ghosts**
   - **eat 3 ghosts**
   - **eat all ghosts**
-  - TODO **eat ghost, another energizer, ghost**
+  - **eat ghost, another energizer, ghost**
 
 - Fixed frame rate of 60 ticks per second.
 

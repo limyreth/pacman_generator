@@ -33,6 +33,7 @@ void test(string name) {
     else if (name == "MODEL::test_eat_2_ghosts") MODEL::test_eat_2_ghosts();
     else if (name == "MODEL::test_eat_3_ghosts") MODEL::test_eat_3_ghosts();
     else if (name == "MODEL::test_eat_4_ghosts") MODEL::test_eat_4_ghosts();
+    else if (name == "MODEL::test_eat_ghost_energizer_ghost") MODEL::test_eat_ghost_energizer_ghost();
     else if (name == "MinimaxTests::test_1") MinimaxTests::test_1();
     else if (name == "GeneratorTests::test_1") GeneratorTests::test_1();
     else if (name == "GeneratorTests::test_save_load") GeneratorTests::test_save_load();

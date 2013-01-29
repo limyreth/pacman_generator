@@ -120,6 +120,11 @@ add_test(
 )
 
 add_test(
+    NAME MODEL::test_eat_ghost_energizer_ghost
+    COMMAND pacman_sdl --test MODEL::test_eat_ghost_energizer_ghost
+)
+
+add_test(
     NAME MODEL::test_eat_fruit_ghost
     COMMAND pacman_sdl --test MODEL::test_eat_fruit_ghost
 )
