@@ -91,15 +91,17 @@ int main(int argc, char** argv) {
                 return 0;
             }
             else if (str == "--test") {
-                std::istringstream str(argv[i+1]);
-                int index;
-                str >> index;
-                test(index-1);
+                if (!(i == 1 && argc == 3)) {
+                    std::cerr << "Incorrect arguments to --test" << endl;
+                    return 1;
+                }
+
+                test(argv[2]);
                 return 0;
             }
             else if (str == "--generate") {
                 if (!(i == 1 && argc == 3)) {
-                    std::cerr << "Incorrect arguments to generate" << endl;
+                    std::cerr << "Incorrect arguments to --generate" << endl;
                     return 1;
                 }
 

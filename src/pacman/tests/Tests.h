@@ -10,10 +10,12 @@
 
 #pragma once
 
+#include <string>
+
 namespace PACMAN {
     namespace TEST {
 
-        void test(int index);
+        void test(std::string name);
 
     }
 }

@@ -20,6 +20,7 @@
 using std::cout;
 using std::endl;
 using std::vector;
+using std::string;
 
 using namespace PACMAN::MODEL;
 using namespace PACMAN::SPECIFICATION;
@@ -104,21 +105,17 @@ void test_dot_eating_no_cornering() {
  * fruit, ...
  */
 
-void test(int index) {
-    typedef void (*TestFunc)();
-
-    vector<TestFunc> tests = {
-        test_initial_game_state,
-        test_ghosts_remain_normal_when_not_eating_energizer,
-        test_pacman_movement_regular_speed_not_cornering,
-        test_dot_eating_no_cornering,
-        MinimaxTests::test_1,
-        GeneratorTests::test_1,
-        GeneratorTests::test_save_load,
-        GeneratorTests::test_save_load_of_running_instance,
-        test_start_foods
-    };
-    tests.at(index)();
+void test(string name) {
+    if (name == "test_start_foods") test_start_foods();
+    else if (name == "test_initial_game_state") test_initial_game_state;
+    else if (name == "test_ghosts_remain_normal_when_not_eating_energizer") test_ghosts_remain_normal_when_not_eating_energizer;
+    else if (name == "test_pacman_movement_regular_speed_not_cornering") test_pacman_movement_regular_speed_not_cornering;
+    else if (name == "test_dot_eating_no_cornering") test_dot_eating_no_cornering;
+    else if (name == "MinimaxTests::test_1") MinimaxTests::test_1;
+    else if (name == "GeneratorTests::test_1") GeneratorTests::test_1;
+    else if (name == "GeneratorTests::test_save_load") GeneratorTests::test_save_load;
+    else if (name == "GeneratorTests::test_save_load_of_running_instance") GeneratorTests::test_save_load_of_running_instance;
+    else ASSERT(false);
 }
 
 }}

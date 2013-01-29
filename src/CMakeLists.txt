@@ -57,47 +57,47 @@ target_link_libraries(pacman_sdl
 enable_testing()
 
 add_test(
-    NAME start_foods
-    COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pacman_sdl --test 9
+    NAME test_start_foods
+    COMMAND pacman_sdl --test test_start_foods
 )
 
 add_test(
-    NAME initial_game_state
-    COMMAND pacman_sdl --test 1
+    NAME test_initial_game_state
+    COMMAND pacman_sdl --test test_initial_game_state
 )
 
 add_test(
-    NAME ghosts_remain_normal_when_not_eating_energizer
-    COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pacman_sdl --test 2
+    NAME test_ghosts_remain_normal_when_not_eating_energizer
+    COMMAND pacman_sdl --test test_ghosts_remain_normal_when_not_eating_energizer
 )
 
 add_test(
-    NAME pacman_movement_regular_speed_not_cornering
-    COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pacman_sdl --test 3
+    NAME test_pacman_movement_regular_speed_not_cornering
+    COMMAND pacman_sdl --test test_pacman_movement_regular_speed_not_cornering
 )
 
 add_test(
-    NAME dot_eating_no_cornering
-    COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pacman_sdl --test 4
+    NAME test_dot_eating_no_cornering
+    COMMAND pacman_sdl --test test_dot_eating_no_cornering
 )
 
 add_test(
-    NAME minimax_1
-    COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pacman_sdl --test 5
+    NAME MinimaxTests::test_1
+    COMMAND pacman_sdl --test MinimaxTests::test_1
 )
 
 add_test(
-    NAME generator_1
-    COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pacman_sdl --test 6
+    NAME GeneratorTests::test_1
+    COMMAND pacman_sdl --test GeneratorTests::test_1
 )
 
 add_test(
-    NAME generator_save_load
-    COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pacman_sdl --test 7
+    NAME GeneratorTests::test_save_load
+    COMMAND pacman_sdl --test GeneratorTests::test_save_load
 )
 
 add_test(
-    NAME generator_save_load_of_running_instance
-    COMMAND ${CMAKE_CURRENT_BINARY_DIR}/pacman_sdl --test 8
+    NAME GeneratorTests::test_save_load_of_running_instance
+    COMMAND pacman_sdl --test GeneratorTests::test_save_load_of_running_instance
 )
 
