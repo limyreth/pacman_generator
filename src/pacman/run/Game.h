@@ -37,11 +37,13 @@ namespace PACMAN {
              */
             static Inputs make_inputs(int player_index, std::shared_ptr<Input> input);
 
-            bool act();
             const ::PACMAN::MODEL::GameState& get_state();
             void print_recorded_test(std::ostream&, RecordedInput&);
             int get_steps();
             void reset_steps();
+
+        private:
+            bool act();
 
         private:
             std::shared_ptr< ::PACMAN::MODEL::UIHints> uihints;
