@@ -23,7 +23,7 @@ namespace PACMAN {
 
     namespace MODEL {
         class GameState;
-        class UIHints;
+        class GameStateObserver;
     }
 
     namespace GUI {
@@ -45,7 +45,7 @@ namespace PACMAN {
             GUI(GUIArgs gui_args);
             ~GUI();
 
-            std::shared_ptr<MODEL::UIHints> create_uihints();
+            std::shared_ptr<MODEL::GameStateObserver> create_state_observer();
             void finished_step(const MODEL::GameState& state);
             bool should_stop();
             Direction::Type get_preferred_direction(); // direction the user wants to go in

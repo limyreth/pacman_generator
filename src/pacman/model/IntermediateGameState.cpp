@@ -49,7 +49,7 @@ bool IntermediateGameState::operator==(const IntermediateGameState& o) const {
         o.state == state;
 }
 
-IntermediateGameState IntermediateGameState::act(const std::vector<Action>& actions, UIHints& uihints) const {
+IntermediateGameState IntermediateGameState::act(const std::vector<Action>& actions, GameStateObserver& observer) const {
     REQUIRE(state != GAME_OVER);  // iff get_predecessor().is_game_over()
     auto copy = *this;
 
@@ -64,13 +64,13 @@ IntermediateGameState IntermediateGameState::act(const std::vector<Action>& acti
             }
         }
 
-        copy.successor.initial_movement(copy.predecessor, uihints, copy.movement_excess);
+        copy.successor.initial_movement(copy.predecessor, observer, copy.movement_excess);
         copy.suppress_action = false;
         copy.state = ABOUT_TO_ACT;
     }
     else if (state == ABOUT_TO_ACT) {
         ASSERT(!suppress_action);
-        copy.suppress_action = !copy.successor.act(actions, predecessor, uihints, movement_excess);
+        copy.suppress_action = !copy.successor.act(actions, predecessor, observer, movement_excess);
         copy.state = REVERSE_PACMAN_CHOICE;
     }
     else if (state == REVERSE_PACMAN_CHOICE) {
@@ -90,7 +90,7 @@ IntermediateGameState IntermediateGameState::act(const std::vector<Action>& acti
             }
 
             copy.successor.init_successor(copy.predecessor);
-            copy.suppress_action = !copy.successor.progress_timers(copy.predecessor, uihints);
+            copy.suppress_action = !copy.successor.progress_timers(copy.predecessor, observer);
             copy.state = REVERSE_ALL_CHOICE;
         }
     }

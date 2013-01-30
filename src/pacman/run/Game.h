@@ -28,7 +28,7 @@ namespace PACMAN {
         {
         public:
             Game();
-            void init(Inputs inputs, std::shared_ptr< ::PACMAN::MODEL::UIHints> uihints);
+            void init(Inputs inputs, std::shared_ptr< ::PACMAN::MODEL::GameStateObserver> state_observer);
 
             void run(GameObserver&, bool pause_at_end_of_input);
 
@@ -47,7 +47,7 @@ namespace PACMAN {
             bool act(const std::vector< ::PACMAN::MODEL::Action>&);
 
         private:
-            std::shared_ptr< ::PACMAN::MODEL::UIHints> uihints;
+            std::shared_ptr< ::PACMAN::MODEL::GameStateObserver> state_observer;
             Inputs inputs;
             int steps;
             ::PACMAN::MODEL::IntermediateGameState state;

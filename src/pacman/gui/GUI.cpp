@@ -16,7 +16,7 @@
 #include "Ghost.h"
 #include "NullSounds.h"
 #include "DefaultSounds.h"
-#include "GUIHints.h"
+#include "GameStateObserver.h"
 #include "SDLUtility.h"
 #include "../Constants.h"
 #include "../util/Log.h"
@@ -255,8 +255,8 @@ void GUI::loadFont() {
         throw_exception("Failed to create font object ");
 }
 
-shared_ptr<MODEL::UIHints> GUI::create_uihints() {
-    return shared_ptr<MODEL::UIHints>(new GUIHints(snd));
+shared_ptr<MODEL::GameStateObserver> GUI::create_state_observer() {
+    return shared_ptr<MODEL::GameStateObserver>(new GameStateObserver(snd));
 }
 
 bool GUI::is_paused() {

@@ -10,19 +10,20 @@
 
 #pragma once
 
-namespace PACMAN {
+#include <pacman/model/GameStateObserver.h>
 
+namespace PACMAN {
     namespace MODEL {
 
-        class UIHints
+        class NullGameStateObserver : public MODEL::GameStateObserver
         {
         public:
-            virtual void ate_dot() = 0;
-            virtual void ate_energizer() = 0;
-            virtual void ate_ghost() = 0;
-            virtual void ate_pacman() = 0;
-            virtual void ate_fruit() = 0;
-            virtual void ghosts_no_longer_vulnerable() = 0;
+            void ate_dot() {}
+            void ate_energizer() {}
+            void ate_ghost() {}
+            void ate_pacman() {}
+            void ate_fruit() {}
+            void ghosts_no_longer_vulnerable() {}
         };
 
     }

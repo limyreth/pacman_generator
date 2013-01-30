@@ -10,29 +10,19 @@
 
 #pragma once
 
-#include "../model/UIHints.h"
-
-#include <memory>
-
 namespace PACMAN {
-    namespace GUI {
 
-        class Sounds;
+    namespace MODEL {
 
-        class GUIHints : public MODEL::UIHints
+        class GameStateObserver
         {
         public:
-            GUIHints(std::shared_ptr<Sounds> snd);
-
-            void ate_dot();
-            void ate_energizer();
-            void ate_ghost();
-            void ate_pacman();
-            void ate_fruit();
-            void ghosts_no_longer_vulnerable();
-
-        private:
-            std::shared_ptr<Sounds> snd;
+            virtual void ate_dot() = 0;
+            virtual void ate_energizer() = 0;
+            virtual void ate_ghost() = 0;
+            virtual void ate_pacman() = 0;
+            virtual void ate_fruit() = 0;
+            virtual void ghosts_no_longer_vulnerable() = 0;
         };
 
     }

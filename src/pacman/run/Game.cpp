@@ -38,11 +38,11 @@ Game::Game()
 {
 }
 
-void Game::init(Inputs inputs, shared_ptr<UIHints> uihints) {
+void Game::init(Inputs inputs, shared_ptr<GameStateObserver> state_observer) {
     REQUIRE(!initialised);
     REQUIRE(inputs.size() == PLAYER_COUNT);
     this->inputs = inputs;
-    this->uihints = uihints;
+    this->state_observer = state_observer;
     initialised = true;
 }
 
@@ -108,7 +108,7 @@ bool Game::act(const vector<Action>& actions) {
     REQUIRE(initialised);
     auto old_state = get_state();
 
-    state = state.act(actions, *uihints);
+    state = state.act(actions, *state_observer);
 
     if (old_state != get_state()) {
         steps++;

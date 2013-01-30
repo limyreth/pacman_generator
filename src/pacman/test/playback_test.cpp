@@ -9,7 +9,7 @@
 
 
 #include "playback_test.h"
-#include <pacman/model/NullUIHints.h>
+#include <pacman/model/NullGameStateObserver.h>
 #include <pacman/model/IntermediateGameState.h>
 #include <pacman/run/PlaybackInput.h>
 
@@ -30,7 +30,7 @@ PlaybackTest::PlaybackTest(const std::vector<Action>& path, const ExternalGameSt
 :   expected_state(game_state),
     recorded_steps(recorded_steps)
 {
-    game.init(Game::make_inputs(player_index, shared_ptr<Input>(new PlaybackInput(path))), shared_ptr<UIHints>(new NullUIHints));
+    game.init(Game::make_inputs(player_index, shared_ptr<Input>(new PlaybackInput(path))), shared_ptr<GameStateObserver>(new NullGameStateObserver));
 }
 
 void PlaybackTest::run() {

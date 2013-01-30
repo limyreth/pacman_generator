@@ -8,7 +8,7 @@
  ***************************************************************************/
 
 #include "GameState.h"
-#include "UIHints.h"
+#include "GameStateObserver.h"
 #include "Action.h"
 #include "Node.h"
 #include <pacman/util/util.h>
@@ -96,7 +96,7 @@ void GameState::init_successor(const GameState& pre) {
  *
  * Returns true if players are to be given the choice to reverse direction
  */
-bool GameState::progress_timers(const GameState& pre, UIHints& uihints) {
+bool GameState::progress_timers(const GameState& pre, GameStateObserver& observer) {
     INVARIANTS_ON_EXIT;
     REQUIRE(state == INITIALISED);
     bool allow_reversing = false;
@@ -117,7 +117,7 @@ bool GameState::progress_timers(const GameState& pre, UIHints& uihints) {
         ghost_score = 200;
     }
     else if (vulnerable_ticks_left == 0) {
-        uihints.ghosts_no_longer_vulnerable();
+        observer.ghosts_no_longer_vulnerable();
 
         // Ghosts no longer vulnerable, make it so
         for (auto& ghost : ghosts) {
@@ -147,7 +147,7 @@ bool GameState::progress_timers(const GameState& pre, UIHints& uihints) {
     return allow_reversing;
 }
 
-void GameState::initial_movement(const GameState& pre, UIHints& uihints, double movement_excess[]) {
+void GameState::initial_movement(const GameState& pre, GameStateObserver& observer, double movement_excess[]) {
     INVARIANTS_ON_EXIT;
     REQUIRE(state == TIME_PROGRESSED);
     state = TRANSITIONING;
@@ -206,7 +206,7 @@ void GameState::initial_movement(const GameState& pre, UIHints& uihints, double 
  *
  * Returns true if pacman is to be given the choice to reverse direction
  */
-bool GameState::act(const vector<Action>& actions, const GameState& pre, UIHints& uihints, const double movement_excess[]) {
+bool GameState::act(const vector<Action>& actions, const GameState& pre, GameStateObserver& observer, const double movement_excess[]) {
     INVARIANTS_ON_EXIT;
     //REQUIRE(actions.size() == PLAYER_COUNT);
     REQUIRE(state == INITIAL_MOVED || state == NEW_GAME);
@@ -251,7 +251,7 @@ bool GameState::act(const vector<Action>& actions, const GameState& pre, UIHints
                 // pacman gets eaten
                 lives--;
 
-                uihints.ate_pacman();
+                observer.ate_pacman();
 
                 if (get_lives() > 0) {
                     resetLvl();
@@ -266,7 +266,7 @@ bool GameState::act(const vector<Action>& actions, const GameState& pre, UIHints
                 score += ghost_score;
                 ghost_score *= 2.0;
                 ghost.die();
-                uihints.ate_ghost();
+                observer.ate_ghost();
                 ate_ghost = true;
             }
         }
@@ -280,7 +280,7 @@ bool GameState::act(const vector<Action>& actions, const GameState& pre, UIHints
         --food_count;
         score += 10;
 
-        uihints.ate_dot();
+        observer.ate_dot();
 
         ASSERT(idler_ticks_left == 0);
         idler_ticks_left = 1;  // pacman can't move for 1 tick after eating a dot
@@ -291,14 +291,14 @@ bool GameState::act(const vector<Action>& actions, const GameState& pre, UIHints
         score += 50;
 
         ate_energizer = true;
-        uihints.ate_energizer();
+        observer.ate_energizer();
 
         ASSERT(idler_ticks_left == 0);
         idler_ticks_left = 3;  // pacman can't move for 3 ticks after eating a dot
     }
     else if (is_fruit_spawned() && (pacman_tpos == FRUIT_LEFT_TPOS || pacman_tpos == FRUIT_RIGHT_TPOS)) {
         score += get_fruit_score();
-        uihints.ate_fruit();
+        observer.ate_fruit();
         ate_fruit = true;
         fruit_ticks_left = 0;
         ASSERT(idler_ticks_left == 0);

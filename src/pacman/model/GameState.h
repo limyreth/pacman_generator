@@ -29,7 +29,7 @@ namespace PACMAN {
 
         typedef std::array<GhostState, GHOST_COUNT> Ghosts;
 
-        class UIHints;
+        class GameStateObserver;
 
         // implementation independent view of a GameState
         struct ExternalGameState {
@@ -73,9 +73,9 @@ namespace PACMAN {
              * State of the game 1 tick after `state`.
              */
             void init_successor(const GameState& predecessor);
-            bool progress_timers(const GameState& predecessor, UIHints& uihints);
-            void initial_movement(const GameState& predecessor, UIHints& uihints, double movement_excess[]);
-            bool act(const std::vector<Action>& actions, const GameState& predecessor, UIHints&, const double movement_excess[]);
+            bool progress_timers(const GameState& predecessor, GameStateObserver& uihints);
+            void initial_movement(const GameState& predecessor, GameStateObserver& uihints, double movement_excess[]);
+            bool act(const std::vector<Action>& actions, const GameState& predecessor, GameStateObserver&, const double movement_excess[]);
 
             //
             bool operator==(const GameState&) const;

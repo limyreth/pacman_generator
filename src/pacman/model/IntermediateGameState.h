@@ -17,7 +17,7 @@
 namespace PACMAN {
     namespace MODEL {
 
-        class UIHints;
+        class GameStateObserver;
         class GameState;
         class PlayerState;
 
@@ -27,7 +27,7 @@ namespace PACMAN {
         public:
             static IntermediateGameState new_game();
 
-            IntermediateGameState act(const std::vector<Action>& actions, UIHints&) const;
+            IntermediateGameState act(const std::vector<Action>& actions, GameStateObserver&) const;
             unsigned char get_action_count(int player_index) const;
             Action get_action_along_direction(int player_index, Direction::Type direction) const;
 

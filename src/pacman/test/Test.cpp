@@ -10,7 +10,7 @@
 
 #include "Test.h"
 #include <pacman/model/IntermediateGameState.h>
-#include <pacman/model/NullUIHints.h>
+#include <pacman/model/NullGameStateObserver.h>
 #include <pacman/util/Point.h>
 #include <pacman/Constants.h>
 #include <pacman/run/DirectionInput.h>
@@ -30,7 +30,7 @@ namespace PACMAN {
 Test::Test(int player_index)
 :   player_index(player_index)
 {
-    game.init(Game::make_inputs(player_index, shared_ptr<Input>(new DirectionInput(*this))), shared_ptr<UIHints>(new NullUIHints));
+    game.init(Game::make_inputs(player_index, shared_ptr<Input>(new DirectionInput(*this))), shared_ptr<GameStateObserver>(new NullGameStateObserver));
 }
 
 /*
