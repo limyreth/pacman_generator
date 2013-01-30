@@ -11,6 +11,7 @@
 #pragma once
 
 #include <pacman/run/DirectionPreference.h>
+#include <pacman/run/GameObserver.h>
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
@@ -38,20 +39,22 @@ namespace PACMAN {
             double game_speed;
         };
 
-        class GUI : public ::PACMAN::RUN::DirectionPreference
+        class GUI : public ::PACMAN::RUN::DirectionPreference, public ::PACMAN::RUN::GameObserver
         {
         public:
             GUI(GUIArgs gui_args);
             ~GUI();
 
             std::shared_ptr<MODEL::UIHints> create_uihints();
-            void render(const MODEL::GameState& state);
-            bool handle_events();
+            void finished_step(const MODEL::GameState& state);
+            bool should_stop();
             Direction::Type get_preferred_direction(); // direction the user wants to go in
             bool is_paused();
             void pause();
 
         private:
+            void render(const MODEL::GameState& state);
+            bool handle_events();
             void InitApp();
             void InitWindow();
             void InitSound();

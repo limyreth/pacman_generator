@@ -50,13 +50,7 @@ void InteractiveMain::run(GUIArgs gui_args) {
         recorded_input->print_path(cout);
     } BOOST_SCOPE_EXIT_END
 
-    while (gui.handle_events()) {
-        if (!gui.is_paused()) {
-            if (game.act()) {
-                gui.render(game.get_state());
-            }
-        }
-    }
+    game.run(gui);
 
     std::ofstream out("generated_test.cpp", ios::out);
     game.print_recorded_test(out, *recorded_input); 
@@ -72,9 +66,9 @@ void InteractiveMain::playback(GUIArgs gui_args, const std::list<Action>& path, 
     shared_ptr<UIHints> uihints = gui.create_uihints();
 
     bool quit_at_end = !pause_at_end;
-    while (gui.handle_events()) {
+    while (!gui.should_stop()) {
         if (gui.is_paused()) {
-            gui.render(state.get_predecessor());
+            gui.finished_step(state.get_predecessor());
         }
         else {
             if (state.get_action_count(PLAYER_PACMAN) > 0) {
@@ -96,7 +90,7 @@ void InteractiveMain::playback(GUIArgs gui_args, const std::list<Action>& path, 
             state = state.act(actions, *uihints);
 
             if (old_state != state.get_predecessor()) {
-                gui.render(state.get_predecessor());
+                gui.finished_step(state.get_predecessor());
             }
         }
     }

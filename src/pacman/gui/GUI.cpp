@@ -132,6 +132,10 @@ void GUI::InitSound() {
     logtxt.print("Sound initialized");
 }
 
+bool GUI::should_stop() {
+    return !handle_events();
+}
+
 bool GUI::handle_events() {
     SDL_Event ev;
 
@@ -182,6 +186,10 @@ Direction::Type GUI::get_preferred_direction() {
 void GUI::toggleSound() {
     snd->toggleSounds();
     snd->play(10, 1);
+}
+
+void GUI::finished_step(const MODEL::GameState& state) {
+    render(state);
 }
 
 void GUI::render(const MODEL::GameState& state) {

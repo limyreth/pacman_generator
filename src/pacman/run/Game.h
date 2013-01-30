@@ -20,6 +20,7 @@ namespace PACMAN {
     namespace RUN {
 
         class RecordedInput;
+        class GameObserver;
         typedef std::vector<std::shared_ptr<Input>> Inputs;
 
         // simplified interface to GameState succession, allowing to move in a certain direction as a certain player
@@ -28,6 +29,8 @@ namespace PACMAN {
         public:
             Game();
             void init(Inputs inputs, std::shared_ptr< ::PACMAN::MODEL::UIHints> uihints);
+
+            void run(GameObserver&);
 
             /*
              * Returns Inputs with input at player_index, and a ZeroInput at each other index

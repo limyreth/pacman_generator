@@ -18,6 +18,7 @@
 #include "RecordedInput.h"
 #include <pacman/Constants.h>
 #include <pacman/run/ZeroInput.h>
+#include <pacman/run/GameObserver.h>
 
 #include <limits>
 
@@ -43,6 +44,18 @@ void Game::init(Inputs inputs, shared_ptr<UIHints> uihints) {
     this->inputs = inputs;
     this->uihints = uihints;
     initialised = true;
+}
+
+void Game::run(GameObserver& observer) {
+    REQUIRE(initialised);
+
+    while (!observer.should_stop()) { // a condition to stop running
+        if (!observer.is_paused()) {
+            if (act()) {
+                observer.finished_step(get_state()); // a notification of state change
+            }
+        }
+    }
 }
 
 /*
