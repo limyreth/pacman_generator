@@ -496,4 +496,66 @@ void GameState::print(std::ostream& out, string prefix) const {
         ;
 }
 
+bool GameState::is_fruit_spawned() const {
+    REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
+    return fruit_ticks_left > 0;
+}
+
+int GameState::get_level() const {
+    REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
+    return 1;
+}
+
+int GameState::get_score() const {
+    REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
+    return score;
+}
+
+int GameState::get_lives() const {
+    REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
+    return lives;
+}
+
+bool GameState::is_game_over() const {
+    REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
+    return did_pacman_lose() || did_pacman_win();
+}
+
+const PlayerState& GameState::get_player(int index) const {
+    if (index == 0) {
+        return pacman;
+    }
+    else {
+        return ghosts.at(index-1);
+    }
+}
+
+PlayerState& GameState::get_player(int index) {
+    if (index == 0) {
+        return pacman;
+    }
+    else {
+        return ghosts.at(index-1);
+    }
+}
+
+const SPECIFICATION::Foods& GameState::get_foods() const {
+    REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
+    return foods;
+}
+
+bool GameState::did_pacman_lose() const {
+    REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
+    return lives == 0;
+}
+
+bool GameState::did_pacman_win() const {
+    REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
+    return food_count == 0;
+}
+
+int GameState::get_fruit_score() const {
+    return 100;
+}
+
 }}

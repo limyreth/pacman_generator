@@ -89,77 +89,28 @@ namespace PACMAN {
 
             unsigned int get_vulnerable_ghost_count() const;
 
-            inline bool is_fruit_spawned() const {
-                REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
-                return fruit_ticks_left > 0;
-            }
-
-            inline int get_level() const {
-                REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
-                return 1;
-            }
-
-            inline int get_score() const {
-                REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
-                return score;
-            }
-
-            inline int get_lives() const {
-                REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
-                return lives;
-            }
-
-            inline bool is_game_over() const {
-                REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
-                return did_pacman_lose() || did_pacman_win();
-            }
-
-            inline const PlayerState& get_player(int index) const {
-                if (index == 0) {
-                    return pacman;
-                }
-                else {
-                    return ghosts.at(index-1);
-                }
-            }
-
-            inline PlayerState& get_player(int index) {
-                if (index == 0) {
-                    return pacman;
-                }
-                else {
-                    return ghosts.at(index-1);
-                }
-            }
-
-            inline const SPECIFICATION::Foods& get_foods() const {
-                REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
-                return foods;
-            }
-
+            bool is_fruit_spawned() const;
+            int get_level() const;
+            int get_score() const;
+            int get_lives() const;
+            bool is_game_over() const;
+            const PlayerState& get_player(int index) const;
+            PlayerState& get_player(int index);
+            const SPECIFICATION::Foods& get_foods() const;
             int get_food_count() const;
 
         protected:
             void invariants() const;
 
         private:
-            inline bool did_pacman_lose() const {
-                REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
-                return lives == 0;
-            }
-
-            inline bool did_pacman_win() const {
-                REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
-                return food_count == 0;
-            }
+            bool did_pacman_lose() const;
+            bool did_pacman_win() const;
 
             void resetLvl();
             void nextLvl();
 
             int get_food_count_() const;
-            inline int get_fruit_score() const {
-                return 100;
-            }
+            int get_fruit_score() const;
 
             bool is_elroy1(int ghost_index) const;
             bool is_elroy2(int ghost_index) const;
