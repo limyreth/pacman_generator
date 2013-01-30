@@ -37,17 +37,18 @@ Game::Game()
 {
 }
 
-void Game::init(Inputs inputs) {
+void Game::init(Inputs inputs, shared_ptr<UIHints> uihints) {
     REQUIRE(!initialised);
     REQUIRE(inputs.size() == PLAYER_COUNT);
     this->inputs = inputs;
+    this->uihints = uihints;
     initialised = true;
 }
 
 /*
  * Returns true when get_state() changed
  */
-bool Game::act(UIHints& uihints) {
+bool Game::act() {
     REQUIRE(initialised);
     vector<Action> actions(PLAYER_COUNT);
     auto old_state = get_state();
@@ -58,7 +59,7 @@ bool Game::act(UIHints& uihints) {
         }
     }
 
-    state = state.act(actions, uihints);
+    state = state.act(actions, *uihints);
 
     if (old_state != get_state()) {
         steps++;

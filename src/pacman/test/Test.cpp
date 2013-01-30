@@ -10,6 +10,7 @@
 
 #include "Test.h"
 #include <pacman/model/IntermediateGameState.h>
+#include <pacman/model/NullUIHints.h>
 #include <pacman/util/Point.h>
 #include <pacman/Constants.h>
 #include <pacman/run/DirectionInput.h>
@@ -27,9 +28,10 @@ namespace PACMAN {
     namespace TEST {
 
 Test::Test(int player_index)
-:   player_index(player_index)
+:   player_index(player_index),
+    uihints(new NullUIHints)
 {
-    game.init(Game::make_inputs(player_index, shared_ptr<Input>(new DirectionInput(*this))));
+    game.init(Game::make_inputs(player_index, shared_ptr<Input>(new DirectionInput(*this))), uihints);
 }
 
 /*
@@ -57,7 +59,7 @@ int Test::move(Direction::Type direction) {
             ASSERT( ((GhostState&)current.get_player(i+1)).state == ((GhostState&)original.get_player(i+1)).state );
         }
 
-        game.act(uihints);
+        game.act();
         current = game.get_state();
     }
 

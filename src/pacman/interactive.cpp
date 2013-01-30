@@ -39,13 +39,12 @@ void InteractiveMain::run(GUIArgs gui_args, std::list<Action> path, bool pause_a
 }
 
 void InteractiveMain::run(GUIArgs gui_args) {
-    Game game;
     GUI::GUI gui(gui_args);
-
-    shared_ptr<RecordedInput> recorded_input(new RecordedInput(shared_ptr<Input>(new DirectionInput(gui))));
-    game.init(Game::make_inputs(PLAYER_PACMAN, recorded_input));
-
     shared_ptr<UIHints> uihints = gui.create_uihints();
+
+    Game game;
+    shared_ptr<RecordedInput> recorded_input(new RecordedInput(shared_ptr<Input>(new DirectionInput(gui))));
+    game.init(Game::make_inputs(PLAYER_PACMAN, recorded_input), uihints);
 
     BOOST_SCOPE_EXIT(&recorded_input) {
         recorded_input->print_path(cout);
@@ -53,7 +52,7 @@ void InteractiveMain::run(GUIArgs gui_args) {
 
     while (gui.handle_events()) {
         if (!gui.is_paused()) {
-            if (game.act(*uihints)) {
+            if (game.act()) {
                 gui.render(game.get_state());
             }
         }

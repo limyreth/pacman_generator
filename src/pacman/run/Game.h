@@ -27,20 +27,21 @@ namespace PACMAN {
         {
         public:
             Game();
-            void init(Inputs inputs);
+            void init(Inputs inputs, std::shared_ptr< ::PACMAN::MODEL::UIHints> uihints);
 
             /*
              * Returns Inputs with input at player_index, and a ZeroInput at each other index
              */
             static Inputs make_inputs(int player_index, std::shared_ptr<Input> input);
 
-            bool act(::PACMAN::MODEL::UIHints& uihints);
+            bool act();
             const ::PACMAN::MODEL::GameState& get_state();
             void print_recorded_test(std::ostream&, RecordedInput&);
             int get_steps();
             void reset_steps();
 
         private:
+            std::shared_ptr< ::PACMAN::MODEL::UIHints> uihints;
             Inputs inputs;
             int steps;
             ::PACMAN::MODEL::IntermediateGameState state;

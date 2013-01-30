@@ -14,11 +14,14 @@
 #include <pacman/run/Game.h>
 #include <pacman/run/DirectionPreference.h>
 #include <pacman/model/Action.h>
-#include <pacman/model/NullUIHints.h>
+
+#include <memory>
 
 namespace PACMAN {
+
     namespace MODEL {
         class GameState;
+        class NullUIHints;
     }
 
     namespace TEST {
@@ -34,7 +37,7 @@ namespace PACMAN {
             Direction::Type current_direction;
             int player_index;
             ::PACMAN::RUN::Game game;
-            ::PACMAN::MODEL::NullUIHints uihints;
+            std::shared_ptr< ::PACMAN::MODEL::UIHints> uihints;
         };
 
     }
