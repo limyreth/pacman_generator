@@ -9,25 +9,27 @@
 
 
 #include "Test.h"
+#include <pacman/model/IntermediateGameState.h>
+#include <pacman/util/Point.h>
+#include <pacman/Constants.h>
+#include <pacman/run/DirectionInput.h>
 
-#include "../model/IntermediateGameState.h"
-#include "../util/Point.h"
-#include "../Constants.h"
-
+using namespace ::PACMAN::RUN;
 using namespace ::PACMAN::MODEL;
 using namespace ::PACMAN::SPECIFICATION;
 
 using std::cout;
 using std::endl;
 using std::vector;
+using std::shared_ptr;
 
 namespace PACMAN {
     namespace TEST {
 
 Test::Test(int player_index)
-:   game(player_index),
-    player_index(player_index)
+:   player_index(player_index)
 {
+    game.init(Game::make_inputs(player_index, shared_ptr<Input>(new DirectionInput(*this))));
 }
 
 /*
@@ -40,6 +42,8 @@ Test::Test(int player_index)
  * Returns steps taken
  */
 int Test::move(Direction::Type direction) {
+    current_direction = direction;
+
     GameState original = game.get_state();
     game.reset_steps();
 
@@ -53,7 +57,7 @@ int Test::move(Direction::Type direction) {
             ASSERT( ((GhostState&)current.get_player(i+1)).state == ((GhostState&)original.get_player(i+1)).state );
         }
 
-        game.act(direction, uihints);
+        game.act(uihints);
         current = game.get_state();
     }
 
@@ -66,6 +70,10 @@ int Test::get_food_count() {
 
 const GameState* Test::get_state() {
     return &game.get_state();
+}
+
+Direction::Type Test::get_preferred_direction() {
+    return current_direction;
 }
 
 }}

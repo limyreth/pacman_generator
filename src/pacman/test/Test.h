@@ -10,10 +10,11 @@
 
 #pragma once
 
-#include "../util/Directions.h"
-#include "../run/Game.h"
-#include "../model/Action.h"
-#include "../model/NullUIHints.h"
+#include <pacman/util/Directions.h>
+#include <pacman/run/Game.h>
+#include <pacman/run/DirectionPreference.h>
+#include <pacman/model/Action.h>
+#include <pacman/model/NullUIHints.h>
 
 namespace PACMAN {
     namespace MODEL {
@@ -22,7 +23,7 @@ namespace PACMAN {
 
     namespace TEST {
 
-        class Test {
+        class Test : public RUN::DirectionPreference {
         public:
             Test(int player_index);
             int move(Direction::Type direction);
@@ -32,7 +33,10 @@ namespace PACMAN {
 
             const ::PACMAN::MODEL::GameState* get_state();
 
+            Direction::Type get_preferred_direction();
+
         private:
+            Direction::Type current_direction;
             int player_index;
             ::PACMAN::RUN::Game game;
             ::PACMAN::MODEL::NullUIHints uihints;

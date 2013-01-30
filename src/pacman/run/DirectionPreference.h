@@ -10,20 +10,17 @@
 
 #pragma once
 
-#include <pacman/gui/GUI.h>
-#include <pacman/model/Action.h>
-
-#include <list>
+#include "Input.h"
+#include <pacman/util/Directions.h>
 
 namespace PACMAN {
+    namespace RUN {
 
-    class InteractiveMain {
-    public:
-        void run(GUI::GUIArgs, std::list<MODEL::Action> path, bool pause_at_end);
+        class DirectionPreference
+        {
+        public:
+            virtual Direction::Type get_preferred_direction() = 0;
+        };
 
-    private:
-        void run(GUI::GUIArgs);
-        void playback(GUI::GUIArgs, const std::list<MODEL::Action>& path, bool pause_at_end);
-    };
-
+    }
 }

@@ -10,20 +10,29 @@
 
 #pragma once
 
-#include <pacman/gui/GUI.h>
-#include <pacman/model/Action.h>
+#include "Input.h"
 
 #include <list>
+#include <memory>
 
 namespace PACMAN {
+    namespace RUN {
 
-    class InteractiveMain {
-    public:
-        void run(GUI::GUIArgs, std::list<MODEL::Action> path, bool pause_at_end);
+        /*
+         * Record input returned
+         */
+        class RecordedInput : public Input
+        {
+        public:
+            RecordedInput(Input& input);
 
-    private:
-        void run(GUI::GUIArgs);
-        void playback(GUI::GUIArgs, const std::list<MODEL::Action>& path, bool pause_at_end);
-    };
+            ::PACMAN::MODEL::Action get_action(int player_index, const ::PACMAN::MODEL::IntermediateGameState& state);
+            void print_path(std::ostream&);
 
+        private:
+            Input& input;
+            std::list< ::PACMAN::MODEL::Action> path;
+        };
+
+    }
 }

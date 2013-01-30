@@ -10,20 +10,26 @@
 
 #pragma once
 
-#include <pacman/gui/GUI.h>
-#include <pacman/model/Action.h>
-
-#include <list>
+#include "Input.h"
 
 namespace PACMAN {
+    namespace RUN {
 
-    class InteractiveMain {
-    public:
-        void run(GUI::GUIArgs, std::list<MODEL::Action> path, bool pause_at_end);
+        class DirectionPreference;
 
-    private:
-        void run(GUI::GUIArgs);
-        void playback(GUI::GUIArgs, const std::list<MODEL::Action>& path, bool pause_at_end);
-    };
+        /*
+         * Return the Action along current preferred direction
+         */
+        class DirectionInput : public Input
+        {
+        public:
+            DirectionInput(DirectionPreference&);
 
+            ::PACMAN::MODEL::Action get_action(int player_index, const ::PACMAN::MODEL::IntermediateGameState& state);
+            
+        private:
+            DirectionPreference& preference;
+        };
+
+    }
 }

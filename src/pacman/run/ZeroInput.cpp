@@ -7,23 +7,25 @@
  *                                                                         *
  ***************************************************************************/
 
+//////////////////////////////////////////////////////
+// Pacman version 4
+// Started September 5, 2008
+// using C++ & SDL
+// ported to linux with attempt at crossplatform compatibility
+//////////////////////////////////////////////////////
 
-#pragma once
+#include "ZeroInput.h"
+#include <pacman/model/IntermediateGameState.h>
 
-#include <pacman/gui/GUI.h>
-#include <pacman/model/Action.h>
-
-#include <list>
+using std::cout;
+using std::endl;
+using namespace ::PACMAN::MODEL;
 
 namespace PACMAN {
+    namespace RUN {
 
-    class InteractiveMain {
-    public:
-        void run(GUI::GUIArgs, std::list<MODEL::Action> path, bool pause_at_end);
-
-    private:
-        void run(GUI::GUIArgs);
-        void playback(GUI::GUIArgs, const std::list<MODEL::Action>& path, bool pause_at_end);
-    };
-
+Action ZeroInput::get_action(int player_index, const IntermediateGameState& state) {
+    return 0;
 }
+
+}}

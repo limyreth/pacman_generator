@@ -10,31 +10,41 @@
 
 #pragma once
 
+#include "Input.h"
 #include <pacman/model/IntermediateGameState.h>
 
-#include <list>
+#include <vector>
+#include <memory>
 
 namespace PACMAN {
     namespace RUN {
+
+        class RecordedInput;
+        typedef std::vector<std::shared_ptr<Input>> Inputs;
 
         // simplified interface to GameState succession, allowing to move in a certain direction as a certain player
         class Game
         {
         public:
-            Game(int player_index);
+            Game();
+            void init(Inputs inputs);
 
-            bool act(Direction::Type direction, ::PACMAN::MODEL::UIHints& uihints);
+            /*
+             * Returns Inputs with input at player_index, and a ZeroInput at each other index
+             */
+            static Inputs make_inputs(int player_index, std::shared_ptr<Input> input);
+
+            bool act(::PACMAN::MODEL::UIHints& uihints);
             const ::PACMAN::MODEL::GameState& get_state();
-            void print_recorded_test(std::ostream&);
-            void print_path(std::ostream&);
+            void print_recorded_test(std::ostream&, RecordedInput&);
             int get_steps();
             void reset_steps();
 
         private:
+            Inputs inputs;
             int steps;
-            const int player_index;
             ::PACMAN::MODEL::IntermediateGameState state;
-            std::list< ::PACMAN::MODEL::Action> path;  // actions taken to get to current state
+            bool initialised;
         };
 
     }

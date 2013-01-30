@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include "../util/Directions.h"
+#include <pacman/run/DirectionPreference.h>
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
@@ -38,7 +38,7 @@ namespace PACMAN {
             double game_speed;
         };
 
-        class GUI
+        class GUI : public ::PACMAN::RUN::DirectionPreference
         {
         public:
             GUI(const MODEL::GameState& state, GUIArgs gui_args);

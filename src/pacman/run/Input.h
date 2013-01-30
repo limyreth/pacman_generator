@@ -10,20 +10,24 @@
 
 #pragma once
 
-#include <pacman/gui/GUI.h>
 #include <pacman/model/Action.h>
-
-#include <list>
 
 namespace PACMAN {
 
-    class InteractiveMain {
-    public:
-        void run(GUI::GUIArgs, std::list<MODEL::Action> path, bool pause_at_end);
+    namespace MODEL {
+        class IntermediateGameState;
+    }
 
-    private:
-        void run(GUI::GUIArgs);
-        void playback(GUI::GUIArgs, const std::list<MODEL::Action>& path, bool pause_at_end);
-    };
+    namespace RUN {
 
+        class Input
+        {
+        public:
+            /*
+             * Require: player_index's action_count > 0
+             */
+            virtual ::PACMAN::MODEL::Action get_action(int player_index, const ::PACMAN::MODEL::IntermediateGameState& state) = 0;
+        };
+
+    }
 }

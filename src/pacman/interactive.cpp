@@ -9,16 +9,17 @@
 
 
 #include "interactive.h"
-#include "run/Game.h"
-#include "Constants.h"
+#include <pacman/run/Game.h>
+#include <pacman/run/DirectionInput.h>
+#include <pacman/run/RecordedInput.h>
+#include <pacman/Constants.h>
 
 #include <fstream>
 #include <boost/scope_exit.hpp>
 
-using namespace PACMAN;
-using namespace MODEL;
-using ::PACMAN::RUN::Game;
-using GUI::GUIArgs;
+using namespace ::PACMAN::RUN;
+using namespace ::PACMAN::MODEL;
+using ::PACMAN::GUI::GUIArgs;
 
 using std::cout;
 using std::endl;
@@ -38,24 +39,30 @@ void InteractiveMain::run(GUIArgs gui_args, std::list<Action> path, bool pause_a
 }
 
 void InteractiveMain::run(GUIArgs gui_args) {
-    Game game(PLAYER_PACMAN);
+    Game game;
     GUI::GUI gui(game.get_state(), gui_args);
+
+    auto inputs = Game::make_inputs(PLAYER_PACMAN, shared_ptr<Input>(new DirectionInput(gui)));
+    shared_ptr<RecordedInput> recorded_input(new RecordedInput(*inputs.at(PLAYER_PACMAN)));
+    inputs.at(PLAYER_PACMAN) = recorded_input;
+    game.init(inputs);
+
     shared_ptr<UIHints> uihints = gui.create_uihints();
 
-    BOOST_SCOPE_EXIT(&game) {
-        game.print_path(cout);
+    BOOST_SCOPE_EXIT(&recorded_input) {
+        recorded_input->print_path(cout);
     } BOOST_SCOPE_EXIT_END
 
     while (gui.emptyMsgPump()) {
         if (!gui.is_paused()) {
-            if (game.act(gui.get_preferred_direction(), *uihints)) {
+            if (game.act(*uihints)) {
                 gui.render();
             }
         }
     }
 
     std::ofstream out("generated_test.cpp", ios::out);
-    game.print_recorded_test(out); 
+    game.print_recorded_test(out, *recorded_input); 
     out.close();
 }
 
