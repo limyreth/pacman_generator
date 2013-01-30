@@ -64,8 +64,8 @@ int Test::move(Direction::Type direction) {
     return game.get_steps();
 }
 
-const GameState* Test::get_state() {
-    return &game.get_state();
+const GameState& Test::get_state() {
+    return game.get_state();
 }
 
 Direction::Type Test::get_preferred_direction() {

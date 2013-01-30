@@ -27,7 +27,7 @@ namespace PACMAN {
         public:
             Test(int player_index);
             int move(Direction::Type direction);
-            const ::PACMAN::MODEL::GameState* get_state();
+            const ::PACMAN::MODEL::GameState& get_state();
             Direction::Type get_preferred_direction();
 
         private:

@@ -56,12 +56,12 @@ void test_initial_game_state() {
     Test test(PLAYER_PACMAN);
     auto state = test.get_state();
 
-    ASSERT(state->get_player(PLAYER_PACMAN).get_pixel_pos() == FPoint(14, 23.5) * TILE_SIZE);
-    ASSERT(state->get_player(PLAYER_PACMAN).get_tile_pos() == IPoint(14, 23));
-    ASSERT(state->get_player(GHOST_BLINKY+1).get_pixel_pos() == FPoint(14, 11.5) * TILE_SIZE);
-    ASSERT(state->get_player(GHOST_PINKY+1).get_pixel_pos() == FPoint(14, 14) * TILE_SIZE);
-    ASSERT(state->get_player(GHOST_INKY+1).get_pixel_pos() == FPoint(12, 14) * TILE_SIZE);
-    ASSERT(state->get_player(GHOST_CLYDE+1).get_pixel_pos() == FPoint(16, 14) * TILE_SIZE);
+    ASSERT(state.get_player(PLAYER_PACMAN).get_pixel_pos() == FPoint(14, 23.5) * TILE_SIZE);
+    ASSERT(state.get_player(PLAYER_PACMAN).get_tile_pos() == IPoint(14, 23));
+    ASSERT(state.get_player(GHOST_BLINKY+1).get_pixel_pos() == FPoint(14, 11.5) * TILE_SIZE);
+    ASSERT(state.get_player(GHOST_PINKY+1).get_pixel_pos() == FPoint(14, 14) * TILE_SIZE);
+    ASSERT(state.get_player(GHOST_INKY+1).get_pixel_pos() == FPoint(12, 14) * TILE_SIZE);
+    ASSERT(state.get_player(GHOST_CLYDE+1).get_pixel_pos() == FPoint(16, 14) * TILE_SIZE);
 }
 
 /*
@@ -79,12 +79,12 @@ void test_pacman_movement_regular_speed_not_cornering() {
     Test test(PLAYER_PACMAN);
 
     ASSERT(test.move(Direction::EAST) == (int)ceil(1 /*tile*/ / (FULL_SPEED * NORMAL_PACMAN_SPEED)) +1); // +1 because the first tick is a tick for the initial game state to tell players what to do, actual movement starts from the second tick onwards
-    auto tile_pos = test.get_state()->get_player(PLAYER_PACMAN).get_tile_pos();
+    auto tile_pos = test.get_state().get_player(PLAYER_PACMAN).get_tile_pos();
     ASSERT(tile_pos == IPoint(15, 23));
 
     // check we are really moving east
     test.move(Direction::EAST);
-    tile_pos = test.get_state()->get_player(PLAYER_PACMAN).get_tile_pos();
+    tile_pos = test.get_state().get_player(PLAYER_PACMAN).get_tile_pos();
     ASSERT(tile_pos == IPoint(16, 23));
 }
 
@@ -94,13 +94,13 @@ void test_pacman_movement_regular_speed_not_cornering() {
 void test_dot_eating_no_cornering() {
     Test test(PLAYER_PACMAN);
 
-    int start_food = test.get_state()->get_food_count();
+    int start_food = test.get_state().get_food_count();
     test.move(Direction::EAST);
-    ASSERT(test.get_state()->get_food_count() == start_food-1);
+    ASSERT(test.get_state().get_food_count() == start_food-1);
 
     // should take 1 step longer because pacman idles 1 tick after eating a dot
     ASSERT(test.move(Direction::EAST) == 1 + (int)ceil(1 /*tile*/ / (FULL_SPEED * NORMAL_PACMAN_SPEED)));
-    ASSERT(test.get_state()->get_food_count() == start_food-2);
+    ASSERT(test.get_state().get_food_count() == start_food-2);
 }
 
 /* TODO
