@@ -19,19 +19,20 @@
 
 using std::cout;
 using std::endl;
+using std::shared_ptr;
 using namespace ::PACMAN::MODEL;
 
 namespace PACMAN {
     namespace RUN {
 
-RecordedInput::RecordedInput(Input& input)
+RecordedInput::RecordedInput(shared_ptr<Input> input)
 :   input(input)
 {
 }
 
 Action RecordedInput::get_action(int player_index, const IntermediateGameState& state) {
     //REQUIRE(state.get_action_count(player_index) > 0);
-    Action action = input.get_action(player_index, state);
+    Action action = input->get_action(player_index, state);
     path.push_back(action);
     return action;
 }

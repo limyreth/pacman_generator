@@ -24,13 +24,13 @@ namespace PACMAN {
         class RecordedInput : public Input
         {
         public:
-            RecordedInput(Input& input);
+            RecordedInput(std::shared_ptr<Input> input);
 
             ::PACMAN::MODEL::Action get_action(int player_index, const ::PACMAN::MODEL::IntermediateGameState& state);
             void print_path(std::ostream&);
 
         private:
-            Input& input;
+            std::shared_ptr<Input> input;
             std::list< ::PACMAN::MODEL::Action> path;
         };
 

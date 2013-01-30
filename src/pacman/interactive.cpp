@@ -43,7 +43,7 @@ void InteractiveMain::run(GUIArgs gui_args) {
     GUI::GUI gui(gui_args);
 
     auto inputs = Game::make_inputs(PLAYER_PACMAN, shared_ptr<Input>(new DirectionInput(gui)));
-    shared_ptr<RecordedInput> recorded_input(new RecordedInput(*inputs.at(PLAYER_PACMAN)));
+    shared_ptr<RecordedInput> recorded_input(new RecordedInput(inputs.at(PLAYER_PACMAN)));
     inputs.at(PLAYER_PACMAN) = recorded_input;
     game.init(inputs);
 
