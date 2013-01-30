@@ -8,7 +8,7 @@
  ***************************************************************************/
 
 
-#include "interactive.h"
+#include "GUIMain.h"
 #include <pacman/run/Game.h>
 #include <pacman/run/DirectionInput.h>
 #include <pacman/run/PlaybackInput.h>
@@ -30,7 +30,7 @@ using std::ios;
 
 namespace PACMAN {
 
-void InteractiveMain::run(GUIArgs gui_args, std::list<Action> path, bool pause_at_end) {
+void GUIMain::run(GUIArgs gui_args, std::list<Action> path, bool pause_at_end) {
     GUI::GUI gui(gui_args);
 
     shared_ptr<Input> input;

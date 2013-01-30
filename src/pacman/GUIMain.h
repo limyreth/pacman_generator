@@ -17,7 +17,7 @@
 
 namespace PACMAN {
 
-    class InteractiveMain {
+    class GUIMain {
     public:
         void run(GUI::GUIArgs, std::list<MODEL::Action> path, bool pause_at_end);
     };

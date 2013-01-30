@@ -14,7 +14,7 @@
 // ported to linux with attempt at crossplatform compatibility
 //////////////////////////////////////////////////////
 
-#include "interactive.h"
+#include "GUIMain.h"
 #include "generator/generate.h"
 #include "util/Log.h"
 #include "util/assertion.h"
@@ -58,7 +58,7 @@ int main(int argc, char** argv) {
             if (str=="--help") {
                 std::cout
                     << endl
-                    << "Interactive-mode arguments:" << endl
+                    << "GUI-mode (= default mode) arguments:" << endl
                     << endl
                     << "\t--help" << endl
                     << "\t\tShow this message" << endl
@@ -170,7 +170,7 @@ int main(int argc, char** argv) {
             }
         }
 
-        InteractiveMain main;
+        GUIMain main;
         main.run(gui_args, path, pause_at_end);
 
         logtxt.print( "Shutdown" );
