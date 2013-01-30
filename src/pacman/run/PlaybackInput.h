@@ -11,27 +11,27 @@
 #pragma once
 
 #include "Input.h"
+#include <pacman/model/Action.h>
 
-#include <list>
-#include <memory>
+#include <vector>
 
 namespace PACMAN {
     namespace RUN {
 
         /*
-         * Input that is being recorded
+         * Input that is play backed (using a path)
          */
-        class RecordedInput : public Input
+        class PlaybackInput : public Input
         {
         public:
-            RecordedInput(std::shared_ptr<Input> input);
+            PlaybackInput(const std::vector< ::PACMAN::MODEL::Action>& path);
 
             ::PACMAN::MODEL::Action get_action(int player_index, const ::PACMAN::MODEL::IntermediateGameState& state);
             void print_path(std::ostream&);
 
         private:
-            std::shared_ptr<Input> input;
-            std::list< ::PACMAN::MODEL::Action> path;
+            std::vector< ::PACMAN::MODEL::Action> path;
+            std::vector< ::PACMAN::MODEL::Action>::iterator current_action;
         };
 
     }

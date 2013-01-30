@@ -9,41 +9,50 @@
 
 
 #include "playback_test.h"
-#include "../model/NullUIHints.h"
-#include "../model/IntermediateGameState.h"
+#include <pacman/model/NullUIHints.h>
+#include <pacman/model/IntermediateGameState.h>
+#include <pacman/run/PlaybackInput.h>
+
+#include <memory>
 
 using std::cout;
 using std::endl;
 using std::vector;
+using std::shared_ptr;
 
 using namespace ::PACMAN::MODEL;
+using namespace ::PACMAN::RUN;
 
 namespace PACMAN {
     namespace TEST {
 
+PlaybackTest::PlaybackTest(const std::vector<Action>& path, const ExternalGameState& game_state, int player_index, int recorded_steps) 
+:   expected_state(game_state),
+    recorded_steps(recorded_steps)
+{
+    game.init(Game::make_inputs(player_index, shared_ptr<Input>(new PlaybackInput(path))), shared_ptr<UIHints>(new NullUIHints));
+}
+
+void PlaybackTest::run() {
+    game.run(*this);
+
+    ASSERT(game.get_state().is_equivalent_to(expected_state));
+}
+
+void PlaybackTest::finished_step(const ::PACMAN::MODEL::GameState& state) {
+}
+
+bool PlaybackTest::should_stop() {
+    return recorded_steps == game.get_steps();
+}
+
+bool PlaybackTest::is_paused() {
+    return false;
+}
+
 void playback_test(const std::vector<Action>& path, const ExternalGameState& game_state, const int player_index, const int recorded_steps) {
-    NullUIHints uihints;
-    auto current_action = path.begin();
-    IntermediateGameState state = IntermediateGameState::new_game();
-    vector<Action> actions(PLAYER_COUNT, 0);
-    int steps = 0;
-
-    while (recorded_steps != steps) {
-        if (state.get_action_count(player_index) > 0) {
-            actions.at(player_index) = *current_action;
-            current_action++;
-        }
-
-        auto old_state = state.get_predecessor();
-        state = state.act(actions, uihints);
-
-        if (old_state != state.get_predecessor()) {
-            steps++;
-        }
-    }
-
-    ASSERT(current_action == path.end());
-    ASSERT(state.get_predecessor().is_equivalent_to(game_state));
+    PlaybackTest test(path, game_state, player_index, recorded_steps);
+    test.run();
 }
 
 }}
