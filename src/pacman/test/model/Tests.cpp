@@ -94,13 +94,13 @@ void test_pacman_movement_regular_speed_not_cornering() {
 void test_dot_eating_no_cornering() {
     Test test(PLAYER_PACMAN);
 
-    int start_food = test.get_food_count();
+    int start_food = test.get_state()->get_food_count();
     test.move(Direction::EAST);
-    ASSERT(test.get_food_count() == start_food-1);
+    ASSERT(test.get_state()->get_food_count() == start_food-1);
 
     // should take 1 step longer because pacman idles 1 tick after eating a dot
     ASSERT(test.move(Direction::EAST) == 1 + (int)ceil(1 /*tile*/ / (FULL_SPEED * NORMAL_PACMAN_SPEED)));
-    ASSERT(test.get_food_count() == start_food-2);
+    ASSERT(test.get_state()->get_food_count() == start_food-2);
 }
 
 /* TODO

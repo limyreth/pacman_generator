@@ -363,6 +363,10 @@ bool GameState::is_elroy2(int ghost_index) const {
     return ghost_index == GHOST_BLINKY && food_count <= 10;
 }
 
+int GameState::get_food_count() const {
+    return food_count;
+}
+
 /*
  * Use food_count instead; it's faster
  */

@@ -28,11 +28,7 @@ namespace PACMAN {
             Test(int player_index);
             int move(Direction::Type direction);
             void directions_to_actions(Direction::Type pacman, Direction::Type blinky, Direction::Type pinky, Direction::Type inky, Direction::Type clyde, ::PACMAN::MODEL::Action* actions);
-
-            int get_food_count();
-
             const ::PACMAN::MODEL::GameState* get_state();
-
             Direction::Type get_preferred_direction();
 
         private:

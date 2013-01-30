@@ -137,6 +137,8 @@ namespace PACMAN {
                 return foods;
             }
 
+            int get_food_count() const;
+
         protected:
             void invariants() const;
 
