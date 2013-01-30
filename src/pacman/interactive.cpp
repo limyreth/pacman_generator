@@ -31,41 +31,30 @@ using std::ios;
 namespace PACMAN {
 
 void InteractiveMain::run(GUIArgs gui_args, std::list<Action> path, bool pause_at_end) {
+    GUI::GUI gui(gui_args);
+
+    shared_ptr<Input> input;
     if (path.empty()) {
-        run(gui_args);
+        input.reset(new DirectionInput(gui));
     }
     else {
-        playback(gui_args, path, pause_at_end);
+        vector<Action> vpath(path.begin(), path.end());
+        input.reset(new PlaybackInput(vpath));
     }
-}
-
-void InteractiveMain::run(GUIArgs gui_args) {
-    GUI::GUI gui(gui_args);
-    shared_ptr<UIHints> uihints = gui.create_uihints();
 
     Game game;
-    shared_ptr<RecordedInput> recorded_input(new RecordedInput(shared_ptr<Input>(new DirectionInput(gui))));
-    game.init(Game::make_inputs(PLAYER_PACMAN, recorded_input), uihints);
+    shared_ptr<RecordedInput> recorded_input(new RecordedInput(input));
+    game.init(Game::make_inputs(PLAYER_PACMAN, recorded_input), gui.create_uihints());
 
     BOOST_SCOPE_EXIT(&recorded_input) {
         recorded_input->print_path(cout);
     } BOOST_SCOPE_EXIT_END
 
-    game.run(gui, false);
+    game.run(gui, pause_at_end);
 
     std::ofstream out("generated_test.cpp", ios::out);
     game.print_recorded_test(out, *recorded_input); 
     out.close();
-}
-
-void InteractiveMain::playback(GUIArgs gui_args, const std::list<Action>& path, bool pause_at_end) {
-    GUI::GUI gui(gui_args);
-
-    Game game;
-    vector<Action> vpath(path.begin(), path.end());
-    game.init(Game::make_inputs(PLAYER_PACMAN, shared_ptr<Input>(new PlaybackInput(vpath))), gui.create_uihints());
-
-    game.run(gui, pause_at_end);
 }
 
 }
