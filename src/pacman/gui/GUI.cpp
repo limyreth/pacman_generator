@@ -39,9 +39,8 @@ using std::shared_ptr;
 namespace PACMAN {
     namespace GUI {
 
-GUI::GUI(const MODEL::GameState& state, GUIArgs gui_args)
-:   state(state),
-    preferred_direction(Direction::NORTH),
+GUI::GUI(GUIArgs gui_args)
+:   preferred_direction(Direction::NORTH),
     gui_args(gui_args),
     paused(false)
 {
@@ -183,10 +182,9 @@ Direction::Type GUI::get_preferred_direction() {
 void GUI::toggleSound() {
     snd->toggleSounds();
     snd->play(10, 1);
-    if (state.get_vulnerable_ghost_count()>0) snd->play(7, 1);
 }
 
-void GUI::render() {
+void GUI::render(const MODEL::GameState& state) {
     // enforce fixed frame/tick rate
     {
         const Uint32 new_ticks = SDL_GetTicks();

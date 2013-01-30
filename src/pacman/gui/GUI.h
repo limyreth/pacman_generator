@@ -41,11 +41,11 @@ namespace PACMAN {
         class GUI : public ::PACMAN::RUN::DirectionPreference
         {
         public:
-            GUI(const MODEL::GameState& state, GUIArgs gui_args);
+            GUI(GUIArgs gui_args);
             ~GUI();
 
             std::shared_ptr<MODEL::UIHints> create_uihints();
-            void render();
+            void render(const MODEL::GameState& state);
             bool handle_events();
             Direction::Type get_preferred_direction(); // direction the user wants to go in
             bool is_paused();
@@ -62,7 +62,6 @@ namespace PACMAN {
 
         private:
             Direction::Type preferred_direction;
-            const MODEL::GameState& state;
 
             Uint32 old_ticks;
             GUIArgs gui_args;

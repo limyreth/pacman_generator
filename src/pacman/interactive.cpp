@@ -40,7 +40,7 @@ void InteractiveMain::run(GUIArgs gui_args, std::list<Action> path, bool pause_a
 
 void InteractiveMain::run(GUIArgs gui_args) {
     Game game;
-    GUI::GUI gui(game.get_state(), gui_args);
+    GUI::GUI gui(gui_args);
 
     auto inputs = Game::make_inputs(PLAYER_PACMAN, shared_ptr<Input>(new DirectionInput(gui)));
     shared_ptr<RecordedInput> recorded_input(new RecordedInput(*inputs.at(PLAYER_PACMAN)));
@@ -56,7 +56,7 @@ void InteractiveMain::run(GUIArgs gui_args) {
     while (gui.handle_events()) {
         if (!gui.is_paused()) {
             if (game.act(*uihints)) {
-                gui.render();
+                gui.render(game.get_state());
             }
         }
     }
@@ -71,13 +71,13 @@ void InteractiveMain::playback(GUIArgs gui_args, const std::list<Action>& path, 
     IntermediateGameState state = IntermediateGameState::new_game();
     vector<Action> actions(PLAYER_COUNT, 0);
 
-    GUI::GUI gui(state.get_predecessor(), gui_args);
+    GUI::GUI gui(gui_args);
     shared_ptr<UIHints> uihints = gui.create_uihints();
 
     bool quit_at_end = !pause_at_end;
     while (gui.handle_events()) {
         if (gui.is_paused()) {
-            gui.render();
+            gui.render(state.get_predecessor());
         }
         else {
             if (state.get_action_count(PLAYER_PACMAN) > 0) {
@@ -99,7 +99,7 @@ void InteractiveMain::playback(GUIArgs gui_args, const std::list<Action>& path, 
             state = state.act(actions, *uihints);
 
             if (old_state != state.get_predecessor()) {
-                gui.render();
+                gui.render(state.get_predecessor());
             }
         }
     }
