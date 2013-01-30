@@ -28,10 +28,9 @@ namespace PACMAN {
     namespace TEST {
 
 Test::Test(int player_index)
-:   player_index(player_index),
-    uihints(new NullUIHints)
+:   player_index(player_index)
 {
-    game.init(Game::make_inputs(player_index, shared_ptr<Input>(new DirectionInput(*this))), uihints);
+    game.init(Game::make_inputs(player_index, shared_ptr<Input>(new DirectionInput(*this))), shared_ptr<UIHints>(new NullUIHints));
 }
 
 /*
@@ -45,12 +44,20 @@ Test::Test(int player_index)
  */
 int Test::move(Direction::Type direction) {
     current_direction = direction;
+    original = game.get_state();
 
-    GameState original = game.get_state();
     game.reset_steps();
+    game.run(*this);
 
-    auto current = game.get_state();
-    while (original.get_player(player_index).get_tile_pos() == current.get_player(player_index).get_tile_pos()) {
+    return game.get_steps();
+}
+
+bool Test::should_stop() {
+    return original.get_player(player_index).get_tile_pos() != get_state().get_player(player_index).get_tile_pos();
+}
+
+void Test::finished_step(const GameState& current) {
+    if (!should_stop()) {
         ASSERT(current.food_count == original.food_count);
         ASSERT(current.lives == original.lives);
         ASSERT(current.score == original.score);
@@ -58,12 +65,11 @@ int Test::move(Direction::Type direction) {
         for (int i=0; i < GHOST_COUNT; ++i) {
             ASSERT( ((GhostState&)current.get_player(i+1)).state == ((GhostState&)original.get_player(i+1)).state );
         }
-
-        game.act();
-        current = game.get_state();
     }
+}
 
-    return game.get_steps();
+bool Test::is_paused() {
+    return false;
 }
 
 const GameState& Test::get_state() {
