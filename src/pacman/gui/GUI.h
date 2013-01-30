@@ -46,7 +46,7 @@ namespace PACMAN {
 
             std::shared_ptr<MODEL::UIHints> create_uihints();
             void render();
-            bool emptyMsgPump();
+            bool handle_events();
             Direction::Type get_preferred_direction(); // direction the user wants to go in
             bool is_paused();
             void pause();

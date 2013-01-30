@@ -53,7 +53,7 @@ void InteractiveMain::run(GUIArgs gui_args) {
         recorded_input->print_path(cout);
     } BOOST_SCOPE_EXIT_END
 
-    while (gui.emptyMsgPump()) {
+    while (gui.handle_events()) {
         if (!gui.is_paused()) {
             if (game.act(*uihints)) {
                 gui.render();
@@ -75,7 +75,7 @@ void InteractiveMain::playback(GUIArgs gui_args, const std::list<Action>& path, 
     shared_ptr<UIHints> uihints = gui.create_uihints();
 
     bool quit_at_end = !pause_at_end;
-    while (gui.emptyMsgPump()) {
+    while (gui.handle_events()) {
         if (gui.is_paused()) {
             gui.render();
         }

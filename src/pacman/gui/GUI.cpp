@@ -133,8 +133,7 @@ void GUI::InitSound() {
     logtxt.print("Sound initialized");
 }
 
-bool GUI::emptyMsgPump() {
-
+bool GUI::handle_events() {
     SDL_Event ev;
 
     while ( SDL_PollEvent(&ev) == 1 ) {
