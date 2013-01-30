@@ -30,7 +30,7 @@ using std::ios;
 
 namespace PACMAN {
 
-void GUIMain::run(GUIArgs gui_args, std::list<Action> path, bool pause_at_end) {
+void GUIMain::run(GUIArgs gui_args, std::list<Action> path, bool pause_at_end, int quit_at_step) {
     GUI::GUI gui(gui_args);
 
     shared_ptr<Input> input;
@@ -50,7 +50,7 @@ void GUIMain::run(GUIArgs gui_args, std::list<Action> path, bool pause_at_end) {
         recorded_input->print_path(cout);
     } BOOST_SCOPE_EXIT_END
 
-    game.run(gui, pause_at_end);
+    game.run(gui, pause_at_end, quit_at_step);
 
     std::ofstream out("generated_test.cpp", ios::out);
     game.print_recorded_test(out, *recorded_input); 

@@ -30,7 +30,7 @@ namespace PACMAN {
             Game();
             void init(Inputs inputs, std::shared_ptr< ::PACMAN::MODEL::GameStateObserver> state_observer);
 
-            void run(GameObserver&, bool pause_at_end_of_input);
+            void run(GameObserver&, bool pause_at_end_of_input, int quit_at_step);
 
             /*
              * Returns Inputs with input at player_index, and a ZeroInput at each other index

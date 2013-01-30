@@ -46,11 +46,14 @@ void Game::init(Inputs inputs, shared_ptr<GameStateObserver> state_observer) {
     initialised = true;
 }
 
-void Game::run(GameObserver& observer, bool pause_at_end_of_input) {
+/*
+ * quit_at_step: -1 to ignore step count
+ */
+void Game::run(GameObserver& observer, bool pause_at_end_of_input, int quit_at_step) {
     REQUIRE(initialised);
 
     bool stop_at_end_of_input = !pause_at_end_of_input;
-    while (!observer.should_stop()) {
+    while (!observer.should_stop() && quit_at_step != get_steps()) {
         if (!observer.is_paused()) {
             auto input = get_input();
 

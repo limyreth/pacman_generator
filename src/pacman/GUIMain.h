@@ -19,7 +19,7 @@ namespace PACMAN {
 
     class GUIMain {
     public:
-        void run(GUI::GUIArgs, std::list<MODEL::Action> path, bool pause_at_end);
+        void run(GUI::GUIArgs, std::list<MODEL::Action> path, bool pause_at_end, int quit_at_step);
     };
 
 }

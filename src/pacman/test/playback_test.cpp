@@ -34,7 +34,7 @@ PlaybackTest::PlaybackTest(const std::vector<Action>& path, const ExternalGameSt
 }
 
 void PlaybackTest::run() {
-    game.run(*this, false);
+    game.run(*this, false, recorded_steps);
 
     ASSERT(game.get_state().is_equivalent_to(expected_state));
 }
@@ -43,7 +43,7 @@ void PlaybackTest::finished_step(const ::PACMAN::MODEL::GameState& state) {
 }
 
 bool PlaybackTest::should_stop() {
-    return recorded_steps == game.get_steps();
+    return false;
 }
 
 bool PlaybackTest::is_paused() {

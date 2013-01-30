@@ -49,6 +49,7 @@ int main(int argc, char** argv) {
     gui_args.game_speed = 1.0;
     std::list<Action> path;
     bool pause_at_end = false;
+    int quit_at_step = -1;
 
     try {
         logtxt.setFilename(".pacman_sdl");
@@ -83,6 +84,9 @@ int main(int argc, char** argv) {
                     << endl
                     << "\t--pause-at-end" << endl
                     << "\t\tWhen using --path, pause at end of playback" << endl
+                    << endl
+                    << "\t--quit-at-step STEPS" << endl
+                    << "\t\tQuit as soon as step count == STEPS" << endl
                     << endl
                     << endl
                     << "In-game:" << endl
@@ -128,6 +132,16 @@ int main(int argc, char** argv) {
             else if (str == "--show-respawn-paths") {
                 gui_args.show_respawn_paths = true;
             }
+            else if (str == "--quit-at-step") {
+                i++;
+                if (i >= argc) {
+                    std::cerr << "Missing argument for --quit-at-step" << endl;
+                    return 1;
+                }
+
+                std::istringstream str(argv[i]);
+                str >> quit_at_step;
+            }
             else if (str == "--pause-at-end") {
                 pause_at_end = true;
             }
@@ -171,7 +185,7 @@ int main(int argc, char** argv) {
         }
 
         GUIMain main;
-        main.run(gui_args, path, pause_at_end);
+        main.run(gui_args, path, pause_at_end, quit_at_step);
 
         logtxt.print( "Shutdown" );
     }
