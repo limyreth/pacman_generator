@@ -11,7 +11,7 @@
 #pragma once
 
 #include "../util/Directions.h"
-#include "../model/Game.h"
+#include "../run/Game.h"
 #include "../model/Action.h"
 #include "../model/NullUIHints.h"
 
@@ -34,7 +34,7 @@ namespace PACMAN {
 
         private:
             int player_index;
-            ::PACMAN::MODEL::Game game;
+            ::PACMAN::RUN::Game game;
             ::PACMAN::MODEL::NullUIHints uihints;
         };
 

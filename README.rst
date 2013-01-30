@@ -137,13 +137,15 @@ Development
 Development view
 ----------------
 
-+---------------------------------+
-|   Tests   |   GUI   | Generator |
-+---------------------------------+
-|              Model              |
-+---------------------------------+
-|           Specification         |
-+---------------------------------+
++-----------------------------------+
+| Tests | (interactive) | Generator |
++-----------------------------------+
+|         Run       |      GUI      |
++-----------------------------------+
+|              Model                |
++-----------------------------------+
+|           Specification           |
++-----------------------------------+
 
 Each layer depends on the layer(s) below.
 
@@ -156,6 +158,10 @@ that's normally not what you want to do.
 Model: GameState, implementation constants (e.g. tile size, screen size), ...
 
 Specification: constants, ... as specified and used by the specification.
+
+Run: helper classes to run the game. Ties together GUI and Model.
+
+GUI: classes for providing input and rendering output
 
 
 Test coverage

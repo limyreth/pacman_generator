@@ -15,16 +15,17 @@
 //////////////////////////////////////////////////////
 
 #include "Game.h"
-#include "../Constants.h"
+#include <pacman/Constants.h>
 
 #include <limits>
 
 using std::cout;
 using std::endl;
 using std::vector;
+using namespace ::PACMAN::MODEL;
 
 namespace PACMAN {
-    namespace MODEL {
+    namespace RUN {
 
 Game::Game(int player_index)
 :   state(IntermediateGameState::new_game()),

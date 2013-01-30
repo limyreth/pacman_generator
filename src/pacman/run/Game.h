@@ -10,11 +10,12 @@
 
 #pragma once
 
-#include "IntermediateGameState.h"
+#include <pacman/model/IntermediateGameState.h>
+
 #include <list>
 
 namespace PACMAN {
-    namespace MODEL {
+    namespace RUN {
 
         // simplified interface to GameState succession, allowing to move in a certain direction as a certain player
         class Game
@@ -22,8 +23,8 @@ namespace PACMAN {
         public:
             Game(int player_index);
 
-            bool act(Direction::Type direction, UIHints& uihints);
-            const MODEL::GameState& get_state();
+            bool act(Direction::Type direction, ::PACMAN::MODEL::UIHints& uihints);
+            const ::PACMAN::MODEL::GameState& get_state();
             void print_recorded_test(std::ostream&);
             void print_path(std::ostream&);
             int get_steps();
@@ -32,8 +33,8 @@ namespace PACMAN {
         private:
             int steps;
             const int player_index;
-            MODEL::IntermediateGameState state;
-            std::list<MODEL::Action> path;  // actions taken to get to current state
+            ::PACMAN::MODEL::IntermediateGameState state;
+            std::list< ::PACMAN::MODEL::Action> path;  // actions taken to get to current state
         };
 
     }

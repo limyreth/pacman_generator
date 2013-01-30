@@ -9,7 +9,7 @@
 
 
 #include "interactive.h"
-#include "model/Game.h"
+#include "run/Game.h"
 #include "Constants.h"
 
 #include <fstream>
@@ -17,6 +17,7 @@
 
 using namespace PACMAN;
 using namespace MODEL;
+using ::PACMAN::RUN::Game;
 using GUI::GUIArgs;
 
 using std::cout;
