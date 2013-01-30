@@ -46,10 +46,7 @@ void InteractiveMain::run(GUIArgs gui_args) {
     } BOOST_SCOPE_EXIT_END
 
     while (gui.emptyMsgPump()) {
-        if (gui.is_paused()) {
-            gui.render();
-        }
-        else {
+        if (!gui.is_paused()) {
             if (game.act(gui.get_preferred_direction(), *uihints)) {
                 gui.render();
             }
