@@ -24,6 +24,10 @@ using namespace ::PACMAN::MODEL;
 namespace PACMAN {
     namespace RUN {
 
+bool ZeroInput::has_more() {
+    return true;
+}
+
 Action ZeroInput::get_action(int player_index, const IntermediateGameState& state) {
     return 0;
 }

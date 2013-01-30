@@ -30,6 +30,10 @@ RecordedInput::RecordedInput(shared_ptr<Input> input)
 {
 }
 
+bool RecordedInput::has_more() {
+    return input->has_more();
+}
+
 Action RecordedInput::get_action(int player_index, const IntermediateGameState& state) {
     //REQUIRE(state.get_action_count(player_index) > 0);
     Action action = input->get_action(player_index, state);

@@ -47,7 +47,7 @@ int Test::move(Direction::Type direction) {
     original = game.get_state();
 
     game.reset_steps();
-    game.run(*this);
+    game.run(*this, false);
 
     return game.get_steps();
 }
@@ -70,6 +70,10 @@ void Test::finished_step(const GameState& current) {
 
 bool Test::is_paused() {
     return false;
+}
+
+void Test::pause() {
+    REQUIRE(false);
 }
 
 const GameState& Test::get_state() {

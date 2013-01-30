@@ -11,6 +11,7 @@
 #include "interactive.h"
 #include <pacman/run/Game.h>
 #include <pacman/run/DirectionInput.h>
+#include <pacman/run/PlaybackInput.h>
 #include <pacman/run/RecordedInput.h>
 #include <pacman/Constants.h>
 
@@ -50,7 +51,7 @@ void InteractiveMain::run(GUIArgs gui_args) {
         recorded_input->print_path(cout);
     } BOOST_SCOPE_EXIT_END
 
-    game.run(gui);
+    game.run(gui, false);
 
     std::ofstream out("generated_test.cpp", ios::out);
     game.print_recorded_test(out, *recorded_input); 
@@ -58,42 +59,13 @@ void InteractiveMain::run(GUIArgs gui_args) {
 }
 
 void InteractiveMain::playback(GUIArgs gui_args, const std::list<Action>& path, bool pause_at_end) {
-    auto current_action = path.begin();
-    IntermediateGameState state = IntermediateGameState::new_game();
-    vector<Action> actions(PLAYER_COUNT, 0);
-
     GUI::GUI gui(gui_args);
-    shared_ptr<UIHints> uihints = gui.create_uihints();
 
-    bool quit_at_end = !pause_at_end;
-    while (!gui.should_stop()) {
-        if (gui.is_paused()) {
-            gui.finished_step(state.get_predecessor());
-        }
-        else {
-            if (state.get_action_count(PLAYER_PACMAN) > 0) {
-                if (current_action == path.end()) {
-                    if (quit_at_end) {
-                        return;
-                    }
-                    else {
-                        quit_at_end = true;
-                        gui.pause();
-                        continue;
-                    }
-                }
-                actions.at(PLAYER_PACMAN) = *current_action;
-                current_action++;
-            }
+    Game game;
+    vector<Action> vpath(path.begin(), path.end());
+    game.init(Game::make_inputs(PLAYER_PACMAN, shared_ptr<Input>(new PlaybackInput(vpath))), gui.create_uihints());
 
-            auto old_state = state.get_predecessor();
-            state = state.act(actions, *uihints);
-
-            if (old_state != state.get_predecessor()) {
-                gui.finished_step(state.get_predecessor());
-            }
-        }
-    }
+    game.run(gui, pause_at_end);
 }
 
 }

@@ -46,31 +46,67 @@ void Game::init(Inputs inputs, shared_ptr<UIHints> uihints) {
     initialised = true;
 }
 
-void Game::run(GameObserver& observer) {
+void Game::run(GameObserver& observer, bool pause_at_end_of_input) {
     REQUIRE(initialised);
 
-    while (!observer.should_stop()) { // a condition to stop running
+    bool stop_at_end_of_input = !pause_at_end_of_input;
+    while (!observer.should_stop()) {
         if (!observer.is_paused()) {
-            if (act()) {
-                observer.finished_step(get_state()); // a notification of state change
+            auto input = get_input();
+
+            if (input.empty()) {
+                if (stop_at_end_of_input) {
+                    break;
+                }
+                else {
+                    stop_at_end_of_input = true;
+                    observer.pause();
+                }
+            }
+            else {
+                if (act(input)) {
+                    observer.finished_step(get_state());
+                }
             }
         }
     }
 }
 
 /*
- * Returns true when get_state() changed
+ * Get player input for next game state
+ *
+ * Returns actions, or empty vector if we ran out of input
  */
-bool Game::act() {
+vector<Action> Game::get_input() {
     REQUIRE(initialised);
-    vector<Action> actions(PLAYER_COUNT);
-    auto old_state = get_state();
+
+    vector<Action> actions;
+    actions.reserve(PLAYER_COUNT);
 
     for (int player_index = 0; player_index < PLAYER_COUNT; ++player_index) {
         if (state.get_action_count(player_index) > 0) {
-            actions.at(player_index) = inputs.at(player_index)->get_action(player_index, state);
+            auto& input = inputs.at(player_index);
+            if (input->has_more()) {
+                actions.push_back(input->get_action(player_index, state));
+            } else {
+                actions.clear();
+                break;
+            }
+        }
+        else {
+            actions.push_back(-1);
         }
     }
+
+    return actions;
+}
+
+/*
+ * Returns true when get_state() changed
+ */
+bool Game::act(const vector<Action>& actions) {
+    REQUIRE(initialised);
+    auto old_state = get_state();
 
     state = state.act(actions, *uihints);
 

@@ -30,7 +30,7 @@ namespace PACMAN {
             Game();
             void init(Inputs inputs, std::shared_ptr< ::PACMAN::MODEL::UIHints> uihints);
 
-            void run(GameObserver&);
+            void run(GameObserver&, bool pause_at_end_of_input);
 
             /*
              * Returns Inputs with input at player_index, and a ZeroInput at each other index
@@ -43,7 +43,8 @@ namespace PACMAN {
             void reset_steps();
 
         private:
-            bool act();
+            std::vector< ::PACMAN::MODEL::Action> get_input();
+            bool act(const std::vector< ::PACMAN::MODEL::Action>&);
 
         private:
             std::shared_ptr< ::PACMAN::MODEL::UIHints> uihints;

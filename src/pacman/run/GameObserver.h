@@ -35,6 +35,11 @@ namespace PACMAN {
             virtual bool should_stop() = 0;
 
             virtual bool is_paused() = 0;
+
+            /*
+             * ENSURE(is_paused())
+             */
+            virtual void pause() = 0;
         };
 
     }

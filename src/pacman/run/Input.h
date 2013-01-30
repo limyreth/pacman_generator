@@ -23,8 +23,11 @@ namespace PACMAN {
         class Input
         {
         public:
+            virtual bool has_more() = 0;
+
             /*
              * Require: player_index's action_count > 0
+             * Require: has_more()
              */
             virtual ::PACMAN::MODEL::Action get_action(int player_index, const ::PACMAN::MODEL::IntermediateGameState& state) = 0;
         };

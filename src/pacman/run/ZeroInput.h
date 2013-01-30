@@ -21,6 +21,7 @@ namespace PACMAN {
         class ZeroInput : public Input
         {
         public:
+            bool has_more();
             ::PACMAN::MODEL::Action get_action(int player_index, const ::PACMAN::MODEL::IntermediateGameState& state);
         };
 

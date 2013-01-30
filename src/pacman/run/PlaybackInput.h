@@ -26,6 +26,7 @@ namespace PACMAN {
         public:
             PlaybackInput(const std::vector< ::PACMAN::MODEL::Action>& path);
 
+            bool has_more();
             ::PACMAN::MODEL::Action get_action(int player_index, const ::PACMAN::MODEL::IntermediateGameState& state);
             void print_path(std::ostream&);
 

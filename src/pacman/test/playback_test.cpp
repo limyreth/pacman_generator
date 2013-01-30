@@ -34,7 +34,7 @@ PlaybackTest::PlaybackTest(const std::vector<Action>& path, const ExternalGameSt
 }
 
 void PlaybackTest::run() {
-    game.run(*this);
+    game.run(*this, false);
 
     ASSERT(game.get_state().is_equivalent_to(expected_state));
 }
@@ -48,6 +48,10 @@ bool PlaybackTest::should_stop() {
 
 bool PlaybackTest::is_paused() {
     return false;
+}
+
+void PlaybackTest::pause() {
+    REQUIRE(false);
 }
 
 void playback_test(const std::vector<Action>& path, const ExternalGameState& game_state, const int player_index, const int recorded_steps) {

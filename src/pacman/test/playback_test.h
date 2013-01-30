@@ -32,6 +32,7 @@ namespace PACMAN {
             void finished_step(const ::PACMAN::MODEL::GameState& state);
             bool should_stop();
             bool is_paused();
+            void pause();
 
         private:
             const ::PACMAN::MODEL::ExternalGameState& expected_state;

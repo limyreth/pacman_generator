@@ -133,6 +133,9 @@ void GUI::InitSound() {
 }
 
 bool GUI::should_stop() {
+    if (is_paused()) {
+        delay(100);
+    }
     return !handle_events();
 }
 
