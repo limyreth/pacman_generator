@@ -33,7 +33,7 @@ namespace PACMAN {
  * Eat fruit, then a ghost, while there is still a ghost in the pen
  */
 void test_eat_fruit_ghost() {
-   const int steps = 1015;
+    const int steps = 1015;
 
     const int pacman_origin = 229;
     const int pacman_destination = 226;

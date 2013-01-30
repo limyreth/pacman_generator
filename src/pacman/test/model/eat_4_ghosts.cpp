@@ -30,7 +30,7 @@ namespace PACMAN {
         namespace MODEL {
 
 void test_eat_4_ghosts() {
-   const int steps = 1214;
+    const int steps = 1214;
 
     const int pacman_origin = 33;
     const int pacman_destination = 35;

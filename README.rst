@@ -192,7 +192,7 @@ How tests cover the game specification: (tests are in bold font)
 
 - Fixed frame rate of 60 ticks per second.
 
-  - TODO **speed tests cover this**
+  - **speed tests cover this**
 
 - Ghosts made vulnerable by energizer for 6 seconds
 

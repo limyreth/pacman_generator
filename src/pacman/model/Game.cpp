@@ -104,7 +104,7 @@ void Game::print_recorded_test(std::ostream& out) {
         << "    namespace TEST {" << endl
         << endl
         << "void test() {" << endl
-        << "   const int steps = " << steps << ";" << endl
+        << "    const int steps = " << steps << ";" << endl
         << endl;
 
     get_state().print(out, "    ");

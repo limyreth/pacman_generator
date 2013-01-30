@@ -30,7 +30,7 @@ namespace PACMAN {
         namespace MODEL {
 
 void test_eat_ghost_energizer_ghost() {
-   const int steps = 819;
+    const int steps = 819;
 
     const int pacman_origin = 226;
     const int pacman_destination = 229;
