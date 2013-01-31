@@ -11,8 +11,7 @@
 #pragma once
 
 #include <pacman/model/Action.h>
-#include <pacman/run/GameObserver.h>
-#include <pacman/run/Game.h>
+#include <pacman/run/DefaultGameObserver.h>
 
 #include <vector>
 
@@ -24,20 +23,14 @@ namespace PACMAN {
     namespace TEST {
         void playback_test(const std::vector<MODEL::Action>& path, const ::PACMAN::MODEL::ExternalGameState& game_state, const int player_index, const int recorded_steps);
 
-        class PlaybackTest : public ::PACMAN::RUN::GameObserver {
+        class PlaybackTest : public ::PACMAN::RUN::DefaultGameObserver {
         public:
             PlaybackTest(const std::vector< ::PACMAN::MODEL::Action>& path, const ::PACMAN::MODEL::ExternalGameState& game_state, int player_index, int recorded_steps);
             void run();
 
-            void finished_step(const ::PACMAN::MODEL::GameState& state);
-            bool should_stop();
-            bool is_paused();
-            void pause();
-
         private:
             const ::PACMAN::MODEL::ExternalGameState& expected_state;
             const int recorded_steps;
-            ::PACMAN::RUN::Game game;
         };
     }
 }
