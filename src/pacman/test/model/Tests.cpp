@@ -147,16 +147,9 @@ void test_pacman_movement_regular_speed_cornering() {
 /* TODO
  * move from node to node takes expected amount of ticks:
  * - pacman:
- *   - at regular speed:
- *     - move between nodes
- *     - do a corner
- *   - at vulnerable speed:
- *     - move between nodes
- *     - do a corner
+ *   - at vulnerable speed: move between nodes (no cornering)
  * - ghost:
- *   - for every speed: move between nodes, =doing a corner
- *
- * fruit, ...
+ *   - for every speed: move between 2 nodes
  */
 
 }}}
