@@ -8,23 +8,32 @@
  ***************************************************************************/
 
 
-#pragma once
+#include "PathTest.h"
+#include <pacman/model/GameState.h>
+#include <pacman/run/PlaybackInput.h>
 
-#include <pacman/run/DefaultGameObserver.h>
-#include <pacman/model/Action.h>
+#include <memory>
 
-#include <vector>
+using std::cout;
+using std::endl;
+using std::vector;
+using std::shared_ptr;
+
+using namespace ::PACMAN::MODEL;
+using namespace ::PACMAN::RUN;
 
 namespace PACMAN {
     namespace TEST {
         namespace MODEL {
 
-            class VulnerabilityTests : public ::PACMAN::RUN::DefaultGameObserver {
-            public:
-                static void test_energizer_time();
-                static void test_2_energizers_time();
-            };
-
-        }
-    }
+PathTest::PathTest(std::vector<Action>& path)
+:   DefaultGameObserver(PLAYER_PACMAN, shared_ptr<Input>(new PlaybackInput(path)))
+{
 }
+
+GameState PathTest::run(int stop_at_step) {
+    game.run(*this, false, stop_at_step);
+    return game.get_state();
+}
+
+}}}

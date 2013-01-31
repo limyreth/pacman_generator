@@ -16,13 +16,19 @@
 #include <vector>
 
 namespace PACMAN {
+
+    namespace MODEL {
+        class GameState;
+    }
+
     namespace TEST {
         namespace MODEL {
 
-            class VulnerabilityTests : public ::PACMAN::RUN::DefaultGameObserver {
+            class PathTest : public ::PACMAN::RUN::DefaultGameObserver {
             public:
-                static void test_energizer_time();
-                static void test_2_energizers_time();
+                PathTest(std::vector< ::PACMAN::MODEL::Action>& path);
+
+                ::PACMAN::MODEL::GameState run(int stop_at_step);
             };
 
         }
