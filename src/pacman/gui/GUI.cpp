@@ -27,6 +27,7 @@
 #include "../specification/Walls.h"
 
 #include <sstream>
+#include <SDL/SDL_gfxPrimitives.h>
 
 #define PAC 1
 
@@ -244,6 +245,22 @@ void GUI::render(const MODEL::GameState& state) {
 
     if (gui_args.show_respawn_paths) {
         MODEL::GHOST_NODES.draw_respawn_paths(screen);
+    }
+
+    if (gui_args.show_grid) {
+        Uint32 grid_color = 0x0000FF99;
+
+        // vertical lines
+        for (int x = 0; x < MAP_WIDTH; ++x) {
+            int retval = lineColor(screen.get(), TILE_SIZE * x, 0, TILE_SIZE * x, TILE_SIZE * MAP_HEIGHT, grid_color);
+            ASSERT(retval == 0);
+        }
+
+        // horizontal lines
+        for (int y = 0; y < MAP_HEIGHT; ++y) {
+            int retval = lineColor(screen.get(), 0, TILE_SIZE * y, TILE_SIZE * MAP_WIDTH, TILE_SIZE * y, grid_color);
+            ASSERT(retval == 0);
+        }
     }
 
     SDL_Flip(screen.get());

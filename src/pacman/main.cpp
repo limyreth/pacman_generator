@@ -46,6 +46,7 @@ int main(int argc, char** argv) {
     gui_args.show_ghost_nodes = false;
     gui_args.show_food = true;
     gui_args.show_respawn_paths = false;
+    gui_args.show_grid = false;
     gui_args.game_speed = 1.0;
     std::list<Action> path;
     bool pause_at_end = false;
@@ -72,6 +73,9 @@ int main(int argc, char** argv) {
                     << endl
                     << "\t--show-respawn-paths" << endl
                     << "\t\tShow ghost respawn path finding graph" << endl
+                    << endl
+                    << "\t--show-grid" << endl
+                    << "\t\tShow tile grid" << endl
                     << endl
                     << "\t--hide-food" << endl
                     << "\t\tDon't render dots and energizers" << endl
@@ -131,6 +135,9 @@ int main(int argc, char** argv) {
             }
             else if (str == "--show-respawn-paths") {
                 gui_args.show_respawn_paths = true;
+            }
+            else if (str == "--show-grid") {
+                gui_args.show_grid = true;
             }
             else if (str == "--quit-at-step") {
                 i++;

@@ -36,6 +36,7 @@ namespace PACMAN {
             bool show_ghost_nodes;
             bool show_food;
             bool show_respawn_paths;
+            bool show_grid;
             double game_speed;
         };
 
