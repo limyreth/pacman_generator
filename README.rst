@@ -111,6 +111,9 @@ Changes to the original rules:
 
 - The first level is the only level.
 
+- Cornering near (2, 23) and (25, 23) happens under a slightly different angle
+  so that pacman exits/enters its cornering in the center of those tiles.
+
 
 Additions compatible with the original rules:
 
@@ -150,6 +153,14 @@ corner point to nearest tile edge
 While cornering, pacman's center will enter a wall tile. The distance travelled
 in the wall tile = 3 * sqrt(2) / 10 * ts. The distance between the corner point
 and the wall edge = sqrt(2) / 2 * ts
+
+Distances of cornering near (2, 23) and (25, 23):
+
+- normal corner point to wall = sqrt(269) / 20
+
+- wall to wall = 8 / sqrt(5) - sqrt(269) / 20
+
+- exceptional corner point to wall = sqrt(269) / 10 - 8 / sqrt(5)
 
 Development
 ===========
@@ -222,7 +233,7 @@ How tests cover the game specification: (tests are in bold font)
 
 - Ghosts made vulnerable by energizer for 6 seconds
 
-  - TODO **1 energizer, check for ticks it should remain vulnerable and then the tick
+  - **1 energizer, check for ticks it should remain vulnerable and then the tick
     after that when it no longer should be (6 seconds and 1 tick past that)**
 
   - TODO **1 energizer, then straight to the next, then time check again of when it

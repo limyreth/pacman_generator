@@ -61,6 +61,9 @@ void MovementTest::finished_step(const GameState& current) {
         ASSERT(current.get_score() == original.get_score());
 
         for (int i=0; i < GHOST_COUNT; ++i) {
+            // Note: this assert is too restrictive, a ghost could switch from
+            // waiting to normal while we haven't changed our tile
+            // But MovementTests don't eat energizers
             ASSERT( ((GhostState&)current.get_player(i+1)).state == ((GhostState&)original.get_player(i+1)).state );
         }
     }

@@ -88,6 +88,12 @@ add_test(
     COMMAND pacman_sdl --test MODEL::test_dot_eating_no_cornering
 )
 
+# vulnerability
+add_test(
+    NAME MODEL::VulnerabilityTests::test_energizer_time
+    COMMAND pacman_sdl --test MODEL::VulnerabilityTests::test_energizer_time
+)
+
 # scoring
 add_test(
     NAME MODEL::test_eat_2_dots
