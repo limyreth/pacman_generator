@@ -131,6 +131,26 @@ Additions compatible with the original rules:
   their tile pos is one of the ghost pen tiles.
 
 
+Analysis
+========
+
+Maze details
+------------
+
+ts = TILE_SIZE
+
+corner point = a point where pacman starts to corner
+
+Distance travelled by pacman from begin to end of cornering = sqrt(2) * 1.3 *
+ts
+
+Distance from pacman spawn to nearest corner point = 0.2 * ts = distance of
+corner point to nearest tile edge
+
+While cornering, pacman's center will enter a wall tile. The distance travelled
+in the wall tile = 3 * sqrt(2) / 10 * ts. The distance between the corner point
+and the wall edge = sqrt(2) / 2 * ts
+
 Development
 ===========
 
