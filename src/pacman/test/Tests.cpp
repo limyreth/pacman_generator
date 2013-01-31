@@ -24,6 +24,7 @@ void test(string name) {
     else if (name == "MODEL::test_initial_game_state") MODEL::test_initial_game_state();
     else if (name == "MODEL::test_ghosts_remain_normal_when_not_eating_energizer") MODEL::test_ghosts_remain_normal_when_not_eating_energizer();
     else if (name == "MODEL::test_pacman_movement_regular_speed_not_cornering") MODEL::test_pacman_movement_regular_speed_not_cornering();
+    else if (name == "MODEL::test_pacman_movement_regular_speed_cornering") MODEL::test_pacman_movement_regular_speed_cornering();
     else if (name == "MODEL::test_dot_eating_no_cornering") MODEL::test_dot_eating_no_cornering();
     else if (name == "MODEL::test_eat_2_dots") MODEL::test_eat_2_dots();
     else if (name == "MODEL::test_eat_energizer") MODEL::test_eat_energizer();

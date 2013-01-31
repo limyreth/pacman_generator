@@ -97,12 +97,46 @@ void test_dot_eating_no_cornering() {
 
     int start_food = test.get_state().get_food_count();
     int steps = test.move(Direction::EAST);
-    ASSERT(test.get_state().get_food_count() == start_food-1);
+    ASSERT(test.get_state().get_food_count() == start_food - 1);
 
     // should take 1 step longer because pacman idles 1 tick after eating a dot
     int one_tile_steps = ceil(1 /*tile*/ / (FULL_SPEED * NORMAL_PACMAN_SPEED));
     ASSERT(test.move(Direction::EAST) == 1 + one_tile_steps + steps);
-    ASSERT(test.get_state().get_food_count() == start_food-2);
+    ASSERT(test.get_state().get_food_count() == start_food - 2);
+}
+
+/*
+ * Correct cornering
+ */
+void test_pacman_movement_regular_speed_cornering() {
+    Test test(PLAYER_PACMAN);
+    int start_food = test.get_state().get_food_count();
+
+    // move from spawn to corner point and then into the wall
+    auto steps = test.move(Direction::NORTH);
+    ASSERT(steps == 8 
+            +1); // new game step
+    auto tile_pos = test.get_state().get_player(PLAYER_PACMAN).get_tile_pos();
+    ASSERT(tile_pos == IPoint(15, 23));
+    ASSERT(test.get_state().get_food_count() == start_food - 1);
+
+    // exit the wall
+    steps = test.move(Direction::ANY);
+    ASSERT(steps == 11 
+            + 1 // dot idling
+            + 1); // new game step
+    tile_pos = test.get_state().get_player(PLAYER_PACMAN).get_tile_pos();
+    ASSERT(tile_pos == IPoint(15, 22));
+    ASSERT(test.get_state().get_food_count() == start_food - 2);
+
+    // move to destination corner point, and exit into next tile
+    steps = test.move(Direction::NORTH);
+    ASSERT(steps == 18
+            + 2 // dot idling
+            + 1); // new game step
+    tile_pos = test.get_state().get_player(PLAYER_PACMAN).get_tile_pos();
+    ASSERT(tile_pos == IPoint(15, 21));
+    ASSERT(test.get_state().get_food_count() == start_food - 3);
 }
 
 /* TODO

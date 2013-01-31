@@ -79,6 +79,11 @@ add_test(
 )
 
 add_test(
+    NAME MODEL::test_pacman_movement_regular_speed_cornering
+    COMMAND pacman_sdl --test MODEL::test_pacman_movement_regular_speed_cornering
+)
+
+add_test(
     NAME MODEL::test_dot_eating_no_cornering
     COMMAND pacman_sdl --test MODEL::test_dot_eating_no_cornering
 )

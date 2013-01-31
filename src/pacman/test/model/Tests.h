@@ -20,6 +20,7 @@ namespace PACMAN {
             void test_initial_game_state();
             void test_ghosts_remain_normal_when_not_eating_energizer();
             void test_pacman_movement_regular_speed_not_cornering();
+            void test_pacman_movement_regular_speed_cornering();
             void test_dot_eating_no_cornering();
             void test_eat_1_ghost();
             void test_eat_2_ghosts();
