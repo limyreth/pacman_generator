@@ -12,7 +12,7 @@
 
 #include <pacman/util/Directions.h>
 #include <pacman/run/Game.h>
-#include <pacman/run/GameObserver.h>
+#include <pacman/run/DefaultGameObserver.h>
 #include <pacman/run/DirectionPreference.h>
 #include <pacman/model/Action.h>
 
@@ -27,7 +27,7 @@ namespace PACMAN {
 
     namespace TEST {
 
-        class Test : public RUN::DirectionPreference, public RUN::GameObserver {
+        class Test : public RUN::DirectionPreference, public RUN::DefaultGameObserver {
         public:
             Test(int player_index);
             int move(Direction::Type direction);
@@ -36,13 +36,10 @@ namespace PACMAN {
 
             void finished_step(const ::PACMAN::MODEL::GameState& state);
             bool should_stop();
-            bool is_paused();
-            void pause();
 
         private:
             Direction::Type current_direction;
             int player_index;
-            ::PACMAN::RUN::Game game;
             ::PACMAN::MODEL::GameState original;
         };
 

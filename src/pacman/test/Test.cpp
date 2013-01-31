@@ -10,7 +10,6 @@
 
 #include "Test.h"
 #include <pacman/model/IntermediateGameState.h>
-#include <pacman/model/NullGameStateObserver.h>
 #include <pacman/util/Point.h>
 #include <pacman/Constants.h>
 #include <pacman/run/DirectionInput.h>
@@ -28,9 +27,9 @@ namespace PACMAN {
     namespace TEST {
 
 Test::Test(int player_index)
-:   player_index(player_index)
+:   player_index(player_index),
+    DefaultGameObserver(player_index, shared_ptr<Input>(new DirectionInput(*this)))
 {
-    game.init(Game::make_inputs(player_index, shared_ptr<Input>(new DirectionInput(*this))), shared_ptr<GameStateObserver>(new NullGameStateObserver));
 }
 
 /*
@@ -65,14 +64,6 @@ void Test::finished_step(const GameState& current) {
             ASSERT( ((GhostState&)current.get_player(i+1)).state == ((GhostState&)original.get_player(i+1)).state );
         }
     }
-}
-
-bool Test::is_paused() {
-    return false;
-}
-
-void Test::pause() {
-    REQUIRE(false);
 }
 
 const GameState& Test::get_state() {
