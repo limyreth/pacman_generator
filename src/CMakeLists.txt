@@ -94,6 +94,11 @@ add_test(
     COMMAND pacman_sdl --test MODEL::VulnerabilityTests::test_energizer_time
 )
 
+add_test(
+    NAME MODEL::VulnerabilityTests::test_2_energizers_time
+    COMMAND pacman_sdl --test MODEL::VulnerabilityTests::test_2_energizers_time
+)
+
 # scoring
 add_test(
     NAME MODEL::test_eat_2_dots

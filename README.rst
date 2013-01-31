@@ -158,9 +158,9 @@ Distances of cornering near (2, 23) and (25, 23):
 
 - normal corner point to wall = sqrt(269) / 20
 
-- wall to wall = 8 / sqrt(5) - sqrt(269) / 20
+- wall to wall = 4 * sqrt(269) / 65 - sqrt(269) / 20
 
-- exceptional corner point to wall = sqrt(269) / 10 - 8 / sqrt(5)
+- exceptional corner point to wall = sqrt(269) / 10 - 4 * sqrt(269) / 65
 
 Development
 ===========
@@ -236,7 +236,7 @@ How tests cover the game specification: (tests are in bold font)
   - **1 energizer, check for ticks it should remain vulnerable and then the tick
     after that when it no longer should be (6 seconds and 1 tick past that)**
 
-  - TODO **1 energizer, then straight to the next, then time check again of when it
+  - **1 energizer, then straight to the next, then time check again of when it
     should still be there, and when it no longer should be**
 
 - A fruit spawns after 70 and 170 dots. They remain for 10sec.
