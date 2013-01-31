@@ -8,7 +8,7 @@
  ***************************************************************************/
 
 
-#include "Test.h"
+#include "MovementTest.h"
 #include <pacman/model/IntermediateGameState.h>
 #include <pacman/util/Point.h>
 #include <pacman/Constants.h>
@@ -26,7 +26,7 @@ using std::shared_ptr;
 namespace PACMAN {
     namespace TEST {
 
-Test::Test(int player_index)
+MovementTest::MovementTest(int player_index)
 :   player_index(player_index),
     DefaultGameObserver(player_index, shared_ptr<Input>(new DirectionInput(*this)))
 {
@@ -41,7 +41,7 @@ Test::Test(int player_index)
  *
  * Returns steps taken
  */
-int Test::move(Direction::Type direction) {
+int MovementTest::move(Direction::Type direction) {
     current_direction = direction;
     original = game.get_state();
 
@@ -50,15 +50,15 @@ int Test::move(Direction::Type direction) {
     return game.get_steps();
 }
 
-bool Test::should_stop() {
+bool MovementTest::should_stop() {
     return original.get_player(player_index).get_tile_pos() != get_state().get_player(player_index).get_tile_pos();
 }
 
-void Test::finished_step(const GameState& current) {
+void MovementTest::finished_step(const GameState& current) {
     if (!should_stop()) {
-        ASSERT(current.food_count == original.food_count);
-        ASSERT(current.lives == original.lives);
-        ASSERT(current.score == original.score);
+        ASSERT(current.get_food_count() == original.get_food_count());
+        ASSERT(current.get_lives() == original.get_lives());
+        ASSERT(current.get_score() == original.get_score());
 
         for (int i=0; i < GHOST_COUNT; ++i) {
             ASSERT( ((GhostState&)current.get_player(i+1)).state == ((GhostState&)original.get_player(i+1)).state );
@@ -66,11 +66,11 @@ void Test::finished_step(const GameState& current) {
     }
 }
 
-const GameState& Test::get_state() {
+const GameState& MovementTest::get_state() {
     return game.get_state();
 }
 
-Direction::Type Test::get_preferred_direction() {
+Direction::Type MovementTest::get_preferred_direction() {
     return current_direction;
 }
 

@@ -27,9 +27,9 @@ namespace PACMAN {
 
     namespace TEST {
 
-        class Test : public RUN::DirectionPreference, public RUN::DefaultGameObserver {
+        class MovementTest : public RUN::DirectionPreference, public RUN::DefaultGameObserver {
         public:
-            Test(int player_index);
+            MovementTest(int player_index);
             int move(Direction::Type direction);
             const ::PACMAN::MODEL::GameState& get_state();
             Direction::Type get_preferred_direction();

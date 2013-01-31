@@ -9,7 +9,7 @@
 
 
 #include "Tests.h"
-#include <pacman/test/Test.h>
+#include <pacman/test/MovementTest.h>
 #include <pacman/model/GameState.h>
 #include <pacman/util/assertion.h>
 #include <pacman/util/Point.h>
@@ -53,7 +53,7 @@ void test_start_foods() {
  * Correct initial state
  */
 void test_initial_game_state() {
-    Test test(PLAYER_PACMAN);
+    MovementTest test(PLAYER_PACMAN);
     auto state = test.get_state();
 
     // spawn positions
@@ -73,7 +73,7 @@ void test_initial_game_state() {
  * Regression test to an earlier fix
  */
 void test_ghosts_remain_normal_when_not_eating_energizer() {
-    Test test(1);
+    MovementTest test(1);
     test.move(Direction::ANY);
 }
 
@@ -81,7 +81,7 @@ void test_ghosts_remain_normal_when_not_eating_energizer() {
  * Correct timing normal speed pacman movement
  */
 void test_pacman_movement_regular_speed_not_cornering() {
-    Test test(PLAYER_PACMAN);
+    MovementTest test(PLAYER_PACMAN);
 
     int one_tile_steps = ceil(1 /*tile*/ / (FULL_SPEED * NORMAL_PACMAN_SPEED));
     ASSERT(test.move(Direction::EAST) == one_tile_steps +1); // +1 because the first tick is a tick for the initial game state to tell players what to do, actual movement starts from the second tick onwards
@@ -98,7 +98,7 @@ void test_pacman_movement_regular_speed_not_cornering() {
  * Correct timing of dot eating when not cornering
  */
 void test_dot_eating_no_cornering() {
-    Test test(PLAYER_PACMAN);
+    MovementTest test(PLAYER_PACMAN);
 
     int start_food = test.get_state().get_food_count();
     int steps = test.move(Direction::EAST);
@@ -114,7 +114,7 @@ void test_dot_eating_no_cornering() {
  * Correct cornering
  */
 void test_pacman_movement_regular_speed_cornering() {
-    Test test(PLAYER_PACMAN);
+    MovementTest test(PLAYER_PACMAN);
     int start_food = test.get_state().get_food_count();
 
     // move from spawn to corner point and then into the wall

@@ -21,10 +21,6 @@
 
 namespace PACMAN {
 
-    namespace TEST {
-        class Test;
-    }
-
     namespace MODEL {
 
         typedef std::array<GhostState, GHOST_COUNT> Ghosts;
@@ -134,8 +130,6 @@ namespace PACMAN {
             int ghost_release_ticks_left;  // ticks until we are forced to release a ghost
 
             State state;
-
-            friend class PACMAN::TEST::Test;
         };
 
     }
