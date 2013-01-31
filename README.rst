@@ -111,8 +111,9 @@ Changes to the original rules:
 
 - The first level is the only level.
 
-- Cornering near (2, 23) and (25, 23) happens under a slightly different angle
-  so that pacman exits/enters its cornering in the center of those tiles.
+- Cornering near (2, 23), (25, 23), (2, 26) and (25, 26) happens under a
+  slightly different angle so that pacman exits/enters its cornering in the
+  center of those tiles.
 
 
 Additions compatible with the original rules:
@@ -241,8 +242,7 @@ How tests cover the game specification: (tests are in bold font)
 
 - A fruit spawns after 70 and 170 dots. They remain for 10sec.
 
-  - TODO **right before and at 70/170 dots**
-  - TODO **for both, check the remain exactly 10 sec (before and at)**
+  - **right before and at 70/170 dots, and each remains exactly 10 seconds**
 
 - Monster pen leaving: 
 

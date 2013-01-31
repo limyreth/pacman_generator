@@ -11,6 +11,7 @@
 #include "Tests.h"
 #include "model/Tests.h"
 #include "model/VulnerabilityTests.h"
+#include "model/FruitTests.h"
 #include "MinimaxTests.h"
 #include "GeneratorTests.h"
 #include "../util/assertion.h"
@@ -38,6 +39,7 @@ void test(string name) {
     else if (name == "MODEL::test_eat_ghost_energizer_ghost") MODEL::test_eat_ghost_energizer_ghost();
     else if (name == "MODEL::VulnerabilityTests::test_energizer_time") MODEL::VulnerabilityTests::test_energizer_time();
     else if (name == "MODEL::VulnerabilityTests::test_2_energizers_time") MODEL::VulnerabilityTests::test_2_energizers_time();
+    else if (name == "MODEL::FruitTests::test_fruit_timing") MODEL::FruitTests::test_fruit_timing();
     else if (name == "MinimaxTests::test_1") MinimaxTests::test_1();
     else if (name == "GeneratorTests::test_1") GeneratorTests::test_1();
     else if (name == "GeneratorTests::test_save_load") GeneratorTests::test_save_load();
