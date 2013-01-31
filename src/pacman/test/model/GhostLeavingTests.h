@@ -19,6 +19,7 @@ namespace PACMAN {
             class GhostLeavingTests : public ::PACMAN::RUN::DefaultGameObserver {
             public:
                 static void test_blinky_pinky_immediately_leave();
+                static void test_dots_eaten();
             };
 
         }

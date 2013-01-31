@@ -94,6 +94,11 @@ add_test(
     COMMAND pacman_sdl --test MODEL::GhostLeavingTests::test_blinky_pinky_immediately_leave
 )
 
+add_test(
+    NAME MODEL::GhostLeavingTests::test_dots_eaten
+    COMMAND pacman_sdl --test MODEL::GhostLeavingTests::test_dots_eaten
+)
+
 # vulnerability
 add_test(
     NAME MODEL::VulnerabilityTests::test_energizer_time

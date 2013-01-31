@@ -33,4 +33,33 @@ void GhostLeavingTests::test_blinky_pinky_immediately_leave() {
     ASSERT(original.get_player(GHOST_PINKY+1).get_pixel_pos() != state.get_player(GHOST_PINKY+1).get_pixel_pos());
 }
 
+/*
+ * Leaving due to dots being eaten
+ */
+void GhostLeavingTests::test_dots_eaten() {
+    std::vector<Action> path = {0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0};
+    PathTest test(path);
+
+    // inky at 30 dots
+    {
+        auto state1 = test.run(230 +1);
+        auto state2 = test.run(231 +1);  // ct + cc + ct2 + cc + ct + 3 + ct + cc + ct + 3 + ct + cc + ct + 2.5 + ecc + ct2 + cc + ct + 4 + 29 dots
+        ASSERT(state1.get_player(GHOST_INKY+1).get_pixel_pos() == state2.get_player(GHOST_INKY+1).get_pixel_pos());  // inky not moving yet
+
+        auto state3 = test.run(232 +1);
+        ASSERT(state2.get_player(GHOST_INKY+1).get_pixel_pos() != state3.get_player(GHOST_INKY+1).get_pixel_pos());
+    }
+
+    // clyde at 90 dots
+    {
+        auto state1 = test.run(741 +1);
+        auto state2 = test.run(742 +1);  // ct + cc + ct2 + cc + ct + 3 + ct + cc + ct + 3 + ct + cc + ct + 2.5 + ecc + ct2 + cc + ct + 22 + ct + cc + ct2 + ecc + 2.5 + ct + cc + ct + 18 + ct + cc + ct + 10 + 89 dots
+        ASSERT(state1.get_player(GHOST_CLYDE+1).get_pixel_pos() == state2.get_player(GHOST_CLYDE+1).get_pixel_pos());  // inky not moving yet
+
+        auto state3 = test.run(743 +1);
+        ASSERT(state2.get_player(GHOST_CLYDE+1).get_pixel_pos() != state3.get_player(GHOST_CLYDE+1).get_pixel_pos());
+    }
+
+}
+
 }}}
