@@ -46,7 +46,6 @@ int Test::move(Direction::Type direction) {
     current_direction = direction;
     original = game.get_state();
 
-    game.reset_steps();
     game.run(*this, false, -1);
 
     return game.get_steps();

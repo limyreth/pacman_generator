@@ -40,7 +40,6 @@ namespace PACMAN {
             const ::PACMAN::MODEL::GameState& get_state();
             void print_recorded_test(std::ostream&, RecordedInput&);
             int get_steps();
-            void reset_steps();
 
         private:
             std::vector< ::PACMAN::MODEL::Action> get_input();

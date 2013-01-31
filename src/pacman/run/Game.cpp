@@ -126,10 +126,6 @@ const MODEL::GameState& Game::get_state() {
     return state.get_predecessor();
 }
 
-void Game::reset_steps() {
-    steps = 0;
-}
-
 /*
  * Print source code for test that replays this game,
  * and asserts reaching the same end game state
