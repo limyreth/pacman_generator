@@ -26,7 +26,8 @@ namespace PACMAN {
 
             class PathTest : public ::PACMAN::RUN::DefaultGameObserver {
             public:
-                PathTest(std::vector< ::PACMAN::MODEL::Action>& path);
+                PathTest(int player_index, const std::vector< ::PACMAN::MODEL::Action>& path);
+                PathTest(const std::vector< ::PACMAN::MODEL::Action>& path);
 
                 ::PACMAN::MODEL::GameState run(int stop_at_step);
             };

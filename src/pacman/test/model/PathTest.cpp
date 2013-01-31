@@ -26,8 +26,13 @@ namespace PACMAN {
     namespace TEST {
         namespace MODEL {
 
-PathTest::PathTest(std::vector<Action>& path)
-:   DefaultGameObserver(PLAYER_PACMAN, shared_ptr<Input>(new PlaybackInput(path)))
+PathTest::PathTest(const std::vector<Action>& path)
+:   PathTest(PLAYER_PACMAN, path)
+{
+}
+
+PathTest::PathTest(int player_index, const std::vector<Action>& path)
+:   DefaultGameObserver(player_index, shared_ptr<Input>(new PlaybackInput(path)))
 {
 }
 

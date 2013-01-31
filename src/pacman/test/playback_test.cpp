@@ -11,6 +11,7 @@
 #include "playback_test.h"
 #include <pacman/model/GameState.h>
 #include <pacman/run/PlaybackInput.h>
+#include <pacman/test/model/PathTest.h>
 
 #include <memory>
 
@@ -25,21 +26,10 @@ using namespace ::PACMAN::RUN;
 namespace PACMAN {
     namespace TEST {
 
-PlaybackTest::PlaybackTest(const std::vector<Action>& path, const ExternalGameState& game_state, int player_index, int recorded_steps) 
-:   expected_state(game_state),
-    recorded_steps(recorded_steps),
-    DefaultGameObserver(player_index, shared_ptr<Input>(new PlaybackInput(path)))
-{
-}
-
-void PlaybackTest::run() {
-    game.run(*this, false, recorded_steps);
-    ASSERT(game.get_state().is_equivalent_to(expected_state));
-}
-
-void playback_test(const std::vector<Action>& path, const ExternalGameState& game_state, const int player_index, const int recorded_steps) {
-    PlaybackTest test(path, game_state, player_index, recorded_steps);
-    test.run();
+void playback_test(const std::vector<Action>& path, const ExternalGameState& expected_state, const int player_index, const int recorded_steps) {
+    ::PACMAN::TEST::MODEL::PathTest test(player_index, path);
+    auto state = test.run(recorded_steps);
+    ASSERT(state.is_equivalent_to(expected_state));
 }
 
 }}
