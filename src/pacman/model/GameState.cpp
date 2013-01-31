@@ -43,7 +43,7 @@ GameState::GameState(const Node& pacman_spawn, const vector<Node*> ghost_spawns)
 :   food_count(MAX_FOOD_COUNT),
     score(0),
     lives(1),
-    fruit_ticks_left(0),
+    fruit_ticks_left(-1),
     vulnerable_ticks_left(-1),
     ghost_release_ticks_left(MAX_TICKS_BETWEEN_GHOST_RELEASE),
     idler_ticks_left(0),
@@ -138,10 +138,10 @@ bool GameState::progress_timers(const GameState& pre, GameStateObserver& observe
         ASSERT(!is_fruit_spawned());  // It is impossible for another fruit to spawn while a previous is still spawned (eating 100 dots should take long enough for this never to happen)
         fruit_ticks_left = FRUIT_TICKS;
     }
-    fruit_ticks_left = max(fruit_ticks_left - 1, 0);
+    fruit_ticks_left = max(fruit_ticks_left - 1, -1);
 
     ENSURE(pre.triggered_fruit_spawn == (fruit_ticks_left == FRUIT_TICKS - 1));
-    ENSURE(fruit_ticks_left == 0 || fruit_ticks_left == FRUIT_TICKS - 1 || fruit_ticks_left == pre.fruit_ticks_left - 1);
+    ENSURE(fruit_ticks_left == -1 || fruit_ticks_left == FRUIT_TICKS - 1 || fruit_ticks_left == pre.fruit_ticks_left - 1);
 
     state = TIME_PROGRESSED;
     return allow_reversing;
@@ -222,7 +222,7 @@ bool GameState::act(const vector<Action>& actions, const GameState& pre, GameSta
         ENSURE(this_->lives <= pre.lives);
 
         // internal contract
-        ENSURE(this_->fruit_ticks_left == old_fruit_ticks_left || this_->fruit_ticks_left == 0);
+        ENSURE(this_->fruit_ticks_left == old_fruit_ticks_left || this_->fruit_ticks_left == -1);
         ENSURE(this_->vulnerable_ticks_left == old_vulnerable_ticks_left);
         if (!this_->is_game_over()) {
             ENSURE(this_->ghost_release_ticks_left == MAX_TICKS_BETWEEN_GHOST_RELEASE || this_->ghost_release_ticks_left == pre.ghost_release_ticks_left - 1);
@@ -300,7 +300,7 @@ bool GameState::act(const vector<Action>& actions, const GameState& pre, GameSta
         score += get_fruit_score();
         observer.ate_fruit();
         ate_fruit = true;
-        fruit_ticks_left = 0;
+        fruit_ticks_left = -1;
         ASSERT(idler_ticks_left == 0);
     }
 
@@ -388,7 +388,7 @@ void GameState::invariants() const {
     INVARIANT(score >= 0);
     INVARIANT(lives >= 0);
 
-    ENSURE(fruit_ticks_left >= 0);
+    ENSURE(fruit_ticks_left >= -1);
     ENSURE(fruit_ticks_left < FRUIT_TICKS);
 
     INVARIANT(vulnerable_ticks_left >= -1);
@@ -498,7 +498,7 @@ void GameState::print(std::ostream& out, string prefix) const {
 
 bool GameState::is_fruit_spawned() const {
     REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
-    return fruit_ticks_left > 0;
+    return fruit_ticks_left >= 0;
 }
 
 int GameState::get_level() const {
