@@ -88,6 +88,12 @@ add_test(
     COMMAND pacman_sdl --test MODEL::test_dot_eating_no_cornering
 )
 
+# ghost pen leaving
+add_test(
+    NAME MODEL::GhostLeavingTests::test_blinky_pinky_immediately_leave
+    COMMAND pacman_sdl --test MODEL::GhostLeavingTests::test_blinky_pinky_immediately_leave
+)
+
 # vulnerability
 add_test(
     NAME MODEL::VulnerabilityTests::test_energizer_time

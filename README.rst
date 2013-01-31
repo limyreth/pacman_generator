@@ -248,7 +248,7 @@ How tests cover the game specification: (tests are in bold font)
 
   - Blinky and Pinky leave immediately. 
 
-    - TODO **check for movement after first frame**
+    - **check for movement after first frame**
 
   - Inky leaves after 30 dots eaten.
 
