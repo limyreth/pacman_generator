@@ -320,7 +320,7 @@ Changes to the original rules:
 
 - Pacman gets only 1 life.
 
-  - TODO **start with 1 life**
+  - **start with 1 life**
 
 - The first level is the only level.
 
