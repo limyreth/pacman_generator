@@ -141,19 +141,18 @@ Analysis
 Maze details
 ------------
 
-ts = TILE_SIZE
+Distances are expressed in tiles.
 
 corner point = a point where pacman starts to corner
 
-Distance travelled by pacman from begin to end of cornering = sqrt(2) * 1.3 *
-ts
+Distance travelled by pacman from begin to end of cornering = sqrt(2) * 1.3
 
-Distance from pacman spawn to nearest corner point = 0.2 * ts = distance of
+Distance from pacman spawn to nearest corner point = 0.2 = distance of
 corner point to nearest tile edge
 
 While cornering, pacman's center will enter a wall tile. The distance travelled
-in the wall tile = 3 * sqrt(2) / 10 * ts. The distance between the corner point
-and the wall edge = sqrt(2) / 2 * ts
+in the wall tile = 3 * sqrt(2) / 10. The distance between the corner point
+and the wall edge = sqrt(2) / 2
 
 Distances of cornering near (2, 23) and (25, 23):
 
@@ -252,17 +251,17 @@ How tests cover the game specification: (tests are in bold font)
 
   - Inky leaves after 30 dots eaten.
 
-    - TODO **still at spawn before 30 dots**
-    - TODO **movement at 30 dots**
+    - **still at spawn before 30 dots**
+    - **movement at 30 dots**
 
   - Clyde leaves after 90 dots total eaten.
 
-    - TODO **still at spawn before 90 dots**
-    - TODO **movement at 90 dots**
+    - **still at spawn before 90 dots**
+    - **movement at 90 dots**
 
   - Or if no dots are eaten for 4 seconds, the next monster leaves the pen (first Inky, then Clyde).
 
-    - TODO **same kind of tests for both clyde, inky, as for dot count**
+    - **same kind of tests for both clyde, inky, as for dot count**
 
 - Ghost respawn: 
   

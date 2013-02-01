@@ -99,6 +99,11 @@ add_test(
     COMMAND pacman_sdl --test MODEL::GhostLeavingTests::test_dots_eaten
 )
 
+add_test(
+    NAME MODEL::GhostLeavingTests::test_time
+    COMMAND pacman_sdl --test MODEL::GhostLeavingTests::test_time
+)
+
 # vulnerability
 add_test(
     NAME MODEL::VulnerabilityTests::test_energizer_time

@@ -42,6 +42,7 @@ void test(string name) {
     else if (name == "MODEL::VulnerabilityTests::test_2_energizers_time") MODEL::VulnerabilityTests::test_2_energizers_time();
     else if (name == "MODEL::GhostLeavingTests::test_blinky_pinky_immediately_leave") MODEL::GhostLeavingTests::test_blinky_pinky_immediately_leave();
     else if (name == "MODEL::GhostLeavingTests::test_dots_eaten") MODEL::GhostLeavingTests::test_dots_eaten();
+    else if (name == "MODEL::GhostLeavingTests::test_time") MODEL::GhostLeavingTests::test_time();
     else if (name == "MODEL::FruitTests::test_fruit_timing") MODEL::FruitTests::test_fruit_timing();
     else if (name == "MinimaxTests::test_1") MinimaxTests::test_1();
     else if (name == "GeneratorTests::test_1") GeneratorTests::test_1();

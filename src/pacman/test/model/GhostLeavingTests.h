@@ -20,6 +20,7 @@ namespace PACMAN {
             public:
                 static void test_blinky_pinky_immediately_leave();
                 static void test_dots_eaten();
+                static void test_time();
             };
 
         }

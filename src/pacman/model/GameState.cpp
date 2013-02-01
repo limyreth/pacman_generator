@@ -313,7 +313,7 @@ bool GameState::act(const vector<Action>& actions, const GameState& pre, GameSta
         ghost_release_ticks_left = MAX_TICKS_BETWEEN_GHOST_RELEASE;
     }
 
-    if (ghost_release_ticks_left == -1) {
+    if (ghost_release_ticks_left == 0) {
         if (ghosts.at(GHOST_INKY).state == GhostState::WAITING) {
             ghosts.at(GHOST_INKY).leave_pen();
         }

@@ -40,7 +40,7 @@ void GhostLeavingTests::test_dots_eaten() {
     std::vector<Action> path = {0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0};
     PathTest test(path);
 
-    // inky at 30 dots
+    // inky at 30 dots (30th dot is eaten in state2)
     {
         auto state1 = test.run(230 +1);
         auto state2 = test.run(231 +1);  // ct + cc + ct2 + cc + ct + 3 + ct + cc + ct + 3 + ct + cc + ct + 2.5 + ecc + ct2 + cc + ct + 4 + 29 dots
@@ -60,6 +60,35 @@ void GhostLeavingTests::test_dots_eaten() {
         ASSERT(state2.get_player(GHOST_CLYDE+1).get_pixel_pos() != state3.get_player(GHOST_CLYDE+1).get_pixel_pos());
     }
 
+}
+
+/*
+ * Leaving due to timeout
+ */
+void GhostLeavingTests::test_time() {
+    std::vector<Action> path = {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 2, 0, 2, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1};
+    PathTest test(path);
+
+    // first inky
+    {
+        auto state1 = test.run(319 + MAX_TICKS_BETWEEN_GHOST_RELEASE +1);
+        auto state2 = test.run(320 + MAX_TICKS_BETWEEN_GHOST_RELEASE +1);  // ct + cc + ct2 + cc + ct2 + cc + ct + 6 + ct + cc + ct + 6 + ct + cc + ct2 + cc + ct + 14 + 8 dot
+        ASSERT(state1.get_player(GHOST_INKY+1).get_pixel_pos() == state2.get_player(GHOST_INKY+1).get_pixel_pos());
+
+        auto state3 = test.run(321 + MAX_TICKS_BETWEEN_GHOST_RELEASE +1);
+        ASSERT(state2.get_player(GHOST_INKY+1).get_pixel_pos() != state3.get_player(GHOST_INKY+1).get_pixel_pos());
+    }
+
+    // then clyde
+    {
+        //ASSERT(false);// ct + cc + ct2 + cc + ct2 + cc + ct + 6 + ct + cc + ct + 6 + ct + cc + ct2 + cc + ct + 16 + cc + ct + 6 + ct + cc + ct + 3 + ct + cc + ct + 6 + ct + cc + ct + 3 + ct + cc + ct + 6 + ct + cc + ct + 3 + ct + cc + ct + 6 + ct + cc + ct + 3 + ct + cc + ct + 6
+        auto state1 = test.run(319 + 2 * MAX_TICKS_BETWEEN_GHOST_RELEASE +1);
+        auto state2 = test.run(320 + 2 * MAX_TICKS_BETWEEN_GHOST_RELEASE +1);
+        ASSERT(state1.get_player(GHOST_CLYDE+1).get_pixel_pos() == state2.get_player(GHOST_CLYDE+1).get_pixel_pos());
+
+        auto state3 = test.run(321 + 2 * MAX_TICKS_BETWEEN_GHOST_RELEASE +1);
+        ASSERT(state2.get_player(GHOST_CLYDE+1).get_pixel_pos() != state3.get_player(GHOST_CLYDE+1).get_pixel_pos());
+    }
 }
 
 }}}
