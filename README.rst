@@ -270,17 +270,17 @@ How tests cover the game specification: (tests are in bold font)
 
   - Ghosts take the shortest path to their respawn.
 
-  - TODO **check for each ghost that they return to their respawn, along the shortest
+  - **check for each ghost that they return to their respawn, along the shortest
     path**
 
-  - TODO **kill a ghost near far node, and near the closer node. Make sure it returns
+  - **kill a ghost near far node, and near the closer node. Make sure it returns
     via the closer node each time**
 
   - TODO **also ensure that the step count matches the expected dead ghost speed**
 
 - Player tile position: is determined by the player's pixel position, which is the player's center.
 
-  - TODO **check correct step count to switch from tile to other tile**
+  - **check correct step count to switch from tile to other tile**
 
 - Speed: 
   
@@ -297,7 +297,7 @@ How tests cover the game specification: (tests are in bold font)
   tunnel, move that player to the other side of the map at the other tunnel
   edge, with pixel accuracy.
 
-  - TODO **do a bounds move from left to right, and from right to left**
+  - **do a bounds move from left to right**
 
 - Cornering: 
   
@@ -305,14 +305,14 @@ How tests cover the game specification: (tests are in bold font)
 
   - When cornering, pacman moves along a diagonal path.
 
-  - TODO **manual check visualisation of all ghost/pacman nodes + data of some
+  - **manual check visualisation of all ghost/pacman nodes + data of some
     nodes. Then automate by saving current nodes map, ensuring that it won't
     change again.**
 
 - Collisions: collision checking is done by tile pos only; even when bounds
   intersect.
 
-  - TODO **code review**
+  - **code review**
 
  
 Changes to the original rules:
