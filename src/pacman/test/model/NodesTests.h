@@ -10,32 +10,16 @@
 
 #pragma once
 
-#include "Nodes.h"
-
 namespace PACMAN {
-    namespace MODEL {
+    namespace TEST {
+        namespace MODEL {
 
-        // these are choice nodes for pacman/ghosts
-        class PacmanNodes : public Nodes
-        {
-        public:
-            PacmanNodes();
-            ~PacmanNodes();
+            class NodesTests {
+            public:
+                static void test_pacman_nodes();
+                static void test_ghost_nodes();
+            };
 
-            const Node& get_spawn() const;
-
-            const Node* get(int id) const;
-            int get_id(const Node*) const;
-
-            void draw(std::shared_ptr<SDL_Surface> buffer) const;
-
-            void print_code(std::ostream&) const;
-
-        private:
-            Node* spawn;
-        };
-
-        extern const PacmanNodes PACMAN_NODES;
-
+        }
     }
 }

@@ -39,6 +39,8 @@ namespace PACMAN {
 
             bool is_spawn_node(const Node*) const;
 
+            void print_code(std::ostream& out) const;
+
         private:
             void add_respawn_paths();
 

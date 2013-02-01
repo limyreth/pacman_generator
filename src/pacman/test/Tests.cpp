@@ -10,6 +10,7 @@
 
 #include "Tests.h"
 #include "model/Tests.h"
+#include "model/NodesTests.h"
 #include "model/VulnerabilityTests.h"
 #include "model/FruitTests.h"
 #include "model/GhostLeavingTests.h"
@@ -24,6 +25,8 @@ namespace PACMAN {
 
 void test(string name) {
     if (name == "MODEL::test_start_foods") MODEL::test_start_foods();
+    else if (name == "MODEL::NodesTests::test_pacman_nodes") MODEL::NodesTests::test_pacman_nodes();
+    else if (name == "MODEL::NodesTests::test_ghost_nodes") MODEL::NodesTests::test_ghost_nodes();
     else if (name == "MODEL::test_initial_game_state") MODEL::test_initial_game_state();
     else if (name == "MODEL::test_ghosts_remain_normal_when_not_eating_energizer") MODEL::test_ghosts_remain_normal_when_not_eating_energizer();
     else if (name == "MODEL::test_pacman_movement_regular_speed_not_cornering") MODEL::test_pacman_movement_regular_speed_not_cornering();

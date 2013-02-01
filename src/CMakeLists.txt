@@ -56,6 +56,17 @@ target_link_libraries(pacman_sdl
 
 enable_testing()
 
+# node graphs
+add_test(
+    NAME MODEL::NodesTests::test_ghost_nodes
+    COMMAND pacman_sdl --test MODEL::NodesTests::test_ghost_nodes
+)
+
+add_test(
+    NAME MODEL::NodesTests::test_pacman_nodes
+    COMMAND pacman_sdl --test MODEL::NodesTests::test_pacman_nodes
+)
+
 # initial state
 add_test(
     NAME MODEL::test_start_foods

@@ -105,4 +105,9 @@ int PacmanNodes::get_id(const Node* node) const {
     return Nodes::get_id(*node, nodes);
 }
 
+void PacmanNodes::print_code(std::ostream& out) const {
+    print_nodes(out, nodes, "PACMAN_NODES");
+    print_node(out, *spawn, "PACMAN_NODES");
+}
+
 }}

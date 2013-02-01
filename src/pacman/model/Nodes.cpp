@@ -22,6 +22,7 @@
 using std::vector;
 using std::endl;
 using std::shared_ptr;
+using std::string;
 
 using ::PACMAN::SPECIFICATION::walls;
 
@@ -282,6 +283,50 @@ int Nodes::get_id(const Node& node, const std::vector<Node*>& nodes) const {
     else {
         return std::distance(nodes.begin(), it);
     }
+}
+
+bool Nodes::has_node_equivalent_to(int id, FPoint location, const vector<int>& neighbour_ids) const {
+    auto node = get(id);
+
+    if (node->get_location() != location) {
+        return false;
+    }
+
+    for (auto neighbour_id : neighbour_ids) {
+        auto neighbour = get(neighbour_id);
+        auto& neighbours = neighbour->get_neighbours();
+        if (std::find(neighbours.begin(), neighbours.end(), neighbour) == neighbours.end()) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void Nodes::print_nodes(std::ostream& out, const vector<Node*>& nodes, string name) const {
+    for (auto node : nodes) {
+        if (node == NULL) {
+            continue;
+        }
+
+        print_node(out, *node, name);
+    }
+}
+
+void Nodes::print_node(std::ostream& out, Node& node, string name) const {
+    auto old_precision = out.precision();
+    out.precision(20);
+
+    out << "{" << endl;
+    out << "vector<int> neighbour_ids;" << endl;
+    for (auto neighbour : node.get_neighbours()) {
+        out << "neighbour_ids.push_back(" << get_id(neighbour) << ");" << endl;
+    }
+    out << name << ".has_node_equivalent_to(" << get_id(&node) << ", FPoint" << node.get_location() << ", neighbour_ids);" << endl;
+    out << "}" << endl;
+    out << endl;
+
+    out.precision(old_precision);
 }
 
 }}

@@ -10,6 +10,8 @@
 
 #pragma once
 
+#include <pacman/util/Point.h>
+
 #include <vector>
 #include <memory>
 #include <cstdint>
@@ -37,6 +39,7 @@ namespace PACMAN {
             virtual const Node* get(int id) const = 0;
             virtual int get_id(const Node*) const = 0;
             bool are_connected_through_wrapping(const Node& a, const Node& b) const;
+            bool has_node_equivalent_to(int id, FPoint location, const std::vector<int>& neighbour_ids) const;
 
         protected:
             std::vector<Node*> nodes;
@@ -54,6 +57,9 @@ namespace PACMAN {
             int get_id(const Node& node, const std::vector<Node*>& nodes) const;
 
             double get_branching_factor(const std::vector<Node*>& nodes) const;
+
+            void print_nodes(std::ostream& out, const std::vector<Node*>& nodes, std::string name) const;
+            void print_node(std::ostream& out, Node& node, std::string name) const;
 
         protected:
             const Node* left_tunnel_node;

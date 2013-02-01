@@ -230,4 +230,9 @@ bool GhostNodes::is_spawn_node(const Node* node) const {
     return std::find(spawns.begin(), spawns.end(), node) != spawns.end();
 }
 
+void GhostNodes::print_code(std::ostream& out) const {
+    print_nodes(out, nodes, "GHOST_NODES");
+    print_nodes(out, spawns, "GHOST_NODES");
+}
+
 }}
