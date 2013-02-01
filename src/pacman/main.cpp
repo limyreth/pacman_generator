@@ -50,6 +50,7 @@ int main(int argc, char** argv) {
     gui_main_args.gui_args.game_speed = 1.0;
     gui_main_args.pause_at_end = false;
     gui_main_args.quit_at_step = -1;
+    gui_main_args.player_index = PLAYER_PACMAN;
 
     try {
         logtxt.setFilename(".pacman_sdl");
@@ -90,6 +91,9 @@ int main(int argc, char** argv) {
                     << endl
                     << "\t--quit-at-step STEPS" << endl
                     << "\t\tQuit as soon as step count == STEPS" << endl
+                    << endl
+                    << "\t--player INDEX" << endl
+                    << "\t\tSpecify which player to play with" << endl
                     << endl
                     << endl
                     << "In-game:" << endl
@@ -147,6 +151,16 @@ int main(int argc, char** argv) {
 
                 std::istringstream str(argv[i]);
                 str >> gui_main_args.quit_at_step;
+            }
+            else if (str == "--player") {
+                i++;
+                if (i >= argc) {
+                    std::cerr << "Missing argument for --player" << endl;
+                    return 1;
+                }
+
+                std::istringstream str(argv[i]);
+                str >> gui_main_args.player_index;
             }
             else if (str == "--pause-at-end") {
                 gui_main_args.pause_at_end = true;

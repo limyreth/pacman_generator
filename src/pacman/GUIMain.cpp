@@ -44,7 +44,7 @@ void GUIMain::run(const GUIMainArgs& args) {
 
     Game game;
     shared_ptr<RecordedInput> recorded_input(new RecordedInput(input));
-    game.init(Game::make_inputs(PLAYER_PACMAN, recorded_input), gui.create_state_observer());
+    game.init(Game::make_inputs(args.player_index, recorded_input), gui.create_state_observer());
 
     BOOST_SCOPE_EXIT(&recorded_input) {
         recorded_input->print_path(cout);
