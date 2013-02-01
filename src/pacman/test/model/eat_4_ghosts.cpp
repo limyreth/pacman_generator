@@ -53,7 +53,7 @@ void test_eat_4_ghosts() {
 
     const int clyde_origin = 3;
     const int clyde_destination = 1;
-    const FPoint clyde_pos(336, 279.19999999999868123);
+    const FPoint clyde_pos(336, 282.04999999999870397);
     const GhostState::State clyde_state = (GhostState::State)0;
 
     ExternalGameState game_state;
