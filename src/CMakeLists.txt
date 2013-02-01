@@ -83,7 +83,7 @@ add_test(
     COMMAND pacman_sdl --test MODEL::test_ghosts_remain_normal_when_not_eating_energizer
 )
 
-# movement
+# movement + normal speed
 add_test(
     NAME MODEL::test_pacman_movement_regular_speed_not_cornering
     COMMAND pacman_sdl --test MODEL::test_pacman_movement_regular_speed_not_cornering
@@ -145,6 +145,12 @@ add_test(
 add_test(
     NAME MODEL::test_clyde_respawn
     COMMAND pacman_sdl --test MODEL::test_clyde_respawn
+)
+
+# speed tests
+add_test(
+    NAME MODEL::SpeedTests::test_dead_ghost
+    COMMAND pacman_sdl --test MODEL::SpeedTests::test_dead_ghost
 )
 
 # fruit spawning

@@ -134,6 +134,9 @@ Additions compatible with the original rules:
   energizer, regardless of their state. They are considered in the pen when
   their tile pos is one of the ghost pen tiles.
 
+- Dead ghost speed = 2 * normal pacman speed. This was unspecified in the
+  original spec.
+
 
 Analysis
 ========
@@ -276,7 +279,7 @@ How tests cover the game specification: (tests are in bold font)
   - **kill a ghost near far node, and near the closer node. Make sure it returns
     via the closer node each time**
 
-  - TODO **also ensure that the step count matches the expected dead ghost speed**
+  - **also ensure that the step count matches the expected dead ghost speed**
 
 - Player tile position: is determined by the player's pixel position, which is the player's center.
 

@@ -32,6 +32,7 @@ namespace PACMAN {
         const double ELROY2_SPEED = 0.85;
         const double ELROY1_SPEED = 0.8;
         const double GHOST_NORMAL_SPEED = 0.75;
+        const double DEAD_GHOST_SPEED = 2.0 * NORMAL_PACMAN_SPEED;
 
         const int VULNERABLE_TICKS = 6 * TICK_RATE;
         const int FRUIT_TICKS = 10 * TICK_RATE;
