@@ -292,9 +292,14 @@ bool Nodes::has_node_equivalent_to(int id, FPoint location, const vector<int>& n
         return false;
     }
 
+
+    if (node->get_neighbours().size() != neighbour_ids.size()) {
+        return false;
+    }
+
     for (auto neighbour_id : neighbour_ids) {
         auto neighbour = get(neighbour_id);
-        auto& neighbours = neighbour->get_neighbours();
+        auto& neighbours = node->get_neighbours();
         if (std::find(neighbours.begin(), neighbours.end(), neighbour) == neighbours.end()) {
             return false;
         }
@@ -322,7 +327,7 @@ void Nodes::print_node(std::ostream& out, Node& node, string name) const {
     for (auto neighbour : node.get_neighbours()) {
         out << "neighbour_ids.push_back(" << get_id(neighbour) << ");" << endl;
     }
-    out << name << ".has_node_equivalent_to(" << get_id(&node) << ", FPoint" << node.get_location() << ", neighbour_ids);" << endl;
+    out << "ASSERT(" << name << ".has_node_equivalent_to(" << get_id(&node) << ", FPoint" << node.get_location() << ", neighbour_ids));" << endl;
     out << "}" << endl;
     out << endl;
 
