@@ -111,6 +111,9 @@ namespace PACMAN {
             bool is_elroy1(int ghost_index) const;
             bool is_elroy2(int ghost_index) const;
 
+            void move(int player_index, double& distance);
+            double get_speed(int player_index, bool in_tunnel);
+
         private:
             PacmanState pacman;
             Ghosts ghosts;

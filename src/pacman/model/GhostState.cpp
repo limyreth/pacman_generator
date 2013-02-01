@@ -41,12 +41,14 @@ GhostState::GhostState(const Node& initial_node)
 // player_index: current player
 double GhostState::move(double distance, int player_index) {
     INVARIANTS_ON_EXIT;
+    REQUIRE(player_index >= 1);
+    REQUIRE(player_index < PLAYER_COUNT);
 
     if (state == WAITING) {
         return -1.0;
     }
 
-    double movement_excess = PlayerState::move(distance, player_index);
+    double movement_excess = PlayerState::move(distance);
     double retval;
 
     BOOST_SCOPE_EXIT(&retval, &state) {
@@ -77,7 +79,7 @@ double GhostState::move(double distance, int player_index) {
             else {
                 destination = &GHOST_NODES.get_node_towards_spawn(*destination);
             }
-            return retval = move(movement_excess, player_index);
+            return retval = PlayerState::move(movement_excess);
         }
     }
 }
@@ -100,11 +102,6 @@ void GhostState::die() {
     if (origin_cost < destination_cost) {
         std::swap(origin, destination);
     }
-}
-
-bool GhostState::is_in_tunnel() const {
-    auto tpos = get_tile_pos();
-    return tpos.y == 14 && ((tpos.x >= 0 && tpos.x <= 5) || (tpos.x >= MAP_WIDTH - 6 && tpos.x <= MAP_WIDTH - 1));
 }
 
 bool GhostState::operator==(const GhostState& o) const {

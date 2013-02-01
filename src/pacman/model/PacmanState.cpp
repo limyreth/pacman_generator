@@ -59,4 +59,9 @@ const Nodes& PacmanState::get_nodes() const {
     return PACMAN_NODES;
 }
 
+double PacmanState::move(double distance, int player_index) {
+    REQUIRE(player_index == PLAYER_PACMAN);
+    return PlayerState::move(distance);
+}
+
 }}
