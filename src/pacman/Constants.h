@@ -41,6 +41,8 @@ namespace PACMAN {
         extern const double ELROY2_SPEED;
         extern const double ELROY1_SPEED;
         extern const double GHOST_NORMAL_SPEED;
+        extern const double DEAD_GHOST_SPEED;
+
         // the amount of ticks ghosts are vulnerable
         extern const int VULNERABLE_TICKS;
         // the amount of ticks fruit stays on the map after spawning

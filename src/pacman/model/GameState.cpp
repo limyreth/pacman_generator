@@ -180,6 +180,9 @@ void GameState::initial_movement(const GameState& pre, GameStateObserver& observ
                 else if (ghosts.at(ghost_i).state == GhostState::VULNERABLE) {
                     speed_modifier = GHOST_VULNERABLE_SPEED;
                 }
+                else if (ghosts.at(ghost_i).state == GhostState::DEAD) {
+                    speed_modifier = DEAD_GHOST_SPEED;
+                }
                 else if (is_elroy2(ghost_i)) {
                     speed_modifier = ELROY2_SPEED;
                 }
