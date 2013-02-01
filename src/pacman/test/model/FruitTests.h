@@ -10,13 +10,11 @@
 
 #pragma once
 
-#include <pacman/run/DefaultGameObserver.h>
-
 namespace PACMAN {
     namespace TEST {
         namespace MODEL {
 
-            class FruitTests : public ::PACMAN::RUN::DefaultGameObserver {
+            class FruitTests {
             public:
                 static void test_fruit_timing();
             };

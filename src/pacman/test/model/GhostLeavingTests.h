@@ -10,13 +10,11 @@
 
 #pragma once
 
-#include <pacman/run/DefaultGameObserver.h>
-
 namespace PACMAN {
     namespace TEST {
         namespace MODEL {
 
-            class GhostLeavingTests : public ::PACMAN::RUN::DefaultGameObserver {
+            class GhostLeavingTests {
             public:
                 static void test_blinky_pinky_immediately_leave();
                 static void test_dots_eaten();
