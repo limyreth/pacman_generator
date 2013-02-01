@@ -34,6 +34,7 @@ namespace PACMAN {
             void test_blinky_respawn();
             void test_pinky_respawn();
             void test_inky_respawn();
+            void test_clyde_respawn();
 
         }
     }

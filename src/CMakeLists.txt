@@ -142,6 +142,11 @@ add_test(
     COMMAND pacman_sdl --test MODEL::test_inky_respawn
 )
 
+add_test(
+    NAME MODEL::test_clyde_respawn
+    COMMAND pacman_sdl --test MODEL::test_clyde_respawn
+)
+
 # fruit spawning
 add_test(
     NAME MODEL::FruitTests::test_fruit_timing
