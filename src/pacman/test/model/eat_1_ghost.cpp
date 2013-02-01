@@ -30,25 +30,25 @@ namespace PACMAN {
         namespace MODEL {
 
 void test_eat_1_ghost() {
-    const int steps = 446;
+    const int steps = 450;
 
     const int pacman_origin = 33;
     const int pacman_destination = 30;
-    const FPoint pacman_pos(81.380778876241564035, 36);
+    const FPoint pacman_pos(67.700778876241557214, 36);
 
     const int blinky_origin = 58;
     const int blinky_destination = 282;
-    const FPoint blinky_pos(36, 55.25000000000007816);
+    const FPoint blinky_pos(36, 62.850000000000072475);
     const GhostState::State blinky_state = (GhostState::State)1;
 
-    const int pinky_origin = 58;
-    const int pinky_destination = 68;
-    const FPoint pinky_pos(128.99999999999914735, 36);
+    const int pinky_origin = 68;
+    const int pinky_destination = 292;
+    const FPoint pinky_pos(156, 68.849999999999255351);
     const GhostState::State pinky_state = (GhostState::State)2;
 
     const int inky_origin = 298;
     const int inky_destination = 292;
-    const FPoint inky_pos(188.04999999999921556, 132);
+    const FPoint inky_pos(180.44999999999919282, 132);
     const GhostState::State inky_state = (GhostState::State)1;
 
     const int clyde_origin = 7;

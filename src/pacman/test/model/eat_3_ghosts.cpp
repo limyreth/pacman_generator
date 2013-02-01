@@ -30,31 +30,31 @@ namespace PACMAN {
         namespace MODEL {
 
 void test_eat_3_ghosts() {
-    const int steps = 736;
+    const int steps = 754;
 
     const int pacman_origin = 258;
     const int pacman_destination = 370;
-    const FPoint pacman_pos(156, 261.87420022523343732);
+    const FPoint pacman_pos(156, 316.59420022523380567);
 
-    const int blinky_origin = 292;
-    const int blinky_destination = 298;
-    const FPoint blinky_pos(207.95000000000024443, 132);
-    const GhostState::State blinky_state = (GhostState::State)2;
+    const int blinky_origin = 3;
+    const int blinky_destination = 1;
+    const FPoint blinky_pos(336, 296.97999999999905185);
+    const GhostState::State blinky_state = (GhostState::State)0;
 
     const int pinky_origin = 472;
-    const int pinky_destination = 640;
-    const FPoint pinky_pos(300, 242.44999999999993179);
-    const GhostState::State pinky_state = (GhostState::State)2;
+    const int pinky_destination = 466;
+    const FPoint pinky_pos(287.84999999999894271, 204);
+    const GhostState::State pinky_state = (GhostState::State)0;
 
-    const int inky_origin = 460;
-    const int inky_destination = 796;
-    const FPoint inky_pos(156, 245.5500000000014893);
+    const int inky_origin = 634;
+    const int inky_destination = 640;
+    const FPoint inky_pos(242.80000000000163141, 276);
     const GhostState::State inky_state = (GhostState::State)2;
 
     const int clyde_origin = 7;
     const int clyde_destination = 3;
-    const FPoint clyde_pos(384, 336);
-    const GhostState::State clyde_state = (GhostState::State)3;
+    const FPoint clyde_pos(372.59999999999990905, 336);
+    const GhostState::State clyde_state = (GhostState::State)0;
 
     ExternalGameState game_state;
     game_state.score = 1940;

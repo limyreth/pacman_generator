@@ -36,24 +36,24 @@ void test_eat_4_ghosts() {
     const int pacman_destination = 35;
     const FPoint pacman_pos(184.50332588579266258, 36);
 
-    const int blinky_origin = 640;
-    const int blinky_destination = 472;
-    const FPoint blinky_pos(300, 233.19999999999552642);
+    const int blinky_origin = 292;
+    const int blinky_destination = 68;
+    const FPoint blinky_pos(156, 102.64999999999619718);
     const GhostState::State blinky_state = (GhostState::State)0;
 
-    const int pinky_origin = 640;
-    const int pinky_destination = 472;
-    const FPoint pinky_pos(300, 220.69999999999620854);
+    const int pinky_origin = 292;
+    const int pinky_destination = 68;
+    const FPoint pinky_pos(156, 109.52999999999693159);
     const GhostState::State pinky_state = (GhostState::State)0;
 
-    const int inky_origin = 292;
-    const int inky_destination = 298;
-    const FPoint inky_pos(162.24999999999957367, 132);
+    const int inky_origin = 466;
+    const int inky_destination = 472;
+    const FPoint inky_pos(290.51000000000010459, 204);
     const GhostState::State inky_state = (GhostState::State)2;
 
-    const int clyde_origin = 3;
-    const int clyde_destination = 1;
-    const FPoint clyde_pos(336, 282.04999999999870397);
+    const int clyde_origin = 298;
+    const int clyde_destination = 292;
+    const FPoint clyde_pos(205.03999999999939519, 132);
     const GhostState::State clyde_state = (GhostState::State)0;
 
     ExternalGameState game_state;
