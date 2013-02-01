@@ -41,16 +41,15 @@ std::shared_ptr<GeneratorMain> generator_main;
 
 int main(int argc, char** argv) {
     std::string str="";
-    GUI::GUIArgs gui_args;
-    gui_args.show_pacman_nodes = false;
-    gui_args.show_ghost_nodes = false;
-    gui_args.show_food = true;
-    gui_args.show_respawn_paths = false;
-    gui_args.show_grid = false;
-    gui_args.game_speed = 1.0;
-    std::list<Action> path;
-    bool pause_at_end = false;
-    int quit_at_step = -1;
+    GUIMainArgs gui_main_args;
+    gui_main_args.gui_args.show_pacman_nodes = false;
+    gui_main_args.gui_args.show_ghost_nodes = false;
+    gui_main_args.gui_args.show_food = true;
+    gui_main_args.gui_args.show_respawn_paths = false;
+    gui_main_args.gui_args.show_grid = false;
+    gui_main_args.gui_args.game_speed = 1.0;
+    gui_main_args.pause_at_end = false;
+    gui_main_args.quit_at_step = -1;
 
     try {
         logtxt.setFilename(".pacman_sdl");
@@ -125,19 +124,19 @@ int main(int argc, char** argv) {
                 return 0;
             }
             else if (str == "--show-pacman-nodes") {
-                gui_args.show_pacman_nodes = true;
+                gui_main_args.gui_args.show_pacman_nodes = true;
             }
             else if (str == "--show-ghost-nodes") {
-                gui_args.show_ghost_nodes = true;
+                gui_main_args.gui_args.show_ghost_nodes = true;
             }
             else if (str == "--hide-food") {
-                gui_args.show_food = false;
+                gui_main_args.gui_args.show_food = false;
             }
             else if (str == "--show-respawn-paths") {
-                gui_args.show_respawn_paths = true;
+                gui_main_args.gui_args.show_respawn_paths = true;
             }
             else if (str == "--show-grid") {
-                gui_args.show_grid = true;
+                gui_main_args.gui_args.show_grid = true;
             }
             else if (str == "--quit-at-step") {
                 i++;
@@ -147,10 +146,10 @@ int main(int argc, char** argv) {
                 }
 
                 std::istringstream str(argv[i]);
-                str >> quit_at_step;
+                str >> gui_main_args.quit_at_step;
             }
             else if (str == "--pause-at-end") {
-                pause_at_end = true;
+                gui_main_args.pause_at_end = true;
             }
             else if (str == "--game-speed") {
                 i++;
@@ -160,7 +159,7 @@ int main(int argc, char** argv) {
                 }
 
                 std::istringstream str(argv[i]);
-                str >> gui_args.game_speed;
+                str >> gui_main_args.gui_args.game_speed;
             }
             else if (str == "--path") {
                 i++;
@@ -180,7 +179,7 @@ int main(int argc, char** argv) {
                 int action;
                 str >> action;
                 while (!str.fail()) {
-                    path.push_back(action);
+                    gui_main_args.path.push_back(action);
                     str >> action;
                 }
 
@@ -192,7 +191,7 @@ int main(int argc, char** argv) {
         }
 
         GUIMain main;
-        main.run(gui_args, path, pause_at_end, quit_at_step);
+        main.run(gui_main_args);
 
         logtxt.print( "Shutdown" );
     }
