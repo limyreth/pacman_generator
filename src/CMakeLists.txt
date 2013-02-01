@@ -153,6 +153,11 @@ add_test(
     COMMAND pacman_sdl --test MODEL::SpeedTests::test_dead_ghost
 )
 
+add_test(
+    NAME MODEL::SpeedTests::test_tunnel_ghost
+    COMMAND pacman_sdl --test MODEL::SpeedTests::test_tunnel_ghost
+)
+
 # fruit spawning
 add_test(
     NAME MODEL::FruitTests::test_fruit_timing

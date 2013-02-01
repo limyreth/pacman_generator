@@ -47,6 +47,7 @@ void test(string name) {
     else if (name == "MODEL::test_inky_respawn") MODEL::test_inky_respawn();
     else if (name == "MODEL::test_clyde_respawn") MODEL::test_clyde_respawn();
     else if (name == "MODEL::SpeedTests::test_dead_ghost") MODEL::SpeedTests::test_dead_ghost();
+    else if (name == "MODEL::SpeedTests::test_tunnel_ghost") MODEL::SpeedTests::test_tunnel_ghost();
     else if (name == "MODEL::VulnerabilityTests::test_energizer_time") MODEL::VulnerabilityTests::test_energizer_time();
     else if (name == "MODEL::VulnerabilityTests::test_2_energizers_time") MODEL::VulnerabilityTests::test_2_energizers_time();
     else if (name == "MODEL::GhostLeavingTests::test_blinky_pinky_immediately_leave") MODEL::GhostLeavingTests::test_blinky_pinky_immediately_leave();

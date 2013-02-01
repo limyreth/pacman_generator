@@ -17,6 +17,7 @@ namespace PACMAN {
             class SpeedTests {
             public:
                 static void test_dead_ghost();
+                static void test_tunnel_ghost();
             };
 
         }

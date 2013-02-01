@@ -73,4 +73,33 @@ void SpeedTests::test_dead_ghost() {
     ASSERT(state.get_player(GHOST_PINKY+1).get_tile_pos() == IPoint(6, 4));
 }
 
+void SpeedTests::test_tunnel_ghost() {
+    std::vector<Action> path = {1, 1, 1, 0, 1, 2, 2};
+    PathTest test(GHOST_BLINKY+1, path);
+
+    // nearly moved up to start of tunnel at normal speed
+    auto state = test.run(117 +1);
+    ASSERT(state.get_player(GHOST_BLINKY+1).get_tile_pos() == IPoint(6, 14));
+
+    // moved up to start of tunnel at normal speed
+    state = test.run(118 +1);  // 14 tiles
+    ASSERT(state.get_player(GHOST_BLINKY+1).get_tile_pos() == IPoint(5, 14));
+
+    // nearly moved to other end of tunnel at tunnel speed
+    state = test.run(307 +1);
+    ASSERT(state.get_player(GHOST_BLINKY+1).get_tile_pos() == IPoint(22, 14));
+
+    // moved to other end of tunnel at tunnel speed
+    state = test.run(308 +1);  // + 12 tiles
+    ASSERT(state.get_player(GHOST_BLINKY+1).get_tile_pos() == IPoint(21, 14));
+
+    // nearly moved to next tile at normal speed again
+    state = test.run(315 +1);
+    ASSERT(state.get_player(GHOST_BLINKY+1).get_tile_pos() == IPoint(21, 14));
+
+    // moved to next tile at normal speed again
+    state = test.run(316 +1);  // + 1 tiles
+    ASSERT(state.get_player(GHOST_BLINKY+1).get_tile_pos() == IPoint(20, 14));
+}
+
 }}}
