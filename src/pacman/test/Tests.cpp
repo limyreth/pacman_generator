@@ -41,6 +41,7 @@ void test(string name) {
     else if (name == "MODEL::test_eat_3_ghosts") MODEL::test_eat_3_ghosts();
     else if (name == "MODEL::test_eat_4_ghosts") MODEL::test_eat_4_ghosts();
     else if (name == "MODEL::test_eat_ghost_energizer_ghost") MODEL::test_eat_ghost_energizer_ghost();
+    else if (name == "MODEL::test_blinky_respawn") MODEL::test_blinky_respawn();
     else if (name == "MODEL::VulnerabilityTests::test_energizer_time") MODEL::VulnerabilityTests::test_energizer_time();
     else if (name == "MODEL::VulnerabilityTests::test_2_energizers_time") MODEL::VulnerabilityTests::test_2_energizers_time();
     else if (name == "MODEL::GhostLeavingTests::test_blinky_pinky_immediately_leave") MODEL::GhostLeavingTests::test_blinky_pinky_immediately_leave();

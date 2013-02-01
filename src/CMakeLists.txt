@@ -126,6 +126,12 @@ add_test(
     COMMAND pacman_sdl --test MODEL::VulnerabilityTests::test_2_energizers_time
 )
 
+# ghost respawn
+add_test(
+    NAME MODEL::test_blinky_respawn
+    COMMAND pacman_sdl --test MODEL::test_blinky_respawn
+)
+
 # fruit spawning
 add_test(
     NAME MODEL::FruitTests::test_fruit_timing

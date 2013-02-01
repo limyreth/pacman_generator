@@ -31,6 +31,7 @@ namespace PACMAN {
             void test_eat_energizer();
             void test_eat_fruit();
             void test_eat_fruit_ghost();
+            void test_blinky_respawn();
 
         }
     }
