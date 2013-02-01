@@ -33,6 +33,7 @@ namespace PACMAN {
             void test_eat_fruit_ghost();
             void test_blinky_respawn();
             void test_pinky_respawn();
+            void test_inky_respawn();
 
         }
     }
