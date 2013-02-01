@@ -293,8 +293,13 @@ How tests cover the game specification: (tests are in bold font)
 
   - 100% speed = 9.5 tiles per sec.
 
-  - TODO **check for each speed in combo with ghosts being vulnerable/invulnerable,
-    pacman eating, tunnel speed, speeds of cornering, ...**
+  - TODO **check tunnel speed: move ghost through tunnel from right to left,
+    once**
+
+  - TODO **check elroy1 and 2 speed + timing**
+
+  - **other speeds are thoroughly in other tick-based tests (Path tests and
+    playback tests)**
 
 - Tunnel movement: when a player's tile pos leaves bounds of the map at a
   tunnel, move that player to the other side of the map at the other tunnel
