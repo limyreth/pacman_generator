@@ -26,14 +26,12 @@ namespace PACMAN {
             PlayerState();
             PlayerState(const Node* origin, const Node* destination, FPoint pos); // Only for testing
             PlayerState(const Node& initial_node);
-            virtual double move(double distance, int player_index) = 0;
+            virtual double move(double distance, int player_index);
             virtual void act(Action action);
             virtual IPoint get_tile_pos() const;
             virtual void print(std::ostream& out, std::string prefix, std::string name) const;
             virtual bool can_reverse() const;
             void reverse();
-            bool is_in_tunnel() const;
-            bool would_cross_tunnel_edge(double distance, double& d1, double& d2);
 
             inline FPoint get_pixel_pos() const {
                 return pos;
@@ -47,7 +45,7 @@ namespace PACMAN {
             virtual const Nodes& get_nodes() const = 0;
             const FPoint& get_pos() const;
             void invariants() const;
-            double move(double distance);
+            void save(std::ostream& out, const Nodes& nodes) const;
             bool operator==(const PlayerState&) const;
 
         protected:
@@ -55,8 +53,6 @@ namespace PACMAN {
             const Node* destination;  // we are moving towards this node
 
         private:
-            FPoint move_(double distance);
-            bool would_cross(double x, FPoint p1, FPoint p2, double distance, double& d1, double& d2);
             Action internal_to_external(Action) const;
             Action external_to_internal(Action) const;
             bool is_reversing_action(Action action) const;

@@ -51,10 +51,12 @@ PlayerState::PlayerState(const Node& initial_node)
 /*
  * Move player distance_moved px towards destination, ...
  */
-double PlayerState::move(double distance_moved) {
+double PlayerState::move(double distance_moved, int player_index) {
     INVARIANTS_ON_EXIT;
     REQUIRE(distance_moved >= 0.0);
     REQUIRE(!has_reached_destination());
+    REQUIRE(player_index >= 0);
+    REQUIRE(player_index < PLAYER_COUNT);
 
     FPoint direction = destination->get_location() - pos;
     double movement_excess = distance_moved - direction.length();
@@ -63,7 +65,11 @@ double PlayerState::move(double distance_moved) {
         double distance_moved_towards_destination = min(direction.length(), distance_moved);
 
         // move towards destination
-        pos = move_(distance_moved_towards_destination);
+        if (get_nodes().are_connected_through_wrapping(*origin, *destination)) {
+            direction = origin->get_location() - destination->get_location();
+        }
+        direction.normalise();
+        pos += direction * distance_moved_towards_destination;
 
         // wrap screen when hitting left/right edge of tunnel
         if (pos.x < 0) {
@@ -81,15 +87,6 @@ double PlayerState::move(double distance_moved) {
 
     ENSURE(has_reached_destination() == (movement_excess >= 0.0));
     return movement_excess;
-}
-
-FPoint PlayerState::move_(double distance) {
-    FPoint direction = destination->get_location() - pos;
-    if (get_nodes().are_connected_through_wrapping(*origin, *destination)) {
-        direction = origin->get_location() - destination->get_location();
-    }
-    direction.normalise();
-    return pos + direction * distance;
 }
 
 void PlayerState::act(Action action) {
@@ -264,43 +261,6 @@ void PlayerState::print(std::ostream& out, string prefix, string name) const {
         << prefix << "const FPoint " << name << "_pos" << pos << ";" << endl;
 }
 
-bool PlayerState::is_in_tunnel() const {
-    auto tpos = get_tile_pos();
-    return tpos.y == 14 && ((tpos.x >= 0 && tpos.x <= 5) || (tpos.x >= MAP_WIDTH - 6 && tpos.x <= MAP_WIDTH - 1));
-}
-
-/*
- * If moving distance forward crosses a tunnel edge, return true, and
- *
- * set d1 to distance to edge, d2 distance travelled beyond edge
- */
-bool PlayerState::would_cross_tunnel_edge(double distance, double& d1, double& d2) {
-    // handle tunnel speed changes
-    auto tpos = get_tile_pos();
-    if (tpos.y == 14) {
-        FPoint p2 = move_(distance);
-
-        if (would_cross(6 * TILE_SIZE, get_pixel_pos(), p2, distance, d1, d2) ||
-            would_cross(22 * TILE_SIZE, get_pixel_pos(), p2, distance, d1, d2))
-        {
-            ENSURE(abs(distance - (d1 + d2)) < 1e-10);
-            return true;
-        }
-    }
-
-    return false;
-}
-
-bool PlayerState::would_cross(double x, FPoint p1, FPoint p2, double distance, double& d1, double& d2) {
-    d1 = p1.x - x;
-    d2 = p2.x - x;
-    if (d1 * d2 < 0) {  // if signs differ, then we crossed the vertical line
-        d1 = fabs(d1);
-        d2 = fabs(d2);
-        return true;
-    }
-    return false;
-}
 
 // Note: reversing direction between intersections is a legal action and a
 // perfect play player might actually make use of that. E.g. consider this path between intersections:

@@ -34,6 +34,7 @@ namespace PACMAN {
             void act(Action action);
             void die();
             void leave_pen();
+            bool is_in_tunnel() const;
             bool can_reverse() const;
             void print(std::ostream& out, std::string prefix, std::string name) const;
 
