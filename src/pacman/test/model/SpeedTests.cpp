@@ -98,7 +98,9 @@ void SpeedTests::test_tunnel_ghost() {
     ASSERT(state.get_player(GHOST_BLINKY+1).get_tile_pos() == IPoint(21, 14));
 
     // moved to next tile at normal speed again
-    state = test.run(316 +1);  // + 1 tiles
+    state = test.run(316
+            +1  // allowed inaccuracy caused by entering/exiting tunnel
+            +1);  // + 1 tiles
     ASSERT(state.get_player(GHOST_BLINKY+1).get_tile_pos() == IPoint(20, 14));
 }
 
