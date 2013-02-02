@@ -45,7 +45,6 @@ namespace PACMAN {
             virtual const Nodes& get_nodes() const = 0;
             const FPoint& get_pos() const;
             void invariants() const;
-            void save(std::ostream& out, const Nodes& nodes) const;
             bool operator==(const PlayerState&) const;
 
         protected:
