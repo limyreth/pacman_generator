@@ -155,47 +155,8 @@ void GameState::initial_movement(const GameState& pre, GameStateObserver& observ
     const auto old_vulnerable_ticks_left = vulnerable_ticks_left;
 
     // Move players
-    {
-        double speed_modifier;
-
-        for (int player_index = 0; player_index < PLAYER_COUNT; player_index++) {
-            if (player_index == 0) {
-                // pacman
-                if (idler_ticks_left > 0) {
-                    idler_ticks_left = max(idler_ticks_left - 1, 0);
-                    speed_modifier = 0;
-                }
-                else if (get_vulnerable_ghost_count() > 0) {
-                    speed_modifier = ENERGETIC_PACMAN_SPEED;
-                }
-                else {
-                    speed_modifier = NORMAL_PACMAN_SPEED;
-                }
-            }
-            else {
-                const int ghost_i = player_index - 1;
-                if (ghosts.at(ghost_i).is_in_tunnel()) {
-                    speed_modifier = GHOST_TUNNEL_SPEED;
-                }
-                else if (ghosts.at(ghost_i).state == GhostState::VULNERABLE) {
-                    speed_modifier = GHOST_VULNERABLE_SPEED;
-                }
-                else if (ghosts.at(ghost_i).state == GhostState::DEAD) {
-                    speed_modifier = DEAD_GHOST_SPEED;
-                }
-                else if (is_elroy2(ghost_i)) {
-                    speed_modifier = ELROY2_SPEED;
-                }
-                else if (is_elroy1(ghost_i)) {
-                    speed_modifier = ELROY1_SPEED;
-                }
-                else {
-                    speed_modifier = GHOST_NORMAL_SPEED;
-                }
-            }
-
-            movement_excess[player_index] = get_player(player_index).move(FULL_SPEED * TILE_SIZE * speed_modifier, player_index);
-        }
+    for (int player_index = 0; player_index < PLAYER_COUNT; player_index++) {
+        movement_excess[player_index] = get_player(player_index).move(FULL_SPEED * TILE_SIZE * get_speed(player_index), player_index);
     }
     ENSURE(old_fruit_ticks_left == fruit_ticks_left);
     ENSURE(old_vulnerable_ticks_left == vulnerable_ticks_left);
@@ -559,6 +520,43 @@ bool GameState::did_pacman_win() const {
 
 int GameState::get_fruit_score() const {
     return 100;
+}
+
+double GameState::get_speed(int player_index) {
+    if (player_index == PLAYER_PACMAN) {
+        // pacman
+        if (idler_ticks_left > 0) {
+            idler_ticks_left = max(idler_ticks_left - 1, 0);
+            return 0;
+        }
+        else if (get_vulnerable_ghost_count() > 0) {
+            return ENERGETIC_PACMAN_SPEED;
+        }
+        else {
+            return NORMAL_PACMAN_SPEED;
+        }
+    }
+    else {
+        const int ghost_i = player_index - 1;
+        if (ghosts.at(ghost_i).is_in_tunnel()) {
+            return GHOST_TUNNEL_SPEED;
+        }
+        else if (ghosts.at(ghost_i).state == GhostState::VULNERABLE) {
+            return GHOST_VULNERABLE_SPEED;
+        }
+        else if (ghosts.at(ghost_i).state == GhostState::DEAD) {
+            return DEAD_GHOST_SPEED;
+        }
+        else if (is_elroy2(ghost_i)) {
+            return ELROY2_SPEED;
+        }
+        else if (is_elroy1(ghost_i)) {
+            return ELROY1_SPEED;
+        }
+        else {
+            return GHOST_NORMAL_SPEED;
+        }
+    }
 }
 
 }}
