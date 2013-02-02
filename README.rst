@@ -363,13 +363,13 @@ Additions compatible with the original rules:
   wall tile, even at highest speed. The distance spent in the wall tile is
   about 0.42 * tile_size.
 
-  - TODO **eat dot in corner**
+  - **eat dot in corner**
 
 - Ghosts in the ghost pen do not become vulnerable when pacman eats an
   energizer, regardless of their state. They are considered in the pen when
   their tile pos is one of the ghost pen tiles.
 
-  - TODO **eat energizer while ghosts are in pen**
+  - **eat energizer while ghosts are in pen**
   - TODO **eat energizer while ghosts are leaving the pen**
 
 
