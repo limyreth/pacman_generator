@@ -261,6 +261,10 @@ void PlayerState::print(std::ostream& out, string prefix, string name) const {
         << prefix << "const FPoint " << name << "_pos" << pos << ";" << endl;
 }
 
+bool PlayerState::is_in_tunnel() const {
+    auto tpos = get_tile_pos();
+    return tpos.y == 14 && ((tpos.x >= 0 && tpos.x <= 5) || (tpos.x >= MAP_WIDTH - 6 && tpos.x <= MAP_WIDTH - 1));
+}
 
 // Note: reversing direction between intersections is a legal action and a
 // perfect play player might actually make use of that. E.g. consider this path between intersections:

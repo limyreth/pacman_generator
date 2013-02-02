@@ -31,6 +31,7 @@ namespace PACMAN {
             virtual IPoint get_tile_pos() const;
             virtual void print(std::ostream& out, std::string prefix, std::string name) const;
             virtual bool can_reverse() const;
+            bool is_in_tunnel() const;
             void reverse();
 
             inline FPoint get_pixel_pos() const {

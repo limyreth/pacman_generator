@@ -102,11 +102,6 @@ void GhostState::die() {
     }
 }
 
-bool GhostState::is_in_tunnel() const {
-    auto tpos = get_tile_pos();
-    return tpos.y == 14 && ((tpos.x >= 0 && tpos.x <= 5) || (tpos.x >= MAP_WIDTH - 6 && tpos.x <= MAP_WIDTH - 1));
-}
-
 bool GhostState::operator==(const GhostState& o) const {
     return PlayerState::operator==(o) &&
         o.state == state;
