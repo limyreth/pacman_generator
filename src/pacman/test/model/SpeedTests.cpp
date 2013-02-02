@@ -102,4 +102,38 @@ void SpeedTests::test_tunnel_ghost() {
     ASSERT(state.get_player(GHOST_BLINKY+1).get_tile_pos() == IPoint(20, 14));
 }
 
+/*
+ * Elroy1 and 2 speeds
+ */
+void SpeedTests::test_elroy() {
+    std::vector<Action> path = {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1};
+    PathTest test(path);
+
+    // blinky becomes elroy1 at 20 food left: 2519 (value determined by recording when food count reaches 10 + recording where ghosts are)
+
+    // elroy1 speed
+    auto state = test.run(2519);
+    auto p1 = state.get_player(GHOST_BLINKY+1).get_pixel_pos();
+    state = test.run(2519 + 1);
+    auto p2 = state.get_player(GHOST_BLINKY+1).get_pixel_pos();
+    ASSERT((p2 - p1).length() - TILE_SIZE * FULL_SPEED * ELROY1_SPEED < 1e-10);
+
+    // elroy1 becomes elroy2 at 10 food left: 2690
+    state = test.run(2690);
+    p1 = state.get_player(GHOST_BLINKY+1).get_pixel_pos();
+    auto pinky1 = state.get_player(GHOST_PINKY+1).get_pixel_pos();
+    state = test.run(2690 + 1);
+    p2 = state.get_player(GHOST_BLINKY+1).get_pixel_pos();
+    auto pinky2 = state.get_player(GHOST_PINKY+1).get_pixel_pos();
+    ASSERT((p2 - p1).length() - TILE_SIZE * FULL_SPEED * ELROY2_SPEED < 1e-10);
+    ASSERT((pinky2 - pinky1).length() - TILE_SIZE * FULL_SPEED * GHOST_NORMAL_SPEED < 1e-10);
+
+    // ghosts become vulnerable
+    state = test.run(2962);
+    p1 = state.get_player(GHOST_BLINKY+1).get_pixel_pos();
+    state = test.run(2962 + 1);
+    p2 = state.get_player(GHOST_BLINKY+1).get_pixel_pos();
+    ASSERT((p2 - p1).length() - TILE_SIZE * FULL_SPEED * GHOST_VULNERABLE_SPEED < 1e-10);
+}
+
 }}}

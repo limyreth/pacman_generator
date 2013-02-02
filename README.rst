@@ -293,10 +293,10 @@ How tests cover the game specification: (tests are in bold font)
 
   - 100% speed = 9.5 tiles per sec.
 
-  - TODO **check tunnel speed: move ghost through tunnel from right to left,
+  - **check tunnel speed: move ghost through tunnel from right to left,
     once**
 
-  - TODO **check elroy1 and 2 speed + timing**
+  - **check elroy1 and 2 speed + timing**
 
   - **other speeds are thoroughly in other tick-based tests (Path tests and
     playback tests)**

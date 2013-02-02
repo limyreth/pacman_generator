@@ -18,6 +18,7 @@ namespace PACMAN {
             public:
                 static void test_dead_ghost();
                 static void test_tunnel_ghost();
+                static void test_elroy();
             };
 
         }
