@@ -42,21 +42,25 @@ void test_dead_ghost_tunnel_speed() {
     const int blinky_destination = 3;
     const FPoint blinky_pos(336, 331.61999999999835609);
     const GhostState::State blinky_state = (GhostState::State)2;
+    const bool blinky_vulnerable = 0;
 
     const int pinky_origin = 460;
     const int pinky_destination = 292;
     const FPoint pinky_pos(156, 183.79999999999816396);
-    const GhostState::State pinky_state = (GhostState::State)1;
+    const GhostState::State pinky_state = (GhostState::State)0;
+    const bool pinky_vulnerable = 1;
 
-    const int inky_origin = 68;
-    const int inky_destination = 58;
-    const FPoint inky_pos(151.04999999999890292, 36);
+    const int inky_origin = 466;
+    const int inky_destination = 298;
+    const FPoint inky_pos(228, 136.70000000000200657);
     const GhostState::State inky_state = (GhostState::State)0;
+    const bool inky_vulnerable = 1;
 
     const int clyde_origin = 7;
     const int clyde_destination = 3;
     const FPoint clyde_pos(384, 336);
     const GhostState::State clyde_state = (GhostState::State)3;
+    const bool clyde_vulnerable = 1;
 
     ExternalGameState game_state;
     game_state.score = 670;
@@ -70,10 +74,10 @@ void test_dead_ghost_tunnel_speed() {
 
     game_state.pacman = PacmanState(pacman_origin, pacman_destination, pacman_pos);
     game_state.ghosts = Ghosts {
-        GhostState(blinky_origin, blinky_destination, blinky_pos, blinky_state),
-        GhostState(pinky_origin, pinky_destination, pinky_pos, pinky_state),
-        GhostState(inky_origin, inky_destination, inky_pos, inky_state),
-        GhostState(clyde_origin, clyde_destination, clyde_pos, clyde_state)
+        GhostState(blinky_origin, blinky_destination, blinky_pos, blinky_state, clyde_vulnerable),
+        GhostState(pinky_origin, pinky_destination, pinky_pos, pinky_state, clyde_vulnerable),
+        GhostState(inky_origin, inky_destination, inky_pos, inky_state, clyde_vulnerable),
+        GhostState(clyde_origin, clyde_destination, clyde_pos, clyde_state, clyde_vulnerable)
     };
 
     std::vector<std::vector<Action>> paths(PLAYER_COUNT);
