@@ -13,6 +13,7 @@
 #include <pacman/run/DirectionInput.h>
 #include <pacman/run/PlaybackInput.h>
 #include <pacman/run/RecordedInput.h>
+#include <pacman/run/ZeroInput.h>
 #include <pacman/Constants.h>
 
 #include <fstream>
@@ -33,18 +34,27 @@ namespace PACMAN {
 void GUIMain::run(const GUIMainArgs& args) {
     GUI::GUI gui(args.gui_args);
 
-    shared_ptr<Input> input;
-    if (args.path.empty()) {
-        input.reset(new DirectionInput(gui));
+    Inputs inputs;
+    for (int player_index = 0; player_index < PLAYER_COUNT; ++player_index) {
+        const auto& path = args.paths.at(player_index);
+        if (!path.empty()) {
+            vector<Action> vpath(path.begin(), path.end());
+            inputs.push_back(shared_ptr<Input>(new PlaybackInput(vpath)));
+        }
+        else {
+            if (player_index == args.player_index) {
+                inputs.push_back(shared_ptr<Input>(new DirectionInput(gui)));
+            }
+            else {
+                inputs.push_back(shared_ptr<Input>(new ZeroInput));
+            }
+        }
     }
-    else {
-        vector<Action> vpath(args.path.begin(), args.path.end());
-        input.reset(new PlaybackInput(vpath));
-    }
+    shared_ptr<RecordedInput> recorded_input(new RecordedInput(inputs.at(args.player_index)));
+    inputs.at(args.player_index) = recorded_input;
 
     Game game;
-    shared_ptr<RecordedInput> recorded_input(new RecordedInput(input));
-    game.init(Game::make_inputs(args.player_index, recorded_input), gui.create_state_observer());
+    game.init(inputs, gui.create_state_observer());
 
     BOOST_SCOPE_EXIT(&recorded_input) {
         recorded_input->print_path(cout);

@@ -18,6 +18,7 @@
 #include "RecordedInput.h"
 #include <pacman/Constants.h>
 #include <pacman/run/ZeroInput.h>
+#include <pacman/run/PlaybackInput.h>
 #include <pacman/run/GameObserver.h>
 
 #include <limits>
@@ -189,6 +190,23 @@ Inputs Game::make_inputs(int player_index, shared_ptr<Input> input) {
     shared_ptr<Input> zero_input(new ZeroInput);
     Inputs inputs(PLAYER_COUNT, zero_input);
     inputs.at(player_index) = input;
+    return inputs;
+}
+
+Inputs Game::make_inputs(const vector<vector<Action>>& paths) {
+    REQUIRE(paths.size() == PLAYER_COUNT);
+
+    Inputs inputs;
+    for (int player_index = 0; player_index < PLAYER_COUNT; ++player_index) {
+        const auto& path = paths.at(player_index);
+        if (!path.empty()) {
+            inputs.push_back(shared_ptr<Input>(new PlaybackInput(path)));
+        }
+        else {
+            inputs.push_back(shared_ptr<Input>(new ZeroInput));
+        }
+    }
+    
     return inputs;
 }
 

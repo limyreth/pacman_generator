@@ -36,6 +36,11 @@ PathTest::PathTest(int player_index, const std::vector<Action>& path)
 {
 }
 
+PathTest::PathTest(vector<vector<Action>>& paths)
+:   DefaultGameObserver(Game::make_inputs(paths))
+{
+}
+
 GameState PathTest::run(int stop_at_step) {
     game.run(*this, false, stop_at_step);
     return game.get_state();

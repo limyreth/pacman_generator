@@ -135,7 +135,8 @@ Additions compatible with the original rules:
   about 0.42 * tile_size.
 
 - Dead ghost speed = 2 * normal pacman speed. This was unspecified in the
-  original spec.
+  original spec. Dead ghosts are unaffected by any other rules about speed;
+  they always move at dead ghost speed.
 
 - Allowed speed inaccuracy: When crossing tile bounds, it is allowed to
   maintain the speed of the origin tile (and this implementation does exactly

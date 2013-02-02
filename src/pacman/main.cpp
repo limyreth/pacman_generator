@@ -42,6 +42,7 @@ std::shared_ptr<GeneratorMain> generator_main;
 int main(int argc, char** argv) {
     std::string str="";
     GUIMainArgs gui_main_args;
+    gui_main_args.paths.resize(5);
     gui_main_args.gui_args.show_pacman_nodes = false;
     gui_main_args.gui_args.show_ghost_nodes = false;
     gui_main_args.gui_args.show_food = true;
@@ -83,8 +84,8 @@ int main(int argc, char** argv) {
                     << "\t--game-speed GAME_SPEED" << endl
                     << "\t\tDouble value to set game speed to, defaults to 1.0" << endl
                     << endl
-                    << "\t--path {A, B, C, ..., Z}" << endl
-                    << "\t\tUse list of actions as input (instead of keyboard)" << endl
+                    << "\t--path PLAYER {A, B, C, ..., Z}" << endl
+                    << "\t\tUse list of actions as input for player PLAYER" << endl
                     << endl
                     << "\t--pause-at-end" << endl
                     << "\t\tWhen using --path, pause at end of playback" << endl
@@ -182,6 +183,23 @@ int main(int argc, char** argv) {
                     return 1;
                 }
 
+                int player_index;
+                {
+                    std::istringstream str(argv[i]);
+                    str >> player_index;
+                }
+
+                i++;
+                if (i >= argc) {
+                    std::cerr << "Missing argument for --path" << endl;
+                    return 1;
+                }
+
+                if (!gui_main_args.paths.at(player_index).empty()) {
+                    std::cerr << "Multiple --path for same player" << endl;
+                    return 1;
+                }
+
                 // make space separated sequence of actions
                 string path_str(argv[i]);
                 std::replace(path_str.begin(), path_str.end(), '{', ' ');
@@ -193,10 +211,9 @@ int main(int argc, char** argv) {
                 int action;
                 str >> action;
                 while (!str.fail()) {
-                    gui_main_args.path.push_back(action);
+                    gui_main_args.paths.at(player_index).push_back(action);
                     str >> action;
                 }
-
             }
             else {
                 std::cerr << "unrecognized commandline option\n";

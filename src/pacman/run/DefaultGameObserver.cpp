@@ -26,9 +26,14 @@ using namespace ::PACMAN::MODEL;
 namespace PACMAN {
     namespace RUN {
 
-DefaultGameObserver::DefaultGameObserver(int player_index, std::shared_ptr<Input> input)
+DefaultGameObserver::DefaultGameObserver(Inputs inputs) 
 {
-    game.init(Game::make_inputs(player_index, input), shared_ptr<GameStateObserver>(new NullGameStateObserver));
+    game.init(inputs, shared_ptr<GameStateObserver>(new NullGameStateObserver));
+}
+
+DefaultGameObserver::DefaultGameObserver(int player_index, std::shared_ptr<Input> input)
+:   DefaultGameObserver(Game::make_inputs(player_index, input))
+{
 }
 
 void DefaultGameObserver::finished_step(const GameState& state) {

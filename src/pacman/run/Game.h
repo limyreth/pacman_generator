@@ -36,6 +36,7 @@ namespace PACMAN {
              * Returns Inputs with input at player_index, and a ZeroInput at each other index
              */
             static Inputs make_inputs(int player_index, std::shared_ptr<Input> input);
+            static Inputs make_inputs(const std::vector<std::vector<MODEL::Action>>& paths);
 
             const ::PACMAN::MODEL::GameState& get_state();
             void print_recorded_test(std::ostream&, RecordedInput&);

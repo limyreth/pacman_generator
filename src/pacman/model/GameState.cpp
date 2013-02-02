@@ -538,14 +538,14 @@ double GameState::get_speed(int player_index) {
     }
     else {
         const int ghost_i = player_index - 1;
-        if (ghosts.at(ghost_i).is_in_tunnel()) {
+        if (ghosts.at(ghost_i).is_dead()) {
+            return DEAD_GHOST_SPEED;
+        }
+        else if (ghosts.at(ghost_i).is_in_tunnel()) {
             return GHOST_TUNNEL_SPEED;
         }
         else if (ghosts.at(ghost_i).is_vulnerable()) {
             return GHOST_VULNERABLE_SPEED;
-        }
-        else if (ghosts.at(ghost_i).is_dead()) {
-            return DEAD_GHOST_SPEED;
         }
         else if (is_elroy2(ghost_i)) {
             return ELROY2_SPEED;

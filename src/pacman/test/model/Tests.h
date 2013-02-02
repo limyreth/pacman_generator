@@ -36,6 +36,7 @@ namespace PACMAN {
             void test_inky_respawn();
             void test_clyde_respawn();
             void test_eat_energizer_while_leaving_ghost_in_pen();
+            void test_dead_ghost_tunnel_speed();
 
         }
     }

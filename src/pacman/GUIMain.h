@@ -14,12 +14,13 @@
 #include <pacman/model/Action.h>
 
 #include <list>
+#include <vector>
 
 namespace PACMAN {
 
     struct GUIMainArgs {
         GUI::GUIArgs gui_args;
-        std::list<MODEL::Action> path;
+        std::vector<std::list<MODEL::Action>> paths;
         bool pause_at_end;
         int quit_at_step;
         int player_index;
