@@ -137,6 +137,12 @@ Additions compatible with the original rules:
 - Dead ghost speed = 2 * normal pacman speed. This was unspecified in the
   original spec.
 
+- Allowed speed inaccuracy: When crossing tile bounds, it is allowed to
+  maintain the speed of the origin tile (and this implementation does exactly
+  that). E.g. during the tick when a ghost exits a tunnel, it may move at
+  tunnel speed for that entire tick, even though that means it moves at tunnel
+  speed for a short distance outside the tunnel.
+
 
 Analysis
 ========
