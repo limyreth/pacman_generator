@@ -370,7 +370,7 @@ Additions compatible with the original rules:
   their tile pos is one of the ghost pen tiles.
 
   - **eat energizer while ghosts are in pen**
-  - TODO **eat energizer while ghosts are leaving the pen**
+  - **eat energizer while ghosts are leaving the pen**
 
 
 Note: tests generated with record/playback are sensitive to the TILE_SIZE used,

@@ -126,6 +126,11 @@ add_test(
     COMMAND pacman_sdl --test MODEL::VulnerabilityTests::test_2_energizers_time
 )
 
+add_test(
+    NAME MODEL::test_eat_energizer_while_leaving_ghost_in_pen
+    COMMAND pacman_sdl --test MODEL::test_eat_energizer_while_leaving_ghost_in_pen
+)
+
 # ghost respawn
 add_test(
     NAME MODEL::test_blinky_respawn
