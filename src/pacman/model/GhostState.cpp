@@ -26,15 +26,17 @@ GhostState::GhostState()
 {
 }
 
-GhostState::GhostState(const int origin_id, const int destination_id, FPoint pos, State state)
+GhostState::GhostState(const int origin_id, const int destination_id, FPoint pos, State state, bool vulnerable)
 :   PlayerState(GHOST_NODES.get(origin_id), GHOST_NODES.get(destination_id), pos),
-    state(state)
+    state(state),
+    vulnerable(vulnerable)
 {
 }
 
 GhostState::GhostState(const Node& initial_node)
 :   PlayerState(initial_node), 
-    state(WAITING)
+    state(WAITING),
+    vulnerable(false)
 {
 }
 
@@ -90,8 +92,10 @@ void GhostState::act(Action action) {
 
 void GhostState::die() {
     INVARIANTS_ON_EXIT;
+    REQUIRE(vulnerable);
 
     state = DEAD;
+    vulnerable = false;
 
     // initial path finding to respawn point: which way is shortest, through origin or destination?
     ASSERT(origin);
@@ -121,6 +125,18 @@ bool GhostState::can_reverse() const {
         PlayerState::can_reverse();
 }
 
+bool GhostState::is_vulnerable() const {
+    return vulnerable;
+}
+
+bool GhostState::is_dead() const {
+    return state == DEAD;
+}
+
+bool GhostState::is_waiting() const {
+    return state == GhostState::WAITING;
+}
+
 void GhostState::leave_pen() {
     INVARIANTS_ON_EXIT;
 
@@ -128,9 +144,40 @@ void GhostState::leave_pen() {
     state = NORMAL;
 }
 
+bool GhostState::become_invulnerable() {
+    INVARIANTS_ON_EXIT;
+    bool old_vulnerable = vulnerable;
+    vulnerable = false;
+    return old_vulnerable != vulnerable;
+}
+
+/*
+ * Become vulnerable if allowed
+ *
+ * Returns true if vulnerability changed
+ */
+bool GhostState::try_become_vulnerable() {
+    INVARIANTS_ON_EXIT;
+    if (state == DEAD) {
+        return false;
+    }
+
+    bool old_vulnerable = vulnerable;
+    vulnerable = true;
+    return old_vulnerable != vulnerable;
+}
+
 void GhostState::print(std::ostream& out, string prefix, string name) const {
     PlayerState::print(out, prefix, name);
     out << prefix << "const GhostState::State " << name << "_state = (GhostState::State)" << state << ";" << endl;
+    out << prefix << "const bool " << name << "_vulnerable = " << vulnerable << ";" << endl;
+}
+
+void GhostState::invariants() const {
+    PlayerState::invariants();
+
+    // these invariants are part of a new internal contract; so they don't break the liskov substitution principle
+    INVARIANT(!(vulnerable && state == DEAD));
 }
 
 // Note: this has little meaning other than that when it changes, a new action may be chosen (which is by crossing any grid line with offset half a tile)

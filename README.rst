@@ -44,7 +44,11 @@ Summary of those rules:
 
 - Fixed frame rate of 60 ticks per second.
 
-- Ghosts made vulnerable by energizer for 6 seconds
+- Any ghost that isn't dead, becomes vulnerable for 6 seconds when pacman eats
+  an energizer.  Even when they are in the ghost pen. This can be seen in `this
+  video`__ part of the original spec.
+
+__ http://www.youtube.com/watch?feature=player_embedded&v=VbzW6iNDx9U
 
 - A fruit spawns after 70 and 170 dots. They remain for 10sec.
 
@@ -129,10 +133,6 @@ Additions compatible with the original rules:
   Note: This works for lvl1 speeds. Player's pixel pos will enter the
   wall tile, even at highest speed. The distance spent in the wall tile is
   about 0.42 * tile_size.
-
-- Ghosts in the ghost pen do not become vulnerable when pacman eats an
-  energizer, regardless of their state. They are considered in the pen when
-  their tile pos is one of the ghost pen tiles.
 
 - Dead ghost speed = 2 * normal pacman speed. This was unspecified in the
   original spec.

@@ -45,7 +45,7 @@ void SpeedTests::test_dead_ghost() {
     state = test.run(317 +1);
     ASSERT(state.get_vulnerable_ghost_count() == 0);
     state = test.run(318 +1);
-    ASSERT(state.get_vulnerable_ghost_count() == 2);
+    ASSERT(state.get_vulnerable_ghost_count() == 4);
 
     // blinky nearly moved to next tile at vulnerable ghost speed
     state = test.run(321 +1);
@@ -57,12 +57,12 @@ void SpeedTests::test_dead_ghost() {
 
     // pacman nearly eats Pinky
     state = test.run(377 +1);  // (ct + cc + ct2 + cc + ct2 + cc + ct + 6 + ct + cc + ct + 3 + ct + cc + ct2 + cc + ct2 + cc + ct2 + cc + ct2 + cc + ct + 1 + ct + cc + ct + 2 + ct + cc + ct) / ns + (1 + ct + cc + ct + 2 + ct + cc + ct) / es + 33 dots + 1 energizer
-    ASSERT(((GhostState&)state.get_player(GHOST_PINKY+1)).state == GhostState::VULNERABLE);
+    ASSERT(((GhostState&)state.get_player(GHOST_PINKY+1)).is_vulnerable());
 
     // pacman eats Pinky
     // Pinky moved 42.47 tiles, will return to previous tile after a distance of ~0.97, in 4 ticks
     state = test.run(378 +1);
-    ASSERT(((GhostState&)state.get_player(GHOST_PINKY+1)).state == GhostState::DEAD);
+    ASSERT(((GhostState&)state.get_player(GHOST_PINKY+1)).is_dead());
 
     // pinky nearly moved to next tile at dead ghost speed
     state = test.run(381 +1);

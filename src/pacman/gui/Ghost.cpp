@@ -45,17 +45,14 @@ void Ghost::Draw(const MODEL::GhostState& current) {
     pos.x = real_pos.x - PLAYER_SIZE/2;
     pos.y = real_pos.y - PLAYER_SIZE/2;
 
-    if (current.state == GhostState::NORMAL || current.state == GhostState::WAITING) {
-        SDL_BlitSurface(ghostEl[0].get(),NULL,buf.get(),&pos);
-    }
-    else if (current.state == GhostState::VULNERABLE) {
+    if (current.is_vulnerable()) {
         SDL_BlitSurface(ghostEl[1].get(),NULL,buf.get(),&pos);
     }
-    else if (current.state == GhostState::DEAD) {
+    else if (current.is_dead()) {
         SDL_BlitSurface(ghostEl[3].get(),NULL,buf.get(),&pos);
     }
     else {
-        ASSERT(false);
+        SDL_BlitSurface(ghostEl[0].get(),NULL,buf.get(),&pos);
     }
 }
 

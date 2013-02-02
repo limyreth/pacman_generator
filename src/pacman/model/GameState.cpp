@@ -108,8 +108,7 @@ bool GameState::progress_timers(const GameState& pre, GameStateObserver& observe
 
         // Ghosts become vulnerable in this tick
         for (auto& ghost : ghosts) {
-            if (ghost.state == GhostState::NORMAL) {
-                ghost.state = GhostState::VULNERABLE;
+            if (ghost.try_become_vulnerable()) {
                 allow_reversing = true;
             }
         }
@@ -121,8 +120,7 @@ bool GameState::progress_timers(const GameState& pre, GameStateObserver& observe
 
         // Ghosts no longer vulnerable, make it so
         for (auto& ghost : ghosts) {
-            if (ghost.state == GhostState::VULNERABLE) {
-                ghost.state = GhostState::NORMAL;
+            if (ghost.become_invulnerable()) {
                 allow_reversing = true;
             }
         }
@@ -211,27 +209,29 @@ bool GameState::act(const vector<Action>& actions, const GameState& pre, GameSta
     for (auto& ghost : ghosts) {
         if (pacman_tpos == ghost.get_tile_pos()) {
             // collide with ghost
-            if (ghost.state == GhostState::NORMAL) {
-                // pacman gets eaten
-                lives--;
+            if (!ghost.is_dead()) {
+                if (!ghost.is_vulnerable()) {
+                    // pacman gets eaten
+                    lives--;
 
-                observer.ate_pacman();
+                    observer.ate_pacman();
 
-                if (get_lives() > 0) {
-                    resetLvl();
+                    if (get_lives() > 0) {
+                        resetLvl();
+                    }
+
+                    state = ACTED;
+                    return false;
                 }
-
-                state = ACTED;
-                return false;
-            }
-            else if (ghost.state == GhostState::VULNERABLE) {
-                // pacman eats ghost
-                REQUIRE(ghost_score == 200 || ghost_score == 400 || ghost_score == 800 || ghost_score == 1600);
-                score += ghost_score;
-                ghost_score *= 2.0;
-                ghost.die();
-                observer.ate_ghost();
-                ate_ghost = true;
+                else if (ghost.is_vulnerable()) {
+                    // pacman eats ghost
+                    REQUIRE(ghost_score == 200 || ghost_score == 400 || ghost_score == 800 || ghost_score == 1600);
+                    score += ghost_score;
+                    ghost_score *= 2.0;
+                    ghost.die();
+                    observer.ate_ghost();
+                    ate_ghost = true;
+                }
             }
         }
     }
@@ -278,19 +278,19 @@ bool GameState::act(const vector<Action>& actions, const GameState& pre, GameSta
     }
 
     if (ghost_release_ticks_left == 0) {
-        if (ghosts.at(GHOST_INKY).state == GhostState::WAITING) {
+        if (ghosts.at(GHOST_INKY).is_waiting()) {
             ghosts.at(GHOST_INKY).leave_pen();
         }
-        else if (ghosts.at(GHOST_CLYDE).state == GhostState::WAITING) {
+        else if (ghosts.at(GHOST_CLYDE).is_waiting()) {
             ghosts.at(GHOST_CLYDE).leave_pen();
         }
         ghost_release_ticks_left = MAX_TICKS_BETWEEN_GHOST_RELEASE;
     }
-    else if (food_eaten >= 90 && ghosts.at(GHOST_CLYDE).state == GhostState::WAITING) {
+    else if (food_eaten >= 90 && ghosts.at(GHOST_CLYDE).is_waiting()) {
         ghosts.at(GHOST_CLYDE).leave_pen();
         ghost_release_ticks_left = MAX_TICKS_BETWEEN_GHOST_RELEASE;
     }
-    else if (food_eaten >= 30 && ghosts.at(GHOST_INKY).state == GhostState::WAITING) {
+    else if (food_eaten >= 30 && ghosts.at(GHOST_INKY).is_waiting()) {
         ghosts.at(GHOST_INKY).leave_pen();
         ghost_release_ticks_left = MAX_TICKS_BETWEEN_GHOST_RELEASE;
     }
@@ -306,7 +306,7 @@ unsigned int GameState::get_vulnerable_ghost_count() const {
     REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
     int count = 0;
     for (auto ghost : ghosts) {
-        if (ghost.state == GhostState::VULNERABLE)
+        if (ghost.is_vulnerable())
             count++;
     }
     INVARIANT(count == 0 || vulnerable_ticks_left > -1);
@@ -452,10 +452,10 @@ void GameState::print(std::ostream& out, string prefix) const {
         << endl
         << prefix << "game_state.pacman = PacmanState(pacman_origin, pacman_destination, pacman_pos);" << endl
         << prefix << "game_state.ghosts = Ghosts {" << endl
-        << prefix << "    GhostState(blinky_origin, blinky_destination, blinky_pos, blinky_state)," << endl
-        << prefix << "    GhostState(pinky_origin, pinky_destination, pinky_pos, pinky_state)," << endl
-        << prefix << "    GhostState(inky_origin, inky_destination, inky_pos, inky_state)," << endl
-        << prefix << "    GhostState(clyde_origin, clyde_destination, clyde_pos, clyde_state)" << endl
+        << prefix << "    GhostState(blinky_origin, blinky_destination, blinky_pos, blinky_state, clyde_vulnerable)," << endl
+        << prefix << "    GhostState(pinky_origin, pinky_destination, pinky_pos, pinky_state, clyde_vulnerable)," << endl
+        << prefix << "    GhostState(inky_origin, inky_destination, inky_pos, inky_state, clyde_vulnerable)," << endl
+        << prefix << "    GhostState(clyde_origin, clyde_destination, clyde_pos, clyde_state, clyde_vulnerable)" << endl
         << prefix << "};" << endl
         ;
 }
@@ -541,10 +541,10 @@ double GameState::get_speed(int player_index) {
         if (ghosts.at(ghost_i).is_in_tunnel()) {
             return GHOST_TUNNEL_SPEED;
         }
-        else if (ghosts.at(ghost_i).state == GhostState::VULNERABLE) {
+        else if (ghosts.at(ghost_i).is_vulnerable()) {
             return GHOST_VULNERABLE_SPEED;
         }
-        else if (ghosts.at(ghost_i).state == GhostState::DEAD) {
+        else if (ghosts.at(ghost_i).is_dead()) {
             return DEAD_GHOST_SPEED;
         }
         else if (is_elroy2(ghost_i)) {

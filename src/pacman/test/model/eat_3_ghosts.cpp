@@ -30,31 +30,35 @@ namespace PACMAN {
         namespace MODEL {
 
 void test_eat_3_ghosts() {
-    const int steps = 754;
+    const int steps = 746;
 
     const int pacman_origin = 258;
     const int pacman_destination = 370;
-    const FPoint pacman_pos(156, 316.59420022523380567);
+    const FPoint pacman_pos(156, 313.93420022523332591);
 
     const int blinky_origin = 3;
     const int blinky_destination = 1;
-    const FPoint blinky_pos(336, 296.97999999999905185);
+    const FPoint blinky_pos(336, 319.77999999999923375);
     const GhostState::State blinky_state = (GhostState::State)0;
+    const bool blinky_vulnerable = 0;
 
-    const int pinky_origin = 472;
-    const int pinky_destination = 466;
-    const FPoint pinky_pos(287.84999999999894271, 204);
+    const int pinky_origin = 640;
+    const int pinky_destination = 472;
+    const FPoint pinky_pos(300, 214.64999999999903935);
     const GhostState::State pinky_state = (GhostState::State)0;
+    const bool pinky_vulnerable = 0;
 
-    const int inky_origin = 634;
-    const int inky_destination = 640;
-    const FPoint inky_pos(242.80000000000163141, 276);
+    const int inky_origin = 802;
+    const int inky_destination = 634;
+    const FPoint inky_pos(228, 309.83999999999832653);
     const GhostState::State inky_state = (GhostState::State)2;
+    const bool inky_vulnerable = 0;
 
     const int clyde_origin = 7;
     const int clyde_destination = 3;
-    const FPoint clyde_pos(372.59999999999990905, 336);
-    const GhostState::State clyde_state = (GhostState::State)0;
+    const FPoint clyde_pos(384, 336);
+    const GhostState::State clyde_state = (GhostState::State)3;
+    const bool clyde_vulnerable = 1;
 
     ExternalGameState game_state;
     game_state.score = 1940;
@@ -68,10 +72,10 @@ void test_eat_3_ghosts() {
 
     game_state.pacman = PacmanState(pacman_origin, pacman_destination, pacman_pos);
     game_state.ghosts = Ghosts {
-        GhostState(blinky_origin, blinky_destination, blinky_pos, blinky_state),
-        GhostState(pinky_origin, pinky_destination, pinky_pos, pinky_state),
-        GhostState(inky_origin, inky_destination, inky_pos, inky_state),
-        GhostState(clyde_origin, clyde_destination, clyde_pos, clyde_state)
+        GhostState(blinky_origin, blinky_destination, blinky_pos, blinky_state, clyde_vulnerable),
+        GhostState(pinky_origin, pinky_destination, pinky_pos, pinky_state, clyde_vulnerable),
+        GhostState(inky_origin, inky_destination, inky_pos, inky_state, clyde_vulnerable),
+        GhostState(clyde_origin, clyde_destination, clyde_pos, clyde_state, clyde_vulnerable)
     };
 
     std::vector<Action> path = {0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0};
