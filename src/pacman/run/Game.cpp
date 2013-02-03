@@ -56,7 +56,7 @@ void Game::run(GameObserver& observer, bool pause_at_end_of_input, int stop_at_s
     REQUIRE(initialised);
 
     bool stop_at_end_of_input = !pause_at_end_of_input;
-    while (!observer.should_stop() && stop_at_step != get_steps()) {
+    while (!observer.should_stop() && stop_at_step != get_steps() && !get_state().is_game_over()) {
         if (!observer.is_paused()) {
             auto input = get_input();
 
