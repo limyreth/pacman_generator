@@ -1,8 +1,12 @@
-obj/*
-bin/*
 log.txt
 *.o
-pacman_v4
 *.pro
 *.pro.user
+*.swp
 Makefile
+CMakeFiles
+CMakeCache.txt
+cmake_install.cmake
+Testing
+CTestTestfile.cmake
+pacman_sdl
