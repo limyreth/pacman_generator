@@ -246,3 +246,10 @@ add_test(
     COMMAND pacman_sdl --test GeneratorTests::test_save_load_of_running_instance
 )
 
+# game over
+add_test(
+    NAME MODEL::test_pacman_dies
+    COMMAND pacman_sdl --test MODEL::test_pacman_dies
+)
+
+
