@@ -347,7 +347,9 @@ int GameState::get_food_count_() const {
 void GameState::invariants() const {
     INVARIANT(food_count >= 0);
     INVARIANT(!(food_count == 0 && !did_pacman_win()));
+#ifndef NDEBUG
     INVARIANT(food_count == get_food_count_());
+#endif
 
     INVARIANT(score >= 0);
     INVARIANT(lives >= 0);
