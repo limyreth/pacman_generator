@@ -252,4 +252,8 @@ add_test(
     COMMAND pacman_sdl --test MODEL::test_pacman_dies
 )
 
+add_test(
+    NAME MODEL::test_pacman_wins
+    COMMAND pacman_sdl --test MODEL::test_pacman_wins
+)
 

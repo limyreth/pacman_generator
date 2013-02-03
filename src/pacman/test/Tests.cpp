@@ -49,6 +49,7 @@ void test(string name) {
     else if (name == "MODEL::test_eat_energizer_while_leaving_ghost_in_pen") MODEL::test_eat_energizer_while_leaving_ghost_in_pen();
     else if (name == "MODEL::test_dead_ghost_tunnel_speed") MODEL::test_dead_ghost_tunnel_speed();
     else if (name == "MODEL::test_pacman_dies") MODEL::test_pacman_dies();
+    else if (name == "MODEL::test_pacman_wins") MODEL::test_pacman_wins();
     else if (name == "MODEL::SpeedTests::test_dead_ghost") MODEL::SpeedTests::test_dead_ghost();
     else if (name == "MODEL::SpeedTests::test_tunnel_ghost") MODEL::SpeedTests::test_tunnel_ghost();
     else if (name == "MODEL::SpeedTests::test_elroy") MODEL::SpeedTests::test_elroy();
