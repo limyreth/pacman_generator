@@ -36,6 +36,24 @@ GameState::GameState()
 {
 }
 
+GameState::GameState(const GameState& s)
+: pacman(s.pacman),
+  ghosts(s.ghosts),
+  food_count(s.food_count),
+  score(s.score),
+  lives(s.lives),
+  ghost_score(s.ghost_score),
+  ate_energizer(s.ate_energizer),
+  triggered_fruit_spawn(s.triggered_fruit_spawn),
+  vulnerable_ticks_left(s.vulnerable_ticks_left),
+  fruit_ticks_left(s.fruit_ticks_left),
+  idler_ticks_left(s.idler_ticks_left),
+  ghost_release_ticks_left(s.ghost_release_ticks_left),
+  state(s.state)
+{
+  foods = s.foods;
+}
+
 /**
  * Start new game
  */
@@ -154,7 +172,7 @@ void GameState::initial_movement(const GameState& pre, GameStateObserver& observ
 
     // Move players
     for (int player_index = 0; player_index < PLAYER_COUNT; player_index++) {
-        movement_excess[player_index] = get_player(player_index).move(FULL_SPEED * TILE_SIZE * get_speed(player_index), player_index);
+        movement_excess[player_index] = get_player(player_index).move(FULL_SPEED * get_speed(player_index), player_index);
     }
     ENSURE(old_fruit_ticks_left == fruit_ticks_left);
     ENSURE(old_vulnerable_ticks_left == vulnerable_ticks_left);

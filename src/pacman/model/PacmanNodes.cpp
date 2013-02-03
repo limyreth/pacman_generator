@@ -47,7 +47,7 @@ PacmanNodes::PacmanNodes() {
                     // Update neighbour location to be when pacman's bounds hit the intersection tile
                     FPoint direction = node->location - neighbour->location;
                     direction.normalise();
-                    neighbour->location += direction * (TILE_SIZE - PLAYER_SIZE)/2.0;
+                    neighbour->location += direction * (1 - PLAYER_SIZE)/2.0;
                 }
 
                 eliminate(x, y);
@@ -58,7 +58,7 @@ PacmanNodes::PacmanNodes() {
     eliminate_redundant_nodes();
 
     // create pacman spawn
-    spawn = new Node(FPoint(14, 23.5) * TILE_SIZE);
+    spawn = new Node(FPoint(14, 23.5));
     spawn->neighbours.push_back(nodes.at(at(14, 23))); // Note: symmetrical map, just going to the right is fine
 
     ensure_valid(nodes, nodes);

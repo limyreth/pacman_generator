@@ -39,10 +39,10 @@ GhostNodes::GhostNodes()
     eliminate_redundant_nodes();
 
     // ghost pen nodes
-    spawns.at(GHOST_BLINKY) = new Node(FPoint(14, 11.5) * TILE_SIZE);
-    spawns.at(GHOST_PINKY) = new Node(FPoint(14, 14) * TILE_SIZE);
-    spawns.at(GHOST_INKY) = new Node(FPoint(12, 14) * TILE_SIZE);
-    spawns.at(GHOST_CLYDE) = new Node(FPoint(16, 14) * TILE_SIZE);
+    spawns.at(GHOST_BLINKY) = new Node(FPoint(14, 11.5));
+    spawns.at(GHOST_PINKY) = new Node(FPoint(14, 14));
+    spawns.at(GHOST_INKY) = new Node(FPoint(12, 14));
+    spawns.at(GHOST_CLYDE) = new Node(FPoint(16, 14));
 
     spawns.at(GHOST_INKY)->neighbours.push_back(spawns.at(GHOST_PINKY));
     spawns.at(GHOST_CLYDE)->neighbours.push_back(spawns.at(GHOST_PINKY));
@@ -146,8 +146,8 @@ void GhostNodes::draw_respawn_paths(shared_ptr<SDL_Surface> screen) const {
         // draw arrow from origin to destination
         int retval;
 
-        auto o = origin->location;
-        auto d = destination->location;
+        auto o = origin->location * ::PACMAN::GUI::TILE_SIZE;
+        auto d = destination->location * ::PACMAN::GUI::TILE_SIZE;
         retval = lineColor(screen.get(), (int)o.x, (int)o.y, (int)d.x, (int)d.y, 0x00FF00FF);
         ASSERT(retval == 0);
 

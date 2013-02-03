@@ -57,12 +57,12 @@ void test_initial_game_state() {
     auto state = test.get_state();
 
     // spawn positions
-    ASSERT(state.get_player(PLAYER_PACMAN).get_pixel_pos() == FPoint(14, 23.5) * TILE_SIZE);
+    ASSERT(state.get_player(PLAYER_PACMAN).get_pixel_pos() == FPoint(14, 23.5));
     ASSERT(state.get_player(PLAYER_PACMAN).get_tile_pos() == IPoint(14, 23));
-    ASSERT(state.get_player(GHOST_BLINKY+1).get_pixel_pos() == FPoint(14, 11.5) * TILE_SIZE);
-    ASSERT(state.get_player(GHOST_PINKY+1).get_pixel_pos() == FPoint(14, 14) * TILE_SIZE);
-    ASSERT(state.get_player(GHOST_INKY+1).get_pixel_pos() == FPoint(12, 14) * TILE_SIZE);
-    ASSERT(state.get_player(GHOST_CLYDE+1).get_pixel_pos() == FPoint(16, 14) * TILE_SIZE);
+    ASSERT(state.get_player(GHOST_BLINKY+1).get_pixel_pos() == FPoint(14, 11.5));
+    ASSERT(state.get_player(GHOST_PINKY+1).get_pixel_pos() == FPoint(14, 14));
+    ASSERT(state.get_player(GHOST_INKY+1).get_pixel_pos() == FPoint(12, 14));
+    ASSERT(state.get_player(GHOST_CLYDE+1).get_pixel_pos() == FPoint(16, 14));
 
     // other
     ASSERT(state.get_lives() == 1);

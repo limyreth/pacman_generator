@@ -28,6 +28,9 @@ namespace PACMAN {
         class GameStateObserver;
 
         // implementation independent view of a GameState
+        /*
+         * Positions of external game state are multiplied by GUI::TILE_SIZE
+         */
         struct ExternalGameState {
             SPECIFICATION::Foods foods;
             int score;
@@ -59,6 +62,8 @@ namespace PACMAN {
         public:
             // create bogus state
             GameState();
+
+            GameState(const GameState& );
 
             // create new game
             GameState(const Node& pacman_spawn, const std::vector<Node*> ghost_spawns);

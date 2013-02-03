@@ -13,13 +13,13 @@
 namespace PACMAN {
 
     namespace MODEL {
-        const int TILE_SIZE = 24;
-
         const int PLAYER_PACMAN = 0;
         const int GHOST_BLINKY = 0;
         const int GHOST_PINKY = 1;
         const int GHOST_INKY = 2;
         const int GHOST_CLYDE = 3;
+
+        const double MAX_ROUNDING_ERROR = 1e-10;
     }
 
     namespace SPECIFICATION {
@@ -42,15 +42,17 @@ namespace PACMAN {
 
         const IPoint FRUIT_LEFT_TPOS(13, 17);
         const IPoint FRUIT_RIGHT_TPOS(14, 17);
-        const FPoint FRUIT_POS(14 * ::PACMAN::MODEL::TILE_SIZE, 17.5 * ::PACMAN::MODEL::TILE_SIZE);
+        const FPoint FRUIT_POS(14, 17.5);
 
         const int MAX_TICKS_BETWEEN_GHOST_RELEASE = 4 * TICK_RATE;  // 4 seconds
 
-        const double PLAYER_SIZE = 2.0 * ::PACMAN::MODEL::TILE_SIZE * 0.8;
+        const double PLAYER_SIZE = 2.0 * 0.8;
     }
 
     namespace GUI {
         const std::string SKINS_PATH = "./skins/minimal/";
+        const int TILE_SIZE = 24;
+        const double PLAYER_SIZE = ::PACMAN::SPECIFICATION::PLAYER_SIZE * TILE_SIZE;
     }
 
 }

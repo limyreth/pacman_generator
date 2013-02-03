@@ -16,8 +16,6 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
-using ::PACMAN::MODEL::TILE_SIZE;
-using ::PACMAN::SPECIFICATION::PLAYER_SIZE;
 using std::shared_ptr;
 
 namespace PACMAN {
@@ -62,7 +60,7 @@ void Pacman::Draw(const MODEL::PacmanState state) {
     else i=0; //avoid compiler warning
 
     // center the image on our current location
-    FPoint real_pos = state.get_pixel_pos();
+    FPoint real_pos = state.get_pixel_pos() * TILE_SIZE;
     pos.x = real_pos.x - PLAYER_SIZE/2;
     pos.y = real_pos.y - PLAYER_SIZE/2;
 

@@ -31,7 +31,6 @@
 #define PAC 1
 
 using namespace ::PACMAN::SPECIFICATION;
-using ::PACMAN::MODEL::TILE_SIZE;
 using std::cout;
 using std::endl;
 using std::shared_ptr;

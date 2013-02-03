@@ -16,7 +16,6 @@
 #include <SDL/SDL_image.h>
 
 using namespace ::PACMAN::SPECIFICATION;
-using ::PACMAN::MODEL::TILE_SIZE;
 using std::shared_ptr;
 
 namespace PACMAN {

@@ -17,8 +17,6 @@
 #include <SDL/SDL_image.h>
 
 using ::PACMAN::MODEL::GhostState;
-using ::PACMAN::MODEL::TILE_SIZE;
-using ::PACMAN::SPECIFICATION::PLAYER_SIZE;
 using std::shared_ptr;
 
 namespace PACMAN {
@@ -41,7 +39,7 @@ void Ghost::Draw(const MODEL::GhostState& current) {
     SDL_Rect pos;
 
     // center the image on our current location
-    FPoint real_pos = current.get_pixel_pos();
+    FPoint real_pos = current.get_pixel_pos() * TILE_SIZE;
     pos.x = real_pos.x - PLAYER_SIZE/2;
     pos.y = real_pos.y - PLAYER_SIZE/2;
 

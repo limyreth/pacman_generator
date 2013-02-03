@@ -61,7 +61,7 @@ Nodes::Nodes()
                 }
 
                 // add this one
-                nodes.at(center) = new Node(FPoint(x+0.5, y+0.5) * TILE_SIZE);
+                nodes.at(center) = new Node(FPoint(x+0.5, y+0.5));
             }
         }
     }
@@ -120,8 +120,8 @@ void Nodes::ensure_valid(const Node* node, const vector<Node*>& all_nodes) const
     // within map bounds
     ENSURE(node->location.x > 0.0);
     ENSURE(node->location.y > 0.0);
-    ENSURE(node->location.x < MAP_WIDTH * TILE_SIZE);
-    ENSURE(node->location.y < MAP_HEIGHT * TILE_SIZE);
+    ENSURE(node->location.x < MAP_WIDTH);
+    ENSURE(node->location.y < MAP_HEIGHT);
 
     // required by PlayerState
     ENSURE(node->neighbours.size() <= MAX_ACTION_COUNT);
@@ -145,7 +145,12 @@ void Nodes::draw(shared_ptr<SDL_Surface> screen, const std::vector<Node*>& nodes
 
 void Nodes::draw(shared_ptr<SDL_Surface> screen, const Node& node, uint32_t node_color, uint32_t edge_color) const {
     for (auto neighbour : node.neighbours) {
-        int retval = lineColor(screen.get(), (int)node.location.x, (int)node.location.y, (int)neighbour->location.x, (int)neighbour->location.y, edge_color);
+        int retval = lineColor(screen.get(), 
+                (int)(node.location.x * ::PACMAN::GUI::TILE_SIZE), 
+                (int)(node.location.y * ::PACMAN::GUI::TILE_SIZE), 
+                (int)(neighbour->location.x * ::PACMAN::GUI::TILE_SIZE), 
+                (int)(neighbour->location.y * ::PACMAN::GUI::TILE_SIZE), 
+                edge_color);
         ASSERT(retval == 0);
     }
 
@@ -155,8 +160,8 @@ void Nodes::draw(shared_ptr<SDL_Surface> screen, const Node& node, uint32_t node
 void Nodes::draw(shared_ptr<SDL_Surface> screen, const Node& node, uint32_t node_color) const {
     SDL_Rect r;
     r.w = r.h = 5;
-    r.x = (int)node.location.x - 2;
-    r.y = (int)node.location.y - 2;
+    r.x = (int)(node.location.x * ::PACMAN::GUI::TILE_SIZE) - 2;
+    r.y = (int)(node.location.y * ::PACMAN::GUI::TILE_SIZE) - 2;
     SDL_FillRect(screen.get(), &r, node_color);
 }
 
@@ -285,10 +290,15 @@ int Nodes::get_id(const Node& node, const std::vector<Node*>& nodes) const {
     }
 }
 
+/*
+ * Note: provided location will be divided by GUI::TILE_SIZE before comparison
+ */
 bool Nodes::has_node_equivalent_to(int id, FPoint location, const vector<int>& neighbour_ids) const {
     auto node = get(id);
 
-    if (node->get_location() != location) {
+    location /= ::PACMAN::GUI::TILE_SIZE;
+
+    if ((node->get_location() - location).length() > MAX_ROUNDING_ERROR) {
         return false;
     }
 

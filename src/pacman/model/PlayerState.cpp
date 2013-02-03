@@ -34,7 +34,7 @@ PlayerState::PlayerState()
 }
 
 PlayerState::PlayerState(const Node* origin, const Node* destination, FPoint pos)
-:   pos(pos),
+:   pos(pos / ::PACMAN::GUI::TILE_SIZE),
     origin(origin),
     destination(destination)
 {
@@ -73,13 +73,13 @@ double PlayerState::move(double distance_moved, int player_index) {
 
         // wrap screen when hitting left/right edge of tunnel
         if (pos.x < 0) {
-            pos.x += MAP_WIDTH * TILE_SIZE;
+            pos.x += MAP_WIDTH;
         }
-        else if (pos.x >= MAP_WIDTH * TILE_SIZE) {
-            pos.x -= MAP_WIDTH * TILE_SIZE;
+        else if (pos.x >= MAP_WIDTH) {
+            pos.x -= MAP_WIDTH;
         }
 
-        if (has_reached_destination() && movement_excess > -1e-10 && movement_excess < 0.0) {
+        if (has_reached_destination() && movement_excess > MAX_ROUNDING_ERROR && movement_excess < 0.0) {
             // deal with rounding error
             movement_excess = 0.0;
         }
@@ -146,7 +146,7 @@ bool PlayerState::has_reached_destination() const {
 }
 
 IPoint PlayerState::get_tile_pos() const {
-    IPoint tile_pos(pos.x / TILE_SIZE, pos.y / TILE_SIZE);
+    IPoint tile_pos(pos.x, pos.y);
     return tile_pos;
 }
 
@@ -228,7 +228,7 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
 }
 
 bool PlayerState::operator==(const PlayerState& o) const {
-    return o.pos == pos &&
+    return (o.pos - pos).length() < MAX_ROUNDING_ERROR &&
         o.origin == origin &&
         o.destination == destination;
 }
@@ -236,8 +236,8 @@ bool PlayerState::operator==(const PlayerState& o) const {
 void PlayerState::invariants() const {
     INVARIANT(pos.x >= 0);
     INVARIANT(pos.y >= 0);
-    INVARIANT(pos.x < MAP_WIDTH * TILE_SIZE);
-    INVARIANT(pos.y < MAP_HEIGHT * TILE_SIZE);
+    INVARIANT(pos.x < MAP_WIDTH);
+    INVARIANT(pos.y < MAP_HEIGHT);
     INVARIANT(destination != NULL);
 }
 

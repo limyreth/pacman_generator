@@ -17,9 +17,6 @@
 namespace PACMAN {
 
     namespace MODEL {
-        // pixel size of a tile, is best kept as a multiple of 8
-        extern const int TILE_SIZE;
-
         // player indices
         extern const int PLAYER_PACMAN;
 
@@ -28,6 +25,9 @@ namespace PACMAN {
         extern const int GHOST_PINKY;
         extern const int GHOST_INKY;
         extern const int GHOST_CLYDE;
+
+        // max allowable error on positions, due to floating point inaccuracies
+        extern const double MAX_ROUNDING_ERROR;
     }
 
     namespace SPECIFICATION {
@@ -67,6 +67,12 @@ namespace PACMAN {
     namespace GUI {
         // path to skin images
         extern const std::string SKINS_PATH;
+
+        // pixel size of a tile, is best kept as a multiple of 8
+        extern const int TILE_SIZE;
+
+        // pixel size of ghost/pacman
+        extern const double PLAYER_SIZE;
     }
 
 }
@@ -79,7 +85,6 @@ namespace PACMAN {
 #define MAP_HEIGHT 31
 
 #define MAX_ACTION_COUNT 4
-
 
 #define GHOST_COUNT 4
 #define PLAYER_COUNT (GHOST_COUNT + 1)
