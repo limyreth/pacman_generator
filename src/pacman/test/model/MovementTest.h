@@ -26,22 +26,24 @@ namespace PACMAN {
     }
 
     namespace TEST {
+        namespace MODEL {
 
-        class MovementTest : public RUN::DirectionPreference, public RUN::DefaultGameObserver {
-        public:
-            MovementTest(int player_index);
-            int move(Direction::Type direction);
-            const ::PACMAN::MODEL::GameState& get_state();
-            Direction::Type get_preferred_direction();
+            class MovementTest : public RUN::DirectionPreference, public RUN::DefaultGameObserver {
+            public:
+                MovementTest(int player_index);
+                int move(Direction::Type direction);
+                const ::PACMAN::MODEL::GameState& get_state();
+                Direction::Type get_preferred_direction();
 
-            void finished_step(const ::PACMAN::MODEL::GameState& state);
-            bool should_stop();
+                void finished_step(const ::PACMAN::MODEL::GameState& state);
+                bool should_stop();
 
-        private:
-            Direction::Type current_direction;
-            int player_index;
-            ::PACMAN::MODEL::GameState original;
-        };
+            private:
+                Direction::Type current_direction;
+                int player_index;
+                ::PACMAN::MODEL::GameState original;
+            };
 
+        }
     }
 }

@@ -9,7 +9,7 @@
 
 
 #include "Tests.h"
-#include <pacman/test/MovementTest.h>
+#include <pacman/test/model/MovementTest.h>
 #include <pacman/model/GameState.h>
 #include <pacman/util/assertion.h>
 #include <pacman/util/Point.h>

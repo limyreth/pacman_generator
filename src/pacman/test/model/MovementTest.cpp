@@ -25,6 +25,7 @@ using std::shared_ptr;
 
 namespace PACMAN {
     namespace TEST {
+        namespace MODEL {
 
 MovementTest::MovementTest(int player_index)
 :   player_index(player_index),
@@ -70,4 +71,4 @@ Direction::Type MovementTest::get_preferred_direction() {
     return current_direction;
 }
 
-}}
+}}}
