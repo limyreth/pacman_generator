@@ -12,35 +12,9 @@
 #include "error.h"
 #include "assertion.h"
 
-#include <fstream>
-
-#define WNDTITLE	"pacman_sdl (" __DATE__ ", " __TIME__ ")"
+#include <iostream>
 
 Log logtxt;
-
-void Log::print(std::string txt) {
-    std::ofstream file(filename.c_str(), std::ios::app);
-
-    if ( !file)
-        throw_exception("Unable to open logfile");
-
-    file << txt << std::endl;
-
-    file.close();
-}
-
-void Log::setFilename(std::string fn) {
-    filename = std::string(getenv("HOME")) + "/" + fn;
-
-    std::ofstream file(filename.c_str());
-
-    if ( !file)
-        throw_exception("Unable to open logfile");
-
-    file << WNDTITLE << std::endl;
-
-    file.close();
-}
 
 Log::Log()
 {
@@ -52,7 +26,6 @@ Log::~Log()
 
 void Log::log_exception(const std::string str) {
     std::cerr << str << std::endl;
-    print(str);
 }
 
 void Log::log_exception(const std::exception_ptr& ptr) {

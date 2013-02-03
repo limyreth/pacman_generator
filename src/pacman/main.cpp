@@ -54,8 +54,6 @@ int main(int argc, char** argv) {
     gui_main_args.player_index = PLAYER_PACMAN;
 
     try {
-        logtxt.setFilename(".pacman_sdl");
-
         for (int i = 1;i<argc;i++) {
             str=argv[i];
             if (str=="--help") {
@@ -223,8 +221,6 @@ int main(int argc, char** argv) {
 
         GUIMain main;
         main.run(gui_main_args);
-
-        logtxt.print( "Shutdown" );
     }
     catch (...) {
         logtxt.log_exception(std::current_exception());

@@ -19,7 +19,6 @@
 #include "GameStateObserver.h"
 #include "SDLUtility.h"
 #include "../Constants.h"
-#include "../util/Log.h"
 #include "../util/error.h"
 #include "../model/GameState.h"
 #include "../model/PacmanNodes.h"
@@ -104,20 +103,14 @@ void GUI::InitWindow() {
 
     if (screen == NULL)
         throw_exception("Error while setting video mode");
-
-    logtxt.print("Video mode set successfully");
 }
 
 void GUI::InitApp() {
     if ( SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0 )
         throw_exception("Error while initializing SDL");
 
-    logtxt.print("SDL systems initialized");
-
     if ( TTF_Init() < 0 )
         throw_exception("Error while initializing SDL_ttf");
-
-    logtxt.print("SDL_ttf initialized");
 }
 
 void GUI::InitSound() {
@@ -129,8 +122,6 @@ void GUI::InitSound() {
     else {
         snd.reset(new DefaultSounds());
     }
-
-    logtxt.print("Sound initialized");
 }
 
 bool GUI::should_stop() {

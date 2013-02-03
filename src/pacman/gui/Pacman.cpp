@@ -11,7 +11,6 @@
 #include "Pacman.h"
 #include "Draw.h"
 #include "../model/PacmanState.h"
-#include "../util/Log.h"
 #include "../util/error.h"
 
 #include <SDL/SDL.h>
@@ -93,7 +92,6 @@ void Pacman::Draw(const MODEL::PacmanState state) {
 
 
 void Pacman::LoadTextures(std::string path) {
-
     int i,j;
     std::string num[10];
     SDL_PixelFormat *fmt;
@@ -119,9 +117,6 @@ void Pacman::LoadTextures(std::string path) {
                 pacElRot[i][j]=Rotate(pacEl[i],360-(j+1)*90);
         }
     }
-
-
-    logtxt.print("Pacman textures loaded");
 }
 
 Pacman::Pacman(shared_ptr<SDL_Surface> buf, int os)

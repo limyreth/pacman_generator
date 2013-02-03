@@ -12,7 +12,6 @@
 #include "Draw.h"
 #include "../model/GhostState.h"
 #include "../util/error.h"
-#include "../util/Log.h"
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
@@ -74,7 +73,6 @@ void Ghost::LoadTextures(std::string path) {
         SDL_SetColorKey(ghostEl[i].get(),SDL_SRCCOLORKEY|SDL_RLEACCEL,SDL_MapRGB(fmt,255,0,255));
         scale_to_size(ghostEl[i], PLAYER_SIZE);
     }
-    logtxt.print(filename + " ghost textures loaded");
 }
 
 Ghost::Ghost(shared_ptr<SDL_Surface> buf, int os, std::string fn)

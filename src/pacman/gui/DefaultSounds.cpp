@@ -10,7 +10,6 @@
 
 #include "DefaultSounds.h"
 #include "../util/error.h"
-#include "../util/Log.h"
 
 #include <SDL/SDL_mixer.h>
 
@@ -55,8 +54,6 @@ DefaultSounds::DefaultSounds()
         if ( snd[i] == NULL )
             throw_exception(Mix_GetError());
     }
-
-    logtxt.print("Sounds loaded successfully");
 }
 
 DefaultSounds::~DefaultSounds()

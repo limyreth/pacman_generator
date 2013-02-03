@@ -12,7 +12,6 @@
 #include "Draw.h"
 #include "../util/error.h"
 #include "../util/util.h"
-#include "../util/Log.h"
 
 #include <SDL/SDL_image.h>
 
@@ -105,8 +104,6 @@ void BckgrObj::LoadTextures(std::string path) {
             scale_to_size(objEl[i], PLAYER_SIZE);
         }
     }
-
-    logtxt.print("Field textures loaded");
 }
 
 }}
