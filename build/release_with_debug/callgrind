@@ -1,5 +1,5 @@
 #!/bin/sh
 rm generator_saves/*
 rm callgrind.out*
-valgrind --tool=callgrind ./pacman_sdl --generate generator_saves
+valgrind --tool=callgrind --instr-atstart=no ./pacman_sdl --generate generator_saves
 kcachegrind callgrind.out.* &

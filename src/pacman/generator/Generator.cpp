@@ -11,6 +11,8 @@
 #include "Generator.h"
 #include "../util/serialization.h"
 
+#include <valgrind/callgrind.h>
+
 using namespace PACMAN::MODEL;
 using namespace PACMAN::SPECIFICATION;
 
@@ -63,7 +65,10 @@ Generator::Generator(std::istream& in, ChoiceTree& tree)
 void Generator::run() {
     INVARIANTS_ON_EXIT;
     if (!search_complete) {
+        CALLGRIND_START_INSTRUMENTATION;
         minimax();
+        CALLGRIND_STOP_INSTRUMENTATION;
+        CALLGRIND_DUMP_STATS;
     }
 }
 
