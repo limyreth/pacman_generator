@@ -1,0 +1,3 @@
+#!/bin/sh
+rm generator_saves/*
+valgrind --tool=callgrind ./pacman_sdl --generate generator_saves

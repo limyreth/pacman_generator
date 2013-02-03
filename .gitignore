@@ -10,3 +10,5 @@ cmake_install.cmake
 Testing
 CTestTestfile.cmake
 pacman_sdl
+generator_saves
+callgrind.*
