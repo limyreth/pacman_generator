@@ -17,6 +17,7 @@
 #include <SDL/SDL_image.h>
 
 using ::PACMAN::MODEL::TILE_SIZE;
+using ::PACMAN::SPECIFICATION::PLAYER_SIZE;
 using std::shared_ptr;
 
 namespace PACMAN {

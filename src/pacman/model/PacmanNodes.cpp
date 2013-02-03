@@ -22,6 +22,7 @@ using std::endl;
 using std::shared_ptr;
 
 using ::PACMAN::SPECIFICATION::walls;
+using ::PACMAN::SPECIFICATION::PLAYER_SIZE;
 
 namespace PACMAN {
     namespace MODEL {

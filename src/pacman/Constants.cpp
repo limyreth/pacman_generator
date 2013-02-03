@@ -45,6 +45,8 @@ namespace PACMAN {
         const FPoint FRUIT_POS(14 * ::PACMAN::MODEL::TILE_SIZE, 17.5 * ::PACMAN::MODEL::TILE_SIZE);
 
         const int MAX_TICKS_BETWEEN_GHOST_RELEASE = 4 * TICK_RATE;  // 4 seconds
+
+        const double PLAYER_SIZE = 2.0 * ::PACMAN::MODEL::TILE_SIZE * 0.8;
     }
 
     namespace GUI {

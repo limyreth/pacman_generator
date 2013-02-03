@@ -59,6 +59,9 @@ namespace PACMAN {
         extern const IPoint FRUIT_LEFT_TPOS;
         extern const IPoint FRUIT_RIGHT_TPOS;
         extern const FPoint FRUIT_POS;
+
+        // size of ghost/pacman
+        extern const double PLAYER_SIZE;
     }
 
     namespace GUI {
@@ -77,8 +80,6 @@ namespace PACMAN {
 
 #define MAX_ACTION_COUNT 4
 
-// size of ghost/pacman
-#define PLAYER_SIZE (2.0 * TILE_SIZE * 0.8)
 
 #define GHOST_COUNT 4
 #define PLAYER_COUNT (GHOST_COUNT + 1)
