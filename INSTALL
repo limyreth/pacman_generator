@@ -9,14 +9,11 @@ Dependencies:
 
 To install, run the following commands:
 
-cd src
-cmake .
+cd build/release
+./cmake_release
 make
 
 
 To run:
 
-src/pacman_sdl
-
-
-Enjoy!
+build/release/pacman_sdl
