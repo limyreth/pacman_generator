@@ -34,22 +34,11 @@ namespace PACMAN {
 void GUIMain::run(const GUIMainArgs& args) {
     GUI::GUI gui(args.gui_args);
 
-    Inputs inputs;
-    for (int player_index = 0; player_index < PLAYER_COUNT; ++player_index) {
-        const auto& path = args.paths.at(player_index);
-        if (!path.empty()) {
-            vector<Action> vpath(path.begin(), path.end());
-            inputs.push_back(shared_ptr<Input>(new PlaybackInput(vpath)));
-        }
-        else {
-            if (player_index == args.player_index) {
-                inputs.push_back(shared_ptr<Input>(new DirectionInput(gui)));
-            }
-            else {
-                inputs.push_back(shared_ptr<Input>(new ZeroInput));
-            }
-        }
+    Inputs inputs = Game::make_inputs(args.paths);
+    if (args.paths.at(args.player_index).empty()) {
+        inputs.at(args.player_index).reset(new DirectionInput(gui));
     }
+
     shared_ptr<RecordedInput> recorded_input(new RecordedInput(inputs.at(args.player_index)));
     inputs.at(args.player_index) = recorded_input;
 

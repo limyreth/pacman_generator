@@ -20,7 +20,7 @@ namespace PACMAN {
 
     struct GUIMainArgs {
         GUI::GUIArgs gui_args;
-        std::vector<std::list<MODEL::Action>> paths;
+        std::vector<std::vector<MODEL::Action>> paths;
         bool pause_at_end;
         int quit_at_step;
         int player_index;
