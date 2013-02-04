@@ -23,6 +23,7 @@ using std::cout;
 using std::endl;
 using std::shared_ptr;
 using std::make_pair;
+using namespace ::PACMAN::SPECIFICATION;
 
 namespace PACMAN {
     namespace MODEL {

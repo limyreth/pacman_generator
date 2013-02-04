@@ -23,8 +23,6 @@ using ::PACMAN::MODEL::Ghosts;
 using ::PACMAN::MODEL::PacmanState;
 using ::PACMAN::MODEL::ExternalGameState;
 using ::PACMAN::MODEL::Action;
-using ::PACMAN::MODEL::PLAYER_PACMAN;
-using ::PACMAN::MODEL::GHOST_BLINKY;
 using namespace ::PACMAN::SPECIFICATION;
 
 namespace PACMAN {

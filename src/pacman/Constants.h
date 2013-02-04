@@ -16,7 +16,7 @@
 
 namespace PACMAN {
 
-    namespace MODEL {
+    namespace SPECIFICATION {
         // player indices
         extern const unsigned int PLAYER_PACMAN;
 
@@ -28,9 +28,7 @@ namespace PACMAN {
 
         // max allowable error on positions, due to floating point inaccuracies
         extern const float MAX_ROUNDING_ERROR;
-    }
 
-    namespace SPECIFICATION {
         // ticks per second
         extern const int TICK_RATE;
 

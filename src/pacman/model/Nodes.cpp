@@ -24,7 +24,7 @@ using std::endl;
 using std::shared_ptr;
 using std::string;
 
-using ::PACMAN::SPECIFICATION::walls;
+using namespace ::PACMAN::SPECIFICATION;
 
 namespace PACMAN {
     namespace MODEL {

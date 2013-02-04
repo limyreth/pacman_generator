@@ -28,6 +28,7 @@
 
 using namespace PACMAN;
 using namespace MODEL;
+using namespace SPECIFICATION;
 using TEST::test;
 using GENERATOR::GeneratorMain;
 

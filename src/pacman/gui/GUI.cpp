@@ -207,7 +207,7 @@ void GUI::render(const MODEL::GameState& state) {
     // DRAW FIELD + SPRITES
     ((BckgrObj*)objects[0])->Draw(state.get_foods(), state.is_fruit_spawned(), gui_args.show_food);
     ((Pacman*)objects[1])->Draw((const MODEL::PacmanState&)state.get_player(0));
-    for (int i=0; i<GHOST_COUNT; ++i) {
+    for (unsigned int i=0u; i<GHOST_COUNT; ++i) {
         ((Ghost*)objects[i+2])->Draw((const MODEL::GhostState&)state.get_player(i+1));
     }
 

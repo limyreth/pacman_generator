@@ -23,6 +23,7 @@ using std::min;
 using std::cout;
 using std::endl;
 using std::string;
+using namespace ::PACMAN::SPECIFICATION;
 
 namespace PACMAN {
     namespace MODEL {

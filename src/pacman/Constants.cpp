@@ -12,7 +12,7 @@
 
 namespace PACMAN {
 
-    namespace MODEL {
+    namespace SPECIFICATION {
         const unsigned int PLAYER_PACMAN = 0u;
         const unsigned int GHOST_BLINKY = 0u;
         const unsigned int GHOST_PINKY = 1u;
@@ -20,9 +20,7 @@ namespace PACMAN {
         const unsigned int GHOST_CLYDE = 3u;
 
         const float MAX_ROUNDING_ERROR = 1e-3f;
-    }
 
-    namespace SPECIFICATION {
         const int TICK_RATE = 60;
 
         const float NORMAL_PACMAN_SPEED = 0.8f;

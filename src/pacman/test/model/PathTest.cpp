@@ -19,6 +19,7 @@ using std::endl;
 using std::vector;
 using std::shared_ptr;
 
+using namespace ::PACMAN::SPECIFICATION;
 using namespace ::PACMAN::MODEL;
 using namespace ::PACMAN::RUN;
 
