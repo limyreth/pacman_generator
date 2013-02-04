@@ -23,6 +23,8 @@ namespace PACMAN {
             PacmanState(const int origin_id, const int destination_id, FPoint pos); // Only for testing
             PacmanState(const Node& initial_node);
 
+            float move(float distance, unsigned int player_index);
+
             virtual IPoint get_tile_pos() const;
             bool operator==(const PacmanState&) const;
 

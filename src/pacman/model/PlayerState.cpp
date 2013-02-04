@@ -52,11 +52,10 @@ PlayerState::PlayerState(const Node& initial_node)
 /*
  * Move player distance_moved px towards destination, ...
  */
-float PlayerState::move(float distance_moved, unsigned int player_index) {
+float PlayerState::move(float distance_moved) {
     INVARIANTS_ON_EXIT;
     REQUIRE(distance_moved >= 0.0f);
     REQUIRE(!has_reached_destination());
-    REQUIRE(player_index < PLAYER_COUNT);
 
     FPoint direction = destination->get_location() - pos;
     float movement_excess = distance_moved - direction.length();

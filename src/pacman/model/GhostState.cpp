@@ -44,12 +44,13 @@ GhostState::GhostState(const Node& initial_node)
 // player_index: current player
 float GhostState::move(float distance, unsigned int player_index) {
     INVARIANTS_ON_EXIT;
+    REQUIRE(player_index-1 < GHOST_COUNT);
 
     if (state == WAITING) {
         return -1.0f;
     }
 
-    float movement_excess = PlayerState::move(distance, player_index);
+    float movement_excess = PlayerState::move(distance);
     float retval;
 
     BOOST_SCOPE_EXIT(&retval, &state) {
@@ -80,7 +81,7 @@ float GhostState::move(float distance, unsigned int player_index) {
             else {
                 destination = &GHOST_NODES.get_node_towards_spawn(*destination);
             }
-            return retval = move(movement_excess, player_index);
+            return retval = PlayerState::move(movement_excess);
         }
     }
 }

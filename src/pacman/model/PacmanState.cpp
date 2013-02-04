@@ -13,7 +13,7 @@
 #include "../util/util.h"
 #include "../specification/Walls.h"
 
-using ::PACMAN::SPECIFICATION::walls;
+using namespace ::PACMAN::SPECIFICATION;
 
 namespace PACMAN {
     namespace MODEL {
@@ -57,6 +57,14 @@ IPoint PacmanState::get_tile_pos() const {
 
 const Nodes& PacmanState::get_nodes() const {
     return PACMAN_NODES;
+}
+
+float PacmanState::move(float distance, unsigned int player_index) {
+#ifndef NDEBUG
+    REQUIRE(player_index == PLAYER_PACMAN);
+#endif
+
+    return PlayerState::move(distance);
 }
 
 }}
