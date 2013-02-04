@@ -56,7 +56,7 @@ namespace PACMAN {
 
             int get_score() const;
             int get_depth() const;  // current depth in the tree, depth is 0-based index
-            int get_max_depth() const;  // inclusive max
+            unsigned int get_max_depth() const;  // inclusive max
             double get_completion() const;
 
             const GENERATOR::ChoiceNode& get() const;

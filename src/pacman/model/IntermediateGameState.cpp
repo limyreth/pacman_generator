@@ -24,8 +24,8 @@ namespace PACMAN {
 IntermediateGameState::IntermediateGameState(const GameState predecessor)
 :   predecessor(predecessor),
     successor(predecessor),
-    state(ABOUT_TO_ACT),
-    suppress_action(false)
+    suppress_action(false),
+    state(ABOUT_TO_ACT)
 {
     for (int i=0; i < PLAYER_COUNT; ++i) {
         movement_excess[i] = 0.0;
@@ -118,7 +118,8 @@ unsigned char IntermediateGameState::get_action_count(int player_index) const {
             return 0;
         }
     }
-    else if (state == ABOUT_TO_ACT) {
+    else {
+        ASSERT(state == ABOUT_TO_ACT);
         return successor.get_player(player_index).get_action_count();
     }
 }

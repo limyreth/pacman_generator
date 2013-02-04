@@ -51,12 +51,12 @@ void PacmanGameTree::child(const vector<Action>& actions) {
     INVARIANTS_ON_EXIT;
     REQUIRE(initialised);
     REQUIRE(actions.size() == PLAYER_COUNT);
-    const int old_states_size = states.size();
+    const auto old_states_size = states.size();
 
     auto intermediate = states.back().act(actions, state_observer);
     progress_game_until_choice(intermediate);
 
-    ENSURE(states.size() == old_states_size + 1);
+    ENSURE(states.size() == old_states_size + 1u);
 }
 
 bool PacmanGameTree::is_leaf() const {
@@ -129,7 +129,7 @@ bool PacmanGameTree::operator==(const GameTree& generic_o) const {
         return false;
     }
 
-    for (int i=0; i < states.size(); ++i) {
+    for (unsigned int i=0u; i < states.size(); ++i) {
         if (o.states.at(i) != states.at(i)) {
             return false;
         }

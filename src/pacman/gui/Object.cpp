@@ -19,8 +19,6 @@ namespace PACMAN {
     namespace GUI {
 
 shared_ptr<SDL_Surface> Object::Rotate(shared_ptr<SDL_Surface> src, int angle, double zoomx, double zoomy) {
-    SDL_PixelFormat *fmt;
-
     if (!(angle < 360 && angle >= 0 && angle % 90 == 0))
         return src;
 

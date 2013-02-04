@@ -46,7 +46,7 @@ int GeneratorMain::find_previous_state() {
     // find file with largest number
     dirent* entry;
     int max_number = 0;
-    while (entry = readdir(dir)) {
+    while ((entry = readdir(dir))) {
         std::stringstream str;
         str << entry->d_name;
         int num;

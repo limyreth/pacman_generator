@@ -37,44 +37,42 @@ GameState::GameState()
 }
 
 GameState::GameState(const GameState& s)
-: pacman(s.pacman),
-  ghosts(s.ghosts),
-  food_count(s.food_count),
-  score(s.score),
-  lives(s.lives),
-  ghost_score(s.ghost_score),
-  ate_energizer(s.ate_energizer),
-  triggered_fruit_spawn(s.triggered_fruit_spawn),
-  vulnerable_ticks_left(s.vulnerable_ticks_left),
-  fruit_ticks_left(s.fruit_ticks_left),
-  idler_ticks_left(s.idler_ticks_left),
-  ghost_release_ticks_left(s.ghost_release_ticks_left),
-  state(s.state)
+:   pacman(s.pacman),
+    ghosts(s.ghosts),
+    foods(s.foods),
+    food_count(s.food_count),
+    score(s.score),
+    lives(s.lives),
+    ghost_score(s.ghost_score),
+    ate_energizer(s.ate_energizer),
+    triggered_fruit_spawn(s.triggered_fruit_spawn),
+    vulnerable_ticks_left(s.vulnerable_ticks_left),
+    fruit_ticks_left(s.fruit_ticks_left),
+    idler_ticks_left(s.idler_ticks_left),
+    ghost_release_ticks_left(s.ghost_release_ticks_left),
+    state(s.state)
 {
-  foods = s.foods;
 }
 
 /**
  * Start new game
  */
 GameState::GameState(const Node& pacman_spawn, const vector<Node*> ghost_spawns)
-:   food_count(MAX_FOOD_COUNT),
+:   pacman(pacman_spawn),
+    foods(start_foods),
+    food_count(MAX_FOOD_COUNT),
     score(0),
     lives(1),
-    fruit_ticks_left(-1),
-    vulnerable_ticks_left(-1),
-    ghost_release_ticks_left(MAX_TICKS_BETWEEN_GHOST_RELEASE),
-    idler_ticks_left(0),
+    ghost_score(200),
     ate_energizer(false),
     triggered_fruit_spawn(false),
-    state(NEW_GAME),
-    foods(start_foods),
-    ghost_score(200)
+    vulnerable_ticks_left(-1),
+    fruit_ticks_left(-1),
+    idler_ticks_left(0),
+    ghost_release_ticks_left(MAX_TICKS_BETWEEN_GHOST_RELEASE),
+    state(NEW_GAME)
 {
     INVARIANTS_ON_EXIT;
-
-
-    pacman = PacmanState(pacman_spawn);
 
     for (int i=0; i<GHOST_COUNT; ++i) {
         ghosts.at(i) = GhostState(*ghost_spawns.at(i));

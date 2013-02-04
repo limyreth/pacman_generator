@@ -24,33 +24,33 @@ namespace PACMAN {
     namespace GENERATOR {
 
 Generator::Generator(ChoiceTree& tree) 
-:   choice_tree(tree),
+:   is_running(false),
+    should_stop(false),
+    choice_tree(tree),
+    paths(choice_tree.get_max_depth()+1),
     child_value(-1),
     child_action(-1),
-    paths(choice_tree.get_max_depth()+1),
-    should_stop(false),
-    search_complete(false),
-    is_running(false)
+    search_complete(false)
 {
     INVARIANTS_ON_EXIT;
     //REQUIRE(choice_tree's player 0 is the MAXing player, all other players are MINs)
-    for (int depth=0; depth <= choice_tree.get_max_depth(); ++depth) {
+    for (unsigned int depth=0u; depth <= choice_tree.get_max_depth(); ++depth) {
         paths.at(depth).reserve(choice_tree.get_max_depth() - depth);
     }
 }
 
 Generator::Generator(std::istream& in, ChoiceTree& tree) 
-:   choice_tree(tree),
-    paths(choice_tree.get_max_depth()+1),
+:   is_running(false),
     should_stop(false),
-    is_running(false)
+    choice_tree(tree),
+    paths(choice_tree.get_max_depth()+1)
 {
     INVARIANTS_ON_EXIT;
     read(in, child_value);
     read(in, child_action);
     read(in, search_complete);
 
-    for (int depth=0; depth <= choice_tree.get_max_depth(); ++depth) {
+    for (unsigned int depth=0u; depth <= choice_tree.get_max_depth(); ++depth) {
         paths.at(depth).reserve(choice_tree.get_max_depth() - depth);
     }
 
@@ -209,7 +209,7 @@ bool Generator::operator==(const Generator& other) const {
         return false;
     }
 
-    for (int i=0; i < paths.size(); ++i) {
+    for (unsigned int i=0u; i < paths.size(); ++i) {
         auto& path = paths.at(i);
         auto& opath = other.paths.at(i);
         if (opath != path || opath.capacity() != path.capacity()) {
@@ -223,7 +223,7 @@ bool Generator::operator==(const Generator& other) const {
 }
 
 void Generator::invariants() const {
-    for (int depth=0; depth <= choice_tree.get_max_depth(); ++depth) {
+    for (unsigned int depth=0u; depth <= choice_tree.get_max_depth(); ++depth) {
         INVARIANT(paths.at(depth).capacity() == choice_tree.get_max_depth() - depth);
     }
 }

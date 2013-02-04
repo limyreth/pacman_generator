@@ -23,9 +23,9 @@ namespace PACMAN {
     namespace GENERATOR {
 
 ChoiceTree::ChoiceTree(GameTree& tree, unsigned int max_choices)
-:   tree(tree),
-    max_choices(max_choices),
-    choices_taken(0)
+:   max_choices(max_choices),
+    choices_taken(0),
+    tree(tree)
 {
     INVARIANTS_ON_EXIT;
     init();
@@ -147,7 +147,7 @@ int ChoiceTree::get_depth() const {
     return choices.size()-1;
 }
 
-int ChoiceTree::get_max_depth() const {
+unsigned int ChoiceTree::get_max_depth() const {
     int retval = max_choices * PLAYER_COUNT;
     ENSURE(retval >= 0);
     return retval;

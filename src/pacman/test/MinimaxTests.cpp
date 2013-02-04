@@ -443,10 +443,10 @@ void MinimaxTests::test_1() {
     GameTree game_tree(root);
     ChoiceTree choice_tree(game_tree, 6);
     GENERATOR::Generator generator(choice_tree);
-    int best_score;
     generator.run();
     ASSERT(generator.get_best_score() == 11);
     ASSERT(game_tree.get_children_visited() == 36);  // if more is pruned, could be nice, but that's suspicious
+    // TODO best_path
 }
 
 }}

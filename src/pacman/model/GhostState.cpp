@@ -116,7 +116,7 @@ const Nodes& GhostState::get_nodes() const {
 }
 
 bool GhostState::is_leaving_pen() const {
-    GHOST_NODES.is_spawn_node(origin);
+    return GHOST_NODES.is_spawn_node(origin);
 }
 
 bool GhostState::can_reverse() const {

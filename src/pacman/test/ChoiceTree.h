@@ -13,8 +13,9 @@
 #include "../generator/ChoiceTree.h"
 #include "../model/Action.h"
 
-namespace PACMAN {
+#include <list>
 
+namespace PACMAN {
     namespace TEST {
 
         class ChoiceTree : public GENERATOR::ChoiceTree

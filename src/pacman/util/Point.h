@@ -106,6 +106,7 @@ public:
 template <typename T>
 std::ostream& operator<< (std::ostream& out, Point<T> p) {
     out << "(" << p.x << ", " << p.y << ")";
+    return out;
 }
 
 typedef Point<int> IPoint;

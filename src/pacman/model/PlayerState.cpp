@@ -34,16 +34,16 @@ PlayerState::PlayerState()
 }
 
 PlayerState::PlayerState(const Node* origin, const Node* destination, FPoint pos)
-:   pos(pos / ::PACMAN::GUI::TILE_SIZE),
-    origin(origin),
-    destination(destination)
+:   origin(origin),
+    destination(destination),
+    pos(pos / ::PACMAN::GUI::TILE_SIZE)
 {
 }
 
 PlayerState::PlayerState(const Node& initial_node) 
-:   pos(initial_node.get_location()), 
-    origin(NULL),
-    destination(&initial_node)
+:   origin(NULL),
+    destination(&initial_node),
+    pos(initial_node.get_location())
 {
     INVARIANTS_ON_EXIT;
 }
@@ -156,7 +156,7 @@ unsigned char PlayerState::get_action_count() const {
     }
     else {
         int count = 0;
-        for (int i = 0; i < destination->get_neighbours().size(); ++i) {
+        for (unsigned int i = 0u; i < destination->get_neighbours().size(); ++i) {
             if (!is_reversing_action(i)) {
                 count++;
             }
@@ -199,7 +199,7 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
 
     float best_dot_prod = -1.0f; // worst = -1, best = 1
     Action best_action = -1;
-    for (int i=0; i < destination->get_neighbours().size(); ++i) {
+    for (unsigned int i=0u; i < destination->get_neighbours().size(); ++i) {
         if (is_reversing_action(i)) {
             continue;
         }

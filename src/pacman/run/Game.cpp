@@ -33,8 +33,8 @@ namespace PACMAN {
     namespace RUN {
 
 Game::Game()
-:   state(IntermediateGameState::new_game()),
-    steps(0),
+:   steps(0),
+    state(IntermediateGameState::new_game()),
     initialised(false)
 {
 }

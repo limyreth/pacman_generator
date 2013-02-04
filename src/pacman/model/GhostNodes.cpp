@@ -30,8 +30,8 @@ namespace PACMAN {
 const GhostNodes GHOST_NODES;
 
 GhostNodes::GhostNodes() 
-:   spawns(GHOST_COUNT),
-    respawns(GHOST_COUNT)
+:   respawns(GHOST_COUNT),
+    spawns(GHOST_COUNT)
 {
     left_tunnel_node = nodes.at(at(6, 14));
     right_tunnel_node = nodes.at(at(MAP_WIDTH-7, 14));

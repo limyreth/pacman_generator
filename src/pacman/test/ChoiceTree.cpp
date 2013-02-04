@@ -27,7 +27,7 @@ ChoiceTree::ChoiceTree(GENERATOR::GameTree& tree, unsigned int max_choices)
 
 int ChoiceTree::parent() {
     cout << "parent" << endl;
-    GENERATOR::ChoiceTree::parent();
+    return GENERATOR::ChoiceTree::parent();
 }
 
 bool ChoiceTree::next_child() {
