@@ -27,28 +27,28 @@ namespace PACMAN {
         extern const int GHOST_CLYDE;
 
         // max allowable error on positions, due to floating point inaccuracies
-        extern const double MAX_ROUNDING_ERROR;
+        extern const float MAX_ROUNDING_ERROR;
     }
 
     namespace SPECIFICATION {
         // ticks per second
         extern const int TICK_RATE;
 
-        extern const double NORMAL_PACMAN_SPEED;
-        extern const double ENERGETIC_PACMAN_SPEED;
-        extern const double GHOST_TUNNEL_SPEED;
-        extern const double GHOST_VULNERABLE_SPEED;
-        extern const double ELROY2_SPEED;
-        extern const double ELROY1_SPEED;
-        extern const double GHOST_NORMAL_SPEED;
-        extern const double DEAD_GHOST_SPEED;
+        extern const float NORMAL_PACMAN_SPEED;
+        extern const float ENERGETIC_PACMAN_SPEED;
+        extern const float GHOST_TUNNEL_SPEED;
+        extern const float GHOST_VULNERABLE_SPEED;
+        extern const float ELROY2_SPEED;
+        extern const float ELROY1_SPEED;
+        extern const float GHOST_NORMAL_SPEED;
+        extern const float DEAD_GHOST_SPEED;
 
         // the amount of ticks ghosts are vulnerable
         extern const int VULNERABLE_TICKS;
         // the amount of ticks fruit stays on the map after spawning
         extern const int FRUIT_TICKS;
         // 100% speed expressed in tiles per tick.
-        extern const double FULL_SPEED;
+        extern const float FULL_SPEED;
 
         // the max allowed ticks between releasing ghosts from the ghost pen
         // If exceeded, a ghost is forced to leave
@@ -61,7 +61,7 @@ namespace PACMAN {
         extern const FPoint FRUIT_POS;
 
         // size of ghost/pacman
-        extern const double PLAYER_SIZE;
+        extern const float PLAYER_SIZE;
     }
 
     namespace GUI {
@@ -72,7 +72,7 @@ namespace PACMAN {
         extern const int TILE_SIZE;
 
         // pixel size of ghost/pacman
-        extern const double PLAYER_SIZE;
+        extern const float PLAYER_SIZE;
     }
 
 }

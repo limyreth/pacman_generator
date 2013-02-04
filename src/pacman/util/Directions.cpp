@@ -13,10 +13,10 @@
 namespace PACMAN {
 
 const FPoint DIRECTIONS[] = {
-    FPoint(0.0, -1.0),
-    FPoint(1.0, 0.0),
-    FPoint(0.0, 1.0),
-    FPoint(-1.0, 0.0)
+    FPoint(0.0f, -1.0f),
+    FPoint(1.0f, 0.0f),
+    FPoint(0.0f, 1.0f),
+    FPoint(-1.0f, 0.0f)
 };
 
 }

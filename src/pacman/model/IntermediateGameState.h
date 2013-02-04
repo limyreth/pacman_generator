@@ -46,7 +46,7 @@ namespace PACMAN {
         private:
             GameState predecessor;
             GameState successor;
-            double movement_excess[PLAYER_COUNT];
+            float movement_excess[PLAYER_COUNT];
             bool suppress_action;
 
             enum State {

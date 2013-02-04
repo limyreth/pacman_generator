@@ -59,25 +59,25 @@ public:
         return p2 -= p;
     }
 
-    Point<T>& operator *= (double a) {
+    Point<T>& operator *= (float a) {
         this->x *= a;
         this->y *= a;
         return *this;
     }
 
-    Point<T> operator * (double a) const {
+    Point<T> operator * (float a) const {
         Point<T> p2(*this);
         return p2 *= a;
     }
 
-    Point<T>& operator /= (double a) {
-        REQUIRE(a != 0.0);
+    Point<T>& operator /= (float a) {
+        REQUIRE(a != 0.0f);
         this->x /= a;
         this->y /= a;
         return *this;
     }
 
-    Point<T> operator / (double a) const {
+    Point<T> operator / (float a) const {
         Point<T> p2(*this);
         return p2 /= a;
     }
@@ -109,6 +109,6 @@ std::ostream& operator<< (std::ostream& out, Point<T> p) {
 }
 
 typedef Point<int> IPoint;
-typedef Point<double> FPoint;
+typedef Point<float> FPoint;
 
 }

@@ -75,8 +75,8 @@ namespace PACMAN {
              */
             void init_successor(const GameState& predecessor);
             bool progress_timers(const GameState& predecessor, GameStateObserver& uihints);
-            void initial_movement(const GameState& predecessor, GameStateObserver& uihints, double movement_excess[]);
-            bool act(const std::vector<Action>& actions, const GameState& predecessor, GameStateObserver&, const double movement_excess[]);
+            void initial_movement(const GameState& predecessor, GameStateObserver& uihints, float movement_excess[]);
+            bool act(const std::vector<Action>& actions, const GameState& predecessor, GameStateObserver&, const float movement_excess[]);
 
             //
             bool operator==(const GameState&) const;
@@ -116,7 +116,7 @@ namespace PACMAN {
             bool is_elroy1(int ghost_index) const;
             bool is_elroy2(int ghost_index) const;
 
-            double get_speed(int player_index);
+            float get_speed(int player_index);
 
         private:
             PacmanState pacman;

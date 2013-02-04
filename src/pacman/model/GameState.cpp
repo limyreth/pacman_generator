@@ -163,7 +163,7 @@ bool GameState::progress_timers(const GameState& pre, GameStateObserver& observe
     return allow_reversing;
 }
 
-void GameState::initial_movement(const GameState& pre, GameStateObserver& observer, double movement_excess[]) {
+void GameState::initial_movement(const GameState& pre, GameStateObserver& observer, float movement_excess[]) {
     INVARIANTS_ON_EXIT;
     REQUIRE(state == TIME_PROGRESSED);
     state = TRANSITIONING;
@@ -186,7 +186,7 @@ void GameState::initial_movement(const GameState& pre, GameStateObserver& observ
  *
  * Returns true if pacman is to be given the choice to reverse direction
  */
-bool GameState::act(const vector<Action>& actions, const GameState& pre, GameStateObserver& observer, const double movement_excess[]) {
+bool GameState::act(const vector<Action>& actions, const GameState& pre, GameStateObserver& observer, const float movement_excess[]) {
     INVARIANTS_ON_EXIT;
     //REQUIRE(actions.size() == PLAYER_COUNT);
     REQUIRE(state == INITIAL_MOVED || state == NEW_GAME);
@@ -212,7 +212,7 @@ bool GameState::act(const vector<Action>& actions, const GameState& pre, GameSta
     // finish movement
     for (int i=0; i < PLAYER_COUNT; ++i) {
         auto& player = get_player(i);
-        if (movement_excess[i] >= 0.0) {
+        if (movement_excess[i] >= 0.0f) {
             player.act(actions.at(i));
             player.move(movement_excess[i], i);
         }
@@ -542,7 +542,7 @@ int GameState::get_fruit_score() const {
     return 100;
 }
 
-double GameState::get_speed(int player_index) {
+float GameState::get_speed(int player_index) {
     if (player_index == PLAYER_PACMAN) {
         // pacman
         if (idler_ticks_left > 0) {

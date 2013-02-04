@@ -118,8 +118,8 @@ void Nodes::ensure_valid(const vector<Node*>& nodes, const vector<Node*>& all_no
 // check node
 void Nodes::ensure_valid(const Node* node, const vector<Node*>& all_nodes) const {
     // within map bounds
-    ENSURE(node->location.x > 0.0);
-    ENSURE(node->location.y > 0.0);
+    ENSURE(node->location.x > 0.0f);
+    ENSURE(node->location.y > 0.0f);
     ENSURE(node->location.x < MAP_WIDTH);
     ENSURE(node->location.y < MAP_HEIGHT);
 
@@ -166,8 +166,8 @@ void Nodes::draw(shared_ptr<SDL_Surface> screen, const Node& node, uint32_t node
 }
 
 
-double Nodes::get_branching_factor(const vector<Node*>& nodes) const {
-    double branching_factor = 0.0;
+float Nodes::get_branching_factor(const vector<Node*>& nodes) const {
+    float branching_factor = 0.0f;
     int count = 0;
     for (auto node : nodes) {
         if (node) {

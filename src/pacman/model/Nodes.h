@@ -56,7 +56,7 @@ namespace PACMAN {
 
             int get_id(const Node& node, const std::vector<Node*>& nodes) const;
 
-            double get_branching_factor(const std::vector<Node*>& nodes) const;
+            float get_branching_factor(const std::vector<Node*>& nodes) const;
 
             void print_nodes(std::ostream& out, const std::vector<Node*>& nodes, std::string name) const;
             void print_node(std::ostream& out, Node& node, std::string name) const;

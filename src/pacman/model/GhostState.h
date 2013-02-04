@@ -29,7 +29,7 @@ namespace PACMAN {
             GhostState(const int origin_id, const int destination_id, FPoint pos, State state, bool vulnerable); // Only for testing
             GhostState(const Node& initial_node);
 
-            double move(double distance, int player_index);
+            float move(float distance, int player_index);
             void act(Action action);
             bool can_reverse() const;
             void print(std::ostream& out, std::string prefix, std::string name) const;

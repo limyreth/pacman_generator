@@ -118,7 +118,7 @@ void SpeedTests::test_elroy() {
     auto p1 = state.get_player(GHOST_BLINKY+1).get_pixel_pos();
     state = test.run(2519 + 1);
     auto p2 = state.get_player(GHOST_BLINKY+1).get_pixel_pos();
-    ASSERT((p2 - p1).length() - FULL_SPEED * ELROY1_SPEED < 1e-10);
+    ASSERT((p2 - p1).length() - FULL_SPEED * ELROY1_SPEED < MAX_ROUNDING_ERROR);
 
     // elroy1 becomes elroy2 at 10 food left: 2690
     state = test.run(2690);
@@ -127,15 +127,15 @@ void SpeedTests::test_elroy() {
     state = test.run(2690 + 1);
     p2 = state.get_player(GHOST_BLINKY+1).get_pixel_pos();
     auto pinky2 = state.get_player(GHOST_PINKY+1).get_pixel_pos();
-    ASSERT((p2 - p1).length() - FULL_SPEED * ELROY2_SPEED < 1e-10);
-    ASSERT((pinky2 - pinky1).length() - FULL_SPEED * GHOST_NORMAL_SPEED < 1e-10);
+    ASSERT((p2 - p1).length() - FULL_SPEED * ELROY2_SPEED < MAX_ROUNDING_ERROR);
+    ASSERT((pinky2 - pinky1).length() - FULL_SPEED * GHOST_NORMAL_SPEED < MAX_ROUNDING_ERROR);
 
     // ghosts become vulnerable
     state = test.run(2962);
     p1 = state.get_player(GHOST_BLINKY+1).get_pixel_pos();
     state = test.run(2962 + 1);
     p2 = state.get_player(GHOST_BLINKY+1).get_pixel_pos();
-    ASSERT((p2 - p1).length() - FULL_SPEED * GHOST_VULNERABLE_SPEED < 1e-10);
+    ASSERT((p2 - p1).length() - FULL_SPEED * GHOST_VULNERABLE_SPEED < MAX_ROUNDING_ERROR);
 }
 
 }}}

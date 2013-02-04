@@ -51,18 +51,18 @@ PlayerState::PlayerState(const Node& initial_node)
 /*
  * Move player distance_moved px towards destination, ...
  */
-double PlayerState::move(double distance_moved, int player_index) {
+float PlayerState::move(float distance_moved, int player_index) {
     INVARIANTS_ON_EXIT;
-    REQUIRE(distance_moved >= 0.0);
+    REQUIRE(distance_moved >= 0.0f);
     REQUIRE(!has_reached_destination());
     REQUIRE(player_index >= 0);
     REQUIRE(player_index < PLAYER_COUNT);
 
     FPoint direction = destination->get_location() - pos;
-    double movement_excess = distance_moved - direction.length();
+    float movement_excess = distance_moved - direction.length();
 
-    if (distance_moved > 0.0) {
-        double distance_moved_towards_destination = min(direction.length(), distance_moved);
+    if (distance_moved > 0.0f) {
+        float distance_moved_towards_destination = min(direction.length(), distance_moved);
 
         // move towards destination
         if (get_nodes().are_connected_through_wrapping(*origin, *destination)) {
@@ -72,20 +72,20 @@ double PlayerState::move(double distance_moved, int player_index) {
         pos += direction * distance_moved_towards_destination;
 
         // wrap screen when hitting left/right edge of tunnel
-        if (pos.x < 0) {
+        if (pos.x < 0.0f) {
             pos.x += MAP_WIDTH;
         }
         else if (pos.x >= MAP_WIDTH) {
             pos.x -= MAP_WIDTH;
         }
 
-        if (has_reached_destination() && movement_excess > MAX_ROUNDING_ERROR && movement_excess < 0.0) {
+        if (has_reached_destination() && movement_excess > MAX_ROUNDING_ERROR && movement_excess < 0.0f) {
             // deal with rounding error
-            movement_excess = 0.0;
+            movement_excess = 0.0f;
         }
     }
 
-    ENSURE(has_reached_destination() == (movement_excess >= 0.0));
+    ENSURE(has_reached_destination() == (movement_excess >= 0.0f));
     return movement_excess;
 }
 
@@ -197,7 +197,7 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
 
     auto direction = DIRECTIONS[(int)direction_];
 
-    double best_dot_prod = -1.0; // worst = -1, best = 1
+    float best_dot_prod = -1.0f; // worst = -1, best = 1
     Action best_action = -1;
     for (int i=0; i < destination->get_neighbours().size(); ++i) {
         if (is_reversing_action(i)) {
@@ -211,9 +211,9 @@ Action PlayerState::get_action_along_direction(Direction::Type direction_) const
             dir = -dir;
         }
 
-        double dot_prod = dir.dot_product(direction);
-        ASSERT(dot_prod >= -1.0);
-        ASSERT(dot_prod <= 1.0);
+        float dot_prod = dir.dot_product(direction);
+        ASSERT(dot_prod >= -1.0f);
+        ASSERT(dot_prod <= 1.0f);
 
         if (dot_prod >= best_dot_prod) {
             best_action = i;
@@ -234,8 +234,8 @@ bool PlayerState::operator==(const PlayerState& o) const {
 }
 
 void PlayerState::invariants() const {
-    INVARIANT(pos.x >= 0);
-    INVARIANT(pos.y >= 0);
+    INVARIANT(pos.x >= 0.0f);
+    INVARIANT(pos.y >= 0.0f);
     INVARIANT(pos.x < MAP_WIDTH);
     INVARIANT(pos.y < MAP_HEIGHT);
     INVARIANT(destination != NULL);

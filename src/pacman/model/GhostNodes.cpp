@@ -86,13 +86,13 @@ void GhostNodes::add_respawn_paths() {
     // Overall structure: like an A* search with distance as cost, PINKY spawn as origin, and no destination/goal
     ensure_valid(nodes, nodes);  // =REQUIRE
 
-    std::multimap<double, const Node*> fringe;
+    std::multimap<float, const Node*> fringe;
 
-    fringe.insert(make_pair(0.0, spawns.at(GHOST_PINKY)));
+    fringe.insert(make_pair(0.0f, spawns.at(GHOST_PINKY)));
 
     while (!fringe.empty()) {
         auto it = fringe.begin();
-        const double cost = (*it).first;
+        const float cost = (*it).first;
         const Node* node = (*it).second;
         fringe.erase(it);
 
@@ -101,7 +101,7 @@ void GhostNodes::add_respawn_paths() {
         }
 
         for (const auto neighbour : node->get_neighbours()) {
-            double neighbour_cost = cost + (neighbour->get_location() - node->get_location()).length();
+            float neighbour_cost = cost + (neighbour->get_location() - node->get_location()).length();
 
             if (neighbour_cost < get_cost(*neighbour)) {
                 // found a better path to this neighbour
@@ -118,8 +118,8 @@ void GhostNodes::add_respawn_paths() {
         if (!node) continue;
 
         ENSURE(min_costs.find(node) != min_costs.end());
-        ENSURE(min_costs.find(node)->second != std::numeric_limits<double>::infinity());
-        ENSURE(min_costs.find(node)->second >= 0);
+        ENSURE(min_costs.find(node)->second != std::numeric_limits<float>::infinity());
+        ENSURE(min_costs.find(node)->second >= 0.0f);
 
         ENSURE(towards_spawn.find(node) != towards_spawn.end());
         ENSURE(towards_spawn.find(node)->second != NULL);
@@ -154,11 +154,11 @@ void GhostNodes::draw_respawn_paths(shared_ptr<SDL_Surface> screen) const {
         // offset along origin-destination
         auto offset = o - d;
         offset.normalise();
-        offset.x *= 12;
-        offset.y *= 12;
+        offset.x *= 12.0f;
+        offset.y *= 12.0f;
 
         // offset perpendicular to o-d
-        FPoint perpendicular_offset(offset.y / 2.0, offset.x / 2.0);
+        FPoint perpendicular_offset(offset.y / 2.0f, offset.x / 2.0f);
 
         auto p1 = d + offset + perpendicular_offset;
         auto p2 = d + offset - perpendicular_offset;
@@ -167,12 +167,12 @@ void GhostNodes::draw_respawn_paths(shared_ptr<SDL_Surface> screen) const {
     }
 }
 
-double GhostNodes::get_cost(const Node& node) const {
+float GhostNodes::get_cost(const Node& node) const {
     //REQUIRE(node in nodes.union(blinky spawn))
     //ENSURE(retval != infinity after ctor)
     auto current_min_cost = min_costs.find(&node);
     if (current_min_cost == min_costs.end()) {
-        return std::numeric_limits<double>::infinity();
+        return std::numeric_limits<float>::infinity();
     }
     else {
         return (*current_min_cost).second;
