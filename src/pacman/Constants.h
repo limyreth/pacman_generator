@@ -82,8 +82,6 @@ namespace PACMAN {
 #define MAP_WIDTH 28
 #define MAP_HEIGHT 31
 
-#define MAX_ACTION_COUNT 4
-
 #define GHOST_COUNT 4u
 #define PLAYER_COUNT (GHOST_COUNT + 1u)
 
