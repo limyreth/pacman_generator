@@ -31,7 +31,7 @@ PathTest::PathTest(const std::vector<Action>& path)
 {
 }
 
-PathTest::PathTest(int player_index, const std::vector<Action>& path)
+PathTest::PathTest(unsigned int player_index, const std::vector<Action>& path)
 :   DefaultGameObserver(player_index, shared_ptr<Input>(new PlaybackInput(path)))
 {
 }

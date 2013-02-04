@@ -27,7 +27,7 @@ IntermediateGameState::IntermediateGameState(const GameState predecessor)
     suppress_action(false),
     state(ABOUT_TO_ACT)
 {
-    for (int i=0; i < PLAYER_COUNT; ++i) {
+    for (unsigned int i = 0u; i < PLAYER_COUNT; ++i) {
         movement_excess[i] = 0.0;
     }
 }
@@ -37,7 +37,7 @@ IntermediateGameState IntermediateGameState::new_game() {
 }
 
 bool IntermediateGameState::operator==(const IntermediateGameState& o) const {
-    for (int i=0; i < PLAYER_COUNT; ++i) {
+    for (unsigned int i = 0u; i < PLAYER_COUNT; ++i) {
         if (o.movement_excess[i] != movement_excess[i]) {
             return false;
         }
@@ -55,7 +55,7 @@ IntermediateGameState IntermediateGameState::act(const std::vector<Action>& acti
 
     if (state == REVERSE_ALL_CHOICE) {
         if (!suppress_action) {
-            for (int player_index = 0; player_index < PLAYER_COUNT; ++player_index) {
+            for (unsigned int player_index = 0u; player_index < PLAYER_COUNT; ++player_index) {
                 if (actions.at(player_index) == 1u) {
                     copy.successor.get_player(player_index).reverse();
                 } else {
@@ -98,7 +98,7 @@ IntermediateGameState IntermediateGameState::act(const std::vector<Action>& acti
     return copy;
 }
 
-unsigned int IntermediateGameState::get_action_count(int player_index) const {
+unsigned int IntermediateGameState::get_action_count(unsigned int player_index) const {
     REQUIRE(state != GAME_OVER);
     if (suppress_action) {
         return 0u;
@@ -124,7 +124,7 @@ unsigned int IntermediateGameState::get_action_count(int player_index) const {
     }
 }
 
-Action IntermediateGameState::get_action_along_direction(int player_index, Direction::Type direction) const {
+Action IntermediateGameState::get_action_along_direction(unsigned int player_index, Direction::Type direction) const {
     REQUIRE(state != GAME_OVER);
     REQUIRE(get_action_count(player_index) > 0u);
     if (state == ABOUT_TO_ACT) {

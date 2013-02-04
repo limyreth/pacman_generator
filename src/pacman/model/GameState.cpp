@@ -74,7 +74,7 @@ GameState::GameState(const Node& pacman_spawn, const vector<Node*> ghost_spawns)
 {
     INVARIANTS_ON_EXIT;
 
-    for (int i=0; i<GHOST_COUNT; ++i) {
+    for (unsigned int i=0u; i<GHOST_COUNT; ++i) {
         ghosts.at(i) = GhostState(*ghost_spawns.at(i));
     }
 
@@ -169,7 +169,7 @@ void GameState::initial_movement(const GameState& pre, GameStateObserver& observ
     const auto old_vulnerable_ticks_left = vulnerable_ticks_left;
 
     // Move players
-    for (int player_index = 0; player_index < PLAYER_COUNT; player_index++) {
+    for (unsigned int player_index = 0u; player_index < PLAYER_COUNT; player_index++) {
         movement_excess[player_index] = get_player(player_index).move(FULL_SPEED * get_speed(player_index), player_index);
     }
     ENSURE(old_fruit_ticks_left == fruit_ticks_left);
@@ -208,7 +208,7 @@ bool GameState::act(const vector<Action>& actions, const GameState& pre, GameSta
     } BOOST_SCOPE_EXIT_END
 
     // finish movement
-    for (int i=0; i < PLAYER_COUNT; ++i) {
+    for (unsigned int i=0u; i < PLAYER_COUNT; ++i) {
         auto& player = get_player(i);
         if (movement_excess[i] >= 0.0f) {
             player.act(actions.at(i));
@@ -329,16 +329,14 @@ unsigned int GameState::get_vulnerable_ghost_count() const {
     return count;
 }
 
-bool GameState::is_elroy1(int ghost_index) const {
+bool GameState::is_elroy1(unsigned int ghost_index) const {
     REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
-    REQUIRE(ghost_index >= 0);
     REQUIRE(ghost_index < GHOST_COUNT);
     return ghost_index == GHOST_BLINKY && food_count <= 20;
 }
 
-bool GameState::is_elroy2(int ghost_index) const {
+bool GameState::is_elroy2(unsigned int ghost_index) const {
     REQUIRE(state == NEW_GAME || state == ACTED || state == TRANSITIONING);
-    REQUIRE(ghost_index >= 0);
     REQUIRE(ghost_index < GHOST_COUNT);
     return ghost_index == GHOST_BLINKY && food_count <= 10;
 }
@@ -396,7 +394,7 @@ bool GameState::operator==(const GameState& other) const {
         return false;
     }
 
-    for (int i=0; i < GHOST_COUNT; ++i) {
+    for (unsigned int i=0u; i < GHOST_COUNT; ++i) {
         if (other.ghosts.at(i) != ghosts.at(i)) {
             return false;
         }
@@ -423,7 +421,7 @@ bool GameState::is_equivalent_to(const ExternalGameState& o) const {
         return false;
     }
 
-    for (int i=0; i < GHOST_COUNT; ++i) {
+    for (unsigned int i=0u; i < GHOST_COUNT; ++i) {
         if (o.ghosts.at(i) != ghosts.at(i)) {
             return false;
         }
@@ -503,21 +501,21 @@ bool GameState::is_game_over() const {
     return did_pacman_lose() || did_pacman_win();
 }
 
-const PlayerState& GameState::get_player(int index) const {
-    if (index == 0) {
+const PlayerState& GameState::get_player(unsigned int index) const {
+    if (index == 0u) {
         return pacman;
     }
     else {
-        return ghosts.at(index-1);
+        return ghosts.at(index-1u);
     }
 }
 
-PlayerState& GameState::get_player(int index) {
-    if (index == 0) {
+PlayerState& GameState::get_player(unsigned int index) {
+    if (index == 0u) {
         return pacman;
     }
     else {
-        return ghosts.at(index-1);
+        return ghosts.at(index-1u);
     }
 }
 
@@ -540,7 +538,7 @@ int GameState::get_fruit_score() const {
     return 100;
 }
 
-float GameState::get_speed(int player_index) {
+float GameState::get_speed(unsigned int player_index) {
     if (player_index == PLAYER_PACMAN) {
         // pacman
         if (idler_ticks_left > 0) {
@@ -555,7 +553,7 @@ float GameState::get_speed(int player_index) {
         }
     }
     else {
-        const int ghost_i = player_index - 1;
+        const unsigned int ghost_i = player_index - 1u;
         if (ghosts.at(ghost_i).is_dead()) {
             return DEAD_GHOST_SPEED;
         }

@@ -92,7 +92,7 @@ int Generator::get_alpha() const {
 int Generator::get_alpha(int depth) const {
     for (int i = depth; i >= 0; --i) {
         auto node = choice_tree.get(i);
-        if (node.player == 0) {  // is maxing player
+        if (node.player == 0u) {  // is maxing player
             return node.alpha_beta;
         }
     }
@@ -106,7 +106,7 @@ int Generator::get_beta() const {
 int Generator::get_beta(int depth) const {
     for (int i = depth; i >= 0; --i) {
         auto node = choice_tree.get(i);
-        if (node.player != 0) {
+        if (node.player != 0u) {
             return node.alpha_beta;
         }
     }
@@ -133,14 +133,14 @@ void Generator::minimax() {
             if (choice_tree.is_first_child()) {
                 // Start search under a node
                 const ChoiceNode node = choice_tree.get();
-                choice_tree.set_alpha_beta(node.player == 0 ? get_alpha(choice_tree.get_depth()-1) : get_beta(choice_tree.get_depth()-1));
+                choice_tree.set_alpha_beta(node.player == 0u ? get_alpha(choice_tree.get_depth()-1) : get_beta(choice_tree.get_depth()-1));
                 best_path.clear();
             }
             else {
                 auto& child_path = paths.at(choice_tree.get_depth()+1);
 
                 // Process the alpha_beta returned by child
-                bool is_better_child = choice_tree.get().player == 0 ?
+                bool is_better_child = choice_tree.get().player == 0u ?
                         child_value > get_alpha() :
                         child_value < get_beta();
 

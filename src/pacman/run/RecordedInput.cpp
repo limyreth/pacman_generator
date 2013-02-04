@@ -34,7 +34,7 @@ bool RecordedInput::has_more() {
     return input->has_more();
 }
 
-Action RecordedInput::get_action(int player_index, const IntermediateGameState& state) {
+Action RecordedInput::get_action(unsigned int player_index, const IntermediateGameState& state) {
     //REQUIRE(state.get_action_count(player_index) > 0u);
     Action action = input->get_action(player_index, state);
     path.push_back(action);

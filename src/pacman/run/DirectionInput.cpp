@@ -36,7 +36,7 @@ bool DirectionInput::has_more() {
     return true;
 }
 
-Action DirectionInput::get_action(int player_index, const IntermediateGameState& state) {
+Action DirectionInput::get_action(unsigned int player_index, const IntermediateGameState& state) {
     REQUIRE(state.get_action_count(player_index) > 0u);
     return state.get_action_along_direction(player_index, preference.get_preferred_direction());
 }

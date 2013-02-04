@@ -18,13 +18,13 @@ namespace PACMAN {
 
     namespace MODEL {
         // player indices
-        extern const int PLAYER_PACMAN;
+        extern const unsigned int PLAYER_PACMAN;
 
         // ghost indices (+1 to convert to player index)
-        extern const int GHOST_BLINKY;
-        extern const int GHOST_PINKY;
-        extern const int GHOST_INKY;
-        extern const int GHOST_CLYDE;
+        extern const unsigned int GHOST_BLINKY;
+        extern const unsigned int GHOST_PINKY;
+        extern const unsigned int GHOST_INKY;
+        extern const unsigned int GHOST_CLYDE;
 
         // max allowable error on positions, due to floating point inaccuracies
         extern const float MAX_ROUNDING_ERROR;
@@ -86,6 +86,6 @@ namespace PACMAN {
 
 #define MAX_ACTION_COUNT 4
 
-#define GHOST_COUNT 4
-#define PLAYER_COUNT (GHOST_COUNT + 1)
+#define GHOST_COUNT 4u
+#define PLAYER_COUNT (GHOST_COUNT + 1u)
 

@@ -28,7 +28,7 @@ bool ZeroInput::has_more() {
     return true;
 }
 
-Action ZeroInput::get_action(int player_index, const IntermediateGameState& state) {
+Action ZeroInput::get_action(unsigned int player_index, const IntermediateGameState& state) {
     return 0u;
 }
 

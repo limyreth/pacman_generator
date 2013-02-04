@@ -13,11 +13,11 @@
 namespace PACMAN {
 
     namespace MODEL {
-        const int PLAYER_PACMAN = 0;
-        const int GHOST_BLINKY = 0;
-        const int GHOST_PINKY = 1;
-        const int GHOST_INKY = 2;
-        const int GHOST_CLYDE = 3;
+        const unsigned int PLAYER_PACMAN = 0u;
+        const unsigned int GHOST_BLINKY = 0u;
+        const unsigned int GHOST_PINKY = 1u;
+        const unsigned int GHOST_INKY = 2u;
+        const unsigned int GHOST_CLYDE = 3u;
 
         const float MAX_ROUNDING_ERROR = 1e-3f;
     }

@@ -27,7 +27,7 @@ namespace PACMAN {
             RecordedInput(std::shared_ptr<Input> input);
 
             bool has_more();
-            ::PACMAN::MODEL::Action get_action(int player_index, const ::PACMAN::MODEL::IntermediateGameState& state);
+            ::PACMAN::MODEL::Action get_action(unsigned int player_index, const ::PACMAN::MODEL::IntermediateGameState& state);
             void print_path(std::ostream&);
 
         private:

@@ -181,7 +181,7 @@ int main(int argc, char** argv) {
                     return 1;
                 }
 
-                int player_index;
+                unsigned int player_index;
                 {
                     std::istringstream str(argv[i]);
                     str >> player_index;

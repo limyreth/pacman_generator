@@ -122,7 +122,7 @@ void ChoiceTree::enter_child(vector<ChoiceNode>::const_iterator& it) const {
     //REQUIRE(it <= choices.end() - PLAYER_COUNT)
     vector<Action> actions;
     actions.reserve(PLAYER_COUNT);
-    for (int i=0; i < PLAYER_COUNT; ++i) {
+    for (unsigned int player_index = 0u; player_index < PLAYER_COUNT; ++player_index) {
         ASSERT(it != choices.end());
         actions.push_back((*it).action);
         it++;
@@ -193,7 +193,7 @@ double ChoiceTree::get_completion() const {
     
     for (auto it = choices.rbegin(); it != choices.rend(); it++) {
         if (it != choices.rbegin()) {
-            if (it->player == PLAYER_COUNT-1) {
+            if (it->player == PLAYER_COUNT-1u) {
                 tree.parent();
             }
         }

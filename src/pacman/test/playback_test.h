@@ -21,6 +21,6 @@ namespace PACMAN {
     }
 
     namespace TEST {
-        void playback_test(const std::vector<MODEL::Action>& path, const ::PACMAN::MODEL::ExternalGameState& game_state, const int player_index, const int recorded_steps);
+        void playback_test(const std::vector<MODEL::Action>& path, const ::PACMAN::MODEL::ExternalGameState& game_state, const unsigned int player_index, const int recorded_steps);
     }
 }

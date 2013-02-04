@@ -29,7 +29,7 @@ namespace PACMAN {
              * Require: player_index's action_count > 0
              * Require: has_more()
              */
-            virtual ::PACMAN::MODEL::Action get_action(int player_index, const ::PACMAN::MODEL::IntermediateGameState& state) = 0;
+            virtual ::PACMAN::MODEL::Action get_action(unsigned int player_index, const ::PACMAN::MODEL::IntermediateGameState& state) = 0;
         };
 
     }

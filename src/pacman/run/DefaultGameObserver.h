@@ -25,7 +25,7 @@ namespace PACMAN {
         {
         public:
             DefaultGameObserver(Inputs inputs);
-            DefaultGameObserver(int player_index, std::shared_ptr<Input> input);
+            DefaultGameObserver(unsigned int player_index, std::shared_ptr<Input> input);
 
             void finished_step(const ::PACMAN::MODEL::GameState& state);
             bool should_stop();

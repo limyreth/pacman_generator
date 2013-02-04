@@ -21,7 +21,7 @@ namespace PACMAN {
             MODEL::Action action;  
 
             // index of player making the move
-            int player;  
+            unsigned int player;  
 
             // alpha or beta value. Depends on player.
             int alpha_beta;

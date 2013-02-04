@@ -23,7 +23,7 @@ namespace PACMAN {
         std::vector<std::vector<MODEL::Action>> paths;
         bool pause_at_end;
         int quit_at_step;
-        int player_index;
+        unsigned int player_index;
     };
 
     class GUIMain {

@@ -27,7 +27,7 @@ namespace PACMAN {
     namespace TEST {
         namespace MODEL {
 
-MovementTest::MovementTest(int player_index)
+MovementTest::MovementTest(unsigned int player_index)
 :   DefaultGameObserver(player_index, shared_ptr<Input>(new DirectionInput(*this))),
     player_index(player_index)
 {

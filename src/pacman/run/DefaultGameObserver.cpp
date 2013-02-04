@@ -31,7 +31,7 @@ DefaultGameObserver::DefaultGameObserver(Inputs inputs)
     game.init(inputs, shared_ptr<GameStateObserver>(new NullGameStateObserver));
 }
 
-DefaultGameObserver::DefaultGameObserver(int player_index, std::shared_ptr<Input> input)
+DefaultGameObserver::DefaultGameObserver(unsigned int player_index, std::shared_ptr<Input> input)
 :   DefaultGameObserver(Game::make_inputs(player_index, input))
 {
 }

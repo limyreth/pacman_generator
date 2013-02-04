@@ -26,7 +26,7 @@ namespace PACMAN {
             DirectionInput(DirectionPreference&);
 
             bool has_more();
-            ::PACMAN::MODEL::Action get_action(int player_index, const ::PACMAN::MODEL::IntermediateGameState& state);
+            ::PACMAN::MODEL::Action get_action(unsigned int player_index, const ::PACMAN::MODEL::IntermediateGameState& state);
             
         private:
             DirectionPreference& preference;

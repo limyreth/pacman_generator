@@ -26,7 +26,7 @@ using namespace ::PACMAN::RUN;
 namespace PACMAN {
     namespace TEST {
 
-void playback_test(const std::vector<Action>& path, const ExternalGameState& expected_state, const int player_index, const int recorded_steps) {
+void playback_test(const std::vector<Action>& path, const ExternalGameState& expected_state, const unsigned int player_index, const int recorded_steps) {
     ::PACMAN::TEST::MODEL::PathTest test(player_index, path);
     auto state = test.run(recorded_steps);
     ASSERT(state.is_equivalent_to(expected_state));

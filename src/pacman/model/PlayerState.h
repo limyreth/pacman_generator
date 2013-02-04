@@ -26,7 +26,7 @@ namespace PACMAN {
             PlayerState();
             PlayerState(const Node* origin, const Node* destination, FPoint pos); // Only for testing
             PlayerState(const Node& initial_node);
-            virtual float move(float distance, int player_index);
+            virtual float move(float distance, unsigned int player_index);
             virtual void act(Action action);
             virtual IPoint get_tile_pos() const;
             virtual void print(std::ostream& out, std::string prefix, std::string name) const;

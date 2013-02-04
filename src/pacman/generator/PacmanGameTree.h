@@ -28,7 +28,7 @@ namespace PACMAN {
             void init(unsigned int max_rounds);
             void parent();
             void child(const std::vector<MODEL::Action>& actions);
-            unsigned int get_action_count(int player) const;
+            unsigned int get_action_count(unsigned int player) const;
             int get_score() const;
             bool is_leaf() const;
             bool is_root() const;

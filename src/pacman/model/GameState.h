@@ -95,8 +95,8 @@ namespace PACMAN {
             int get_score() const;
             int get_lives() const;
             bool is_game_over() const;
-            const PlayerState& get_player(int index) const;
-            PlayerState& get_player(int index);
+            const PlayerState& get_player(unsigned int index) const;
+            PlayerState& get_player(unsigned int index);
             const SPECIFICATION::Foods& get_foods() const;
             int get_food_count() const;
 
@@ -113,10 +113,10 @@ namespace PACMAN {
             int get_food_count_() const;
             int get_fruit_score() const;
 
-            bool is_elroy1(int ghost_index) const;
-            bool is_elroy2(int ghost_index) const;
+            bool is_elroy1(unsigned int ghost_index) const;
+            bool is_elroy2(unsigned int ghost_index) const;
 
-            float get_speed(int player_index);
+            float get_speed(unsigned int player_index);
 
         private:
             PacmanState pacman;

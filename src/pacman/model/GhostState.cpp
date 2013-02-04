@@ -41,7 +41,7 @@ GhostState::GhostState(const Node& initial_node)
 }
 
 // player_index: current player
-float GhostState::move(float distance, int player_index) {
+float GhostState::move(float distance, unsigned int player_index) {
     INVARIANTS_ON_EXIT;
 
     if (state == WAITING) {
@@ -62,7 +62,7 @@ float GhostState::move(float distance, int player_index) {
         // path finding for dead ghosts:
 
         // destination reached, need to pick next destination
-        auto respawn_node = GHOST_NODES.get_respawns().at(player_index - 1);
+        auto respawn_node = GHOST_NODES.get_respawns().at(player_index - 1u);
         if (destination == respawn_node) {
             // respawn node reached, respawn!
             state = NORMAL;

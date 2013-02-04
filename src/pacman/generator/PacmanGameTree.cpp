@@ -69,11 +69,10 @@ int PacmanGameTree::get_score() const {
     return states.back().get_predecessor().get_score();
 }
 
-unsigned int PacmanGameTree::get_action_count(int player) const {
+unsigned int PacmanGameTree::get_action_count(unsigned int player_index) const {
     REQUIRE(initialised);
-    REQUIRE(player >= 0);
-    REQUIRE(player < PLAYER_COUNT);
-    return states.back().get_action_count(player);
+    REQUIRE(player_index < PLAYER_COUNT);
+    return states.back().get_action_count(player_index);
 }
 
 /*
@@ -86,8 +85,8 @@ unsigned int PacmanGameTree::get_action_count(int player) const {
 bool PacmanGameTree::generate_actions(const IntermediateGameState& state, vector<Action>& actions) const {
     //REQUIRE(initialised);
     actions.clear();
-    for (int player=0; player < PLAYER_COUNT; ++player) {
-        auto action_count = state.get_action_count(player);
+    for (unsigned int player_index = 0u; player_index < PLAYER_COUNT; ++player_index) {
+        auto action_count = state.get_action_count(player_index);
         if (action_count <= 1u) {
             actions.push_back(0u);
         }
