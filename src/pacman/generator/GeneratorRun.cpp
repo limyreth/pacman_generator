@@ -14,7 +14,7 @@
 namespace PACMAN {
     namespace GENERATOR {
 
-static const int DEFAULT_MAX_CHOICES = 80;  // set to 80 which is hopefully large enough because we only count real choices, and no reversing allowed
+static const int DEFAULT_MAX_CHOICES = 35;  // set to 80 which is hopefully large enough because we only count real choices, and no reversing allowed
 
 GeneratorRun::GeneratorRun() 
 :   choice_tree(game_tree, DEFAULT_MAX_CHOICES),

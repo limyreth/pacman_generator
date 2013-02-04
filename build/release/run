@@ -1,0 +1,5 @@
+rm generator_saves/*
+./pacman_sdl --generate generator_saves &
+pid=$!
+sleep 600
+kill $pid
