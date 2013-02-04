@@ -38,7 +38,7 @@ execute_process(
 include_directories(BEFORE ${CMAKE_SOURCE_DIR})
 
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O3 -g -DNDEBUG")
-set(CMAKE_CXX_FLAGS "-std=c++11 ${SDL_CFLAGS}")
+set(CMAKE_CXX_FLAGS "-Wall -std=c++11 ${SDL_CFLAGS}")
 
 file(GLOB_RECURSE Sources pacman/*.cpp)
 add_executable(pacman_sdl ${Sources})
