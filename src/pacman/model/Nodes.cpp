@@ -123,9 +123,6 @@ void Nodes::ensure_valid(const Node* node, const vector<Node*>& all_nodes) const
     ENSURE(node->location.x < MAP_WIDTH);
     ENSURE(node->location.y < MAP_HEIGHT);
 
-    // required by PlayerState
-    ENSURE(node->neighbours.size() <= MAX_ACTION_COUNT);
-
     // must have neighbours
     ENSURE(node->neighbours.size() > 0);
     for (auto neighbour : node->neighbours) {

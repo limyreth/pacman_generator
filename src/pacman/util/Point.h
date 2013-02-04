@@ -21,7 +21,7 @@ template <typename T>
 class Point
 {
 public:
-    Point() : Point(0, 0) {}
+    Point() {}  // invalid state, for use with stl containers, ...
 
     Point(T x, T y) 
     :   x(x),
@@ -59,25 +59,25 @@ public:
         return p2 -= p;
     }
 
-    Point<T>& operator *= (float a) {
+    Point<T>& operator *= (T a) {
         this->x *= a;
         this->y *= a;
         return *this;
     }
 
-    Point<T> operator * (float a) const {
+    Point<T> operator * (T a) const {
         Point<T> p2(*this);
         return p2 *= a;
     }
 
-    Point<T>& operator /= (float a) {
+    Point<T>& operator /= (T a) {
         REQUIRE(a != 0.0f);
         this->x /= a;
         this->y /= a;
         return *this;
     }
 
-    Point<T> operator / (float a) const {
+    Point<T> operator / (T a) const {
         Point<T> p2(*this);
         return p2 /= a;
     }
