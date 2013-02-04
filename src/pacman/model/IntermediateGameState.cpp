@@ -56,10 +56,10 @@ IntermediateGameState IntermediateGameState::act(const std::vector<Action>& acti
     if (state == REVERSE_ALL_CHOICE) {
         if (!suppress_action) {
             for (int player_index = 0; player_index < PLAYER_COUNT; ++player_index) {
-                if (actions.at(player_index) == 1) {
+                if (actions.at(player_index) == 1u) {
                     copy.successor.get_player(player_index).reverse();
                 } else {
-                    REQUIRE(actions.at(player_index) == 0);
+                    REQUIRE(actions.at(player_index) == 0u);
                 }
             }
         }
@@ -82,10 +82,10 @@ IntermediateGameState IntermediateGameState::act(const std::vector<Action>& acti
         }
         else {
             if (!suppress_action) {
-                if (actions.at(PLAYER_PACMAN) == 1) {
+                if (actions.at(PLAYER_PACMAN) == 1u) {
                     copy.successor.get_player(PLAYER_PACMAN).reverse();
                 } else {
-                    REQUIRE(actions.at(PLAYER_PACMAN) == 0);
+                    REQUIRE(actions.at(PLAYER_PACMAN) == 0u);
                 }
             }
 
@@ -98,24 +98,24 @@ IntermediateGameState IntermediateGameState::act(const std::vector<Action>& acti
     return copy;
 }
 
-unsigned char IntermediateGameState::get_action_count(int player_index) const {
+unsigned int IntermediateGameState::get_action_count(int player_index) const {
     REQUIRE(state != GAME_OVER);
     if (suppress_action) {
-        return 0;
+        return 0u;
     }
     else if (state == REVERSE_ALL_CHOICE) {
         if (successor.get_player(player_index).can_reverse()) {
-            return 2;
+            return 2u;
         }
         else {
-            return 1;
+            return 1u;
         }
     }
     else if (state == REVERSE_PACMAN_CHOICE) {
         if (player_index == PLAYER_PACMAN) {
-            return 2;
+            return 2u;
         } else {
-            return 0;
+            return 0u;
         }
     }
     else {
@@ -126,12 +126,12 @@ unsigned char IntermediateGameState::get_action_count(int player_index) const {
 
 Action IntermediateGameState::get_action_along_direction(int player_index, Direction::Type direction) const {
     REQUIRE(state != GAME_OVER);
-    REQUIRE(get_action_count(player_index) > 0);
+    REQUIRE(get_action_count(player_index) > 0u);
     if (state == ABOUT_TO_ACT) {
         return successor.get_player(player_index).get_action_along_direction(direction);
     }
     else {
-        return 0;  // just assume 0, even though that's not always correct (only affects testing / manual run)
+        return 0u;  // just assume 0, even though that's not always correct (only affects testing / manual run)
     }
 }
 

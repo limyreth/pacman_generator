@@ -90,7 +90,7 @@ vector<Action> Game::get_input() {
     actions.reserve(PLAYER_COUNT);
 
     for (int player_index = 0; player_index < PLAYER_COUNT; ++player_index) {
-        if (state.get_action_count(player_index) > 0) {
+        if (state.get_action_count(player_index) > 0u) {
             auto& input = inputs.at(player_index);
             if (input->has_more()) {
                 actions.push_back(input->get_action(player_index, state));
@@ -100,7 +100,7 @@ vector<Action> Game::get_input() {
             }
         }
         else {
-            actions.push_back(-1);
+            actions.push_back(-1u);
         }
     }
 

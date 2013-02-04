@@ -38,7 +38,7 @@ namespace PACMAN {
                 return pos;
             }
 
-            unsigned char get_action_count() const;
+            unsigned int get_action_count() const;
 
             Action get_action_along_direction(Direction::Type direction) const;
 

@@ -206,7 +206,7 @@ int main(int argc, char** argv) {
 
                 // now turn it into a list of Action
                 std::istringstream str(path_str);
-                int action;
+                Action action;
                 str >> action;
                 while (!str.fail()) {
                     gui_main_args.paths.at(player_index).push_back(action);

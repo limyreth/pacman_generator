@@ -29,7 +29,7 @@ Generator::Generator(ChoiceTree& tree)
     choice_tree(tree),
     paths(choice_tree.get_max_depth()+1),
     child_value(-1),
-    child_action(-1),
+    child_action(-1u),
     search_complete(false)
 {
     INVARIANTS_ON_EXIT;

@@ -29,7 +29,7 @@ bool ZeroInput::has_more() {
 }
 
 Action ZeroInput::get_action(int player_index, const IntermediateGameState& state) {
-    return 0;
+    return 0u;
 }
 
 }}

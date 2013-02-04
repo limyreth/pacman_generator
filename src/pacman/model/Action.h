@@ -15,7 +15,7 @@
 namespace PACMAN {
     namespace MODEL {
 
-        typedef char Action;
+        typedef unsigned int Action;
 
     }
 }

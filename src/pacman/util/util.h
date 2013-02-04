@@ -13,7 +13,6 @@
 #include "Point.h"
 #include "assertion.h"
 #include "../Constants.h"
-#include "../model/Action.h"
 
 #include <sstream>
 

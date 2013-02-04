@@ -29,7 +29,7 @@ ChoiceTree::ChoiceTree(GameTree& tree, unsigned int max_choices)
 {
     INVARIANTS_ON_EXIT;
     init();
-    choices.emplace_back(ChoiceNode{-1, 0, -1});
+    choices.emplace_back(ChoiceNode{-1u, 0, -1});
 }
 
 ChoiceTree::ChoiceTree(std::istream& in, GameTree& tree)
@@ -72,7 +72,7 @@ int ChoiceTree::parent() {
     if (choices.size() % PLAYER_COUNT == 0) {
         tree.parent();
     }
-    if (tree.get_action_count(choices.back().player) > 1) {
+    if (tree.get_action_count(choices.back().player) > 1u) {
         choices_taken--;
     }
     ENSURE(!is_leaf());
@@ -85,14 +85,14 @@ bool ChoiceTree::next_child() {
 
     auto action_count = tree.get_action_count(choices.back().player);
 
-    if (action_count == 0) {
+    if (action_count == 0u) {
         if (!is_first_child()) {
             return false;
         }
-        choices.back().action = -2;  // we encode first child as -1
+        choices.back().action = -2u;  // we encode first child as -1
     }
     else {
-        Action next_action = choices.back().action + 1;
+        Action next_action = choices.back().action + 1u;
         if (next_action < action_count) {
             choices.back().action = next_action;
         }
@@ -110,7 +110,7 @@ bool ChoiceTree::next_child() {
         enter_child(it);
     }
 
-    choices.emplace_back(ChoiceNode{-1, (int)choices.size() % PLAYER_COUNT, -1});
+    choices.emplace_back(ChoiceNode{-1u, (int)choices.size() % PLAYER_COUNT, -1});
 
     return true;
 }
@@ -136,7 +136,7 @@ bool ChoiceTree::is_leaf() const {
 
 bool ChoiceTree::is_first_child() const {
     REQUIRE(!is_leaf());
-    return choices.back().action == -1;
+    return choices.back().action == -1u;
 }
 
 int ChoiceTree::get_score() const {
@@ -198,12 +198,12 @@ double ChoiceTree::get_completion() const {
             }
         }
 
-        int action_count = 1;
+        unsigned int action_count = 1;
         int children_done;
-        if (it->action == -1) {
+        if (it->action == -1u) {
             children_done = 0;
         }
-        else if (it->action == -2) {
+        else if (it->action == -2u) {
             if (it == choices.rbegin()) {
                 children_done = 1;
             }
@@ -213,10 +213,10 @@ double ChoiceTree::get_completion() const {
         }
         else {
             action_count = tree.get_action_count(it->player);
-            ASSERT(it->action >= 0);
-            ASSERT(action_count > 0);
+            ASSERT(it->action >= 0u);
+            ASSERT(action_count > 0u);
             if (it == choices.rbegin()) {
-                children_done = it->action + 1;
+                children_done = it->action + 1u;
             }
             else {
                 children_done = it->action;

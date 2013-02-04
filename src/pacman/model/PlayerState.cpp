@@ -91,7 +91,6 @@ float PlayerState::move(float distance_moved, int player_index) {
 
 void PlayerState::act(Action action) {
     INVARIANTS_ON_EXIT;
-    REQUIRE(action >= 0);
     REQUIRE(action < get_action_count());
 
     action = external_to_internal(action);
@@ -107,36 +106,36 @@ void PlayerState::act(Action action) {
 }
 
 Action PlayerState::external_to_internal(Action external) const {
-    REQUIRE(external >= 0);
     REQUIRE(external < get_action_count());
 
-    Action internal = -1;
-    while (external >= 0) {
-        ++internal;
+    ++external;
+    Action internal = 0u;
+    while (true) {
         if (!is_reversing_action(internal)) {
             external--;
+            if (external == 0u) {
+                break;
+            }
         }
+        ++internal;
     }
 
-    ENSURE(internal >= 0);
     ENSURE(internal < destination->get_neighbours().size());
     ENSURE(!is_reversing_action(internal));
     return internal;
 }
 
 Action PlayerState::internal_to_external(Action internal) const {
-    REQUIRE(internal >= 0);
     REQUIRE(internal < destination->get_neighbours().size());
     REQUIRE(!is_reversing_action(internal));
 
     auto external = internal;
-    for (int i = 0; i <= internal; ++i) {
+    for (unsigned int i = 0; i <= internal; ++i) {
         if (is_reversing_action(i)) {
             external--;
         }
     }
 
-    ENSURE(external >= 0);
     ENSURE(external < get_action_count());
     return external;
 }
@@ -150,12 +149,12 @@ IPoint PlayerState::get_tile_pos() const {
     return tile_pos;
 }
 
-unsigned char PlayerState::get_action_count() const {
+unsigned int PlayerState::get_action_count() const {
     if (!has_reached_destination()) {
-        return 0;
+        return 0u;
     }
     else {
-        int count = 0;
+        unsigned int count = 0u;
         for (unsigned int i = 0u; i < destination->get_neighbours().size(); ++i) {
             if (!is_reversing_action(i)) {
                 count++;
@@ -169,7 +168,6 @@ unsigned char PlayerState::get_action_count() const {
  * Returns true if said internal action reverses the move we just made
  */
 bool PlayerState::is_reversing_action(Action action) const {
-    REQUIRE(action >= 0);
     REQUIRE(action < destination->get_neighbours().size());
 
     if (origin) {
@@ -190,15 +188,15 @@ bool PlayerState::is_reversing_action(Action action) const {
  * Gets action that moves most along the desired direction
  */
 Action PlayerState::get_action_along_direction(Direction::Type direction_) const {
-    REQUIRE(get_action_count() > 0);
+    REQUIRE(get_action_count() > 0u);
 
     if (direction_ == Direction::ANY)
-        return 0;
+        return 0u;
 
     auto direction = DIRECTIONS[(int)direction_];
 
     float best_dot_prod = -1.0f; // worst = -1, best = 1
-    Action best_action = -1;
+    Action best_action = -1u;
     for (unsigned int i=0u; i < destination->get_neighbours().size(); ++i) {
         if (is_reversing_action(i)) {
             continue;

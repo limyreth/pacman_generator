@@ -42,7 +42,7 @@ namespace PACMAN {
              */
             virtual void child(const std::vector<MODEL::Action>& actions) = 0;
 
-            virtual unsigned char get_action_count(int player) const = 0;
+            virtual unsigned int get_action_count(int player) const = 0;
 
             /*
              * score of current game state

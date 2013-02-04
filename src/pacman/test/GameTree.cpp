@@ -49,11 +49,11 @@ void GameTree::child(const std::vector<MODEL::Action>& actions) {
     ++children_visited;
 }
 
-unsigned char GameTree::get_action_count(int player) const {
+unsigned int GameTree::get_action_count(int player) const {
     if (node->player == player) {
         return node->children.size();
     } else {
-        return 1;
+        return 1u;
     }
 }
 
