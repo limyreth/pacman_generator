@@ -21,7 +21,7 @@ namespace PACMAN {
         class GeneratorRun
         {
         public:
-            GeneratorRun();
+            GeneratorRun(unsigned int max_choices);
             GeneratorRun(std::istream& in);
             void stop();
             void join(std::ostream& out);

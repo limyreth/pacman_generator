@@ -108,25 +108,7 @@ int main(int argc, char** argv) {
                     << endl;
                 return 0;
             }
-            else if (str == "--test") {
-                if (!(i == 1 && argc == 3)) {
-                    std::cerr << "Incorrect arguments to --test" << endl;
-                    return 1;
-                }
-
-                test(argv[2]);
-                return 0;
-            }
-            else if (str == "--generate") {
-                if (!(i == 1 && argc == 3)) {
-                    std::cerr << "Incorrect arguments to --generate" << endl;
-                    return 1;
-                }
-
-                generator_main.reset(new GeneratorMain(string(argv[2])));
-                generator_main->run();
-                return 0;
-            }
+            // gui subsystem arguments
             else if (str == "--show-pacman-nodes") {
                 gui_main_args.gui_args.show_pacman_nodes = true;
             }
@@ -213,6 +195,41 @@ int main(int argc, char** argv) {
                     gui_main_args.paths.at(player_index).push_back(action);
                     str >> action;
                 }
+            }
+            // test subsystem arguments
+            else if (str == "--test") {
+                i++;
+                if (i >= argc) {
+                    std::cerr << "Missing argument to --test" << endl;
+                    return 1;
+                }
+                string name = argv[i];
+
+                test(name);
+                return 0;
+            }
+            // generator subsystem arguments
+            else if (str == "--generate") {
+                i++;
+                if (i >= argc) {
+                    std::cerr << "Missing argument to --generate" << endl;
+                    return 1;
+                }
+                string saves_dir = argv[i];
+
+                i++;
+                if (i >= argc) {
+                    std::cerr << "Missing argument to --generate" << endl;
+                    return 1;
+                }
+                unsigned int max_choices;
+
+                std::istringstream str(argv[i]);
+                str >> max_choices;
+
+                generator_main.reset(new GeneratorMain(saves_dir, max_choices));
+                generator_main->run();
+                return 0;
             }
             else {
                 std::cerr << "unrecognized commandline option\n";

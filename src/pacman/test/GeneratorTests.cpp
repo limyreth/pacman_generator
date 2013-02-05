@@ -86,7 +86,7 @@ void SaveLoadRunningGeneratorTest::thread_callback() {
 
 void SaveLoadRunningGeneratorTest::test() {
     std::chrono::milliseconds duration(50);
-    run.reset(new GeneratorRun);
+    run.reset(new GeneratorRun(80));
 
     for (int i=0; i < 5; ++i) {
         cout << i << endl;

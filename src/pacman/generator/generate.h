@@ -22,7 +22,7 @@ namespace PACMAN {
 
         class GeneratorMain {
         public:
-            GeneratorMain(const std::string STATE_DIR);
+            GeneratorMain(const std::string STATE_DIR, unsigned int max_choices);
             void run();
 
         private:
@@ -35,6 +35,7 @@ namespace PACMAN {
             std::shared_ptr<GeneratorRun> generator;
             const std::string STATE_DIR;
             int previous_state_number;
+            unsigned int max_choices;
         };
 
     }

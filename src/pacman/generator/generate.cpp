@@ -78,8 +78,9 @@ void GeneratorMain::stop() {
     }
 }
 
-GeneratorMain::GeneratorMain(const string STATE_DIR)
-:   STATE_DIR(STATE_DIR)
+GeneratorMain::GeneratorMain(const string STATE_DIR, unsigned int max_choices)
+:   STATE_DIR(STATE_DIR),
+    max_choices(max_choices)
 {
 }
 
@@ -97,7 +98,7 @@ void GeneratorMain::run() {
     }
     else {
         cout << "No save state found, starting new run" << endl;
-        generator.reset(new GeneratorRun);
+        generator.reset(new GeneratorRun(max_choices));
     }
 
     std::ofstream out(get_state_path(previous_state_number + 1), ios::out | ios::binary);
