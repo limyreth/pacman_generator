@@ -16,6 +16,7 @@
 
 using namespace ::PACMAN::MODEL;
 using std::vector;
+using std::cout;
 using std::endl;
 using std::max;
 
@@ -62,6 +63,7 @@ void ChoiceTree::restore_game_tree() const {
 }
 
 void ChoiceTree::init() {
+    cout << "Searching with a max of " << max_choices << " choices" << endl;
     tree.init(max_choices);
     choices.reserve(get_max_depth()+1);
 }
