@@ -121,7 +121,6 @@ void Generator::minimax() {
     INVARIANTS_ON_EXIT;
     REQUIRE(!is_running);
     is_running = true;
-    print_completion();
     while (!search_complete && !should_stop) {
         auto& best_path = paths.at(choice_tree.get_depth());
 
