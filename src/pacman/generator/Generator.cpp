@@ -81,9 +81,19 @@ int Generator::get_best_score() const {
     REQUIRE(search_complete);
     return choice_tree.get().alpha_beta;
 }
-const vector<Action>& Generator::get_best_path() const {
+
+std::vector<std::vector<MODEL::Action>> Generator::get_best_player_paths() const {
     REQUIRE(search_complete);
-    return paths.at(0);
+    const auto& best_path = paths.at(0);
+
+    vector<vector<Action>> player_paths(PLAYER_COUNT);
+    for (unsigned int i = 0u; i < best_path.size(); ++i) {
+        if (best_path.at(i) < PLAYER_COUNT) {
+            player_paths.at(i % PLAYER_COUNT).push_back(best_path.at(i));
+        }
+    }
+
+    return player_paths;
 }
 
 int Generator::get_alpha() const {
@@ -132,7 +142,6 @@ void Generator::minimax() {
         else {
             if (choice_tree.is_first_child()) {
                 // Start search under a node
-                
                 choice_tree.set_alpha_beta(choice_tree.get_player(choice_tree.get_depth()) == 0u ? get_alpha(choice_tree.get_depth()-1) : get_beta(choice_tree.get_depth()-1));
                 best_path.clear();
             }

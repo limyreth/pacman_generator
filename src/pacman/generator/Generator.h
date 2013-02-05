@@ -38,7 +38,13 @@ namespace PACMAN {
             void save(std::ostream& out) const;
             bool operator==(const Generator&) const;
             int get_best_score() const;
-            const std::vector<MODEL::Action>& get_best_path() const;
+
+            /*
+             * Each path can be fed to a PlaybackInput for the corresponding player
+             * (i.e. it contains an Action for each time this player has to
+             * act, has an action count > 0)
+             */
+            std::vector<std::vector<MODEL::Action>> get_best_player_paths() const;
 
             void run(); 
             void stop(); // you can call this from another thread to stop a run
