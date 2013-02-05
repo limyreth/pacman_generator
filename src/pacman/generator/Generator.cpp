@@ -10,9 +10,11 @@
 
 #include "Generator.h"
 #include "../util/serialization.h"
+#include "../util/print.h"
 
 #include <valgrind/callgrind.h>
 
+using PACMAN::UTIL::print_path;
 using namespace PACMAN::MODEL;
 using namespace PACMAN::SPECIFICATION;
 
@@ -71,10 +73,40 @@ void Generator::run() {
         CALLGRIND_STOP_INSTRUMENTATION;
         CALLGRIND_DUMP_STATS;
     }
+
+    if (search_complete) {
+        print_best();
+
+        cout << endl
+            << endl
+            << "Search complete!" << endl
+            << endl
+            << endl;
+    }
 }
 
 void Generator::stop() {
     should_stop = true;
+}
+
+void Generator::print_best() const {
+    const auto player_paths = get_best_player_paths();
+
+    cout << endl;
+    cout << endl;
+    cout << "Current best scores " << get_best_score() << ":" << endl;
+    cout << endl;
+
+    for (unsigned int player_index=0u; player_index < PLAYER_COUNT; ++player_index) {
+        const auto& path = player_paths.at(player_index);
+        if (!path.empty()) {
+            cout << "--path " << player_index << " '";
+            print_path(cout, path.begin(), path.end());
+            cout << "' ";
+        }
+    }
+
+    cout << endl;
 }
 
 int Generator::get_best_score() const {
@@ -178,14 +210,6 @@ void Generator::minimax() {
         }
     }
     print_completion();
-
-    if (search_complete) {
-        cout << endl
-            << endl
-            << "Search complete!" << endl
-            << endl
-            << endl;
-    }
 
     is_running = false;
     ENSURE(!search_complete || choice_tree.get_depth() == 0);
