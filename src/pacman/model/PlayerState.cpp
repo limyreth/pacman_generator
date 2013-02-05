@@ -78,7 +78,7 @@ float PlayerState::move(float distance_moved) {
             pos.x -= MAP_WIDTH;
         }
 
-        if (has_reached_destination() && movement_excess > MAX_ROUNDING_ERROR && movement_excess < 0.0f) {
+        if (has_reached_destination() && movement_excess > -MAX_ROUNDING_ERROR && movement_excess < 0.0f) {
             // deal with rounding error
             movement_excess = 0.0f;
         }
