@@ -19,6 +19,7 @@ using namespace PACMAN::SPECIFICATION;
 using std::vector;
 using std::cout;
 using std::endl;
+using std::max;
 
 namespace PACMAN {
     namespace GENERATOR {
@@ -93,7 +94,7 @@ int Generator::get_alpha(int depth) const {
     for (int i = depth; i >= 0; --i) {
         auto node = choice_tree.get(i);
         if (node.player == 0u) {  // is maxing player
-            return node.alpha_beta;
+            return max(node.alpha_beta, choice_tree.get_score());
         }
     }
     return 0;

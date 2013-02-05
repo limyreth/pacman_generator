@@ -17,7 +17,10 @@ namespace PACMAN {
 
     namespace GENERATOR {
 
-        /* Background info:
+        /* 
+         * REQUIRE(provided ChoiceTree's score increases (non-strictly) when depth increases)
+         *
+         * Background info:
          *
          * We use minimax with alpha beta pruning. Pruning leads to
          * O(b**(3d/4)) execution time instead of O(b**d), assuming we have a
