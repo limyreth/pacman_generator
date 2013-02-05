@@ -175,7 +175,7 @@ void Game::print_recorded_test(std::ostream& out, RecordedInput& recorded_input)
     out << endl
         << "    std::vector<Action> path = ";
     recorded_input.print_path(out);
-    out << endl
+    out << ";" << endl
         << "    playback_test(path, game_state, PLAYER_PACMAN, steps);" << endl
         << "}" << endl
         << endl

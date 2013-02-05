@@ -16,6 +16,7 @@
 
 #include "RecordedInput.h"
 #include <pacman/Constants.h>
+#include <pacman/util/print.h>
 
 using std::cout;
 using std::endl;
@@ -42,16 +43,8 @@ Action RecordedInput::get_action(unsigned int player_index, const IntermediateGa
 }
 
 void RecordedInput::print_path(std::ostream& out) {
-    out << "{";
-    if (!path.empty()) {
-        auto it = path.begin();
-        out << (int)*it;
-        it++;
-        for (; it != path.end(); it++) {
-            out << ", " << (int)*it;
-        }
-    }
-    out << "};" << endl;
+    ::PACMAN::UTIL::print_path(out, path.begin(), path.end());
 }
+
 
 }}
