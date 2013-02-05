@@ -23,7 +23,7 @@ namespace PACMAN {
         public:
             ChoiceTree(GENERATOR::GameTree& tree, unsigned int max_choices) ;
 
-            int parent();
+            ::PACMAN::MODEL::Action parent();
             bool next_child();
         };
 

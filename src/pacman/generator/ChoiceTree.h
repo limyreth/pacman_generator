@@ -41,9 +41,11 @@ namespace PACMAN {
             /*
              * Move current node pointer to parent
              *
-             * Returns action used to get to child that was the current node
+             * Returns action used to get to child that was the current node.
+             * This action is >=PLAYER_COUNT if there was no choice for the
+             * corresponding player.
              */
-            virtual int parent();
+            virtual ::PACMAN::MODEL::Action parent();
 
             // move to next child, starting with the first child
             // Returns whether there actually was a child
@@ -58,7 +60,7 @@ namespace PACMAN {
             unsigned int get_player(unsigned int depth) const;
 
             int get_score() const;
-            int get_depth() const;  // current depth in the tree, depth is 0-based index
+            unsigned int get_depth() const;  // current depth in the tree, depth is 0-based index
             unsigned int get_max_depth() const;  // inclusive max
             double get_completion() const;
 

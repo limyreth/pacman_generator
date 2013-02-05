@@ -68,7 +68,7 @@ void ChoiceTree::init() {
     choices.reserve(get_max_depth()+1);
 }
 
-int ChoiceTree::parent() {
+Action ChoiceTree::parent() {
     INVARIANTS_ON_EXIT;
     choices.pop_back();
     if (choices.size() % PLAYER_COUNT == 0) {
@@ -150,8 +150,8 @@ int ChoiceTree::get_score() const {
     return tree.get_score();
 }
 
-int ChoiceTree::get_depth() const {
-    return choices.size()-1;
+unsigned int ChoiceTree::get_depth() const {
+    return choices.size()-1u;
 }
 
 unsigned int ChoiceTree::get_max_depth() const {
@@ -198,7 +198,7 @@ void ChoiceTree::invariants() const {
 double ChoiceTree::get_completion() const {
     double completion = 0.0;
     
-    for (int depth = get_depth(); depth >= 0; --depth) {
+    for (unsigned int depth = get_depth(); depth <= get_depth(); --depth) {
         if (depth != get_depth()) {
             if (get_player(depth) == PLAYER_COUNT-1u) {
                 tree.parent();

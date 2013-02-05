@@ -16,6 +16,7 @@
 using std::cout;
 using std::endl;
 using PACMAN::GENERATOR::ChoiceNode;
+using PACMAN::MODEL::Action;
 
 namespace PACMAN {
     namespace TEST {
@@ -25,7 +26,7 @@ ChoiceTree::ChoiceTree(GENERATOR::GameTree& tree, unsigned int max_choices)
 {
 }
 
-int ChoiceTree::parent() {
+Action ChoiceTree::parent() {
     cout << "parent" << endl;
     return GENERATOR::ChoiceTree::parent();
 }
