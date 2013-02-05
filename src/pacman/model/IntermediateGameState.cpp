@@ -136,4 +136,16 @@ Action IntermediateGameState::get_action_along_direction(unsigned int player_ind
     }
 }
 
+/*
+ * Returns true if no player has action_count > 1
+ */
+bool IntermediateGameState::is_trivial_round() const {
+    for (unsigned int player_index = 0u; player_index < PLAYER_COUNT; ++player_index) {
+        if (get_action_count(player_index) > 1u) {
+            return false;
+        }
+    }
+    return true;
+}
+
 }}

@@ -76,29 +76,6 @@ unsigned int PacmanGameTree::get_action_count(unsigned int player_index) const {
 }
 
 /*
- * Tries to generate actions from prev_actions
- *
- * actions: generated actions are stored here. Its original contents are ignored.
- *
- * Returns true if it succeeded, false if choices need to be made
- */
-bool PacmanGameTree::generate_actions(const IntermediateGameState& state, vector<Action>& actions) const {
-    //REQUIRE(initialised);
-    actions.clear();
-    for (unsigned int player_index = 0u; player_index < PLAYER_COUNT; ++player_index) {
-        auto action_count = state.get_action_count(player_index);
-        if (action_count <= 1u) {
-            actions.push_back(0u);
-        }
-        else {
-            return false;
-        }
-    }
-    ENSURE(actions.size() == PLAYER_COUNT);
-    return true;
-}
-
-/*
  * Progress game state until game over or a player has a choice
  */
 void PacmanGameTree::progress_game_until_choice(IntermediateGameState& state) {
@@ -106,10 +83,9 @@ void PacmanGameTree::progress_game_until_choice(IntermediateGameState& state) {
     //REQUIRE(initialised);
 
     // progress as far as possible
-    vector<Action> actions;
-    actions.reserve(PLAYER_COUNT);
-    while (!state.get_predecessor().is_game_over() && generate_actions(state, actions)) {
-        state = state.act(actions, state_observer);
+    vector<Action> trivial_actions(PLAYER_COUNT, 0);
+    while (!state.get_predecessor().is_game_over() && state.is_trivial_round()) {
+        state = state.act(trivial_actions, state_observer);
     }
 
     // push state
