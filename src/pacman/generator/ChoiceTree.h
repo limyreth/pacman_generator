@@ -54,6 +54,9 @@ namespace PACMAN {
 
             bool is_leaf() const;
 
+            // get index of player making the move at given depth
+            unsigned int get_player(unsigned int depth) const;
+
             int get_score() const;
             int get_depth() const;  // current depth in the tree, depth is 0-based index
             unsigned int get_max_depth() const;  // inclusive max

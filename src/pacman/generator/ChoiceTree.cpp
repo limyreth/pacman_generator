@@ -30,7 +30,7 @@ ChoiceTree::ChoiceTree(GameTree& tree, unsigned int max_choices)
 {
     INVARIANTS_ON_EXIT;
     init();
-    choices.emplace_back(ChoiceNode{-1u, 0, -1});
+    choices.emplace_back(ChoiceNode{-1u, -1});
 }
 
 ChoiceTree::ChoiceTree(std::istream& in, GameTree& tree)
@@ -74,7 +74,7 @@ int ChoiceTree::parent() {
     if (choices.size() % PLAYER_COUNT == 0) {
         tree.parent();
     }
-    if (tree.get_action_count(choices.back().player) > 1u) {
+    if (tree.get_action_count(get_player(get_depth())) > 1u) {
         choices_taken--;
     }
     ENSURE(!is_leaf());
@@ -85,7 +85,7 @@ bool ChoiceTree::next_child() {
     INVARIANTS_ON_EXIT;
     REQUIRE(!is_leaf());
 
-    auto action_count = tree.get_action_count(choices.back().player);
+    auto action_count = tree.get_action_count(get_player(get_depth()));
 
     if (action_count == 0u) {
         if (!is_first_child()) {
@@ -107,14 +107,19 @@ bool ChoiceTree::next_child() {
         choices_taken++;
     }
 
-    if (choices.size() % PLAYER_COUNT == 0) {
+    if (get_player(get_depth()) == PLAYER_COUNT - 1u) {
         auto it = (vector<ChoiceNode>::const_iterator)choices.end() - PLAYER_COUNT;
         enter_child(it);
+        ASSERT(it == choices.end());
     }
 
-    choices.emplace_back(ChoiceNode{-1u, (int)choices.size() % PLAYER_COUNT, -1});
+    choices.emplace_back(ChoiceNode{-1u, -1});
 
     return true;
+}
+
+unsigned int ChoiceTree::get_player(unsigned int depth) const {
+    return depth % PLAYER_COUNT;
 }
 
 /*
@@ -193,20 +198,21 @@ void ChoiceTree::invariants() const {
 double ChoiceTree::get_completion() const {
     double completion = 0.0;
     
-    for (auto it = choices.rbegin(); it != choices.rend(); it++) {
-        if (it != choices.rbegin()) {
-            if (it->player == PLAYER_COUNT-1u) {
+    for (int depth = get_depth(); depth >= 0; --depth) {
+        if (depth != get_depth()) {
+            if (get_player(depth) == PLAYER_COUNT-1u) {
                 tree.parent();
             }
         }
 
         unsigned int action_count = 1;
         int children_done;
-        if (it->action == -1u) {
+        auto action = get(depth).action;
+        if (action == -1u) {
             children_done = 0;
         }
-        else if (it->action == -2u) {
-            if (it == choices.rbegin()) {
+        else if (action == -2u) {
+            if (depth == get_depth()) {
                 children_done = 1;
             }
             else {
@@ -214,14 +220,14 @@ double ChoiceTree::get_completion() const {
             }
         }
         else {
-            action_count = tree.get_action_count(it->player);
-            ASSERT(it->action >= 0u);
+            action_count = tree.get_action_count(get_player(depth));
+            ASSERT(action >= 0u);
             ASSERT(action_count > 0u);
-            if (it == choices.rbegin()) {
-                children_done = it->action + 1u;
+            if (depth == get_depth()) {
+                children_done = action + 1u;
             }
             else {
-                children_done = it->action;
+                children_done = action;
             }
         }
 

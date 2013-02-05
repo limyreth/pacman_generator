@@ -20,15 +20,11 @@ namespace PACMAN {
             // the move from this node to the next
             MODEL::Action action;  
 
-            // index of player making the move
-            unsigned int player;  
-
             // alpha or beta value. Depends on player.
             int alpha_beta;
 
             bool operator==(const ChoiceNode& other) const {
                 return other.action == action &&
-                    other.player == player &&
                     other.alpha_beta == alpha_beta;
             }
         };
