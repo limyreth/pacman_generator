@@ -172,7 +172,7 @@ void Generator::minimax() {
                 }
                 else {
                     child_value = choice_tree.get().alpha_beta;
-                    choice_tree.parent();
+                    child_action = choice_tree.parent();
                 }
             }
         }
