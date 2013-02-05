@@ -42,7 +42,7 @@ void GameTree::parent() {
 void GameTree::child(const std::vector<MODEL::Action>& actions) {
     REQUIRE(actions.size() == PLAYER_COUNT);
     for (unsigned int player = 0u; player < PLAYER_COUNT; ++player) {
-        REQUIRE(actions.at(player) < get_action_count(player));
+        REQUIRE(get_action_count(player) == 0 || actions.at(player) < get_action_count(player));
     }
 
     node = node->children.at(actions.at(node->player));
@@ -53,7 +53,7 @@ unsigned int GameTree::get_action_count(unsigned int player) const {
     if (node->player == player) {
         return node->children.size();
     } else {
-        return 1u;
+        return 0u;
     }
 }
 

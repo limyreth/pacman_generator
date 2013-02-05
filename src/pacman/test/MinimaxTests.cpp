@@ -14,9 +14,11 @@
 #include "../generator/Generator.h"
 #include "../util/assertion.h"
 
+using std::vector;
 using std::cout;
 using std::endl;
 using std::shared_ptr;
+using ::PACMAN::MODEL::Action;
 
 namespace PACMAN {
     namespace TEST {
@@ -444,9 +446,25 @@ void MinimaxTests::test_1() {
     ChoiceTree choice_tree(game_tree, 6);
     GENERATOR::Generator generator(choice_tree);
     generator.run();
+
     ASSERT(generator.get_best_score() == 11);
     ASSERT(game_tree.get_children_visited() == 36);  // if more is pruned, could be nice, but that's suspicious
-    // TODO best_path
+    
+    // test generated paths
+    auto paths = generator.get_best_player_paths();
+    vector<Action> path0 = {1, 0, 0};
+    vector<Action> path1 = {0, 0, 1};
+    vector<Action> path2 = {};
+    vector<Action> path3 = {};
+    vector<Action> path4 = {};
+    vector<vector<Action>> expected_paths {
+        path0,
+        path1,
+        path2,
+        path3,
+        path4
+    };
+    ASSERT(paths == expected_paths);
 }
 
 }}
