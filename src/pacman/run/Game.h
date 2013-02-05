@@ -32,6 +32,8 @@ namespace PACMAN {
 
             void run(GameObserver&, bool pause_at_end_of_input, int stop_at_step);
 
+            void set_skip_input_on_trivial_rounds(bool);
+
             /*
              * Returns Inputs with input at player_index, and a ZeroInput at each other index
              */
@@ -52,6 +54,7 @@ namespace PACMAN {
             int steps;
             ::PACMAN::MODEL::IntermediateGameState state;
             bool initialised;
+            bool skip_input_on_trivial_rounds;
         };
 
     }

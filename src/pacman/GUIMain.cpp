@@ -44,6 +44,7 @@ void GUIMain::run(const GUIMainArgs& args) {
 
     Game game;
     game.init(inputs, gui.create_state_observer());
+    game.set_skip_input_on_trivial_rounds(args.skip_input_on_trivial_rounds);
 
     BOOST_SCOPE_EXIT(&recorded_input) {
         recorded_input->print_path(cout);

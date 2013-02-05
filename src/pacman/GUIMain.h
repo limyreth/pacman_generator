@@ -22,6 +22,7 @@ namespace PACMAN {
         GUI::GUIArgs gui_args;
         std::vector<std::vector<MODEL::Action>> paths;
         bool pause_at_end;
+        bool skip_input_on_trivial_rounds;
         int quit_at_step;
         unsigned int player_index;
     };

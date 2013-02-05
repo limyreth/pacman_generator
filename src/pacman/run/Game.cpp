@@ -35,7 +35,8 @@ namespace PACMAN {
 Game::Game()
 :   steps(0),
     state(IntermediateGameState::new_game()),
-    initialised(false)
+    initialised(false),
+    skip_input_on_trivial_rounds(false)
 {
 }
 
@@ -85,6 +86,10 @@ void Game::run(GameObserver& observer, bool pause_at_end_of_input, int stop_at_s
  */
 vector<Action> Game::get_input() {
     REQUIRE(initialised);
+
+    if (state.is_trivial_round()) {
+        return vector<Action>(PLAYER_COUNT, 0);
+    }
 
     vector<Action> actions;
     actions.reserve(PLAYER_COUNT);
@@ -208,6 +213,10 @@ Inputs Game::make_inputs(const vector<vector<Action>>& paths) {
     }
     
     return inputs;
+}
+
+void Game::set_skip_input_on_trivial_rounds(bool skip) {
+    this->skip_input_on_trivial_rounds = skip;
 }
 
 }}

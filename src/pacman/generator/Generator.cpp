@@ -106,7 +106,7 @@ void Generator::print_best() const {
         }
     }
 
-    cout << endl;
+    cout << "--skip-input-on-trivial-rounds" << endl;
 }
 
 int Generator::get_best_score() const {

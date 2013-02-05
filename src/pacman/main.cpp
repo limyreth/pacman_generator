@@ -51,6 +51,7 @@ int main(int argc, char** argv) {
     gui_main_args.gui_args.show_grid = false;
     gui_main_args.gui_args.game_speed = 1.0;
     gui_main_args.pause_at_end = false;
+    gui_main_args.skip_input_on_trivial_rounds = false;
     gui_main_args.quit_at_step = -1;
     gui_main_args.player_index = PLAYER_PACMAN;
 
@@ -146,6 +147,9 @@ int main(int argc, char** argv) {
             }
             else if (str == "--pause-at-end") {
                 gui_main_args.pause_at_end = true;
+            }
+            else if (str == "--skip-input-on-trivial-rounds") {
+                gui_main_args.skip_input_on_trivial_rounds = true;
             }
             else if (str == "--game-speed") {
                 i++;
