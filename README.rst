@@ -1,15 +1,24 @@
 A fork of pacman_sdl. pacman_sdl is a clone of the classic arcade game using
 C++ and SDL.
 
-This fork calculates and displays perfect play for perfect pacman and perfect
-ghosts.
+This fork's master branch tried to calculate perfect play for both pacman and ghosts.
+I had hoped for pacman to be cornered quickly by the ghosts, allowing for
+minimax search to end soon. But it turns out pacman can easily survive a long
+time due to the energizers (I should have checked for this at the beginning of
+the project). It then became too hard to compute.
+
 
 .. contents::
 
 Project state
 =============
 
-Under development; not ready for usage.
+Master branch offers the classic arcade pacman with cornering and all other
+details part of the classic. Its GUI needs optimizing to be able to run at full
+game speed.
+
+It also offers a --generate part, but the attainable search depth is not deep
+at all. E.g. it took me 70 min to search up to 33 choices.
 
 
 License
@@ -17,6 +26,30 @@ License
 
 pacman_sdl (and this fork) is licensed under the terms of the GNU General
 Public License version 2 (or any later version).
+
+
+Complexity
+==========
+
+While pacman survives through eating energizers, pacman
+makes 35 choices. During this amount of time the 4 ghosts will need to make
+about 35 choices as well, but let's be (very) optimistic and settle for 15
+choices per ghost (because some ghosts need to leave the pen first).
+
+The branching factor is at least 2.625. If the nodes of the minimax search tree
+were ordered perfectly (unrealistically optimistic), then we'd have to examine
+(2.625**(35+15*4))**(1/2) = 8.102930571402487e+19 paths.
+
+On my machine it took 70 minutes to calculate a solution for a max choice count
+of 33.  Assuming that the nodes in my tree are ordered randomly, it must have
+examined (2.625**(33))**(3/4) ~= 23629273363 paths.
+
+So in order to calculate just up to the point of pacman becoming vulnerable, my
+current implementation takes 8.102930571402487e+19 / (23629273363 / 70) ~=
+240043411946 minutes ~= 456704 years
+
+So if I wanted to wait for 1 year, I'd have to make it 456704 times as fast,
+which is kind of ridiculous.
 
 
 Game Specification
@@ -384,6 +417,3 @@ Contact / More Information
 Github: http://github.com/timdiels/pacman
 
 Email: tim@timdiels.be
-
-
-Enjoy!

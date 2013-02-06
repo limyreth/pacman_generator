@@ -7,7 +7,7 @@ Dependencies:
 - At run time: sdl_gfx, sdl_image, sdl_ttf, sdl_mixer
 
 
-To install, run the following commands:
+To compile:
 
 cd build/release
 ./cmake_release
@@ -16,4 +16,4 @@ make
 
 To run:
 
-build/release/pacman_sdl
+./build/release/pacman_sdl
